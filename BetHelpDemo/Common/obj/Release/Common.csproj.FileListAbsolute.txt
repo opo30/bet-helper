@@ -1,0 +1,9 @@
+E:\SeoWebSite\BetHelpDemo\Common\bin\Release\SeoWebSite.Common.dll
+E:\SeoWebSite\BetHelpDemo\Common\bin\Release\COM.Excel.dll
+E:\SeoWebSite\BetHelpDemo\Common\bin\Release\Excel.dll
+E:\SeoWebSite\BetHelpDemo\Common\bin\Release\OpenSmtp.dll
+E:\SeoWebSite\BetHelpDemo\Common\bin\Release\OWC10Chart.dll
+E:\SeoWebSite\BetHelpDemo\Common\bin\Release\office.dll
+E:\SeoWebSite\BetHelpDemo\Common\bin\Release\Microsoft.Vbe.Interop.dll
+E:\SeoWebSite\BetHelpDemo\Common\obj\Release\ResolveAssemblyReference.cache
+E:\SeoWebSite\BetHelpDemo\Common\obj\Release\SeoWebSite.Common.dll

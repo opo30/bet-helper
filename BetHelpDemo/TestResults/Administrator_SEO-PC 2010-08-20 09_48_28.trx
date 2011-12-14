@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="d96f4847-2575-4d59-8f64-9ce6cfa7f7e8" name="Administrator@SEO-PC 2010-08-20 09:48:28" runUser="Seo-PC\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="本地" id="9f56c5ba-967a-41bb-8e64-e0cffe615687">
+    <Description>这些设置为本地测试运行的默认测试设置。</Description>
+    <Deployment enabled="false" runDeploymentRoot="Administrator_SEO-PC 2010-08-20 09_48_28">
+      <DeploymentItem filename="E:\SourceCode\BetHelpDemo\Model\bin\Debug\SeoWebSite.Model.dll" />
+      <DeploymentItem filename="E:\SourceCode\BetHelpDemo\BLL\bin\Debug\SeoWebSite.BLL.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2010-08-20T09:48:28.2938000+08:00" queuing="2010-08-20T09:48:29.4198000+08:00" start="2010-08-20T09:48:29.5648000+08:00" finish="2010-08-20T09:50:25.3178000+08:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="1" executed="1" error="0" failed="0" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" passed="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="SEO-PC" outcome="Error" timestamp="2010-08-20T09:50:25.3148000+08:00">
+        <Text>测试宿主进程意外退出。</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="TestMethod1" storage="e:\sourcecode\bethelpdemo\testproject1\bin\debug\testproject1.dll" id="59863143-3238-122e-4d8a-637b491cc755">
+      <Execution id="92a74d11-172f-4a94-9d01-f55e4e7e7a4c" />
+      <TestMethod codeBase="E:/SourceCode/BetHelpDemo/TestProject1/bin/Debug/TestProject1.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="TestProject1.UnitTest1, TestProject1, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="TestMethod1" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="59863143-3238-122e-4d8a-637b491cc755" executionId="92a74d11-172f-4a94-9d01-f55e4e7e7a4c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="92a74d11-172f-4a94-9d01-f55e4e7e7a4c" testId="59863143-3238-122e-4d8a-637b491cc755" testName="TestMethod1" computerName="SEO-PC" duration="00:01:55.6320000" startTime="2010-08-20T09:48:29.6858000+08:00" endTime="2010-08-20T09:50:25.3178000+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="92a74d11-172f-4a94-9d01-f55e4e7e7a4c">
+    </UnitTestResult>
+  </Results>
+</TestRun>

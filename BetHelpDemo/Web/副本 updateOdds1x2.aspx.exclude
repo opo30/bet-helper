@@ -1,0 +1,175 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="副本 updateOdds1x2.aspx.cs" Inherits="updateData" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="lib/ext/resources/css/ext-all.css" />
+    <script src="lib/ext/adapter/ext/ext-base-debug.js" type="text/javascript"></script>
+    <script src="lib/ext/ext-all-debug.js" type="text/javascript"></script>
+    <script src="Js/Algorithm.js" type="text/javascript"></script>
+    <script type="text/javascript" >
+        var mstop = false;
+        var mindex = 0;
+        function updateMatchs() {
+            Ext.Ajax.request({
+                url: 'Server.aspx?a=updateMatchs',
+                timeout: 3600000,
+                params: {},
+                success: function (resp) {
+                    var result = Ext.decode(resp.responseText);
+                    Ext.getDom('match_td').innerHTML += result.content + " <br />";
+                    if (mstop && result.success) {
+                        Ext.getDom('match_td').innerHTML += "已终止 <br />";
+                        document.getElementById('Button1').disabled = false;
+                    } else {
+                        updateMatchs()
+                    }
+                },
+                failure: function (resp) {
+
+                }
+            });
+        }
+
+
+        var matchids = '<%= matchidsStr %>'.split(',');
+        var time = 10800;
+        var aindex = 0;
+        var astop = false;
+        var fields = [{ name: 'time', dateFormat: 'Y-m-d H:i' },
+            { name: 'avehome', type: 'float' },
+            { name: 'avedraw', type: 'float' },
+            { name: 'aveaway', type: 'float' },
+            { name: 'varhome', type: 'float' },
+            { name: 'vardraw', type: 'float' },
+            { name: 'varaway', type: 'float' },
+            { name: 'returnrate', type: 'float'}];
+        var store = new Ext.data.Store({
+            reader: new Ext.data.JsonReader(
+           {
+               fields: fields
+           })
+        });
+        var gfields = [{ name: 'id', type: 'int' },
+            { name: 'name', type: 'string' },
+            { name: 'content', type: 'string' },
+            { name: 'win', type: 'int' },
+            { name: 'lost', type: 'int' },
+            { name: 'resultwin', type: 'int' },
+            { name: 'resultlost', type: 'int' },
+            { name: 'home', type: 'int' },
+            { name: 'draw', type: 'int' },
+            { name: 'away', type: 'int'}];
+        var gstore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy(
+           {
+               url: "Data/NowGoal/ForecastScripts.aspx?a=list",
+               method: "POST"
+           }),
+            reader: new Ext.data.JsonReader(
+           {
+               fields: gfields,
+               root: "data",
+               id: "id"
+           })
+        });
+        gstore.load();
+        function updateAnalysiss() {
+            if (gstore.getTotalCount() == 0) {
+                setTimeout('updateAnalysiss()', 1000);
+                return;
+            }
+            Ext.getDom("analysis_td").innerHTML += "正在更新 " + matchids[aindex];
+            Ext.Ajax.request({
+                url: 'Server.aspx?a=updateAnalysiss',
+                timeout: 3600000,
+                params: {
+                    matchid: matchids[aindex], time: time
+                },
+                success: function (res) {
+                    store.loadData(Ext.decode(res.responseText));
+                    var rowsData = [];
+                    for (var i = 0; i < gstore.getTotalCount(); i++) {
+                        var row = gstore.getAt(i);
+                        var resultArray = eval(row.get('content') + "(store)");
+                        rowsData.push(row.get('content') + "(" + resultArray[3] + ")");
+                    }
+                    Ext.Ajax.request({
+                        url: 'Data/NowGoal/BetExp.aspx?a=saveanalysis',
+                        timeout: 3600000,
+                        params: { matchid: matchids[aindex], data: rowsData.join(',') },
+                        success: function (resp) {
+                            var result = Ext.decode(resp.responseText);
+                            if (result.success) {
+                                aindex++;
+                                Ext.getDom("analysis_td").innerHTML += "已完成<br />"
+                                document.getElementById('leftcount').innerHTML = matchids.length - aindex;
+                                if (astop) {
+                                    Ext.getDom("analysis_td").innerHTML += " 已经停止更新<br />";
+                                    document.getElementById('Button3').disabled = false;
+                                } else {
+                                    updateAnalysiss();
+                                }
+
+                            }
+                        }
+                    });
+                },
+                failure: function (res) {
+
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <table style="width: 100%;" border="1">
+            <tr>
+                <td style="width:50%">
+                    &nbsp;
+                    更新数据</td>
+                <td style="width:50%">
+                    &nbsp;
+                    更新分析</td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;
+                    <input id="Button1" 
+                        onclick="mstop = false;this.disabled=true;document.getElementById('Button2').disabled=false;updateMatchs();" 
+                        type="button" value="开始" />
+                    <input id="Button2" disabled="disabled" onclick="mstop=true;this.disabled=true;" 
+                        type="button" value="停止" />
+                    <input id="Button5" onclick="Ext.getDom('match_td').innerHTML = '';" 
+                        type="button" value="清除" /></td>
+                <td>
+                    &nbsp;
+                    <input id="Button3" 
+                        onclick="astop = false;this.disabled=true;document.getElementById('Button4').disabled=false;updateAnalysiss()" 
+                        type="button" value="开始" />
+                    <input id="Button4" disabled="disabled" onclick="astop=true;this.disabled=true;" 
+                        type="button" value="停止" /></td>
+            </tr>
+            <tr>
+                <td>
+                    
+                </td>
+                <td>
+                    &nbsp;
+                    还剩<span id="leftcount"></span></td>
+            </tr>
+            <tr>
+                <td id="match_td">
+                    &nbsp;</td>
+                <td id="analysis_td">
+                    &nbsp;</td>
+            </tr>
+        </table>
+    </div>
+    </form>
+</body>
+</html>
