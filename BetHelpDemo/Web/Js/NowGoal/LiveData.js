@@ -358,6 +358,7 @@ var GetPrediction = function(scheduleID) {
          store: store,
          sm: sm,
          cm: cm,
+         columnLines: true,
          loadMask: true,
          stripeRows: true,
          autoWidth: true,

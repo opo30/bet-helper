@@ -70,3 +70,11 @@ F:\BetHelp\DBUtility\bin\Debug\MySql.Data.dll
 F:\BetHelp\DBUtility\obj\Debug\ResolveAssemblyReference.cache
 F:\BetHelp\DBUtility\obj\Debug\SeoWebSite.DBUtility.dll
 F:\BetHelp\DBUtility\obj\Debug\SeoWebSite.DBUtility.pdb
+D:\CSharpCode\Bet-Help\BetHelpDemo\DBUtility\bin\Debug\SeoWebSite.DBUtility.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\DBUtility\bin\Debug\SeoWebSite.DBUtility.pdb
+D:\CSharpCode\Bet-Help\BetHelpDemo\DBUtility\bin\Debug\IBatisNet.Common.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\DBUtility\bin\Debug\IBatisNet.DataMapper.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\DBUtility\bin\Debug\MySql.Data.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\DBUtility\obj\Debug\ResolveAssemblyReference.cache
+D:\CSharpCode\Bet-Help\BetHelpDemo\DBUtility\obj\Debug\SeoWebSite.DBUtility.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\DBUtility\obj\Debug\SeoWebSite.DBUtility.pdb

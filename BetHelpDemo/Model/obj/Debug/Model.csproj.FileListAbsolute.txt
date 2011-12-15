@@ -43,3 +43,8 @@ F:\BetHelp\Model\bin\Debug\SeoWebSite.Model.pdb
 F:\BetHelp\Model\obj\Debug\ResolveAssemblyReference.cache
 F:\BetHelp\Model\obj\Debug\SeoWebSite.Model.dll
 F:\BetHelp\Model\obj\Debug\SeoWebSite.Model.pdb
+D:\CSharpCode\Bet-Help\BetHelpDemo\Model\bin\Debug\SeoWebSite.Model.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\Model\bin\Debug\SeoWebSite.Model.pdb
+D:\CSharpCode\Bet-Help\BetHelpDemo\Model\obj\Debug\ResolveAssemblyReference.cache
+D:\CSharpCode\Bet-Help\BetHelpDemo\Model\obj\Debug\SeoWebSite.Model.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\Model\obj\Debug\SeoWebSite.Model.pdb

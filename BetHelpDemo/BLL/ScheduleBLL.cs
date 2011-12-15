@@ -196,6 +196,11 @@ namespace SeoWebSite.BLL
         {
             return dal.statOddsHistory(whereStr);
         }
+
+        public DataSet queryOddsHistory(string whereStr)
+        {
+            return dal.queryOddsHistory(whereStr);
+        }
     }
 }
 

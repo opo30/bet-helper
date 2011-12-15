@@ -45,9 +45,9 @@ namespace SeoWebSite.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into Schedule(");
-            strSql.Append("id,data,updated,date,home,away,halfhome,halfaway,scheduleTypeID)");
+            strSql.Append("id,data,updated,date,home,away,halfhome,halfaway,h_teamid,g_teamid,scheduleTypeID)");
 			strSql.Append(" values (");
-            strSql.Append("@id,@data,@updated,@date,@home,@away,@halfhome,@halfaway,@scheduleTypeID)");
+            strSql.Append("@id,@data,@updated,@date,@home,@away,@halfhome,@halfaway,@h_teamid,@g_teamid,@scheduleTypeID)");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,8),
 					new SqlParameter("@data", SqlDbType.NVarChar,1000),
@@ -57,6 +57,8 @@ namespace SeoWebSite.DAL
 					new SqlParameter("@away", SqlDbType.Int,4),
                     new SqlParameter("@halfhome", SqlDbType.Int,4),
 					new SqlParameter("@halfaway", SqlDbType.Int,4),
+                    new SqlParameter("@h_teamid", SqlDbType.Int,4),
+					new SqlParameter("@g_teamid", SqlDbType.Int,4),
                     new SqlParameter("@scheduleTypeID", SqlDbType.Int,4)};
 			parameters[0].Value = model.id;
 			parameters[1].Value = model.data;
@@ -66,7 +68,9 @@ namespace SeoWebSite.DAL
 			parameters[5].Value = model.away;
             parameters[6].Value = model.halfhome;
             parameters[7].Value = model.halfaway;
-            parameters[8].Value = model.scheduleTypeID;
+            parameters[8].Value = model.h_teamid;
+            parameters[9].Value = model.g_teamid;
+            parameters[10].Value = model.scheduleTypeID;
 			DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 		}
 		/// <summary>

@@ -320,10 +320,20 @@ namespace SeoWebSite.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select ");
-            strSql.Append("perwin=sum(case when a.home>a.away then 1 else 0 end),");
-            strSql.Append("perdraw=sum(case when a.home=a.away then 1 else 0 end),");
-            strSql.Append("perlost=sum(case when a.home<a.away then 1 else 0 end),");
+            strSql.Append("sumwin=sum(case when a.home>a.away then 1 else 0 end),");
+            strSql.Append("sumdraw=sum(case when a.home=a.away then 1 else 0 end),");
+            strSql.Append("sumlost=sum(case when a.home<a.away then 1 else 0 end),");
             strSql.Append("count(*) totalCount from");
+            strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
+            strSql.Append(" where " + whereStr);
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        public DataSet queryOddsHistory(string whereStr)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select data,e_win,e_draw,e_lost");
+            strSql.Append(" from");
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
             strSql.Append(" where " + whereStr);
             return DbHelperSQL.Query(strSql.ToString());

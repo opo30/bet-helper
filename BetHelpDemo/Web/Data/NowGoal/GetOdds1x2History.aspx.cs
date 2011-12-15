@@ -26,6 +26,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                         case "stat":
                             statOddsHistory();
                             break;
+                        case "list":
+                            queryOddsHistory();
+                            break;
                         default:
                             break;
                     }
@@ -34,13 +37,51 @@ namespace SeoWebSite.Web.Data.NowGoal
             
         }
 
+        private void queryOddsHistory()
+        {
+            if (Request["companyid"] != null)
+            {
+                string strWhere = Common.DataCache.GetCache("strWhere_" + Request.Form["companyid"]).ToString();
+                DataSet ds = scheduleBLL.queryOddsHistory(strWhere);
+                JArray data = new JArray();
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        string[] scheduleArr = dr["data"].ToString().Split(',');
+                        JObject row = new JObject();
+                        row.Add("h_teamname", scheduleArr[4]);
+                        row.Add("g_teamname", scheduleArr[7]);
+                        row.Add("score", scheduleArr[13] + "-" + scheduleArr[14]);
+                        row.Add("rangqiu", scheduleArr[25]);
+                        row.Add("s_time", scheduleArr[10].Replace("<br>", ""));
+
+                        row.Add("e_win", dr["e_win"].ToString());
+                        row.Add("e_draw", dr["e_draw"].ToString());
+                        row.Add("e_lost", dr["e_lost"].ToString());
+                        
+                        data.Add(row);
+                    }
+                }
+                JObject result = JObject.Parse("{success:true}");
+                result.Add("data", data);
+                StringJSON = result.ToString();
+            }
+        }
+
         private void statOddsHistory()
         {
             if (Request["stypeid"] != null && Request["oddsarr"] != null)
             {
                 string stypeid = Request.Form["stypeid"];
                 string[] oddsArr = Request.Form["oddsarr"].Split('^');
-                JArray data = new JArray();
+                DataTable dt = new DataTable();
+                dt.Columns.Add("companyid");
+                dt.Columns.Add("companyname");
+                dt.Columns.Add("sumwin",typeof(int));
+                dt.Columns.Add("sumdraw", typeof(int));
+                dt.Columns.Add("sumlost", typeof(int));
+                dt.Columns.Add("totalCount", typeof(int));
                 foreach (string oddsStr in oddsArr)
                 {
                     List<string> whereList = new List<string>();
@@ -53,17 +94,28 @@ namespace SeoWebSite.Web.Data.NowGoal
                     DataSet ds = scheduleBLL.statOddsHistory(String.Join(" and ",whereList.ToArray()));
                     if (ds.Tables[0].Rows.Count > 0 && Convert.ToInt32(ds.Tables[0].Rows[0]["totalCount"]) > 0)
 	                {
-                        JObject row = new JObject();
-                        row.Add("companyid", Convert.ToInt32(odds[0]));
-                        row.Add("companyname", odds[21].ToString());
-                        row.Add("perwin", Convert.ToDecimal(ds.Tables[0].Rows[0]["perwin"]));
-                        row.Add("perdraw", Convert.ToDecimal(ds.Tables[0].Rows[0]["perdraw"]));
-                        row.Add("perlost", Convert.ToDecimal(ds.Tables[0].Rows[0]["perlost"]));
-                        data.Add(row);
+                        Common.DataCache.SetCache("strWhere_" + odds[0], String.Join(" and ", whereList.ToArray()));
+                        DataRow dataRow = dt.NewRow();
+                        dataRow["companyid"] = Convert.ToInt32(odds[0]);
+                        dataRow["companyname"] = odds[21].ToString();
+                        dataRow["sumwin"] =  Convert.ToInt32(ds.Tables[0].Rows[0]["sumwin"]);
+                        dataRow["sumdraw"] = Convert.ToInt32(ds.Tables[0].Rows[0]["sumdraw"]);
+                        dataRow["sumlost"] = Convert.ToInt32(ds.Tables[0].Rows[0]["sumlost"]);
+                        dataRow["totalCount"] = Convert.ToInt32(ds.Tables[0].Rows[0]["totalCount"]);
+                        dt.Rows.Add(dataRow);
 	                }
                 }
+                
+                DataRow dr = dt.NewRow();
+                dr["companyid"] = 0;
+                dr["companyname"] = "合计";
+                dr["sumwin"] =  dt.Compute("Sum(sumwin)/Sum(totalCount)*100", "1=1");
+                dr["sumdraw"] = dt.Compute("Sum(sumdraw)/Sum(totalCount)*100", "1=1");
+                dr["sumlost"] = dt.Compute("Sum(sumlost)/Sum(totalCount)*100", "1=1");
+                dt.Rows.Add(dr);
+
                 JObject result = JObject.Parse("{success:true}");
-                result.Add("data", data);
+                result.Add("data", JArray.FromObject(dt));
                 StringJSON = result.ToString();
             }
         }

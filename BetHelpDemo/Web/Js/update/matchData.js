@@ -35,6 +35,14 @@ var LoadMatchUpdate = function (node) {
         }
     });
 
+    store.on('load', function (s, records) {
+        s.each(function (r, index) {
+            grid.getView().getCell(index, 2).style.backgroundColor = r.get('scheduletype').split(',')[4];
+            grid.getView().getCell(index, 2).style.color = "white";
+            //grid.getView().getRow(gridcount).style.display = (s.sclass[r.get('match_1')][5] == 1) ? "" : "none";
+        });
+    });
+
     var sm = new Ext.grid.CheckboxSelectionModel({
         dataIndex: "id",
         singleSelect: false
@@ -54,8 +62,7 @@ var LoadMatchUpdate = function (node) {
             width: 10,
             sortable: false,
             renderer: function (value) {
-                var arr = value.split(',')
-                return "<font color=" + arr[4] + ">" + arr[1] + "</font>";
+                return value.split(',')[1];
             }
         }, {
             header: "比赛数据",
@@ -116,7 +123,7 @@ var LoadMatchUpdate = function (node) {
         columnWidth: 1,
         loadMask: true,
         stripeRows: true,
-        height: 250,
+        columnLines: true,
         //超过长度带自动滚动条
         autoScroll: true,
         border: false,

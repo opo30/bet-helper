@@ -436,6 +436,8 @@ public partial class Server : System.Web.UI.Page
                         model.data = item;
                         model.date = DateTime.Parse(date);
                         model.updated = false;
+                        model.h_teamid = int.Parse(schedule[2]);
+                        model.g_teamid = int.Parse(schedule[3]);
                         if (string.IsNullOrEmpty(schedule[13]) || string.IsNullOrEmpty(schedule[14]) || string.IsNullOrEmpty(schedule[15]) || string.IsNullOrEmpty(schedule[16]) || string.IsNullOrEmpty(schedule[1]))
                         {
                             continue;

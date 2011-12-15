@@ -18,6 +18,8 @@ namespace SeoWebSite.Model
 		private int? _away;
         private int? _halfhome;
         private int? _halfaway;
+        private int? _h_teamid;
+        private int? _g_teamid;
         private int? _scheduleTypeID;
 		/// <summary>
 		/// 
@@ -82,6 +84,22 @@ namespace SeoWebSite.Model
         {
             set { _halfaway = value; }
             get { return _halfaway; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? h_teamid
+        {
+            set { _h_teamid = value; }
+            get { return _h_teamid; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public int? g_teamid
+        {
+            set { _g_teamid = value; }
+            get { return _g_teamid; }
         }
         /// <summary>
         /// 

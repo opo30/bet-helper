@@ -85,3 +85,12 @@ F:\BetHelp\Common\bin\Debug\OWC10Chart.dll
 F:\BetHelp\Common\obj\Debug\ResolveAssemblyReference.cache
 F:\BetHelp\Common\obj\Debug\SeoWebSite.Common.dll
 F:\BetHelp\Common\obj\Debug\SeoWebSite.Common.pdb
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\bin\Debug\SeoWebSite.Common.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\bin\Debug\SeoWebSite.Common.pdb
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\bin\Debug\COM.Excel.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\bin\Debug\Excel.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\bin\Debug\OpenSmtp.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\bin\Debug\OWC10Chart.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\obj\Debug\ResolveAssemblyReference.cache
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\obj\Debug\SeoWebSite.Common.dll
+D:\CSharpCode\Bet-Help\BetHelpDemo\Common\obj\Debug\SeoWebSite.Common.pdb
