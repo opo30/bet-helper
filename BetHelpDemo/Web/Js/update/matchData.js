@@ -347,15 +347,21 @@ var LoadMatchUpdate = function (node) {
                         title: '更新赔率数据',
                         bodyStyle: 'padding:5px 5px 0',
                         closeAction: 'destroy',
-                        items: [{ xtype: 'label', text: '进度', style: 'padding:5px 5px 0' }, { id: 'pbar_text', style: 'color:#555;' }, pbar],
+                        items: [{ xtype: 'label', text: '总体进度', style: 'padding:5px 5px 0' }, { id: 'pbar_text', style: 'color:#555;' }, { id: 'pbar_text1', style: 'color:#555;' }, pbar],
                         buttons: [{
                             id: 'update-btn',
                             text: '更新',
                             handler: function () {
                                 this.disable();
                                 isstop = false;
+                                var stime = new Date();
                                 var updateOdds = function (scheduleid) {
                                     Ext.fly('pbar_text').update('正在更新 ' + scheduleid + '  已更新' + scheduleIndex + "/" + scheduleid_arr.length + '条...');
+                                    if (scheduleIndex % 10 == 0) {
+                                        var needtime = (new Date() - stime) / scheduleIndex * (scheduleid_arr.length - scheduleIndex) / 1000 / 3600;
+                                        Ext.fly('pbar_text1').update('预计剩余' + Math.floor(needtime) + '小时' + Math.floor(needtime % 1 * 60) + '分钟...');
+
+                                    }
                                     Ext.Ajax.request({
                                         url: 'Server.aspx?a=updateOdds',
                                         params: { scheduleid: scheduleid },
@@ -364,6 +370,8 @@ var LoadMatchUpdate = function (node) {
                                             if (result.success) {
                                                 scheduleIndex++;
                                                 per = scheduleIndex / scheduleid_arr.length;
+
+
                                                 pbar.updateProgress(per, Math.round(100 * per) + '% 完成...');
                                                 if (isstop) {
                                                     Ext.getCmp("update-btn").enable();
