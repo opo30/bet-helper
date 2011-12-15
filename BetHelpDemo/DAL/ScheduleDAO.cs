@@ -323,7 +323,7 @@ namespace SeoWebSite.DAL
             strSql.Append("sumwin=sum(case when a.home>a.away then 1 else 0 end),");
             strSql.Append("sumdraw=sum(case when a.home=a.away then 1 else 0 end),");
             strSql.Append("sumlost=sum(case when a.home<a.away then 1 else 0 end),");
-            strSql.Append("count(*) totalCount from");
+            strSql.Append("count(a.id) totalCount from");
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
             strSql.Append(" where " + whereStr);
             return DbHelperSQL.Query(strSql.ToString());
