@@ -332,7 +332,7 @@ namespace SeoWebSite.DAL
         public DataSet queryOddsHistory(string whereStr)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select data,e_win,e_draw,e_lost");
+            strSql.Append("select data,s_win,s_draw,s_lost,e_win,e_draw,e_lost");
             strSql.Append(" from");
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
             strSql.Append(" where " + whereStr);

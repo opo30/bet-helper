@@ -168,8 +168,6 @@ var GetPrediction = function(scheduleID) {
      var sm = new Ext.grid.CheckboxSelectionModel({
          dataIndex: "match_0",
          listeners: {
-             // On selection change, set enabled state of the removeButton
-             // which was placed into the GridPanel using the ref config
              selectionchange: function (s) {
 
              }
@@ -194,7 +192,7 @@ var GetPrediction = function(scheduleID) {
 		    tooltip: "比赛开始时间",
 		    sortable: false,
 		    renderer: function (value, last, row) {
-		        return "<span ext:qtip='" + row.data["match_11"] + "'>" + value + "</span>"
+		        return "<span ext:qtip='" + row.data["match_11"] + "'>" + value.replace("<br>", " ") + "</span>";
 		    }
 		}, {
 		    header: "状态",

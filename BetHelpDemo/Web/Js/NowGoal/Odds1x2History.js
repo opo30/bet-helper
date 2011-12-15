@@ -1,6 +1,6 @@
 ﻿/// <reference path="../../lib/ext/adapter/ext/ext-base.js"/>
 /// <reference path="../../lib/ext/ext-all-debug.js" />
-var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr) {
+var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr,type) {
 
     var fields = [
             { name: 'companyid', type: 'int' },
@@ -10,7 +10,8 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr) {
             { name: 'sumlost', type: 'int'}];
     var params = {
         stypeid: scheduleTypeArr[0],
-        oddsarr: oddeArr.join('^')
+        oddsarr: oddeArr.join('^'),
+        type: type
     };
 
     var store = new Ext.data.JsonStore({
@@ -103,7 +104,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr) {
                 { name: 'e_win', type: 'string' },
                 { name: 'e_draw', type: 'string' },
                 { name: 'e_lost', type: 'string' }, { name: 'rangqiu', type: 'float' }, { name: 's_time', type: 'string'}],
-            baseParams: { companyid: 0 },
+            baseParams: { companyid: 0, type: type },
             proxy: new Ext.data.HttpProxy({
                 url: "Data/NowGoal/GetOdds1x2History.aspx?a=list",
                 method: "POST",
