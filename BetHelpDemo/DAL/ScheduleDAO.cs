@@ -326,7 +326,7 @@ namespace SeoWebSite.DAL
             strSql.Append("count(a.id) totalCount from");
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
             strSql.Append(" where " + whereStr);
-            return DbHelperSQL.Query(strSql.ToString());
+            return DbHelperSQL.Query(strSql.ToString(),999);
         }
 
         public DataSet queryOddsHistory(string whereStr)
