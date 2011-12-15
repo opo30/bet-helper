@@ -1,5 +1,0 @@
-E:\SourceCode\BetHelpDemo\WebApplication1\bin\WebApplication1.dll
-E:\SourceCode\BetHelpDemo\WebApplication1\bin\WebApplication1.pdb
-E:\SourceCode\BetHelpDemo\WebApplication1\obj\Debug\ResolveAssemblyReference.cache
-E:\SourceCode\BetHelpDemo\WebApplication1\obj\Debug\WebApplication1.dll
-E:\SourceCode\BetHelpDemo\WebApplication1\obj\Debug\WebApplication1.pdb
