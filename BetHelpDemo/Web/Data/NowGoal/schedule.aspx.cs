@@ -18,7 +18,7 @@ public partial class Data_NowGoal_schedule : System.Web.UI.Page
 {
     protected string responseText = "";
     ScheduleBLL bll = new ScheduleBLL();
-    SeoWebSite.BLL.Schedule schedulebll = new SeoWebSite.BLL.Schedule();
+    SeoWebSite.BLL.ScheduleBLL schedulebll = new SeoWebSite.BLL.ScheduleBLL();
     SeoWebSite.BLL.WebClientBLL webClientBLL = new WebClientBLL();
 
     protected void Page_Load(object sender, EventArgs e)

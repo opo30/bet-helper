@@ -39,9 +39,9 @@ namespace SeoWebSite.Web.Data.NowGoal
 
         private void queryOddsHistory()
         {
-            if (Request["companyid"] != null)
+            if (Request["companyid"] != null && Request["type"] != null)
             {
-                string strWhere = Common.DataCache.GetCache("strWhere_" + Request.Form["companyid"]).ToString();
+                string strWhere = Common.DataCache.GetCache(Request.Form["type"] + "_" + Request.Form["companyid"]).ToString();
                 DataSet ds = scheduleBLL.queryOddsHistory(strWhere);
                 JArray data = new JArray();
                 if (ds.Tables[0].Rows.Count > 0)
@@ -79,68 +79,33 @@ namespace SeoWebSite.Web.Data.NowGoal
 
         private void statOddsHistory()
         {
-            if (Request["stypeid"] != null && Request["oddsarr"] != null)
+            if (Request["stypeid"] != null && Request["oddsarr"] != null && Request["type"] != null)
             {
                 try
                 {
                     string stypeid = Request.Form["stypeid"];
                     string[] oddsArr = Request.Form["oddsarr"].Split('^');
-                    DataTable dt = new DataTable();
-                    dt.Columns.Add("companyid");
-                    dt.Columns.Add("companyname");
-                    dt.Columns.Add("sumwin", typeof(int));
-                    dt.Columns.Add("sumdraw", typeof(int));
-                    dt.Columns.Add("sumlost", typeof(int));
-                    dt.Columns.Add("totalCount", typeof(int));
+                    List<string> swhereList = new List<string>();
+                    List<string> ewhereList = new List<string>();
+                    string sclassFilter = "sclassid=" + stypeid;
                     foreach (string oddsStr in oddsArr)
                     {
-                        List<string> whereList = new List<string>();
                         string[] odds = oddsStr.Split('|');
-                        whereList.Add("scheduletypeid=" + stypeid);
-                        whereList.Add("companyid=" + odds[0]);
-                        if (Request.Form["type"] == "1")
+                        swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] + 
+                            " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
+                        if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
                         {
-                            whereList.Add("s_win=" + odds[3]);
-                            whereList.Add("s_draw=" + odds[4]);
-                            whereList.Add("s_lost=" + odds[5]);
-                        }
-                        else
-                        {
-                            if (String.IsNullOrEmpty(odds[10]) ||String.IsNullOrEmpty(odds[11])||String.IsNullOrEmpty(odds[12]))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                whereList.Add("e_win=" + odds[10]);
-                                whereList.Add("e_draw=" + odds[11]);
-                                whereList.Add("e_lost=" + odds[12]);
-                            }
-                        }
-                        
-                        DataSet ds = scheduleBLL.statOddsHistory(String.Join(" and ", whereList.ToArray()));
-                        if (ds.Tables[0].Rows.Count > 0 && Convert.ToInt32(ds.Tables[0].Rows[0]["totalCount"]) > 0)
-                        {
-                            Common.DataCache.SetCache("strWhere_" + odds[0], String.Join(" and ", whereList.ToArray()));
-                            DataRow dataRow = dt.NewRow();
-                            dataRow["companyid"] = Convert.ToInt32(odds[0]);
-                            dataRow["companyname"] = odds[21].ToString();
-                            dataRow["sumwin"] = Convert.ToInt32(ds.Tables[0].Rows[0]["sumwin"]);
-                            dataRow["sumdraw"] = Convert.ToInt32(ds.Tables[0].Rows[0]["sumdraw"]);
-                            dataRow["sumlost"] = Convert.ToInt32(ds.Tables[0].Rows[0]["sumlost"]);
-                            dataRow["totalCount"] = Convert.ToInt32(ds.Tables[0].Rows[0]["totalCount"]);
-                            dt.Rows.Add(dataRow);
+                            ewhereList.Add("(companyid=" + odds[0] + "and e_win=" + odds[10] + 
+                                " and e_draw=" + odds[11] + " and e_lost=" + odds[12]+")");
                         }
                     }
-
-                    DataRow dr = dt.NewRow();
-                    dr["companyid"] = 0;
-                    dr["companyname"] = "合计";
-                    dr["sumwin"] = dt.Compute("Sum(sumwin)/Sum(totalCount)*100", "1=1");
-                    dr["sumdraw"] = dt.Compute("Sum(sumdraw)/Sum(totalCount)*100", "1=1");
-                    dr["sumlost"] = dt.Compute("Sum(sumlost)/Sum(totalCount)*100", "1=1");
-                    dt.Rows.Add(dr);
-
+                    DataSet sds = scheduleBLL.statOddsHistory(sclassFilter + " and (" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    DataSet eds = scheduleBLL.statOddsHistory(sclassFilter + " and (" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    DataTable dt = sds.Tables[0];
+                    dt.ImportRow(eds.Tables[0].Rows[0]);
+                    dt.Columns.Add("name", typeof(string));
+                    dt.Rows[0]["name"] = "初盘(" + dt.Rows[0]["totalCount"] + ")";
+                    dt.Rows[1]["name"] = "终盘(" + dt.Rows[1]["totalCount"] + ")";
                     JObject result = JObject.Parse("{success:true}");
                     result.Add("data", JArray.FromObject(dt));
                     StringJSON = result.ToString();

@@ -418,7 +418,7 @@ public partial class Server : System.Web.UI.Page
 
     private void updateSchedules()
     {
-        SeoWebSite.BLL.ScheduleType scheduleTypeBLL = new SeoWebSite.BLL.ScheduleType();
+        SeoWebSite.BLL.ScheduleClassBLL scheduleTypeBLL = new SeoWebSite.BLL.ScheduleClassBLL();
         try
         {
             if (Request["schedulelist"] != null && Request["scheduletypelist"] != null && Request["date"] != null)
@@ -446,7 +446,7 @@ public partial class Server : System.Web.UI.Page
                         model.away = int.Parse(schedule[14]);
                         model.halfhome = int.Parse(schedule[15]);
                         model.halfaway = int.Parse(schedule[16]);
-                        model.scheduleTypeID = int.Parse(scheduleTypeList[int.Parse(schedule[1])].Split(',')[0]);
+                        model.sclassid = int.Parse(scheduleTypeList[int.Parse(schedule[1])].Split(',')[0]);
                         scheduleBLL.Add(model);
                     }
                 }
@@ -455,7 +455,7 @@ public partial class Server : System.Web.UI.Page
                     string[] scheduleType = item.Split(',');
                     if (!scheduleTypeBLL.Exists(int.Parse(scheduleType[0])))
                     {
-                        SeoWebSite.Model.ScheduleType model = new SeoWebSite.Model.ScheduleType();
+                        SeoWebSite.Model.ScheduleClass model = new SeoWebSite.Model.ScheduleClass();
                         model.id = int.Parse(scheduleType[0]);
                         model.name = scheduleType[1];
                         model.data = item;

@@ -1,13 +1,14 @@
 ﻿/// <reference path="../../lib/ext/adapter/ext/ext-base.js"/>
 /// <reference path="../../lib/ext/ext-all-debug.js" />
-var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr,type) {
+var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr, type) {
 
     var fields = [
             { name: 'companyid', type: 'int' },
-            { name: 'companyname', type: 'string' },
+            { name: 'name', type: 'string' },
             { name: 'sumwin', type: 'int' },
             { name: 'sumdraw', type: 'int' },
-            { name: 'sumlost', type: 'int'}];
+            { name: 'sumlost', type: 'int' },
+            { name: 'avgscore', type: 'float'}];
     var params = {
         stypeid: scheduleTypeArr[0],
         oddsarr: oddeArr.join('^'),
@@ -24,21 +25,14 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr,type) {
                 method: "POST",
                 timeout: 3600000
             })
-        //        reader: new Ext.data.JsonReader(
-        //           {
-        //               fields: fields,
-        //               root:"data",
-        //               id: "companyid"
-        //           }),
-        //           sortInfo: { field: 'perwin', direction: "DESC" },
     });
 
     //--------------------------------------------------列头
     var cm = new Ext.grid.ColumnModel([
         {
-            header: "公司",
-            dataIndex: "companyname",
-            sortable: true
+            header: "统计名称",
+            dataIndex: "name",
+            sortable: false
         },
 		{
 		    header: "主胜",
@@ -58,8 +52,13 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr,type) {
 		    dataIndex: "sumlost",
 		    sortable: true,
 		    width: 30
+		}, {
+		    header: "进球数",
+		    dataIndex: "avgscore",
+		    sortable: true,
+		    width: 30
 		}
-]);
+    ]);
 
 
     //----------------------------------------------------定义grid
@@ -70,7 +69,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddeArr,type) {
         region: "west",
         loadMask: true,
         stripeRows: true,
-        width:300,
+        width: 300,
         //超过长度带自动滚动条
         autoScroll: true,
         border: false,
