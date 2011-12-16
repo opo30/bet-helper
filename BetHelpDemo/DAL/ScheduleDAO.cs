@@ -2,17 +2,17 @@ using System;
 using System.Data;
 using System.Text;
 using System.Data.SqlClient;
-using SeoWebSite.DBUtility;//请先添加引用
+using SeoWebSite.DBUtility;//Please add references
 namespace SeoWebSite.DAL
 {
 	/// <summary>
-	/// 数据访问类Schedule。
+	/// 数据访问类:Schedule
 	/// </summary>
 	public class ScheduleDAO
 	{
 		public ScheduleDAO()
 		{}
-		#region  成员方法
+		#region  Method
 
 		/// <summary>
 		/// 得到最大ID
@@ -41,60 +41,95 @@ namespace SeoWebSite.DAL
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>
-		public int Add(SeoWebSite.Model.Schedule1 model)
+		public void Add(SeoWebSite.Model.Schedule model)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("insert into Schedule(");
-			strSql.Append("ScheduleID,Data,Date)");
+            strSql.Append("id,data,updated,date,home,away,halfhome,halfaway,h_teamid,g_teamid,sclassid)");
 			strSql.Append(" values (");
-			strSql.Append("@ScheduleID,@Data,@Date)");
-			strSql.Append(";select @@IDENTITY");
+            strSql.Append("@id,@data,@updated,@date,@home,@away,@halfhome,@halfaway,@h_teamid,@g_teamid,@sclassid)");
 			SqlParameter[] parameters = {
-					new SqlParameter("@ScheduleID", SqlDbType.Int,4),
-					new SqlParameter("@Data", SqlDbType.VarChar,1000),
-					new SqlParameter("@Date", SqlDbType.Date,3)};
-			parameters[0].Value = model.ScheduleID;
-			parameters[1].Value = model.Data;
-			parameters[2].Value = model.Date;
-
-			object obj = DbHelperSQL.GetSingle(strSql.ToString(),parameters);
-			if (obj == null)
-			{
-				return 1;
-			}
-			else
-			{
-				return Convert.ToInt32(obj);
-			}
+					new SqlParameter("@id", SqlDbType.Int,8),
+					new SqlParameter("@data", SqlDbType.NVarChar,1000),
+					new SqlParameter("@updated", SqlDbType.Bit,1),
+					new SqlParameter("@date", SqlDbType.Date,3),
+					new SqlParameter("@home", SqlDbType.Int,4),
+					new SqlParameter("@away", SqlDbType.Int,4),
+                    new SqlParameter("@halfhome", SqlDbType.Int,4),
+					new SqlParameter("@halfaway", SqlDbType.Int,4),
+                    new SqlParameter("@h_teamid", SqlDbType.Int,4),
+					new SqlParameter("@g_teamid", SqlDbType.Int,4),
+                    new SqlParameter("@sclassid", SqlDbType.Int,4)};
+			parameters[0].Value = model.id;
+			parameters[1].Value = model.data;
+			parameters[2].Value = model.updated;
+			parameters[3].Value = model.date;
+			parameters[4].Value = model.home;
+			parameters[5].Value = model.away;
+            parameters[6].Value = model.halfhome;
+            parameters[7].Value = model.halfaway;
+            parameters[8].Value = model.h_teamid;
+            parameters[9].Value = model.g_teamid;
+            parameters[10].Value = model.sclassid;
+			DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 		}
 		/// <summary>
 		/// 更新一条数据
 		/// </summary>
-		public void Update(SeoWebSite.Model.Schedule1 model)
+		public bool Update(SeoWebSite.Model.Schedule model)
 		{
 			StringBuilder strSql=new StringBuilder();
 			strSql.Append("update Schedule set ");
-			strSql.Append("ScheduleID=@ScheduleID,");
-			strSql.Append("Data=@Data,");
-			strSql.Append("Date=@Date");
+			strSql.Append("data=@data,");
+			strSql.Append("updated=@updated,");
+			strSql.Append("date=@date,");
+			strSql.Append("home=@home,");
+			strSql.Append("away=@away");
 			strSql.Append(" where id=@id ");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4),
-					new SqlParameter("@ScheduleID", SqlDbType.Int,4),
-					new SqlParameter("@Data", SqlDbType.VarChar,1000),
-					new SqlParameter("@Date", SqlDbType.Date,3)};
+					new SqlParameter("@data", SqlDbType.NVarChar,1000),
+					new SqlParameter("@updated", SqlDbType.Bit,1),
+					new SqlParameter("@date", SqlDbType.Date,3),
+					new SqlParameter("@home", SqlDbType.Int,4),
+					new SqlParameter("@away", SqlDbType.Int,4)};
 			parameters[0].Value = model.id;
-			parameters[1].Value = model.ScheduleID;
-			parameters[2].Value = model.Data;
-			parameters[3].Value = model.Date;
+			parameters[1].Value = model.data;
+			parameters[2].Value = model.updated;
+			parameters[3].Value = model.date;
+			parameters[4].Value = model.home;
+			parameters[5].Value = model.away;
 
-			DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-
+        /// <summary>
+        /// 设置是否更新
+        /// </summary>
+        public void SetUpdated(string scheduleid, bool isUpdated)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update Schedule set ");
+            strSql.Append("updated=@updated");
+            strSql.Append(" where id=@id ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@updated", SqlDbType.Bit,1),
+                    new SqlParameter("@id", SqlDbType.Int)};
+            parameters[0].Value = isUpdated;
+            parameters[1].Value = scheduleid;
+            DbHelperSQL.ExecuteSql(strSql.ToString(), parameters);
+        }
 		/// <summary>
 		/// 删除一条数据
 		/// </summary>
-		public void Delete(int id)
+		public bool Delete(int id)
 		{
 			
 			StringBuilder strSql=new StringBuilder();
@@ -104,24 +139,50 @@ namespace SeoWebSite.DAL
 					new SqlParameter("@id", SqlDbType.Int,4)};
 			parameters[0].Value = id;
 
-			DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+			int rows=DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		/// <summary>
+		/// 删除一条数据
+		/// </summary>
+		public bool DeleteList(string idlist )
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("delete from Schedule ");
+			strSql.Append(" where id in ("+idlist + ")  ");
+			int rows=DbHelperSQL.ExecuteSql(strSql.ToString());
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>
-		public SeoWebSite.Model.Schedule1 GetModel(int id)
+		public SeoWebSite.Model.Schedule GetModel(int id)
 		{
 			
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select  top 1 id,ScheduleID,Data,Date from Schedule ");
+            strSql.Append("select  top 1 id,data,updated,date,home,away,halfhome,halfaway from Schedule ");
 			strSql.Append(" where id=@id ");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4)};
 			parameters[0].Value = id;
 
-			SeoWebSite.Model.Schedule1 model=new SeoWebSite.Model.Schedule1();
+			SeoWebSite.Model.Schedule model=new SeoWebSite.Model.Schedule();
 			DataSet ds=DbHelperSQL.Query(strSql.ToString(),parameters);
 			if(ds.Tables[0].Rows.Count>0)
 			{
@@ -129,14 +190,29 @@ namespace SeoWebSite.DAL
 				{
 					model.id=int.Parse(ds.Tables[0].Rows[0]["id"].ToString());
 				}
-				if(ds.Tables[0].Rows[0]["ScheduleID"].ToString()!="")
+				model.data=ds.Tables[0].Rows[0]["data"].ToString();
+				if(ds.Tables[0].Rows[0]["updated"].ToString()!="")
 				{
-					model.ScheduleID=int.Parse(ds.Tables[0].Rows[0]["ScheduleID"].ToString());
+					if((ds.Tables[0].Rows[0]["updated"].ToString()=="1")||(ds.Tables[0].Rows[0]["updated"].ToString().ToLower()=="true"))
+					{
+						model.updated=true;
+					}
+					else
+					{
+						model.updated=false;
+					}
 				}
-				model.Data=ds.Tables[0].Rows[0]["Data"].ToString();
-				if(ds.Tables[0].Rows[0]["Date"].ToString()!="")
+				if(ds.Tables[0].Rows[0]["date"].ToString()!="")
 				{
-					model.Date=DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
+					model.date=DateTime.Parse(ds.Tables[0].Rows[0]["date"].ToString());
+				}
+				if(ds.Tables[0].Rows[0]["home"].ToString()!="")
+				{
+					model.home=int.Parse(ds.Tables[0].Rows[0]["home"].ToString());
+				}
+				if(ds.Tables[0].Rows[0]["away"].ToString()!="")
+				{
+					model.away=int.Parse(ds.Tables[0].Rows[0]["away"].ToString());
 				}
 				return model;
 			}
@@ -146,79 +222,13 @@ namespace SeoWebSite.DAL
 			}
 		}
 
-        /// <summary>
-        /// 得到一个对象实体
-        /// </summary>
-        public SeoWebSite.Model.Schedule1 GetTopOne()
-        {
-
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select top(1) s.* from Schedule s where not exists (select o.scheduleid from odds1x2history o where o.scheduleid=s.ScheduleID)");
-            SeoWebSite.Model.Schedule1 model = new SeoWebSite.Model.Schedule1();
-            DataSet ds = DbHelperSQL.Query(strSql.ToString());
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-                if (ds.Tables[0].Rows[0]["id"].ToString() != "")
-                {
-                    model.id = int.Parse(ds.Tables[0].Rows[0]["id"].ToString());
-                }
-                if (ds.Tables[0].Rows[0]["ScheduleID"].ToString() != "")
-                {
-                    model.ScheduleID = int.Parse(ds.Tables[0].Rows[0]["ScheduleID"].ToString());
-                }
-                model.Data = ds.Tables[0].Rows[0]["Data"].ToString();
-                if (ds.Tables[0].Rows[0]["Date"].ToString() != "")
-                {
-                    model.Date = DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
-                }
-                return model;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// 得到一个有数据未分析对象实体
-        /// </summary>
-        public SeoWebSite.Model.Schedule1 GetTopOne_NoExp()
-        {
-
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select top(1) s.* from Schedule s where s.ScheduleID in (select o.scheduleid from odds1x2history o where o.scheduleid=s.ScheduleID) and not exists (select b.id from BetExp b where b.id=s.ScheduleID)");
-            SeoWebSite.Model.Schedule1 model = new SeoWebSite.Model.Schedule1();
-            DataSet ds = DbHelperSQL.Query(strSql.ToString());
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-                if (ds.Tables[0].Rows[0]["id"].ToString() != "")
-                {
-                    model.id = int.Parse(ds.Tables[0].Rows[0]["id"].ToString());
-                }
-                if (ds.Tables[0].Rows[0]["ScheduleID"].ToString() != "")
-                {
-                    model.ScheduleID = int.Parse(ds.Tables[0].Rows[0]["ScheduleID"].ToString());
-                }
-                model.Data = ds.Tables[0].Rows[0]["Data"].ToString();
-                if (ds.Tables[0].Rows[0]["Date"].ToString() != "")
-                {
-                    model.Date = DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
-                }
-                return model;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
 		/// <summary>
 		/// 获得数据列表
 		/// </summary>
 		public DataSet GetList(string strWhere)
 		{
 			StringBuilder strSql=new StringBuilder();
-			strSql.Append("select id,scheduletypeid,Data,Date,home,away ");
+			strSql.Append("select id,data,updated,date,home,away ");
 			strSql.Append(" FROM Schedule ");
 			if(strWhere.Trim()!="")
 			{
@@ -238,7 +248,7 @@ namespace SeoWebSite.DAL
 			{
 				strSql.Append(" top "+Top.ToString());
 			}
-			strSql.Append(" id,ScheduleID,Data,Date ");
+			strSql.Append(" id,data,updated,date,home,away ");
 			strSql.Append(" FROM Schedule ");
 			if(strWhere.Trim()!="")
 			{
@@ -248,11 +258,12 @@ namespace SeoWebSite.DAL
 			return DbHelperSQL.Query(strSql.ToString());
 		}
 
-		/*
-		/// <summary>
-		/// 分页获取数据列表
-		/// </summary>
-		public DataSet GetList(int PageSize,int PageIndex,string strWhere)
+        /*
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+         * */
+        public DataSet GetList(int PageSize,int PageIndex,string strWhere)
 		{
 			SqlParameter[] parameters = {
 					new SqlParameter("@tblName", SqlDbType.VarChar, 255),
@@ -264,40 +275,16 @@ namespace SeoWebSite.DAL
 					new SqlParameter("@strWhere", SqlDbType.VarChar,1000),
 					};
 			parameters[0].Value = "Schedule";
-			parameters[1].Value = "ID";
+            parameters[1].Value = "*";
 			parameters[2].Value = PageSize;
 			parameters[3].Value = PageIndex;
 			parameters[4].Value = 0;
 			parameters[5].Value = 0;
 			parameters[6].Value = strWhere;	
 			return DbHelperSQL.RunProcedure("UP_GetRecordByPage",parameters,"ds");
-		}*/
+		}
 
-		#endregion  成员方法
-
-        public bool ExistsSchedule(int scheduleid)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select count(1) from Schedule");
-            strSql.Append(" where Scheduleid=@Scheduleid ");
-            SqlParameter[] parameters = {
-					new SqlParameter("@Scheduleid", SqlDbType.Int,10)};
-            parameters[0].Value = scheduleid;
-
-            return DbHelperSQL.Exists(strSql.ToString(), parameters);
-        }
-
-        public DataSet GetList(string strWhere, int start, int end)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("WITH TT AS (SELECT ROW_NUMBER() OVER (order by date)as RowNumber FROM Schedule");
-            if (strWhere.Trim() != "")
-            {
-                strSql.Append(" where " + strWhere);
-            }
-            strSql.Append(") SELECT * FROM TT WHERE RowNumber between " + start + " and " + end);
-            return DbHelperSQL.Query(strSql.ToString());
-        }
+		#endregion  Method
 
         public int GetTotalCount(string strWhere)
         {
@@ -311,22 +298,120 @@ namespace SeoWebSite.DAL
             return int.Parse(DbHelperSQL.Query(strSql.ToString()).Tables[0].Rows[0][0].ToString());
         }
 
-        public void UpdateState(int p, bool p_2)
+        public DataSet GetList(string strWhere, int start, int end)
         {
-            throw new NotImplementedException();
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("WITH TT AS (SELECT Schedule.*,scheduleclass.data scheduletype,ROW_NUMBER() OVER (order by date)as RowNumber FROM Schedule join scheduleclass on Schedule.sclassid=scheduleclass.id");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            strSql.Append(") SELECT * FROM TT WHERE RowNumber between " + start + " and " + end);
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        public DataSet GetScheduleIDList(string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select id ");
+            strSql.Append(" FROM Schedule ");
+            if (strWhere.Trim() != "")
+            {
+                strSql.Append(" where " + strWhere);
+            }
+            return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public SeoWebSite.Model.Schedule GetTopOne()
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select top(1) s.* from Schedule s where not exists (select o.scheduleid from odds1x2history o where o.scheduleid=s.ScheduleID)");
+            SeoWebSite.Model.Schedule model = new SeoWebSite.Model.Schedule();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString());
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0]["id"].ToString() != "")
+                {
+                    model.id = int.Parse(ds.Tables[0].Rows[0]["id"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["sclassid"].ToString() != "")
+                {
+                    model.sclassid= int.Parse(ds.Tables[0].Rows[0]["sclassid"].ToString());
+                }
+                model.data = ds.Tables[0].Rows[0]["Data"].ToString();
+                if (ds.Tables[0].Rows[0]["Date"].ToString() != "")
+                {
+                    model.date = DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
+                }
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 得到一个有数据未分析对象实体
+        /// </summary>
+        public SeoWebSite.Model.Schedule GetTopOne_NoExp()
+        {
+
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select top(1) s.* from Schedule s where s.ScheduleID in (select o.scheduleid from odds1x2history o where o.scheduleid=s.ScheduleID) and not exists (select b.id from BetExp b where b.id=s.ScheduleID)");
+            SeoWebSite.Model.Schedule model = new SeoWebSite.Model.Schedule();
+            DataSet ds = DbHelperSQL.Query(strSql.ToString());
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                if (ds.Tables[0].Rows[0]["id"].ToString() != "")
+                {
+                    model.id = int.Parse(ds.Tables[0].Rows[0]["id"].ToString());
+                }
+                if (ds.Tables[0].Rows[0]["sclassid"].ToString() != "")
+                {
+                    model.sclassid = int.Parse(ds.Tables[0].Rows[0]["sclassid"].ToString());
+                }
+                model.data = ds.Tables[0].Rows[0]["Data"].ToString();
+                if (ds.Tables[0].Rows[0]["Date"].ToString() != "")
+                {
+                    model.date = DateTime.Parse(ds.Tables[0].Rows[0]["Date"].ToString());
+                }
+                return model;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public bool ExistsSchedule(int scheduleid)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select count(1) from Schedule");
+            strSql.Append(" where Scheduleid=@Scheduleid ");
+            SqlParameter[] parameters = {
+					new SqlParameter("@Scheduleid", SqlDbType.Int,10)};
+            parameters[0].Value = scheduleid;
+
+            return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
 
         public DataSet statOddsHistory(string whereStr)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select ");
-            strSql.Append("sumwin=sum(case when a.home>a.away then 1 else 0 end),");
-            strSql.Append("sumdraw=sum(case when a.home=a.away then 1 else 0 end),");
-            strSql.Append("sumlost=sum(case when a.home<a.away then 1 else 0 end),");
+            strSql.Append("sumwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("sumdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("sumlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("avgscore=avg(1.0*(a.home+a.away)),");
             strSql.Append("count(a.id) totalCount from");
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
             strSql.Append(" where " + whereStr);
-            return DbHelperSQL.Query(strSql.ToString(),999);
+            return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
         public DataSet queryOddsHistory(string whereStr)
@@ -337,6 +422,11 @@ namespace SeoWebSite.DAL
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
             strSql.Append(" where " + whereStr);
             return DbHelperSQL.Query(strSql.ToString());
+        }
+
+        public void UpdateState(int p, bool p_2)
+        {
+            throw new NotImplementedException();
         }
     }
 }
