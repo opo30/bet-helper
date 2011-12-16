@@ -20,7 +20,7 @@ namespace SeoWebSite.Model
         private int? _halfaway;
         private int? _h_teamid;
         private int? _g_teamid;
-        private int? _scheduleTypeID;
+        private int? _sclassid;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -104,10 +104,10 @@ namespace SeoWebSite.Model
         /// <summary>
         /// 
         /// </summary>
-        public int? scheduleTypeID
+        public int? sclassid
         {
-            set { _scheduleTypeID = value; }
-            get { return _scheduleTypeID; }
+            set { _sclassid = value; }
+            get { return _sclassid; }
         }
 		#endregion Model
 
