@@ -147,9 +147,8 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Schedule.cs" />
     <Compile Include="ScheduleDAO.cs" />
-    <Compile Include="ScheduleType.cs" />
+    <Compile Include="ScheduleClassDAO.cs" />
     <Compile Include="SysManage.cs" />
     <Compile Include="BetDetailDAO.cs" />
     <Compile Include="BetFormulaDAO.cs" />
