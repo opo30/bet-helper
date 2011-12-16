@@ -1,3 +1,0 @@
-E:\SeoWebSite\BetHelpDemo\Model\bin\Release\SeoWebSite.Model.dll
-E:\SeoWebSite\BetHelpDemo\Model\obj\Release\ResolveAssemblyReference.cache
-E:\SeoWebSite\BetHelpDemo\Model\obj\Release\SeoWebSite.Model.dll
