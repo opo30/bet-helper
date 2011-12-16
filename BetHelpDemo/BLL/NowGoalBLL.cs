@@ -18,7 +18,7 @@ namespace SeoWebSite.BLL
     {
         private readonly SeoWebSite.DAL.Odds1x2HistoryDAO dal = new SeoWebSite.DAL.Odds1x2HistoryDAO();
 
-        public string GetBetLiveData(string date,int companyid)
+        public string GetBetLiveData(string date, int companyid)
         {
             WebClientBLL web = new WebClientBLL();
             string actual = "";
@@ -79,6 +79,8 @@ namespace SeoWebSite.BLL
                     {
                         JObject item = new JObject();
                         string[] oddsArr = compstr.Replace("\"", "").Split('|');
+
+                        #region 插入公司数据
                         if (!companyDAO.Exists(int.Parse(oddsArr[0])) && oddsArr.Length > 22)
                         {
                             SeoWebSite.Model.Company company = new SeoWebSite.Model.Company();
@@ -88,61 +90,68 @@ namespace SeoWebSite.BLL
                             company.isprimary = Convert.ToBoolean(int.Parse(oddsArr[22]));
                             company.isexchange = Convert.ToBoolean(int.Parse(oddsArr[23]));
                             companyDAO.Add(company);
-                        }
-                        Odds odds = new Odds();
-                        odds.scheduleid = int.Parse(scheduleID);
-                        odds.companyid = int.Parse(oddsArr[0]);
-                        odds.id = int.Parse(oddsArr[1]);
-                        odds.s_win = decimal.Parse(oddsArr[3]);
-                        odds.s_draw = decimal.Parse(oddsArr[4]);
-                        odds.s_lost = decimal.Parse(oddsArr[5]);
-                        odds.s_winper = decimal.Parse(oddsArr[6]);
-                        odds.s_drawper = decimal.Parse(oddsArr[7]);
-                        odds.s_lostper = decimal.Parse(oddsArr[8]);
-                        odds.s_return = decimal.Parse(oddsArr[9]);
-                        if (!String.IsNullOrEmpty(oddsArr[10]))
+                        } 
+                        #endregion
+
+                        #region 插入欧赔数据
+                        if (!oddsDAO.Exists(int.Parse(oddsArr[1])))
                         {
-                            odds.e_win = decimal.Parse(oddsArr[10]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[11]))
-                        {
-                            odds.e_draw = decimal.Parse(oddsArr[11]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[12]))
-                        {
-                            odds.e_lost = decimal.Parse(oddsArr[12]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[13]))
-                        {
-                            odds.e_winper = decimal.Parse(oddsArr[13]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[14]))
-                        {
-                            odds.e_drawper = decimal.Parse(oddsArr[14]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[15]))
-                        {
-                            odds.e_lostper = decimal.Parse(oddsArr[15]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[16]))
-                        {
-                            odds.e_return = decimal.Parse(oddsArr[16]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[17]))
-                        {
-                            odds.winkelly = decimal.Parse(oddsArr[17]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[18]))
-                        {
-                            odds.drawkelly = decimal.Parse(oddsArr[18]);
-                        }
-                        if (!String.IsNullOrEmpty(oddsArr[19]))
-                        {
-                            odds.lostkelly = decimal.Parse(oddsArr[19]);
-                        }
-                        string[] timeArr = oddsArr[20].Split(',');
-                        odds.lastupdatetime = new DateTime(int.Parse(timeArr[0]), int.Parse(timeArr[1].Remove(2)), int.Parse(timeArr[2]), int.Parse(timeArr[3]), int.Parse(timeArr[4]), int.Parse(timeArr[5])).AddHours(8);
-                        oddsDAO.Add(odds);
+                            Odds odds = new Odds();
+                            odds.scheduleid = int.Parse(scheduleID);
+                            odds.companyid = int.Parse(oddsArr[0]);
+                            odds.id = int.Parse(oddsArr[1]);
+                            odds.s_win = decimal.Parse(oddsArr[3]);
+                            odds.s_draw = decimal.Parse(oddsArr[4]);
+                            odds.s_lost = decimal.Parse(oddsArr[5]);
+                            odds.s_winper = decimal.Parse(oddsArr[6]);
+                            odds.s_drawper = decimal.Parse(oddsArr[7]);
+                            odds.s_lostper = decimal.Parse(oddsArr[8]);
+                            odds.s_return = decimal.Parse(oddsArr[9]);
+                            if (!String.IsNullOrEmpty(oddsArr[10]))
+                            {
+                                odds.e_win = decimal.Parse(oddsArr[10]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[11]))
+                            {
+                                odds.e_draw = decimal.Parse(oddsArr[11]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[12]))
+                            {
+                                odds.e_lost = decimal.Parse(oddsArr[12]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[13]))
+                            {
+                                odds.e_winper = decimal.Parse(oddsArr[13]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[14]))
+                            {
+                                odds.e_drawper = decimal.Parse(oddsArr[14]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[15]))
+                            {
+                                odds.e_lostper = decimal.Parse(oddsArr[15]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[16]))
+                            {
+                                odds.e_return = decimal.Parse(oddsArr[16]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[17]))
+                            {
+                                odds.winkelly = decimal.Parse(oddsArr[17]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[18]))
+                            {
+                                odds.drawkelly = decimal.Parse(oddsArr[18]);
+                            }
+                            if (!String.IsNullOrEmpty(oddsArr[19]))
+                            {
+                                odds.lostkelly = decimal.Parse(oddsArr[19]);
+                            }
+                            string[] timeArr = oddsArr[20].Split(',');
+                            odds.lastupdatetime = new DateTime(int.Parse(timeArr[0]), int.Parse(timeArr[1].Remove(2)), int.Parse(timeArr[2]), int.Parse(timeArr[3]), int.Parse(timeArr[4]), int.Parse(timeArr[5])).AddHours(8);
+                            oddsDAO.Add(odds);
+                        } 
+                        #endregion
                     }
                 }
             }
@@ -151,7 +160,7 @@ namespace SeoWebSite.BLL
                 throw e;
             }
         }
-        
+
 
         /// <summary>
         /// 获得综合赔率
@@ -159,7 +168,7 @@ namespace SeoWebSite.BLL
         /// <param name="scheduleID">比赛编码</param>
         /// <param name="companyID">公司编码列表</param>
         /// <returns></returns>
-        public string GetOddsDetail(string scheduleID, string companyID ,string dateStr)
+        public string GetOddsDetail(string scheduleID, string companyID, string dateStr)
         {
             if (dateStr == "undefined")
             {
@@ -332,7 +341,7 @@ namespace SeoWebSite.BLL
             mat = reg.Match(Source);
             if (mat != null)
                 item.Add("ScheduleID", Split(mat.Value));
-            
+
             //获取主队英文名称
             reg = new Regex("hometeam\\=\"" + "\\w[^\"" + "]*\";");
             mat = reg.Match(Source);
@@ -397,7 +406,7 @@ namespace SeoWebSite.BLL
             reg = new Regex("var h2h_home \\= " + "\\d+;");
             mat = reg.Match(actual);
             if (mat != null)
-                h2h_home = StringPlus.DelLastChar(mat.Value.Replace("var h2h_home = ", ""),";");
+                h2h_home = StringPlus.DelLastChar(mat.Value.Replace("var h2h_home = ", ""), ";");
 
             string a_data = "";
             reg = new Regex("var a_data\\=\\[\\[" + "\\S[^;" + "]*\\]\\];");
@@ -455,10 +464,10 @@ namespace SeoWebSite.BLL
                 a_sixpoint = PredictionHelper.SixGamePointCalculation(a_sixpoint, match[17]);
             }
 
-            string HomePossible = PredictionHelper.EloHomePrediction(h_point, a_point)*100 + "%";
-            string AwayPossible = PredictionHelper.EloAwayPrediction(h_point, a_point)*100 + "%";
+            string HomePossible = PredictionHelper.EloHomePrediction(h_point, a_point) * 100 + "%";
+            string AwayPossible = PredictionHelper.EloAwayPrediction(h_point, a_point) * 100 + "%";
 
-            
+
             //string SixGame = PredictionHelper.SixGamePrediction(h_sixpoint, a_sixpoint);
             StringBuilder sb = new StringBuilder();
             sb.Append("埃罗预测法 ：主队积分为" + h_point + ",客队积分为" + a_point + "，按照埃罗预测法主队获胜的可能性有" + HomePossible + "，客队获胜的可能性有" + AwayPossible);
@@ -539,9 +548,9 @@ namespace SeoWebSite.BLL
                 }
             }
 
-            float bigprobability = big/(h_dataArr.Length + a_dataArr.Length);
+            float bigprobability = big / (h_dataArr.Length + a_dataArr.Length);
 
-            float smallprobability = small/(h_dataArr.Length + a_dataArr.Length);
+            float smallprobability = small / (h_dataArr.Length + a_dataArr.Length);
 
             StringBuilder sb = new StringBuilder();
             sb.Append("大于" + num + "的机会有 ：" + bigprobability);
