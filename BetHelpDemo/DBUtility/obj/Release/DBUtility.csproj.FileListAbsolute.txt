@@ -1,6 +1,0 @@
-E:\SeoWebSite\BetHelpDemo\DBUtility\bin\Release\SeoWebSite.DBUtility.dll
-E:\SeoWebSite\BetHelpDemo\DBUtility\bin\Release\IBatisNet.Common.dll
-E:\SeoWebSite\BetHelpDemo\DBUtility\bin\Release\IBatisNet.DataMapper.dll
-E:\SeoWebSite\BetHelpDemo\DBUtility\bin\Release\MySql.Data.dll
-E:\SeoWebSite\BetHelpDemo\DBUtility\obj\Release\ResolveAssemblyReference.cache
-E:\SeoWebSite\BetHelpDemo\DBUtility\obj\Release\SeoWebSite.DBUtility.dll
