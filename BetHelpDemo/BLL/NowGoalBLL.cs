@@ -106,7 +106,10 @@ namespace SeoWebSite.BLL
                             odds.s_winper = decimal.Parse(oddsArr[6]);
                             odds.s_drawper = decimal.Parse(oddsArr[7]);
                             odds.s_lostper = decimal.Parse(oddsArr[8]);
-                            odds.s_return = decimal.Parse(oddsArr[9]);
+                            if (!String.IsNullOrEmpty(oddsArr[9]))
+                            {
+                                odds.s_return = decimal.Parse(oddsArr[9]);
+                            }
                             if (!String.IsNullOrEmpty(oddsArr[10]))
                             {
                                 odds.e_win = decimal.Parse(oddsArr[10]);

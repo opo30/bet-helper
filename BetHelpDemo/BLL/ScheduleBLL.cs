@@ -42,15 +42,15 @@ namespace SeoWebSite.BLL
 		/// <summary>
 		/// 增加一条数据
 		/// </summary>
-		public int  Add(SeoWebSite.Model.Schedule1 model)
+		public void  Add(SeoWebSite.Model.Schedule model)
 		{
-			return dal.Add(model);
+			dal.Add(model);
 		}
 
 		/// <summary>
 		/// 更新一条数据
 		/// </summary>
-		public void Update(SeoWebSite.Model.Schedule1 model)
+		public void Update(SeoWebSite.Model.Schedule model)
 		{
 			dal.Update(model);
 		}
@@ -67,7 +67,7 @@ namespace SeoWebSite.BLL
 		/// <summary>
 		/// 得到一个对象实体
 		/// </summary>
-		public SeoWebSite.Model.Schedule1 GetModel(int id)
+		public SeoWebSite.Model.Schedule GetModel(int id)
 		{
 			
 			return dal.GetModel(id);
@@ -76,7 +76,7 @@ namespace SeoWebSite.BLL
 		/// <summary>
 		/// 得到一个对象实体，从缓存中。
 		/// </summary>
-		public SeoWebSite.Model.Schedule1 GetModelByCache(int id)
+		public SeoWebSite.Model.Schedule GetModelByCache(int id)
 		{
 			
 			string CacheKey = "ScheduleModel-" + id;
@@ -94,7 +94,7 @@ namespace SeoWebSite.BLL
 				}
 				catch{}
 			}
-			return (SeoWebSite.Model.Schedule1)objModel;
+			return (SeoWebSite.Model.Schedule)objModel;
 		}
 
 		/// <summary>
@@ -119,10 +119,17 @@ namespace SeoWebSite.BLL
             totalCount = dal.GetTotalCount(strWhere);
             return dal.GetList(strWhere, start, end);
         }
+        /// <summary>
+        /// 翻页
+        /// </summary>
+        public DataSet GetList(int PageSize, int PageIndex, string strWhere)
+        {
+            return dal.GetList(PageSize, PageIndex, strWhere);
+        }
 		/// <summary>
 		/// 获得数据列表
 		/// </summary>
-		public List<SeoWebSite.Model.Schedule1> GetModelList(string strWhere)
+		public List<SeoWebSite.Model.Schedule> GetModelList(string strWhere)
 		{
 			DataSet ds = dal.GetList(strWhere);
 			return DataTableToList(ds.Tables[0]);
@@ -130,28 +137,28 @@ namespace SeoWebSite.BLL
 		/// <summary>
 		/// 获得数据列表
 		/// </summary>
-		public List<SeoWebSite.Model.Schedule1> DataTableToList(DataTable dt)
+		public List<SeoWebSite.Model.Schedule> DataTableToList(DataTable dt)
 		{
-			List<SeoWebSite.Model.Schedule1> modelList = new List<SeoWebSite.Model.Schedule1>();
+			List<SeoWebSite.Model.Schedule> modelList = new List<SeoWebSite.Model.Schedule>();
 			int rowsCount = dt.Rows.Count;
 			if (rowsCount > 0)
 			{
-				SeoWebSite.Model.Schedule1 model;
+				SeoWebSite.Model.Schedule model;
 				for (int n = 0; n < rowsCount; n++)
 				{
-					model = new SeoWebSite.Model.Schedule1();
+					model = new SeoWebSite.Model.Schedule();
 					if(dt.Rows[n]["id"].ToString()!="")
 					{
 						model.id=int.Parse(dt.Rows[n]["id"].ToString());
 					}
-					if(dt.Rows[n]["ScheduleID"].ToString()!="")
+                    if (dt.Rows[n]["sclassid"].ToString() != "")
 					{
-						model.ScheduleID=int.Parse(dt.Rows[n]["ScheduleID"].ToString());
+                        model.sclassid = int.Parse(dt.Rows[n]["sclassid"].ToString());
 					}
-					model.Data=dt.Rows[n]["Data"].ToString();
+					model.data=dt.Rows[n]["Data"].ToString();
 					if(dt.Rows[n]["Date"].ToString()!="")
 					{
-						model.Date=DateTime.Parse(dt.Rows[n]["Date"].ToString());
+						model.date=DateTime.Parse(dt.Rows[n]["Date"].ToString());
 					}
 					modelList.Add(model);
 				}
@@ -177,12 +184,12 @@ namespace SeoWebSite.BLL
 
 		#endregion  成员方法
 
-        public SeoWebSite.Model.Schedule1 GetTopOne()
+        public SeoWebSite.Model.Schedule GetTopOne()
         {
             return dal.GetTopOne();
         }
 
-        public SeoWebSite.Model.Schedule1 GetTopOne_NoExp()
+        public SeoWebSite.Model.Schedule GetTopOne_NoExp()
         {
             return dal.GetTopOne_NoExp();
         }

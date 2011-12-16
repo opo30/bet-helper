@@ -138,7 +138,7 @@
     <Compile Include="ScheduleBLL.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScheduleType.cs" />
+    <Compile Include="ScheduleClassBLL.cs" />
     <Compile Include="ScollGoalBLL.cs" />
     <Compile Include="WebClientBLL.cs" />
     <Compile Include="NowGoalBLL.cs" />

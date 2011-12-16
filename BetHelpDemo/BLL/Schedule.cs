@@ -11,7 +11,7 @@ namespace SeoWebSite.BLL
 	/// </summary>
 	public class Schedule
 	{
-        private readonly SeoWebSite.DAL.Schedule dal = new SeoWebSite.DAL.Schedule();
+        private readonly SeoWebSite.DAL.ScheduleDAO dal = new SeoWebSite.DAL.ScheduleDAO();
 		public Schedule()
 		{}
 		#region  Method
