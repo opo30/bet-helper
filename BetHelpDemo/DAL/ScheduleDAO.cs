@@ -307,7 +307,7 @@ namespace SeoWebSite.DAL
                 strSql.Append(" where " + strWhere);
             }
             strSql.Append(") SELECT * FROM TT WHERE RowNumber between " + start + " and " + end);
-            return DbHelperSQL.Query(strSql.ToString());
+            return DbHelperSQL.Query(strSql.ToString(),999);
         }
 
         public DataSet GetScheduleIDList(string strWhere)
@@ -404,9 +404,9 @@ namespace SeoWebSite.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select ");
-            strSql.Append("sumwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("sumdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("sumlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),");
             strSql.Append("avgscore=avg(1.0*(a.home+a.away)),");
             strSql.Append("count(a.id) totalCount from");
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
@@ -417,7 +417,7 @@ namespace SeoWebSite.DAL
         public DataSet queryOddsHistory(string whereStr)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select data,s_win,s_draw,s_lost,e_win,e_draw,e_lost");
+            strSql.Append("select data,s_win,s_draw,s_lost,e_win,e_draw,e_lost,companyid");
             strSql.Append(" from");
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
             strSql.Append(" where " + whereStr);
