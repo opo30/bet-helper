@@ -39,10 +39,10 @@ namespace SeoWebSite.Web.Data.NowGoal
 
         private void queryOddsHistory()
         {
-            if (Request["companyid"] != null && Request["type"] != null)
+            if (Request["rowindex"] != null)
             {
-                string strWhere = Common.DataCache.GetCache(Request.Form["type"] + "_" + Request.Form["companyid"]).ToString();
-                DataSet ds = scheduleBLL.queryOddsHistory(strWhere);
+                string cacheName = Request.Form["rowindex"] == "0" ? "swhere" : "ewhere"; ;
+                DataSet ds = scheduleBLL.queryOddsHistory(Common.DataCache.GetCache(cacheName).ToString());
                 JArray data = new JArray();
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -55,19 +55,13 @@ namespace SeoWebSite.Web.Data.NowGoal
                         row.Add("score", scheduleArr[13] + "-" + scheduleArr[14]);
                         row.Add("rangqiu", scheduleArr[25]);
                         row.Add("s_time", scheduleArr[10].Replace("<br>", ""));
-                        if (Request.Form["type"] == "1")
-                        {
-                            row.Add("e_win", dr["e_win"].ToString());
-                            row.Add("e_draw", dr["e_draw"].ToString());
-                            row.Add("e_lost", dr["e_lost"].ToString());
-                        }
-                        else
-                        {
-                            row.Add("s_win", dr["s_win"].ToString());
-                            row.Add("s_draw", dr["s_draw"].ToString());
-                            row.Add("s_lost", dr["s_lost"].ToString());
-                        }
-
+                        row.Add("s_win", dr["s_win"].ToString());
+                        row.Add("s_draw", dr["s_draw"].ToString());
+                        row.Add("s_lost", dr["s_lost"].ToString());
+                        row.Add("e_win", dr["e_win"].ToString());
+                        row.Add("e_draw", dr["e_draw"].ToString());
+                        row.Add("e_lost", dr["e_lost"].ToString());
+                        row.Add("companyid", Convert.ToInt32(dr["companyid"]));
                         data.Add(row);
                     }
                 }
@@ -79,7 +73,7 @@ namespace SeoWebSite.Web.Data.NowGoal
 
         private void statOddsHistory()
         {
-            if (Request["stypeid"] != null && Request["oddsarr"] != null && Request["type"] != null)
+            if (Request["stypeid"] != null && Request["oddsarr"] != null)
             {
                 try
                 {
@@ -87,25 +81,62 @@ namespace SeoWebSite.Web.Data.NowGoal
                     string[] oddsArr = Request.Form["oddsarr"].Split('^');
                     List<string> swhereList = new List<string>();
                     List<string> ewhereList = new List<string>();
+                    List<decimal> soddsperwin = new List<decimal>();
+                    List<decimal> soddsperdraw = new List<decimal>();
+                    List<decimal> soddsperlost = new List<decimal>();
+                    List<decimal> eoddsperwin = new List<decimal>();
+                    List<decimal> eoddsperdraw = new List<decimal>();
+                    List<decimal> eoddsperlost = new List<decimal>();
                     string sclassFilter = "sclassid=" + stypeid;
                     foreach (string oddsStr in oddsArr)
                     {
                         string[] odds = oddsStr.Split('|');
-                        swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] + 
+                        swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
                             " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
                         if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
                         {
                             ewhereList.Add("(companyid=" + odds[0] + "and e_win=" + odds[10] + 
                                 " and e_draw=" + odds[11] + " and e_lost=" + odds[12]+")");
                         }
+                        soddsperwin.Add(Convert.ToDecimal(odds[6]));
+                        soddsperdraw.Add(Convert.ToDecimal(odds[7]));
+                        soddsperlost.Add(Convert.ToDecimal(odds[8]));
+                        if (!String.IsNullOrEmpty(odds[13]))
+                        {
+                            eoddsperwin.Add(Convert.ToDecimal(odds[13])); 
+                        }
+                        if (!String.IsNullOrEmpty(odds[14]))
+                        {
+                            eoddsperdraw.Add(Convert.ToDecimal(odds[14]));
+                        }
+                        if (!String.IsNullOrEmpty(odds[15]))
+                        {
+                            eoddsperlost.Add(Convert.ToDecimal(odds[15]));
+                        }
                     }
-                    DataSet sds = scheduleBLL.statOddsHistory(sclassFilter + " and (" + String.Join(" or ", swhereList.ToArray()) + ")");
-                    DataSet eds = scheduleBLL.statOddsHistory(sclassFilter + " and (" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    string sWhere = sclassFilter + " and (" + String.Join(" or ", swhereList.ToArray()) + ")";
+                    DataSet sds = scheduleBLL.statOddsHistory(sWhere);
+                    string eWhere = sclassFilter + " and (" + String.Join(" or ", ewhereList.ToArray()) + ")";
+                    Common.DataCache.SetCache("swhere", sWhere);
+                    Common.DataCache.SetCache("ewhere", eWhere);
+                    DataSet eds = scheduleBLL.statOddsHistory(eWhere);
                     DataTable dt = sds.Tables[0];
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Columns.Add("name", typeof(string));
-                    dt.Rows[0]["name"] = "初盘(" + dt.Rows[0]["totalCount"] + ")";
-                    dt.Rows[1]["name"] = "终盘(" + dt.Rows[1]["totalCount"] + ")";
+                    dt.Columns.Add("oddsperwin", typeof(float));
+                    dt.Columns.Add("oddsperdraw", typeof(float));
+                    dt.Columns.Add("oddsperlost", typeof(float));
+                    dt.Columns.Add("kellywin", typeof(float));
+                    dt.Columns.Add("kellydraw", typeof(float));
+                    dt.Columns.Add("kellylost", typeof(float));
+                    dt.Rows[0]["name"] = "初盘";
+                    dt.Rows[1]["name"] = "终盘";
+                    dt.Rows[0]["oddsperwin"] = soddsperwin.Average();
+                    dt.Rows[1]["oddsperwin"] = eoddsperwin.Average();
+                    dt.Rows[0]["oddsperdraw"] = soddsperdraw.Average();
+                    dt.Rows[1]["oddsperdraw"] = eoddsperdraw.Average();
+                    dt.Rows[0]["oddsperlost"] = soddsperlost.Average();
+                    dt.Rows[1]["oddsperlost"] = eoddsperlost.Average();
                     JObject result = JObject.Parse("{success:true}");
                     result.Add("data", JArray.FromObject(dt));
                     StringJSON = result.ToString();

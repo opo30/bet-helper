@@ -429,7 +429,7 @@ public partial class Server : System.Web.UI.Page
                 foreach (string item in scheduleList)
                 {
                     string[] schedule = item.Split(',');
-                    if (!scheduleBLL.Exists(int.Parse(schedule[0])) && schedule[12] == "-1")
+                    if (schedule.Length>1 && !scheduleBLL.Exists(int.Parse(schedule[0])) && schedule[12] == "-1")
                     {
                         SeoWebSite.Model.Schedule model = new SeoWebSite.Model.Schedule();
                         model.id = int.Parse(schedule[0]);
@@ -453,7 +453,7 @@ public partial class Server : System.Web.UI.Page
                 foreach (string item in scheduleTypeList)
                 {
                     string[] scheduleType = item.Split(',');
-                    if (!scheduleTypeBLL.Exists(int.Parse(scheduleType[0])))
+                    if (scheduleType.Length > 1 && !scheduleTypeBLL.Exists(int.Parse(scheduleType[0])))
                     {
                         SeoWebSite.Model.ScheduleClass model = new SeoWebSite.Model.ScheduleClass();
                         model.id = int.Parse(scheduleType[0]);

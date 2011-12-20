@@ -367,7 +367,7 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
         },
 		new Ext.Toolbar.Fill()
 		, {
-		    text: '初盘统计',
+		    text: '历史统计',
 		    iconCls: "totalicon",
 		    tooltip: '统计所选公司的历史相似指数',
 		    handler: function () {
@@ -380,24 +380,7 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
 		            Ext.each(row, function (r) {
 		                oddsArr.push(gameData[grid.getStore().indexOf(r)]);
 		            })
-		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr, 1);
-		        }
-		    }
-		}, {
-		    text: '终盘统计',
-		    iconCls: "totalicon",
-		    tooltip: '统计所选公司的历史相似指数',
-		    handler: function () {
-		        var row = grid.getSelectionModel().getSelections();
-		        if (row.length == 0) {
-		            Ext.Msg.alert("提示信息", "您没有选中任何行!");
-		            return;
-		        } else {
-		            var oddsArr = [];
-		            Ext.each(row, function (r) {
-		                oddsArr.push(gameData[grid.getStore().indexOf(r)]);
-		            })
-		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr, 2);
+		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr);
 		        }
 		    }
 		}, {
