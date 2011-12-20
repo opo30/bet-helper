@@ -208,6 +208,11 @@ namespace SeoWebSite.BLL
         {
             return dal.queryOddsHistory(whereStr);
         }
+
+        public DataSet statOddsHistoryGroupByDate(string whereStr)
+        {
+            return dal.statOddsHistoryGroupByDate(whereStr);
+        }
     }
 }
 

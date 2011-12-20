@@ -64,7 +64,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             header: "统计",
             dataIndex: "name",
             sortable: false,
-            width: 40
+            width: 60
         },
         {
             header: "总数",
@@ -156,13 +156,92 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             rowclick: function (grid, rowIndex, cellIndex, e) {
                 grid1.getStore().baseParams.rowindex = rowIndex;
                 grid1.getStore().load();
+                grid2.getStore().baseParams.rowindex = rowIndex;
+                grid2.getStore().baseParams.date = '';
+                grid2.getStore().load();
+            }
+        }
+    });
+    var grid1 = new Ext.grid.GridPanel({
+        id: "oddsstatdate-grid",
+        width: 250,
+        store: new Ext.data.JsonStore({
+            fields: [
+            { name: 'sdate', type: 'date' },
+            { name: 'sumwin', type: 'int' },
+            { name: 'sumdraw', type: 'int' },
+            { name: 'sumlost', type: 'int' },
+            { name: 'avgscore', type: 'float' },
+            { name: 'totalCount', type: 'int'}],
+            root: "data",
+            baseParams: { rowindex: 0 },
+            proxy: new Ext.data.HttpProxy({
+                url: "Data/NowGoal/GetOdds1x2History.aspx?a=statdate",
+                method: "POST",
+                timeout: 3600000
+            })
+        }),
+        cm: new Ext.grid.ColumnModel([
+        {
+            header: "时间",
+            dataIndex: "sdate",
+            sortable: false,
+            renderer: function (value) {
+                return Ext.util.Format.date(value, "Y-m-d");
+            }
+        }, {
+            header: "胜",
+            dataIndex: "sumwin",
+            sortable: false,
+            width: 20
+        }, {
+            header: "平",
+            dataIndex: "sumdraw",
+            sortable: false,
+            width: 20
+        }, {
+            header: "负",
+            dataIndex: "sumlost",
+            sortable: false,
+            width: 20
+        }, {
+            header: "进球数",
+            dataIndex: "avgscore",
+            sortable: false,
+            width: 40,
+            renderer: function (value) {
+                return value.toFixed(2);
+            }
+        }
+    ]),
+        region: "west",
+        loadMask: true,
+        stripeRows: true,
+        columnLines: true,
+        //超过长度带自动滚动条
+        autoScroll: true,
+        border: false,
+        viewConfig: {
+            //自动填充
+            forceFit: true,
+            sortAscText: '正序排列',
+            sortDescText: '倒序排列',
+            columnsText: '显示/隐藏列',
+            getRowClass: function (record, rowIndex, rowParams, store) {
+            }
+        },
+        listeners: {
+            rowclick: function (g, rowIndex, cellIndex, e) {
+                grid2.getStore().baseParams.date = Ext.util.Format.date(grid1.getStore().getAt(rowIndex).get("sdate"),'Y-m-d');
+                grid2.getStore().load();
             }
         }
     });
     var summary = new Ext.ux.grid.HybridSummary();
-    var grid1 = new Ext.grid.GridPanel({
+    var grid2 = new Ext.grid.GridPanel({
         id: "oddslist-grid",
         region: "center",
+        columnLines: true,
         store: new Ext.data.GroupingStore({
             baseParams: { rowindex: 0 },
             proxy: new Ext.data.HttpProxy({
@@ -228,8 +307,8 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
 		    dataIndex: "companyid",
 		    hidden: true,
 		    renderer: function (value) {
-		        var showname; 
-                var eodds;
+		        var showname;
+		        var eodds;
 		        Ext.each(oddsArr, function (oddsStr) {
 		            var oddsInfo = oddsStr.split("|");
 		            if (!showname && value == parseInt(oddsInfo[0])) {
@@ -280,7 +359,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
         modal: false,
         layout: "border",
         buttonAlign: "center",
-        items: [grid, grid1],
+        items: [grid, grid1, grid2],
         listeners: {
             "show": function () {
                 //当window show事件发生时清空一下表单

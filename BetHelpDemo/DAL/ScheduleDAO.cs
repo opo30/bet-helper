@@ -414,6 +414,20 @@ namespace SeoWebSite.DAL
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
+        public DataSet statOddsHistoryGroupByDate(string whereStr)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select a.date sdate,");
+            strSql.Append("sumwin=sum(case when a.home>a.away then 1 else 0 end),");
+            strSql.Append("sumdraw=sum(case when a.home=a.away then 1 else 0 end),");
+            strSql.Append("sumlost=sum(case when a.home<a.away then 1 else 0 end),");
+            strSql.Append("avgscore=avg(1.0*(a.home+a.away)),");
+            strSql.Append("count(a.id) totalCount from");
+            strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
+            strSql.Append(" where " + whereStr + " group by a.date");
+            return DbHelperSQL.Query(strSql.ToString(), 999);
+        }
+
         public DataSet queryOddsHistory(string whereStr)
         {
             StringBuilder strSql = new StringBuilder();

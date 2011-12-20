@@ -383,6 +383,18 @@ var GetPrediction = function(scheduleID) {
             text: '开盘公司',
             iconCls: 'totalicon',
             menu: companyMenu
+        }, "-", {
+            id: 'sclassmode',
+            text: '分组',
+            iconCls: 'totalicon',
+            enableToggle: true,
+            toggleHandler: function (button, state) {
+                if (state) {
+
+                } else { 
+                
+                }
+            }
         },
 		new Ext.Toolbar.Fill(), {
 		    text: '收藏',

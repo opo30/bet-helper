@@ -7,6 +7,8 @@ using System.Web.UI.WebControls;
 using SeoWebSite.BLL;
 using System.Data;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace SeoWebSite.Web.Data.NowGoal
 {
@@ -26,6 +28,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                         case "stat":
                             statOddsHistory();
                             break;
+                        case "statdate":
+                            statOddsHistoryDate();
+                            break;
                         case "list":
                             queryOddsHistory();
                             break;
@@ -37,12 +42,33 @@ namespace SeoWebSite.Web.Data.NowGoal
 
         }
 
-        private void queryOddsHistory()
+        private void statOddsHistoryDate()
         {
             if (Request["rowindex"] != null)
             {
                 string cacheName = Request.Form["rowindex"] == "0" ? "swhere" : "ewhere"; ;
-                DataSet ds = scheduleBLL.queryOddsHistory(Common.DataCache.GetCache(cacheName).ToString());
+                DataSet ds = scheduleBLL.statOddsHistoryGroupByDate(Common.DataCache.GetCache(cacheName).ToString());
+                JObject result = JObject.Parse("{success:true}");
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                serializer.NullValueHandling = NullValueHandling.Ignore;
+                result.Add("data", JArray.FromObject(ds.Tables[0], serializer));
+                JsonConvert.SerializeObject(ds.Tables[0], new JavaScriptDateTimeConverter());
+                StringJSON = result.ToString();
+            }
+        }
+
+        private void queryOddsHistory()
+        {
+            if (Request["rowindex"] != null)
+            {
+                string cacheName = Request.Form["rowindex"] == "0" ? "swhere" : "ewhere";
+                string whereStr = Common.DataCache.GetCache(cacheName).ToString();
+                if (Request["date"] != null && !String.IsNullOrEmpty(Request.Form["date"]))
+                {
+                    whereStr += " and a.date='" + Request.Form["date"] + "'";
+                }
+                DataSet ds = scheduleBLL.queryOddsHistory(whereStr);
                 JArray data = new JArray();
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -126,9 +152,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.Columns.Add("oddsperwin", typeof(float));
                     dt.Columns.Add("oddsperdraw", typeof(float));
                     dt.Columns.Add("oddsperlost", typeof(float));
-                    dt.Columns.Add("kellywin", typeof(float));
-                    dt.Columns.Add("kellydraw", typeof(float));
-                    dt.Columns.Add("kellylost", typeof(float));
                     dt.Rows[0]["name"] = "初盘";
                     dt.Rows[1]["name"] = "终盘";
                     dt.Rows[0]["oddsperwin"] = soddsperwin.Average();
