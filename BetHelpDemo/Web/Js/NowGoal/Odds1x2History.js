@@ -1,5 +1,13 @@
 ﻿/// <reference path="../../lib/ext/adapter/ext/ext-base.js"/>
 /// <reference path="../../lib/ext/ext-all-debug.js" />
+
+Array.prototype.max = function () {
+    return Math.max.apply({}, this)
+}
+Array.prototype.min = function () {
+    return Math.min.apply({}, this)
+}
+
 var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
 
     var fields = [
@@ -8,15 +16,13 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             { name: 'perwin', type: 'float' },
             { name: 'perdraw', type: 'float' },
             { name: 'perlost', type: 'float' },
-            { name: 'oddsperwin', type: 'float' },
-            { name: 'oddsperdraw', type: 'float' },
-            { name: 'oddsperlost', type: 'float' },
             { name: 'avgscore', type: 'float' },
             { name: 'totalCount', type: 'int' }
             ];
     var params = {
         stypeid: scheduleTypeArr[0],
-        oddsarr: oddsArr.join('^')
+        oddsarr: oddsArr.join('^'),
+        schedulearr: scheduleArr.join('^')
     };
 
     var store = new Ext.data.JsonStore({
@@ -32,26 +38,50 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
     });
 
     store.on('load', function (s, records) {
+        var perwin = [], perdraw = [], perlost = [];
+        Ext.each(oddsArr, function (oddsStr) {
+            var oddsVal = oddsStr.split('|');
+            perwin.push(parseFloat(oddsVal[6]));
+            perdraw.push(parseFloat(oddsVal[7]));
+            perlost.push(parseFloat(oddsVal[8]));
+        });
         s.each(function (r, index) {
-            if (index > 0) {
-                if (r.get("perwin") > s.getAt(index - 1).get("perwin")) {
+            if (index == 0) {
+                if (r.get("perwin") > perwin.max()) {
                     grid.getView().getCell(index, 2).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perwin") < store.getAt(index - 1).get("perwin")) {
+                } else if (r.get("perwin") < perwin.min()) {
                     grid.getView().getCell(index, 2).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
-                if (r.get("perdraw") > store.getAt(index - 1).get("perdraw")) {
+                if (r.get("perdraw") > perdraw.max()) {
                     grid.getView().getCell(index, 3).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perdraw") < store.getAt(index - 1).get("perdraw")) {
+                } else if (r.get("perdraw") < perdraw.min()) {
                     grid.getView().getCell(index, 3).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
-                if (r.get("perlost") > store.getAt(index - 1).get("perlost")) {
+                if (r.get("perlost") > perlost.max()) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perlost") < store.getAt(index - 1).get("perlost")) {
+                } else if (r.get("perlost") < perlost.min()) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
-                if (r.get("avgscore") > store.getAt(index - 1).get("avgscore")) {
+            }
+            else {
+                if (r.get("perwin") > store.getAt(0).get("perwin")) {
+                    grid.getView().getCell(index, 2).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("perwin") < store.getAt(0).get("perwin")) {
+                    grid.getView().getCell(index, 2).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
+                if (r.get("perdraw") > store.getAt(0).get("perdraw")) {
+                    grid.getView().getCell(index, 3).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("perdraw") < store.getAt(0).get("perdraw")) {
+                    grid.getView().getCell(index, 3).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
+                if (r.get("perlost") > store.getAt(0).get("perlost")) {
+                    grid.getView().getCell(index, 4).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("perlost") < store.getAt(0).get("perlost")) {
+                    grid.getView().getCell(index, 4).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
+                if (r.get("avgscore") > store.getAt(0).get("avgscore")) {
                     grid.getView().getCell(index, 5).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("avgscore") < store.getAt(index - 1).get("avgscore")) {
+                } else if (r.get("avgscore") < store.getAt(0).get("avgscore")) {
                     grid.getView().getCell(index, 5).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
             }
@@ -102,30 +132,6 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             renderer: function (value) {
                 return value.toFixed(2);
             }
-        }, {
-            header: "主胜",
-            tooltip: "主场球队获胜赔率",
-            dataIndex: "oddsperwin",
-            sortable: false,
-            renderer: function (value) {
-                return value.toFixed(2);
-            }
-        }, {
-            header: "和局",
-            tooltip: "比赛打平的赔率",
-            dataIndex: "oddsperdraw",
-            sortable: false,
-            renderer: function (value) {
-                return value.toFixed(2);
-            }
-        }, {
-            header: "客胜",
-            tooltip: "客场球队获胜赔率",
-            dataIndex: "oddsperlost",
-            sortable: false,
-            renderer: function (value) {
-                return value.toFixed(2);
-            }
         }
     ]);
 
@@ -156,9 +162,6 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             rowclick: function (grid, rowIndex, cellIndex, e) {
                 grid1.getStore().baseParams.rowindex = rowIndex;
                 grid1.getStore().load();
-                grid2.getStore().baseParams.rowindex = rowIndex;
-                grid2.getStore().baseParams.date = '';
-                grid2.getStore().load();
             }
         }
     });
@@ -232,7 +235,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
         },
         listeners: {
             rowclick: function (g, rowIndex, cellIndex, e) {
-                grid2.getStore().baseParams.date = Ext.util.Format.date(grid1.getStore().getAt(rowIndex).get("sdate"),'Y-m-d');
+                grid2.getStore().baseParams.date = Ext.util.Format.date(grid1.getStore().getAt(rowIndex).get("sdate"), 'Y-m-d');
                 grid2.getStore().load();
             }
         }
