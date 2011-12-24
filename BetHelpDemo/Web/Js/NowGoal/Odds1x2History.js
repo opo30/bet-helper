@@ -20,7 +20,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             { name: 'totalCount', type: 'int' }
             ];
     var params = {
-        stypeid: scheduleTypeArr[0],
+        stypeid: scheduleTypeArr.length > 0 ? scheduleTypeArr[0]:'',
         oddsarr: oddsArr.join('^'),
         schedulearr: scheduleArr.join('^')
     };
@@ -76,14 +76,12 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
         {
             header: "统计",
             dataIndex: "name",
-            sortable: false,
-            width: 60
+            sortable: false
         },
         {
             header: "总数",
             dataIndex: "totalCount",
-            sortable: false,
-            width: 30
+            sortable: false
         }, {
             header: "主胜",
             tooltip: "主场球队获胜赔率",
@@ -133,14 +131,13 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
 
     //----------------------------------------------------定义grid
     var grid = new Ext.grid.GridPanel({
-        id: "oddsstat-grid",
         store: store,
         cm: cm,
         region: "north",
         loadMask: true,
         stripeRows: true,
         columnLines: true,
-        height: 100,
+        height: 120,
         //超过长度带自动滚动条
         autoScroll: true,
         border: false,
@@ -161,7 +158,6 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
         }
     });
     var grid1 = new Ext.grid.GridPanel({
-        id: "oddsstatdate-grid",
         width: 250,
         store: new Ext.data.JsonStore({
             fields: [
@@ -237,7 +233,6 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
     });
     var summary = new Ext.ux.grid.HybridSummary();
     var grid2 = new Ext.grid.GridPanel({
-        id: "oddslist-grid",
         region: "center",
         columnLines: true,
         store: new Ext.data.GroupingStore({
@@ -339,7 +334,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
 
     var win = new Ext.Window({
         title: "历史赔率",
-        width: 800,
+        width: 600,
         height: 500,
         plain: true,
         iconCls: "total",

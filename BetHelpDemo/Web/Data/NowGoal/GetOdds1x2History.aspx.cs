@@ -149,10 +149,14 @@ namespace SeoWebSite.Web.Data.NowGoal
                             eoddsperlost.Add(Convert.ToDecimal(odds[15]));
                         }
                     }
+                    string scheduleFilter = "";
+                    if (!String.IsNullOrEmpty(stypeid))
+                    {
+                        scheduleFilter += "sclassid=" + stypeid + " and ";
+                    }
                     //string scheduleFilter = "sclassid=" + stypeid + " and c.id<>" + scheduleArr[0];
-                    string scheduleFilter = "c.id<>" + scheduleArr[0];
-                    DataSet sds = scheduleBLL.statOddsHistory(String.Join(" or ", swhereList.ToArray()));
-                    DataSet eds = scheduleBLL.statOddsHistory(String.Join(" or ", ewhereList.ToArray()));
+                    DataSet sds = scheduleBLL.statOddsHistory(scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    DataSet eds = scheduleBLL.statOddsHistory(scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
                     Common.DataCache.SetCache("swhere", String.Join(" or ", swhereList.ToArray()));
                     Common.DataCache.SetCache("ewhere", String.Join(" or ", ewhereList.ToArray()));
                     //DataSet oddsds = scheduleBLL.statOddsHistory(String.Join(" or ", oddswhereList.ToArray()),"");
