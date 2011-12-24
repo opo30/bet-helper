@@ -403,14 +403,28 @@ namespace SeoWebSite.DAL
         public DataSet statOddsHistory(string whereStr)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select ");
-            strSql.Append("perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("avgscore=avg(1.0*(a.home+a.away)),");
-            strSql.Append("count(a.id) totalCount from");
-            strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
+            strSql.Append("select perwin=100.0*sum(case when c.home>c.away then 1 else 0 end)/count(c.id),");
+            strSql.Append("perdraw=100.0*sum(case when c.home=c.away then 1 else 0 end)/count(c.id),");
+            strSql.Append("perlost=100.0*sum(case when c.home<c.away then 1 else 0 end)/count(c.id),");
+            strSql.Append("avgscore=avg(1.0*(c.home+c.away)),");
+            strSql.Append("count(c.id) totalCount from");
+            strSql.Append(" (select distinct a.id,a.home,a.away from Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
             strSql.Append(" where " + whereStr);
+            strSql.Append(") c");
+            return DbHelperSQL.Query(strSql.ToString(), 999);
+        }
+
+        public DataSet statOddsHistory1(string whereStr)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select perwin=100.0*sum(case when c.home>c.away then 1 else 0 end)/count(c.id),");
+            strSql.Append("perdraw=100.0*sum(case when c.home=c.away then 1 else 0 end)/count(c.id),");
+            strSql.Append("perlost=100.0*sum(case when c.home<c.away then 1 else 0 end)/count(c.id),");
+            strSql.Append("avgscore=avg(1.0*(c.home+c.away)),");
+            strSql.Append("count(c.id) totalCount from Schedule c where c.updated=1 and c.id in ");
+            strSql.Append("(select distinct scheduleid from Odds b");
+            strSql.Append(" where " + whereStr);
+            strSql.Append(") ");
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 

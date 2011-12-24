@@ -213,6 +213,12 @@ namespace SeoWebSite.BLL
         {
             return dal.statOddsHistoryGroupByDate(whereStr);
         }
+
+        public DataSet statOddsHistory1(string whereStr)
+        {
+            return dal.statOddsHistory1(whereStr);
+        }
+
     }
 }
 

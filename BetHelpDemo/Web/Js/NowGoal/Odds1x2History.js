@@ -46,42 +46,25 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             perlost.push(parseFloat(oddsVal[8]));
         });
         s.each(function (r, index) {
-            if (index == 0) {
-                if (r.get("perwin") > perwin.max()) {
+            if (index % 2 > 0) {
+                if (r.get("perwin") > store.getAt(index - 1).get("perwin")) {
                     grid.getView().getCell(index, 2).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perwin") < perwin.min()) {
+                } else if (r.get("perwin") < store.getAt(index - 1).get("perwin")) {
                     grid.getView().getCell(index, 2).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
-                if (r.get("perdraw") > perdraw.max()) {
+                if (r.get("perdraw") > store.getAt(index - 1).get("perdraw")) {
                     grid.getView().getCell(index, 3).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perdraw") < perdraw.min()) {
+                } else if (r.get("perdraw") < store.getAt(index - 1).get("perdraw")) {
                     grid.getView().getCell(index, 3).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
-                if (r.get("perlost") > perlost.max()) {
+                if (r.get("perlost") > store.getAt(index - 1).get("perlost")) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perlost") < perlost.min()) {
+                } else if (r.get("perlost") < store.getAt(index - 1).get("perlost")) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
-            }
-            else {
-                if (r.get("perwin") > store.getAt(0).get("perwin")) {
-                    grid.getView().getCell(index, 2).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perwin") < store.getAt(0).get("perwin")) {
-                    grid.getView().getCell(index, 2).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
-                if (r.get("perdraw") > store.getAt(0).get("perdraw")) {
-                    grid.getView().getCell(index, 3).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perdraw") < store.getAt(0).get("perdraw")) {
-                    grid.getView().getCell(index, 3).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
-                if (r.get("perlost") > store.getAt(0).get("perlost")) {
-                    grid.getView().getCell(index, 4).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("perlost") < store.getAt(0).get("perlost")) {
-                    grid.getView().getCell(index, 4).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
-                if (r.get("avgscore") > store.getAt(0).get("avgscore")) {
+                if (r.get("avgscore") > store.getAt(index - 1).get("avgscore")) {
                     grid.getView().getCell(index, 5).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("avgscore") < store.getAt(0).get("avgscore")) {
+                } else if (r.get("avgscore") < store.getAt(index - 1).get("avgscore")) {
                     grid.getView().getCell(index, 5).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
             }
@@ -106,24 +89,36 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             tooltip: "主场球队获胜赔率",
             dataIndex: "perwin",
             sortable: false,
-            renderer: function (value) {
-                return value.toFixed(2);
+            renderer: function (value, last, row, index) {
+                var cha = "";
+                if (index > 1) {
+                    cha = "(" + (value - store.getAt(index - 2).get("perwin")).toFixed(2) + ")";
+                }
+                return value.toFixed(2) + cha;
             }
         }, {
             header: "和局",
             tooltip: "比赛打平的赔率",
             dataIndex: "perdraw",
             sortable: false,
-            renderer: function (value) {
-                return value.toFixed(2);
+            renderer: function (value, last, row, index) {
+                var cha = "";
+                if (index > 1) {
+                    cha = "(" + (value - store.getAt(index - 2).get("perdraw")).toFixed(2) + ")";
+                }
+                return value.toFixed(2) + cha;
             }
         }, {
             header: "客胜",
             tooltip: "客场球队获胜赔率",
             dataIndex: "perlost",
             sortable: false,
-            renderer: function (value) {
-                return value.toFixed(2);
+            renderer: function (value, last, row, index) {
+                var cha = "";
+                if (index > 1) {
+                    cha = "(" + (value - store.getAt(index - 2).get("perlost")).toFixed(2) + ")";
+                }
+                return value.toFixed(2) + cha;
             }
         }, {
             header: "进球数",
