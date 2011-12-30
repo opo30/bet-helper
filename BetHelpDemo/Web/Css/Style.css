@@ -164,12 +164,18 @@
     margin-left:15px;
 }
 
-.up2 {
-	background-color:#F7CFD6;
-}
-.down2 {
-	background-color: #DFF3B1;
-}
+.up2 {
+
+	background-color:#F7CFD6;
+
+}
+
+.down2 {
+
+	background-color: #DFF3B1;
+
+}
+
 
 
 
@@ -213,4 +219,10 @@
 .publishicon
 {
     background-image: url(../Images/icons/publishicon.png) !important;
+}
+.td_scoreR {
+FONT-WEIGHT: bold;
+CURSOR: hand;
+COLOR: red;
+FONT-FAMILY: verdana;
 }

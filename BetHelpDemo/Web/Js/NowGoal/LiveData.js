@@ -109,7 +109,8 @@ var GetPrediction = function(scheduleID) {
             { name: 'exist', type: 'string'}];
 
      var store = new Ext.data.ArrayStore({
-         fields: fields
+         fields: fields,
+         id: "match_0"
      });
 
      var date = ""; //比赛日期
@@ -127,20 +128,12 @@ var GetPrediction = function(scheduleID) {
              },
              success: function (res) {
                  var ShowBf = function () {
-
-                     store.schedule = [];
-                     Ext.each(A, function (v, i) {
-                         v.push(favorites[i]);
-                         if (showlist.length == 0 || showlist.indexOf(v[0]) != -1) {
-                             store.schedule.push(v);
-                         }
-                     });
-                     store.sclass = B;
                      //store.mdate = matchdate;
-                     store.mclass = C;
+                     store.A = A;
+                     store.B = B;
+                     store.C = C;
                      store.showlist = showlist;
-
-                     store.loadData(store.schedule);
+                     store.loadData(A);
 
                      var items = [];
                      Ext.each(B, function (v) {
@@ -163,6 +156,20 @@ var GetPrediction = function(scheduleID) {
          });
      }
 
+     store.on('load', function (s, records) {
+         var HiddenMatchID = [];
+         if (Ext.util.Cookies.get("HiddenMatchID"))
+             HiddenMatchID = Ext.util.Cookies.get("HiddenMatchID").split(',');
+         s.each(function (r, index) {
+             grid.getView().getCell(index, 1).style.backgroundColor = s.B[r.get('match_1')][4];
+             //grid.getView().getRow(gridcount).style.display = (s.B[r.get('match_1')][5] == 1) ? "" : "none";
+             var hidelist = Ext.util.Cookies.get("HiddenMatchID");
+             if (HiddenMatchID.indexOf(r.get('match_0').toString()) != -1 || (s.showlist.length > 0 && s.showlist.indexOf(r.get('match_0')) == -1)) {
+                 grid.getView().getRow(index).style.display = "none";
+             }
+         });
+         Ext.getCmp('hiddencount').setText('隐藏<span class="td_scoreR" id="hiddencount">' + HiddenMatchID.length + '</span>场');
+     });
 
      //--------------------------------------------------列选择模式
      var sm = new Ext.grid.CheckboxSelectionModel({
@@ -184,7 +191,7 @@ var GetPrediction = function(scheduleID) {
 		    //可以进行排序
 		    sortable: false,
 		    renderer: function (value) {
-		        return "<font color='white'>" + store.sclass[value][1] + "</span>"
+		        return "<font color='white'>" + store.B[value][1] + "</span>"
 		    }
 		}, {
 		    header: "时间",
@@ -327,7 +334,7 @@ var GetPrediction = function(scheduleID) {
 		    sortable: true,
 		    renderer: function (value, last, row) {
 		        var isexist = value;
-		        if (store.schedule[0].length == 29) {
+		        if (store.A[0].length == 29) {
 		            isexist = row.get("match_28");
 		        }
 		        if (isexist == "True")
@@ -391,8 +398,44 @@ var GetPrediction = function(scheduleID) {
             toggleHandler: function (button, state) {
                 if (state) {
 
-                } else { 
-                
+                } else {
+
+                }
+            }
+        }, "|", {
+            text: '删除',
+            iconCls: "deleteicon",
+            tooltip: '删除记录',
+            handler: function () {
+                var rows = grid.getSelectionModel().getSelections();
+                if (rows.length > 0) {
+                    var HiddenMatchID = [];
+                    if (Ext.util.Cookies.get("HiddenMatchID")) {
+                        HiddenMatchID = Ext.util.Cookies.get("HiddenMatchID").split(',');
+                    }
+                    Ext.each(rows, function (r, index) {
+                        HiddenMatchID.push(r.get("match_0"));
+                        var grid_index = grid.getStore().indexOf(r);
+                        grid.getView().getRow(grid_index).style.display = "none";
+                    });
+                    Ext.util.Cookies.set("HiddenMatchID", HiddenMatchID.join(','));
+                    Ext.getCmp('hiddencount').setText('隐藏<span class="td_scoreR" id="hiddencount">' + HiddenMatchID.length + '</span>场');
+                }
+            }
+        }, {
+            id: 'hiddencount',
+            xtype: 'button',
+            text: '',
+            iconCls: 'publishicon',
+            handler: function () {
+                if (Ext.util.Cookies.get("HiddenMatchID")) {
+                    var HiddenMatchID = Ext.util.Cookies.get("HiddenMatchID").split(',');
+                    Ext.each(HiddenMatchID, function (sid) {
+                        var grid_index = grid.getStore().find("match_0", sid);
+                        grid.getView().getRow(grid_index).style.display = "";
+                    });
+                    Ext.util.Cookies.set("HiddenMatchID", "");
+                    Ext.getCmp('hiddencount').setText('隐藏<span class="td_scoreR" id="hiddencount">0</span>场');
                 }
             }
         },
@@ -461,7 +504,7 @@ var GetPrediction = function(scheduleID) {
 		        else if (row.length > 1) {
 		            Ext.Msg.alert("提示信息", "对不起只能选择一个!");
 		        } else if (row.length == 1) {
-		            OddsDetailManage(row[0].data.match_0, row[0].data.match_4 + "-" + row[0].data.match_7, store.sclass[row[0].data.match_1][0]);
+		            OddsDetailManage(row[0].data.match_0, row[0].data.match_4 + "-" + row[0].data.match_7, store.B[row[0].data.match_1][0]);
 		        }
 		    }
 		}, "-", {
@@ -477,7 +520,7 @@ var GetPrediction = function(scheduleID) {
 		            Ext.Msg.alert("提示信息", "对不起只能选择一个!");
 		        } else if (row.length == 1) {
 		            var store = grid.getStore();
-		            Odds1x2Manage(store.schedule[store.indexOf(row[0])], store.sclass[row[0].get("match_1")]);
+		            Odds1x2Manage(store.A[store.indexOf(row[0])], store.B[row[0].get("match_1")]);
 		        }
 
 		    }
@@ -497,13 +540,6 @@ var GetPrediction = function(scheduleID) {
              }
          }
 
-     });
-
-     grid.getStore().on('load', function (s, records) {
-         s.each(function (r, index) {
-             grid.getView().getCell(index, 1).style.backgroundColor = s.sclass[r.get('match_1')][4];
-             //grid.getView().getRow(gridcount).style.display = (s.sclass[r.get('match_1')][5] == 1) ? "" : "none";
-         });
      });
 
      var GetPredictionBig = function (scheduleID) {
@@ -547,6 +583,9 @@ var GetPrediction = function(scheduleID) {
      }
 
      var createGameSelection = function (items) {
+         if (Ext.getCmp('gameSelection-win')) {
+             Ext.getCmp('gameSelection-win').destroy();
+         }
          var gameSelectionWin = new Ext.Window({
              id: 'gameSelection-win',
              layout: 'fit',
@@ -567,7 +606,7 @@ var GetPrediction = function(scheduleID) {
                          store.each(function (r) {
                              var flag = false;
                              Ext.each(value, function (v) {
-                                 if (v.name == store.sclass[r.get("match_1")][0]) {
+                                 if (v.name == store.B[r.get("match_1")][0]) {
                                      flag = true;
                                  }
                              });
