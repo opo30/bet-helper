@@ -381,7 +381,7 @@ var GetPrediction = function(scheduleID) {
             xtype: 'checkbox',
             id: 'op',
             boxLabel: '欧赔',
-            checked :Config.op,
+            checked: Config.op,
             listeners: {
                 check: function (obj, ischeck) {
                     CheckFunction("op")
@@ -474,8 +474,8 @@ var GetPrediction = function(scheduleID) {
 		        else if (row.length > 1) {
 		            Ext.Msg.alert("提示信息", "对不起只能选择一个!");
 		        } else if (row.length == 1) {
-		            var store = grid.getStore();
-		            Odds1x2Manage(A[store.indexOf(row[0])], B[row[0].get("match_1")]);
+		            var i = row[0].get("index");
+		            Odds1x2Manage(A[i], B[A[i].split(",")[1]]);
 		        }
 
 		    }
