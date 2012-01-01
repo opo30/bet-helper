@@ -1,15 +1,19 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="SeoWebSite.Web.Default" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="SeoWebSite.Web.Default" Buffer="false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
     <title>首页</title>
     <link href="css/Style.css" rel="stylesheet" type="text/css" />
+    <link href="http://live.nowscore.com/live.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="lib/ext/resources/css/ext-all.css" />
     <script src="lib/ext/adapter/ext/ext-base-debug.js" type="text/javascript"></script>
     <script src="lib/ext/ext-all-debug.js" type="text/javascript"></script>
+    <link href="Lib/ext/examples/ux/css/ux-all.css" rel="stylesheet" type="text/css" />
+    <script src="Lib/ext/examples/ux/ux-all.js" type="text/javascript"></script>
     <script src="Lib/ext/src/locale/ext-lang-zh_CN.js" type="text/javascript"></script>
     
-    <link rel="stylesheet" type="text/css" href="Js/ux/GroupSummary/GroupSummary.css" />
+    <script src="Js/ux/Notification.js" type="text/javascript"></script>
+    <%--<link rel="stylesheet" type="text/css" href="Js/ux/GroupSummary/GroupSummary.css" />
     <script src="Js/ux/GroupSummary/GroupSummary.js" type="text/javascript"></script>
     <script src="Js/ux/RowEditor.js" type="text/javascript"></script>
     <script src="js/ux/RowExpander.js" type="text/javascript"></script>
@@ -19,7 +23,7 @@
     <script src="Js/ux/ColumnHeaderGroup/ColumnHeaderGroup.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="Js/ux/Spinner/Spinner.css" />
     <script type="text/javascript" src="Js/ux/Spinner/Spinner.js"></script>
-    <script type="text/javascript" src="Js/ux/Spinner/SpinnerField.js"></script>
+    <script type="text/javascript" src="Js/ux/Spinner/SpinnerField.js"></script>--%>
     
     <script type="text/javascript" src="http://live.nowscore.com/func.js"></script>
 
@@ -36,6 +40,7 @@
     <script src="Js/NowGoal/OddsDetailManage.js" type="text/javascript"></script>
     <script src="Js/NowGoal/Odds1x2History.js" type="text/javascript"></script>
     <script src="Js/NowGoal/Odds1x2Manage.js" type="text/javascript"></script>
+    <script src="Js/live.js" type="text/javascript"></script>
     <script src="Js/NowGoal/LiveData.js" type="text/javascript"></script>
     <script src="Js/Algorithm.js" type="text/javascript"></script>
     <script src="Js/NowGoal/LoadSimilarExp.js" type="text/javascript"></script>
@@ -47,9 +52,13 @@
         var difftime = new Date() - new Date(<%= DateTime.Now.Year %>, <%= DateTime.Now.Month-1 %>, <%= DateTime.Now.Day %>, <%= DateTime.Now.Hour %>, <%= DateTime.Now.Minute %>, <%= DateTime.Now.Second %>);//客户端时间和服务器时间差
         var company = new Array(40);
         <%= initCompanyJS %>
+
+        
     </script>
 </head>
 <body>
+    <span id="notify"></span>
+    <div id="scriptScsg"><script type="text/javascript"></script></div>
     <span id="allDate"><script language="javascript" type="text/javascript" defer="defer"></script></span>
     <div id="loading-mask" style="">
     </div>

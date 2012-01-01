@@ -73,13 +73,19 @@ namespace SeoWebSite.Web.Data.NowGoal
         {
             if (Request["path"] != null)
             {
-                Response.ContentType = "text/xml";
-                Response.Buffer = true; //完成整个响应后再发送
-                Response.ContentEncoding = Encoding.UTF8;
-                XmlDocument xml = new XmlDocument();
-                xml.Load(WebClientBLL.root + Request.QueryString["path"] + "?" + DateTime.Now.Millisecond);
-
-                Response.Write(xml.InnerXml);
+                try
+                {
+                    Response.ContentType = "text/xml";
+                    Response.Buffer = true; //完成整个响应后再发送
+                    Response.ContentEncoding = Encoding.UTF8;
+                    XmlDocument xml = new XmlDocument();
+                    xml.Load(WebClientBLL.root + Request.QueryString["path"] + "?" + DateTime.Now.Millisecond);
+                    Response.Write(xml.InnerXml);
+                }
+                catch (Exception)
+                {
+                    
+                }
                 Response.End();
             }
         }

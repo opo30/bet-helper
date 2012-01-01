@@ -220,9 +220,9 @@
 {
     background-image: url(../Images/icons/publishicon.png) !important;
 }
-.td_scoreR {
-FONT-WEIGHT: bold;
-CURSOR: hand;
-COLOR: red;
-FONT-FAMILY: verdana;
-}
+
+.x-icon-error{background-image:url(../Images/exclamation.gif) ! important;}
+.x-icon-information{background-image:url(../Images/information.gif) ! important;}
+.x-notification .x-window-body{margin: 0;padding:1em ! important; width: auto ! important;}
+.x-notification .x-tool-close{display: none}
+.x-notification.fixed .x-tool-close{display: block}

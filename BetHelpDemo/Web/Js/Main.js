@@ -159,6 +159,19 @@ var west = new Ext.Panel({
      }], plugins: new Ext.ux.TabCloseMenu()
             });
 
+ var south = new Ext.ux.StatusBar({
+     id: 'statusbar',
+     //距两边间距
+     style: "padding:0 5px 0 5px",
+     region: "south",
+     defaultText: 'Default status text',
+     //defaultIconCls: 'default-icon',
+
+     // values to set initially:
+     text: 'Ready',
+     iconCls: 'x-status-valid',
+     items:[new Ext.Toolbar.Fill()]
+ });
 
 //        var mainTabChange = function(tabpanel, activetab) {
 //            if (activetab.items != undefined && activetab.items.length > 0) {
@@ -195,7 +208,7 @@ var west = new Ext.Panel({
             hideMask.defer(250);
             var vp = new Ext.Viewport({
                 layout: "border",
-                items: [ west, center]
+                items: [west, center, south]
             });
         });
 
