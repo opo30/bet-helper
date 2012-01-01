@@ -475,7 +475,7 @@ var GetPrediction = function(scheduleID) {
 		            Ext.Msg.alert("提示信息", "对不起只能选择一个!");
 		        } else if (row.length == 1) {
 		            var i = row[0].get("index");
-		            Odds1x2Manage(A[i], B[A[i].split(",")[1]]);
+		            Odds1x2Manage(A[i], B[A[i][1]]);
 		        }
 
 		    }
