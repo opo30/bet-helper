@@ -57,7 +57,7 @@ var GetPrediction = function(scheduleID) {
             { name: 'data', type: 'string' },
             { name: 'h_odds', type: 'string' },
             { name: 'pankou', type: 'string' },
-            { name: 'g_odds', type: 'string' }, { name: 'zoudi', type: 'string' }, { name: 'other', type: 'string' }, { name: 'odds', type: 'string' }, { name: 'index', type: 'string'}];
+            { name: 'g_odds', type: 'string' }, { name: 'zoudi', type: 'string' }, { name: 'other', type: 'string' }, { name: 'index', type: 'string' }, { name: 'classx2', type: 'string'}];
 
      var store = new Ext.data.JsonStore({
          fields: fields,
@@ -70,8 +70,15 @@ var GetPrediction = function(scheduleID) {
          grid.getView().getHeaderCell(1).innerText = matchdate;
 
          s.each(function (r, index) {
-             grid.getView().getCell(index, 1).style.backgroundColor = r.get("bgcolor"); //设置颜色
-             grid.getView().getRow(index).style.display = r.get("display");
+             //grid.getView().getCell(index, 1).style.backgroundColor = r.get("bgcolor"); //设置颜色
+             grid.getView().getRow(index).style.display = r.get("display"); //设置隐藏
+             grid.getView().getRow(index).id = "tr1_" + r.get("scheduleid"); //设置id
+             grid.getView().getRow(index).setAttribute("index", r.get("index")); //设置序列
+             grid.getView().getRow(index).setAttribute("odds", ""); //设置赔率数据
+
+             if (Config.yp == 1) document.getElementById("yp").checked = true;
+             if (Config.op == 1) document.getElementById("op").checked = true;
+             if (Config.dx == 1) document.getElementById("dx").checked = true;
          });
          if (grid.loadMask) {
              grid.loadMask.hide();
@@ -81,6 +88,7 @@ var GetPrediction = function(scheduleID) {
      //--------------------------------------------------列选择模式
      var sm = new Ext.grid.CheckboxSelectionModel({
          dataIndex: "scheduleid",
+         css: 'vertical-align: inherit;',
          listeners: {
              selectionchange: function (s) {
 
@@ -95,8 +103,10 @@ var GetPrediction = function(scheduleID) {
 		    menuDisabled: true,
 		    align: "center",
 		    width: 8,
-		    renderer: function (value) {
-		        return "<span style='color:white;'>" + value + "</span>";
+		    css: 'vertical-align: inherit;color:white;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.cellAttr = 'bgcolor="' + row.get("bgcolor") + '"';
+		        return value;
 		    }
 		}, {
 		    header: "时间",
@@ -104,77 +114,126 @@ var GetPrediction = function(scheduleID) {
 		    tooltip: "比赛开始时间",
 		    menuDisabled: true,
 		    align: "center",
-		    width: 5
+		    css: 'vertical-align: inherit;',
+		    width: 5,
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.cellAttr = 'id="mt_' + row.get("scheduleid") + '"';
+		        return value;
+		    }
 		}, {
 		    header: "状态",
 		    dataIndex: "state",
 		    tooltip: "注单球队名称",
 		    menuDisabled: true,
 		    align: "center",
-		    width: 5
+		    css: 'vertical-align: inherit;',
+		    width: 5,
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.cellAttr = 'id="time_' + row.get("scheduleid") + '"';
+		        cell.css = 'fortime';
+		        return value;
+		    }
 		}, {
 		    header: "主队",
 		    dataIndex: "h_team",
 		    tooltip: "主场球队名称",
 		    menuDisabled: true,
 		    width: 16,
-		    align: "right"
+		    align: "right",
+		    css: 'vertical-align: inherit;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'a1';
+		        return value;
+		    }
 		}, {
 		    header: "比分",
 		    tooltip: "实时比分",
 		    dataIndex: "goal",
 		    menuDisabled: true,
 		    width: 5,
-		    align: "center"
+		    align: "center",
+		    css: 'vertical-align: inherit;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = row.get("classx2");
+		        return value;
+		    }
 		}, {
 		    header: "客队",
 		    dataIndex: "g_team",
 		    tooltip: "客场球队名称",
 		    menuDisabled: true,
 		    width: 16,
-		    align: "left"
+		    align: "left",
+		    css: 'vertical-align: inherit;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'a2';
+		        return value;
+		    }
 		}, {
 		    header: "半场",
 		    tooltip: "半场结束比分",
 		    dataIndex: "match_half",
 		    menuDisabled: true,
 		    width: 5,
-		    align: "center"
+		    align: "center",
+		    css: 'vertical-align: inherit;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'td_half';
+		        return value;
+		    }
 		}, {
 		    header: "数据",
 		    tooltip: "比赛分析",
 		    dataIndex: "data",
 		    menuDisabled: true,
-		    width: 15
-		    //		    renderer: function (value, last, row, p4, p5, store) {
-		    //		        return "<font color='blue' onclick='showDetailWindow(\"" + row.get("scheduleid") + "\",\"分析\",\"showgoallist\")'>析</font>&nbsp;&nbsp;&nbsp;<font color='blue' onclick='showDetailWindow(\"" + row.get("scheduleid") + "\",\"亚盘\",\"AsianOdds\")'>亚</font>&nbsp;&nbsp;&nbsp;<font color='blue' onclick='GetPredictionBig(" + parseInt(row.data["scheduleid"]) + ")'>大小</font>&nbsp;&nbsp;&nbsp;<font color='blue' onclick='LiveChartManage(" + parseInt(row.data["scheduleid"]) + ",8)'>图</font>";
-		    //		    }
+		    width: 15,
+		    css: 'vertical-align: inherit;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'fr';
+		        return value;
+		    }
 		}, {
 		    header: "指数",
 		    tooltip: "即时赔率",
 		    dataIndex: "h_odds",
 		    menuDisabled: true,
 		    align: "center",
-		    width: 5
+		    css: 'vertical-align: inherit;',
+		    width: 5,
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'oddstd';
+		        return value;
+		    }
 		}, {
 		    header: "指数",
 		    tooltip: "即时赔率",
 		    dataIndex: "pankou",
 		    menuDisabled: true,
 		    align: "center",
-		    width: 5
+		    css: 'vertical-align: inherit;',
+		    width: 5,
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'oddstd';
+		        return value;
+		    }
 		}, {
 		    header: "指数",
 		    tooltip: "即时赔率",
 		    dataIndex: "g_odds",
 		    menuDisabled: true,
 		    align: "center",
-		    width: 5
+		    css: 'vertical-align: inherit;',
+		    width: 5,
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'oddstd';
+		        return value;
+		    }
 		}, {
 		    header: "走",
 		    tooltip: "是否开滚球盘",
 		    dataIndex: "zoudi",
 		    align: "center",
+		    css: 'vertical-align: inherit;',
 		    menuDisabled: true,
 		    width: 3
 		}, {
@@ -182,7 +241,12 @@ var GetPrediction = function(scheduleID) {
 		    dataIndex: "other",
 		    align: "center",
 		    menuDisabled: true,
-		    width: 10
+		    width: 10,
+		    css: 'vertical-align: inherit;color:green;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.cellAttr = 'id="other_' + A[i][0] + '"';
+		        return value;
+		    }
 		}]);
 
 
@@ -307,6 +371,36 @@ var GetPrediction = function(scheduleID) {
                     SetMatchType(2, this);
                 }
             }]
+        }, "-", {
+            xtype: 'checkbox',
+            id: 'yp',
+            boxLabel: '亚赔',
+            checked: Config.yp,
+            listeners: {
+                check: function (obj, ischeck) {
+                    CheckFunction("yp")
+                }
+            }
+        }, {
+            xtype: 'checkbox',
+            id: 'op',
+            boxLabel: '欧赔',
+            checked :Config.op,
+            listeners: {
+                check: function (obj, ischeck) {
+                    CheckFunction("op")
+                }
+            }
+        }, {
+            xtype: 'checkbox',
+            id: 'dx',
+            boxLabel: '大小',
+            checked: Config.dx,
+            listeners: {
+                check: function (obj, ischeck) {
+                    CheckFunction("dx")
+                }
+            }
         },
 		new Ext.Toolbar.Fill(), {
 		    text: '收藏',

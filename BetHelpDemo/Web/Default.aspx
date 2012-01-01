@@ -58,6 +58,8 @@
 </head>
 <body>
     <span id="notify"></span>
+    <span id="ScoreDiv"></span>
+	<span id="flashsound"></span>
     <div id="scriptScsg"><script type="text/javascript"></script></div>
     <span id="allDate"><script language="javascript" type="text/javascript" defer="defer"></script></span>
     <div id="loading-mask" style="">
