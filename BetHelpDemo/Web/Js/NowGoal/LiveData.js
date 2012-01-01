@@ -75,10 +75,6 @@ var GetPrediction = function(scheduleID) {
              grid.getView().getRow(index).id = "tr1_" + r.get("scheduleid"); //设置id
              grid.getView().getRow(index).setAttribute("index", r.get("index")); //设置序列
              grid.getView().getRow(index).setAttribute("odds", ""); //设置赔率数据
-
-             if (Config.yp == 1) document.getElementById("yp").checked = true;
-             if (Config.op == 1) document.getElementById("op").checked = true;
-             if (Config.dx == 1) document.getElementById("dx").checked = true;
          });
          if (grid.loadMask) {
              grid.loadMask.hide();

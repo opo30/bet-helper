@@ -428,7 +428,7 @@ function refresh() {
 
 function ShowNotify(str) {
 
-    var st = "<table width=460 border=0 cellpadding=0 cellspacing=0 style='border: 3px solid #090;background-color: #FFF;'>";
+    var st = "<table width=460 border=0 cellpadding=0 cellspacing=0>";
     st = st + str;
     st = st + "</table>";
     st = st + "<style type='text/css'>";
