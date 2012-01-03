@@ -447,7 +447,7 @@ function ShowNotify(str) {
         animateTarget: Ext.getCmp("statusbar").getEl(),
         animateFrom: Ext.getCmp("statusbar").getPosition(),
         autoDestroy: true,
-        hideDelay: 5000,
+        hideDelay: 10000,
         html: st,
         iconCls: 'x-icon-information',
         title: '雨泽比分网 入球提示',
