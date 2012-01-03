@@ -414,6 +414,20 @@ namespace SeoWebSite.DAL
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
+        public DataSet statRangQiuHistory(string rangqiu,string whereStr)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select perwin=100.0*sum(case when c.home-c.away>" + rangqiu + " then 1 else 0 end)/count(c.id),");
+            strSql.Append("perdraw=100.0*sum(case when c.home-c.away=" + rangqiu + " then 1 else 0 end)/count(c.id),");
+            strSql.Append("perlost=100.0*sum(case when c.home-c.away<" + rangqiu + " then 1 else 0 end)/count(c.id),");
+            strSql.Append("avgscore=avg(1.0*(c.home+c.away)),");
+            strSql.Append("count(c.id) totalCount from");
+            strSql.Append(" (select distinct a.id,a.home,a.away from Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
+            strSql.Append(" where " + whereStr);
+            strSql.Append(") c");
+            return DbHelperSQL.Query(strSql.ToString(), 999);
+        }
+
         public DataSet statOddsHistory1(string whereStr)
         {
             StringBuilder strSql = new StringBuilder();

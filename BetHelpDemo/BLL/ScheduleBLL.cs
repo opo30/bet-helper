@@ -219,6 +219,11 @@ namespace SeoWebSite.BLL
             return dal.statOddsHistory1(whereStr);
         }
 
+
+        public DataSet statRangQiuHistory(string rangqiu, string whereStr)
+        {
+            return dal.statRangQiuHistory(rangqiu,whereStr);
+        }
     }
 }
 

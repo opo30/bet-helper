@@ -6,24 +6,13 @@
     <link href="css/Style.css" rel="stylesheet" type="text/css" />
     <link href="http://live.nowscore.com/live.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="lib/ext/resources/css/ext-all.css" />
-    <script src="lib/ext/adapter/ext/ext-base-debug.js" type="text/javascript"></script>
-    <script src="lib/ext/ext-all-debug.js" type="text/javascript"></script>
+    <script src="lib/ext/adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="lib/ext/ext-all.js" type="text/javascript"></script>
     <link href="Lib/ext/examples/ux/css/ux-all.css" rel="stylesheet" type="text/css" />
     <script src="Lib/ext/examples/ux/ux-all.js" type="text/javascript"></script>
     <script src="Lib/ext/src/locale/ext-lang-zh_CN.js" type="text/javascript"></script>
     
     <script src="Js/ux/Notification.js" type="text/javascript"></script>
-    <%--<link rel="stylesheet" type="text/css" href="Js/ux/GroupSummary/GroupSummary.css" />
-    <script src="Js/ux/GroupSummary/GroupSummary.js" type="text/javascript"></script>
-    <script src="Js/ux/RowEditor.js" type="text/javascript"></script>
-    <script src="js/ux/RowExpander.js" type="text/javascript"></script>
-    <script src="js/ux/TabCloseMenu.js" type="text/javascript"></script>
-    <script src="js/ux/ColumnNodeUI.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="Js/ux/ColumnHeaderGroup/ColumnHeaderGroup.css" />
-    <script src="Js/ux/ColumnHeaderGroup/ColumnHeaderGroup.js" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="Js/ux/Spinner/Spinner.css" />
-    <script type="text/javascript" src="Js/ux/Spinner/Spinner.js"></script>
-    <script type="text/javascript" src="Js/ux/Spinner/SpinnerField.js"></script>--%>
     
     <script type="text/javascript" src="http://live.nowscore.com/func.js"></script>
 
@@ -59,7 +48,8 @@
 <body>
     <span id="notify"></span>
     <span id="ScoreDiv"></span>
-	<span id="flashsound"></span>
+	<span id="flashsound"></span>
+
     <div id="scriptScsg"><script type="text/javascript"></script></div>
     <span id="allDate"><script language="javascript" type="text/javascript" defer="defer"></script></span>
     <div id="loading-mask" style="">

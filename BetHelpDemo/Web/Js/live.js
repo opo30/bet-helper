@@ -13,6 +13,7 @@ var oXmlHttp = zXmlHttp.createRequest();
 var oddsHttp = zXmlHttp.createRequest();
 var needSound = false;
 var orderby = "time";
+var islive = true;
 
 Config.getCookie("2in1");
 
@@ -28,17 +29,22 @@ var ShowBf = function () {
 
 
     //grid.getStore().loadData(A);
-    MakeTable();
-    showodds(false);
     window.clearTimeout(runtimeTimer);
     window.clearTimeout(getoddsxmlTimer);
-    runtimeTimer = window.setTimeout("setMatchTime()", 1000);
-    if (Config.rank == 1) ShowTeamRank();
-    if (Config.explain == 0) ShowExplain();
-    getoddsxmlTimer = window.setTimeout("getoddsxml()", 3000);
-    //window.setTimeout("showLeagueList(1)", 500);
-    window.setTimeout("gettime()", 2000);
-    window.setTimeout("check()", 30000);
+    if (islive) {
+        MakeTable();
+        showodds(false);
+        runtimeTimer = window.setTimeout("setMatchTime()", 1000);
+        if (Config.rank == 1) ShowTeamRank();
+        if (Config.explain == 0) ShowExplain();
+        getoddsxmlTimer = window.setTimeout("getoddsxml()", 3000);
+        //window.setTimeout("showLeagueList(1)", 500);
+        window.setTimeout("gettime()", 2000);
+        window.setTimeout("check()", 30000);
+    } else {
+        MakeHistoryTable();
+    }
+
 
 }
 
@@ -202,7 +208,9 @@ function gettime() {
         oXmlHttp.send(null);
     }
     catch (e) { }
-    window.setTimeout("gettime()", 2000);
+    if (islive) {
+        window.setTimeout("gettime()", 2000);
+    }
 }
 
 function refresh() {
@@ -289,7 +297,7 @@ function refresh() {
                 if (D[6] == "0")
                     document.getElementById("redcard1_" + D[0]).innerHTML = "";
                 else
-                    document.getElementById("redcard1_" + D[0]).innerHTML = "<img src=images/redcard" + D[6] + ".gif border='0'> ";
+                    document.getElementById("redcard1_" + D[0]).innerHTML = "<img src=http://live.nowscore.com/images/redcard" + D[6] + ".gif border='0'> ";
                 if (Config.redcard == 1) grid.getView().getCell(index, 4).style.backgroundColor = "#ff8888";
                 window.setTimeout("timecolors(" + D[0] + "," + matchindex + ")", 12000);
             }
@@ -298,7 +306,7 @@ function refresh() {
                 if (D[7] == "0")
                     document.getElementById("redcard2_" + D[0]).innerHTML = "";
                 else
-                    document.getElementById("redcard2_" + D[0]).innerHTML = "<img src=images/redcard" + D[7] + ".gif border='0'> ";
+                    document.getElementById("redcard2_" + D[0]).innerHTML = "<img src=http://live.nowscore.com/images/redcard" + D[7] + ".gif border='0'> ";
                 if (Config.redcard == 1) grid.getView().getCell(index, 6).style.backgroundColor = "#ff8888";
                 window.setTimeout("timecolors(" + D[0] + "," + matchindex + ")", 12000);
             }
@@ -768,9 +776,11 @@ function MoveToBottom(m) {
     try {
         var grid = Ext.getCmp("HistoryFileGrid");
         var index = grid.getStore().indexOfId(m);
+        var trcontent = grid.getView().getRow(index).outerHTML;
         var record = grid.getStore().getAt(index);
         grid.getStore().removeAt(index);
         grid.getStore().add(record);
+        grid.getView().getRow(grid.getStore().getCount() - 1).outerHTML = trcontent;
     } catch (e) { }
 }
 
@@ -780,8 +790,11 @@ function LoadLiveFile(date) {
     s.type = "text/javascript";
     window.clearTimeout(LoadLiveFileTimer);
     if (date != undefined) {
+        islive = false;
         s.src = "http://live.nowscore.com/data/score.aspx?date=" + date;
+        window.clearTimeout(LoadLiveFileTimer);
     } else {
+        islive = true;
         s.src = "http://live.nowscore.com/data/bf.js?" + Date.parse(new Date());
         LoadLiveFileTimer = window.setTimeout("LoadLiveFile()", 3600 * 1000);
     }
@@ -801,7 +814,9 @@ function check() {
         if (confirm("由于程序忙，或其他网络问题，你已经和服务器断开连接超过 5 分钟，是否要重新连接观看比分？")) window.location.reload();
     }
     oldUpdateTime = lastUpdateTime;
-    window.setTimeout("check()", 300000);
+    if (islive) {
+        window.setTimeout("check()", 300000);
+    }
 }
 
 function ShowFlash(id, n) {
@@ -814,4 +829,122 @@ function ShowFlash(id, n) {
     }
     catch (e) { };
     window.setTimeout("timecolors(" + id + ")", 120000);
+}
+
+function MakeHistoryTable() {
+    var state, bg = "";
+    var H_redcard, G_redcard, H_yellow, G_yellow;
+
+    var html = new Array();
+    var scheduleData = [];
+    for (var i = 0; i < matchcount; i++) {
+        try {
+            B[A[i][1]][8]++;
+            for (var j = 0; j < C.length; j++) {
+                if (B[A[i][1]][9] == C[j][0]) {
+                    C[j][2]++;
+                    break;
+                }
+            }
+
+            state = parseInt(A[i][12]);
+            switch (state) {
+                case 0:
+                    match_score = "-";
+                    match_half = "-";
+                    break;
+                case 1:
+                    match_score = A[i][13] + "-" + A[i][14];
+                    match_half = "-";
+                    break;
+                case -11:
+                case -14:
+                    match_score = "";
+                    match_half = "";
+                    break;
+                default:
+                    match_score = A[i][13] + "-" + A[i][14];
+                    if (A[i][15] == null) A[i][15] = "";
+                    if (A[i][16] == null) A[i][16] = "";
+                    match_half = A[i][15] + "-" + A[i][16];
+                    break;
+            }
+            if (A[i][17] != "0") H_redcard = "<img src='images/redcard" + A[i][17] + ".gif'>"; else H_redcard = "";
+            if (A[i][18] != "0") G_redcard = "<img src='images/redcard" + A[i][18] + ".gif'>"; else G_redcard = "";
+            if (A[i][19] != "0") H_yellow = "<img src='images/yellow" + A[i][19] + ".gif'>"; else H_yellow = "";
+            if (A[i][20] != "0") G_yellow = "<img src='images/yellow" + A[i][20] + ".gif'>"; else G_yellow = "";
+
+            if (bg != "ts1") bg = "ts1"; else bg = "ts2";
+            var rowData = {};
+            rowData.scheduleid = A[i][0];
+            rowData.index = i;
+            rowData.league = B[A[i][1]][1 + Config.language];
+            rowData.bgcolor = B[A[i][1]][4];
+            rowData.matchdate = A[i][10];
+
+            if (state == "-1")
+                classx2 = "td_scoreR";
+            else
+                classx2 = "td_score";
+            rowData.state = state_ch[state + 14].split(",")[Config.language];
+            rowData.h_team = H_yellow + H_redcard + A[i][4 + Config.language] + (A[i][21] == "" ? "" : "<font color=#888888>[" + A[i][21] + "]</font>");
+            rowData.goal = match_score;
+            rowData.g_team = A[i][7 + Config.language] + "" + G_redcard + "" + G_yellow + (A[i][22] == "" ? "" : "<font color=#888888>[" + A[i][22] + "]</font>");
+            rowData.match_half = match_half;
+            rowData.classx2 = classx2;
+            rowData.pankou = Goal2GoalCn(A[i][25]);
+
+            var goalResult = "";
+            if (A[i][25] != null && match_score != "-") {
+                var homeScore = parseInt(A[i][13]);
+                var guestScore = parseInt(A[i][14]);
+                var goal = parseFloat(A[i][25]);
+                var numResult = homeScore - guestScore - goal;
+                if (numResult > 0) {
+                    if (numResult == 0.25)
+                        goalResult = "<font color='red'>赢半</font>";
+                    else
+                        goalResult = "<font color='red'>赢</font>";
+                }
+                else if (numResult == 0)
+                    goalResult = "<font color='blue'>走</font>";
+                else {
+                    if (numResult == -0.25)
+                        goalResult = "<font color='green'>输半</font>";
+                    else
+                        goalResult = "<font color='green'>输</font>";
+                }
+            }
+            rowData.g_odds = goalResult;
+            rowData.data = "<a href='javascript:' onclick=analysis(" + A[i][0] + ") title='数据分析'>析</a> <a href=javascript: onclick=\"AsianOdds(" + A[i][0] + ");return false\" title='11家指数'>亚</a> <a href='javascript:EuropeOdds(" + A[i][0] + ")' title='百家欧赔'>欧</a>";
+            if (A[i][24] == "True")
+                rowData.zoudi = "<a href='Odds/runningDetail.aspx?scheduleID=" + A[i][0] + "' target='_blank'><img src='http://live.nowscore.com/images/t3.gif' height=10 width=10 title='走地'></a>";
+            
+
+            if (A[i][27] + A[i][28] == "") classx = "none"; else classx = "";
+            //rowData.other = showExplain(A[i][28], A[i][4 + Config.language], A[i][7 + Config.language]) + (A[i][28] != "" && A[i][27] != "" ? "<br>" + A[i][27] : A[i][27] != "" ? A[i][27] : "");
+
+            scheduleData.push(rowData);
+        } catch (e) { }
+    }
+    //document.getElementById("ScoreDiv").innerHTML = html.join("");
+    var grid = Ext.getCmp("HistoryFileGrid");
+    grid.getStore().loadData(scheduleData);
+
+//    //联赛/杯赛名列表
+//    var leaguehtml = new Array();
+//    leaguehtml.push("<ul id='checkboxleague'>");
+//    for (var i = 0; i < sclasscount; i++) {
+//        if (B[i][8] > 0)
+//            leaguehtml.push("<li><input onclick='CheckLeague(" + i + ")' checked type=checkbox id='checkboxleague_" + i + "' value=" + i + "><label style='cursor:pointer' for='checkboxleague_" + i + "'>" + B[i][1 + Config.language] + "<font color=#990000>[" + B[i][8] + "]</font></label></li>");
+//    }
+//    leaguehtml.push("</ul>");
+//    document.getElementById("myleague").innerHTML = leaguehtml.join("");
+
+//    //国家列表
+//    var country = new Array();
+//    for (var i = 0; i < C.length; i++) {
+//        if (C[i][2] > 0) country.push("<li><a href='javascript:CheckCountry(" + C[i][0] + ")' id='country_" + C[i][0] + "'>" + C[i][1] + "</a></li>");
+//    }
+//    document.getElementById("countryList").innerHTML = country.join("");
 }

@@ -20,7 +20,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             { name: 'totalCount', type: 'int' }
             ];
     var params = {
-        stypeid: scheduleTypeArr.length > 0 ? scheduleTypeArr[0]:'',
+        stypeid: scheduleTypeArr.length > 0 ? scheduleTypeArr[0] : '',
         oddsarr: oddsArr.join('^'),
         schedulearr: scheduleArr.join('^')
     };
@@ -88,11 +88,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perwin",
             sortable: false,
             renderer: function (value, last, row, index) {
-                var cha = "";
-                if (index > 1) {
-                    cha = "(" + (value - store.getAt(index - 2).get("perwin")).toFixed(2) + ")";
-                }
-                return value.toFixed(2) + cha;
+                return value.toFixed(2);
             }
         }, {
             header: "和局",
@@ -100,11 +96,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perdraw",
             sortable: false,
             renderer: function (value, last, row, index) {
-                var cha = "";
-                if (index > 1) {
-                    cha = "(" + (value - store.getAt(index - 2).get("perdraw")).toFixed(2) + ")";
-                }
-                return value.toFixed(2) + cha;
+                return value.toFixed(2);
             }
         }, {
             header: "客胜",
@@ -112,11 +104,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perlost",
             sortable: false,
             renderer: function (value, last, row, index) {
-                var cha = "";
-                if (index > 1) {
-                    cha = "(" + (value - store.getAt(index - 2).get("perlost")).toFixed(2) + ")";
-                }
-                return value.toFixed(2) + cha;
+                return value.toFixed(2);
             }
         }, {
             header: "进球数",
@@ -137,7 +125,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
         loadMask: true,
         stripeRows: true,
         columnLines: true,
-        height: 120,
+        height: 200,
         //超过长度带自动滚动条
         autoScroll: true,
         border: false,
@@ -150,6 +138,73 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             getRowClass: function (record, rowIndex, rowParams, store) {
             }
         },
+        tbar: [new Ext.Toolbar.Fill(), {
+            text: '计算',
+            handler: function () {
+                var s = "";
+                if (store.getAt(2).get("perwin") > store.getAt(0).get("perwin")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(2).get("perdraw") > store.getAt(0).get("perdraw")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(2).get("perlost") > store.getAt(0).get("perlost")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(3).get("perwin") > store.getAt(1).get("perwin")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(3).get("perdraw") > store.getAt(1).get("perdraw")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(3).get("perlost") > store.getAt(1).get("perlost")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(1).get("perwin") > store.getAt(0).get("perwin")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(1).get("perdraw") > store.getAt(0).get("perdraw")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(1).get("perlost") > store.getAt(0).get("perlost")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(3).get("perwin") > store.getAt(2).get("perwin")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(3).get("perdraw") > store.getAt(2).get("perdraw")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                if (store.getAt(3).get("perlost") > store.getAt(2).get("perlost")) {
+                    s += "1";
+                } else {
+                    s += "0";
+                }
+                Ext.Msg.alert(s);
+            }
+        }],
         listeners: {
             rowclick: function (grid, rowIndex, cellIndex, e) {
                 grid1.getStore().baseParams.rowindex = rowIndex;

@@ -122,7 +122,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                             " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
                         if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
                         {
-                            ewhereList.Add("(companyid=" + odds[0] + "and e_win=" + odds[10] + 
+                            ewhereList.Add("(companyid=" + odds[0] + " and e_win=" + odds[10] + 
                                 " and e_draw=" + odds[11] + " and e_lost=" + odds[12]+")");
                             oddswhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
                             " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + " and e_win=" + odds[10] +
@@ -157,6 +157,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     //string scheduleFilter = "sclassid=" + stypeid + " and c.id<>" + scheduleArr[0];
                     DataSet sds = scheduleBLL.statOddsHistory(scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
                     DataSet eds = scheduleBLL.statOddsHistory(scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    DataSet rqds = scheduleBLL.statRangQiuHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
                     Common.DataCache.SetCache("swhere", String.Join(" or ", swhereList.ToArray()));
                     Common.DataCache.SetCache("ewhere", String.Join(" or ", ewhereList.ToArray()));
                     //DataSet oddsds = scheduleBLL.statOddsHistory(String.Join(" or ", oddswhereList.ToArray()),"");
@@ -173,19 +174,22 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dr["perdraw"] = soddsperdraw.Average();
                     dr["perlost"] = soddsperlost.Average();
                     dt.Rows.Add(dr);
-                    dt.ImportRow(sds.Tables[0].Rows[0]);
-                    dt.Rows[1]["name"] = "初盘";
                     dr = dt.NewRow();
                     dr["name"] = "终赔";
                     dr["perwin"] = eoddsperwin.Average();
                     dr["perdraw"] = eoddsperdraw.Average();
                     dr["perlost"] = eoddsperlost.Average();
                     dt.Rows.Add(dr);
+                    dt.ImportRow(sds.Tables[0].Rows[0]);
+                    dt.Rows[2]["name"] = "初盘";
+                    
                     dt.ImportRow(eds.Tables[0].Rows[0]);
+                    
                     //dt.ImportRow(oddsds.Tables[0].Rows[0]);
                     
                     dt.Rows[3]["name"] = "终盘";
-                    //dt.Rows[4]["name"] = "全局";
+                    dt.ImportRow(rqds.Tables[0].Rows[0]);
+                    dt.Rows[4]["name"] = scheduleArr[25];
 
                     JObject result = JObject.Parse("{success:true}");
                     result.Add("data", JArray.FromObject(dt));

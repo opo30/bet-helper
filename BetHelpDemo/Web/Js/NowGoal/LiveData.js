@@ -296,7 +296,8 @@ var GetPrediction = function(scheduleID) {
             enableToggle: true,
             toggleHandler: function (button, state) {
                 if (state) {
-
+                    var rows = grid.getSelectionModel().getSelections();
+                    MoveToBottom(rows[0].get("scheduleid"));
                 } else {
 
                 }
@@ -443,6 +444,7 @@ var GetPrediction = function(scheduleID) {
 		    iconCls: "refreshicon",
 		    tooltip: '刷新列表',
 		    handler: function () {
+		        grid.loadMask.show();
 		        LoadLiveFile();
 		    }
 		}, "-", {
