@@ -151,6 +151,7 @@ var GetPrediction = function(scheduleID) {
 		    css: 'vertical-align: inherit;',
 		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
 		        cell.css = row.get("classx2");
+		        cell.cellAttr = "onmouseover='showdetail(" + row.get("index") + ",event)'";
 		        return value;
 		    }
 		}, {

@@ -418,14 +418,14 @@ function refresh() {
                     notify += sclassname + ":" + hometeam + " <font color=blue>" + score1 + "-" + score2 + "</font> " + guestteam + " &nbsp; ";
                     //nofityTimer = window.setTimeout("clearNotify()", 20000);
 
-                    //                    if (Config.winLocation >= 0 && parseInt(D[1]) >= -1) {
-                    //                        if (matchNum % 2 == 0)
-                    //                            winStr += "<tr bgcolor=#ffffff height=32 align=center class=line><td><font color=#1705B1>" + sclassname + "</font></td><td> " + grid.getView().getCell(index, 3).innerHTML + "</td><td><b>" + hometeam + "</b></td><td width=11% style='font-size: 18px;font-family:Verdana;font-weight:bold;'>" + score1 + "-" + score2 + "</td><td>" + Goal2GoalCn(A[matchindex][25]) + "</td><td><b>" + guestteam + "</b></td></tr>";
-                    //                        else
-                    winStr += "<tr bgcolor=#FDF1E7 height=32 align=center class=line><td><font color=#1705B1>" + sclassname + "</font></td><td> " + grid.getView().getCell(index, 3).innerHTML + "</td><td><b>" + hometeam + "</b></td><td width=11% style='font-size: 18px;font-family:Verdana;font-weight:bold;'>" + score1 + "-" + score2 + "</td><td>" + Goal2GoalCn(A[matchindex][25]) + "</td><td><b>" + guestteam + "</b></td></tr>";
+                    if (Config.winLocation >= 0 && parseInt(D[1]) >= -1) {
+                        if (matchNum % 2 == 0)
+                            winStr += "<tr bgcolor=#ffffff height=32 align=center class=line><td><font color=#1705B1>" + sclassname + "</font></td><td> " + grid.getView().getCell(index, 3).innerHTML + "</td><td><b>" + hometeam + "</b></td><td width=11% style='font-size: 18px;font-family:Verdana;font-weight:bold;'>" + score1 + "-" + score2 + "</td><td>" + Goal2GoalCn(A[matchindex][25]) + "</td><td><b>" + guestteam + "</b></td></tr>";
+                        else
+                            winStr += "<tr bgcolor=#FDF1E7 height=32 align=center class=line><td><font color=#1705B1>" + sclassname + "</font></td><td> " + grid.getView().getCell(index, 3).innerHTML + "</td><td><b>" + hometeam + "</b></td><td width=11% style='font-size: 18px;font-family:Verdana;font-weight:bold;'>" + score1 + "-" + score2 + "</td><td>" + Goal2GoalCn(A[matchindex][25]) + "</td><td><b>" + guestteam + "</b></td></tr>";
 
-                    matchNum = matchNum + 1
-                    //                    }
+                        matchNum = matchNum + 1
+                    }
                 }
             } //scorechange
         }
@@ -776,11 +776,13 @@ function MoveToBottom(m) {
     try {
         var grid = Ext.getCmp("HistoryFileGrid");
         var index = grid.getStore().indexOfId(m);
-        var trcontent = grid.getView().getRow(index).outerHTML;
+        var tr = grid.getView().getRow(index);
         var record = grid.getStore().getAt(index);
         grid.getStore().removeAt(index);
         grid.getStore().add(record);
-        grid.getView().getRow(grid.getStore().getCount() - 1).outerHTML = trcontent;
+        grid.getView().getRow(grid.getStore().getCount() - 1).setAttribute("id", tr.getAttribute("id"));
+        grid.getView().getRow(grid.getStore().getCount() - 1).setAttribute("odds", tr.getAttribute("odds"));
+        grid.getView().getRow(grid.getStore().getCount() - 1).setAttribute("index", tr.getAttribute("index"));
     } catch (e) { }
 }
 
@@ -800,6 +802,41 @@ function LoadLiveFile(date) {
     }
     allDate.removeChild(allDate.firstChild);
     allDate.appendChild(s, "script");
+}
+
+function showdetail(n, event) {
+    if (Config.detail == 0) return;
+    if (A[n][12] == "0") return;
+    try {
+        if (Math.floor((new Date() - loadDetailFileTime) / 600) > 60) LoadDetailFile();
+        var R = new Array();
+        var html = "<table width=350 bgcolor=#E1E1E1 cellpadding=0 cellspacing=1 border=0 style='border:solid 1px #666;'>";
+        html += "<tr><td height=20 colspan=5 bgcolor=#666699 align=center><font color=white><b>初盘参考：" + Goal2GoalCn(A[n][25]) + "</b></font></td></tr>";
+        html += "<tr bgcolor=#D5F2B7 align=center><td height=20 colspan=2 width=44%><font color=#006600><b>" + A[n][4 + Config.language] + "[" + A[n][21] + "]</b></font></td><td width=12% bgcolor=#CCE8B5>时间</td><td colspan=2 width=44%><font color=#006600><b>" + A[n][7 + Config.language] + "[" + A[n][22] + "]</b></font></td></tr>";
+        for (var i = 0; i < rq.length; i++) {
+            R = rq[i].split('^');
+            if (R[0] != A[n][0]) continue;
+            if (R[1] == "1")
+                html += "<tr bgcolor=white align=center><td width=6% height=18><img src='http://live.nowscore.com/images/" + R[2] + ".gif'></td><td width=38%>" + R[4] + "</td><td width=12% bgcolor=#EFF4EA>" + R[3] + "'</td><td width=38%></td><td width=6%></td></tr>";
+            else
+                html += "<tr bgcolor=white align=center><td width=6% height=18></td><td width=38%></td><td width=12% bgcolor=#EFF4EA>" + R[3] + "'</td><td width=38%>" + R[4] + "</td><td width=6%><img src='http://live.nowscore.com/images/" + R[2] + ".gif'></td></tr>";
+        }
+        html += "</table>";
+        var grid = Ext.getCmp("HistoryFileGrid");
+        var index = grid.getStore().indexOfId(A[n][0]);
+        grid.getView().getCell(index, 5).setAttribute("ext:qtip", html);
+    } catch (e) { }
+}
+
+function LoadDetailFile() {
+    var detail = document.getElementById("span_detail");
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+    s.charset = "gb2312";
+    s.src = "http://live.nowscore.com/data/detail.js?" + Date.parse(new Date());
+    detail.removeChild(detail.firstChild);
+    detail.appendChild(s, "script");
+    loadDetailFileTime = new Date();
 }
 
 function CheckFunction(obj) {

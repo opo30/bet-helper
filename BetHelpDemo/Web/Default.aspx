@@ -46,10 +46,11 @@
     </script>
 </head>
 <body>
+<span id="span_detail"><script language="javascript" src="http://live.nowscore.com/data/detail.js" type="text/javascript" charset="gb2312"></script></span>
+<span id="span_panlu"><script language="javascript" src="http://live.nowscore.com/data/panlu.js" type="text/javascript"></script></span>
     <span id="notify"></span>
     <span id="ScoreDiv"></span>
 	<span id="flashsound"></span>
-
     <div id="scriptScsg"><script type="text/javascript"></script></div>
     <span id="allDate"><script language="javascript" type="text/javascript" defer="defer"></script></span>
     <div id="loading-mask" style="">
