@@ -399,6 +399,20 @@ var GetPrediction = function(scheduleID) {
                     CheckFunction("dx")
                 }
             }
+        }, {
+            text: '声音',
+            enableToggle: true,
+            pressed: Config.sound == 1,
+            listeners: {
+                toggle: function (obj, ischeck) {
+                    if (ischeck) {
+                        Config.sound = 1;
+                    } else {
+                        Config.sound = -1;
+                    }
+                    Config.writeCookie();
+                }
+            }
         },
 		new Ext.Toolbar.Fill(), {
 		    text: '收藏',
@@ -675,8 +689,8 @@ var GetPrediction = function(scheduleID) {
              }
          }]
      });
- }
 
+ }
 
  var showDetailWindow = function (matchid, title, action) {
      new Ext.Window({
