@@ -16,6 +16,9 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             { name: 'perwin', type: 'float' },
             { name: 'perdraw', type: 'float' },
             { name: 'perlost', type: 'float' },
+            { name: 'rqwin', type: 'float' },
+            { name: 'rqdraw', type: 'float' },
+            { name: 'rqlost', type: 'float' },
             { name: 'avgscore', type: 'float' },
             { name: 'totalCount', type: 'int' }
             ];
@@ -62,10 +65,25 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
                 } else if (r.get("perlost") < store.getAt(index - 1).get("perlost")) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
-                if (r.get("avgscore") > store.getAt(index - 1).get("avgscore")) {
+                if (r.get("rqwin") > store.getAt(index - 1).get("rqwin")) {
                     grid.getView().getCell(index, 5).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("avgscore") < store.getAt(index - 1).get("avgscore")) {
+                } else if (r.get("rqwin") < store.getAt(index - 1).get("rqwin")) {
                     grid.getView().getCell(index, 5).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
+                if (r.get("rqdraw") > store.getAt(index - 1).get("rqdraw")) {
+                    grid.getView().getCell(index, 6).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("rqdraw") < store.getAt(index - 1).get("rqdraw")) {
+                    grid.getView().getCell(index, 6).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
+                if (r.get("rqlost") > store.getAt(index - 1).get("rqlost")) {
+                    grid.getView().getCell(index, 7).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("rqlost") < store.getAt(index - 1).get("rqlost")) {
+                    grid.getView().getCell(index, 7).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
+                if (r.get("avgscore") > store.getAt(index - 1).get("avgscore")) {
+                    grid.getView().getCell(index, 8).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("avgscore") < store.getAt(index - 1).get("avgscore")) {
+                    grid.getView().getCell(index, 8).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
             }
         });
@@ -106,6 +124,21 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             renderer: function (value, last, row, index) {
                 return value.toFixed(2);
             }
+        }, {
+            header: "赢",
+            tooltip: "主场球队获胜赔率",
+            dataIndex: "rqwin",
+            sortable: false
+        }, {
+            header: "走",
+            tooltip: "比赛打平的赔率",
+            dataIndex: "rqdraw",
+            sortable: false
+        }, {
+            header: "输",
+            tooltip: "客场球队获胜赔率",
+            dataIndex: "rqlost",
+            sortable: false
         }, {
             header: "进球数",
             dataIndex: "avgscore",

@@ -155,9 +155,10 @@ namespace SeoWebSite.Web.Data.NowGoal
                         scheduleFilter += "sclassid=" + stypeid + " and ";
                     }
                     //string scheduleFilter = "sclassid=" + stypeid + " and c.id<>" + scheduleArr[0];
-                    DataSet sds = scheduleBLL.statOddsHistory(scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
-                    DataSet eds = scheduleBLL.statOddsHistory(scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
-                    DataSet rqds = scheduleBLL.statRangQiuHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    DataSet sds = scheduleBLL.statOddsHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    DataSet eds = scheduleBLL.statOddsHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    //DataSet srqds = scheduleBLL.statRangQiuHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    //DataSet erqds = scheduleBLL.statRangQiuHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
                     Common.DataCache.SetCache("swhere", String.Join(" or ", swhereList.ToArray()));
                     Common.DataCache.SetCache("ewhere", String.Join(" or ", ewhereList.ToArray()));
                     //DataSet oddsds = scheduleBLL.statOddsHistory(String.Join(" or ", oddswhereList.ToArray()),"");
@@ -166,6 +167,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.Columns.Add("perwin", typeof(float));
                     dt.Columns.Add("perdraw", typeof(float));
                     dt.Columns.Add("perlost", typeof(float));
+                    dt.Columns.Add("rqwin", typeof(float));
+                    dt.Columns.Add("rqdraw", typeof(float));
+                    dt.Columns.Add("rqlost", typeof(float));
                     dt.Columns.Add("avgscore", typeof(float));
                     dt.Columns.Add("totalCount", typeof(float));
                     DataRow dr = dt.NewRow();
@@ -184,12 +188,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.Rows[2]["name"] = "初盘";
                     
                     dt.ImportRow(eds.Tables[0].Rows[0]);
-                    
-                    //dt.ImportRow(oddsds.Tables[0].Rows[0]);
-                    
                     dt.Rows[3]["name"] = "终盘";
-                    dt.ImportRow(rqds.Tables[0].Rows[0]);
-                    dt.Rows[4]["name"] = scheduleArr[25];
 
                     JObject result = JObject.Parse("{success:true}");
                     result.Add("data", JArray.FromObject(dt));
