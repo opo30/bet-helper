@@ -46,15 +46,27 @@ namespace SeoWebSite.Web.Data.NowGoal
         {
             if (Request["rowindex"] != null)
             {
-                string cacheName = Request.Form["rowindex"] == "0" ? "swhere" : "ewhere"; ;
-                DataSet ds = scheduleBLL.statOddsHistoryGroupByDate(Common.DataCache.GetCache(cacheName).ToString());
-                JObject result = JObject.Parse("{success:true}");
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Converters.Add(new JavaScriptDateTimeConverter());
-                serializer.NullValueHandling = NullValueHandling.Ignore;
-                result.Add("data", JArray.FromObject(ds.Tables[0], serializer));
-                JsonConvert.SerializeObject(ds.Tables[0], new JavaScriptDateTimeConverter());
-                StringJSON = result.ToString();
+                string strWhere = "";
+                if (Request.Form["rowindex"] == "2")
+                {
+                    strWhere = Common.DataCache.GetCache("swhere").ToString();
+                }
+                else if (Request.Form["rowindex"] == "3")
+                {
+                    strWhere = Common.DataCache.GetCache("ewhere").ToString();
+                }
+                if (!String.IsNullOrEmpty(strWhere))
+                {
+                    DataSet ds = scheduleBLL.statOddsHistoryGroupByDate(Common.DataCache.GetCache("rangqiu").ToString(),strWhere);
+                    JObject result = JObject.Parse("{success:true}");
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                    serializer.NullValueHandling = NullValueHandling.Ignore;
+                    result.Add("data", JArray.FromObject(ds.Tables[0], serializer));
+                    JsonConvert.SerializeObject(ds.Tables[0], new JavaScriptDateTimeConverter());
+                    StringJSON = result.ToString();
+                }
+                
             }
         }
 
@@ -159,8 +171,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                     DataSet eds = scheduleBLL.statOddsHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
                     //DataSet srqds = scheduleBLL.statRangQiuHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
                     //DataSet erqds = scheduleBLL.statRangQiuHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
-                    Common.DataCache.SetCache("swhere", String.Join(" or ", swhereList.ToArray()));
-                    Common.DataCache.SetCache("ewhere", String.Join(" or ", ewhereList.ToArray()));
+                    Common.DataCache.SetCache("swhere", scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    Common.DataCache.SetCache("ewhere", scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    Common.DataCache.SetCache("rangqiu", scheduleArr[25]);
                     //DataSet oddsds = scheduleBLL.statOddsHistory(String.Join(" or ", oddswhereList.ToArray()),"");
                     DataTable dt = new DataTable();
                     dt.Columns.Add("name", typeof(string));

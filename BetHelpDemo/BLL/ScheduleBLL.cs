@@ -209,9 +209,9 @@ namespace SeoWebSite.BLL
             return dal.queryOddsHistory(whereStr);
         }
 
-        public DataSet statOddsHistoryGroupByDate(string whereStr)
+        public DataSet statOddsHistoryGroupByDate(string rangqiu,string whereStr)
         {
-            return dal.statOddsHistoryGroupByDate(whereStr);
+            return dal.statOddsHistoryGroupByDate(rangqiu,whereStr);
         }
 
         public DataSet statOddsHistory1(string whereStr)
@@ -224,6 +224,7 @@ namespace SeoWebSite.BLL
         {
             return dal.statRangQiuHistory(rangqiu,whereStr);
         }
+
     }
 }
 

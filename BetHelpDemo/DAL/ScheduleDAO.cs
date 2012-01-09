@@ -445,17 +445,18 @@ namespace SeoWebSite.DAL
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
-        public DataSet statOddsHistoryGroupByDate(string whereStr)
+        public DataSet statOddsHistoryGroupByDate(string rangqiu,string whereStr)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select a.date sdate,");
-            strSql.Append("sumwin=sum(case when a.home>a.away then 1 else 0 end),");
-            strSql.Append("sumdraw=sum(case when a.home=a.away then 1 else 0 end),");
-            strSql.Append("sumlost=sum(case when a.home<a.away then 1 else 0 end),");
-            strSql.Append("avgscore=avg(1.0*(a.home+a.away)),");
-            strSql.Append("count(a.id) totalCount from");
+            strSql.Append("select c.date sdate,");
+            strSql.Append("sumwin=sum(case when c.home-c.away>" + rangqiu + " then 1 else 0 end),");
+            strSql.Append("sumdraw=sum(case when c.home-c.away=" + rangqiu + " then 1 else 0 end),");
+            strSql.Append("sumlost=sum(case when c.home-c.away<" + rangqiu + " then 1 else 0 end),");
+            strSql.Append("avgscore=avg(1.0*(c.home+c.away)),");
+            strSql.Append("count(c.id) totalCount from ");
+            strSql.Append("(select distinct a.id,a.home,a.away,a.date from");
             strSql.Append(" Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
-            strSql.Append(" where " + whereStr + " group by a.date");
+            strSql.Append(" where " + whereStr + ") c group by c.date");
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
