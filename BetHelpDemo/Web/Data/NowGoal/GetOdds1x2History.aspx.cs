@@ -9,6 +9,7 @@ using System.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using SeoWebSite.DBUtility;
 
 namespace SeoWebSite.Web.Data.NowGoal
 {
@@ -202,6 +203,29 @@ namespace SeoWebSite.Web.Data.NowGoal
                     
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[3]["name"] = "终盘";
+
+                    List<decimal> numList = new List<decimal>();
+                    numList.Add(soddsperwin.Average());
+                    numList.Add(soddsperdraw.Average());
+                    numList.Add(soddsperlost.Average());
+                    numList.Add(eoddsperwin.Average());
+                    numList.Add(eoddsperdraw.Average());
+                    numList.Add(eoddsperlost.Average());
+                    numList.Add(Convert.ToDecimal(dt.Rows[2][1]));
+                    numList.Add(Convert.ToDecimal(dt.Rows[2][2]));
+                    numList.Add(Convert.ToDecimal(dt.Rows[2][3]));
+                    numList.Add(Convert.ToDecimal(dt.Rows[3][1]));
+                    numList.Add(Convert.ToDecimal(dt.Rows[3][2]));
+                    numList.Add(Convert.ToDecimal(dt.Rows[3][3]));
+                    decimal[] numArr = numList.ToArray();
+                    numList.Sort();
+                    string res = "";
+                    foreach (decimal item in numArr)
+                    {
+                        res += numList.IndexOf(item) + ",";
+                    }
+                    DataSet dsNum = DbHelperSQL.Query("select perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),rqwin=100.0*sum(case when a.home-a.away>" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqdraw=100.0*sum(case when a.home-a.away=" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqlost=100.0*sum(case when a.home-a.away<" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),avgscore=avg(1.0*(a.home+a.away)),count(a.id) totalCount  from schedule a join schedulerecord b on b.scheduleid=a.id and b.result='" + res + "'");
+                    dt.ImportRow(dsNum.Tables[0].Rows[0]);
 
                     JObject result = JObject.Parse("{success:true}");
                     result.Add("data", JArray.FromObject(dt));
