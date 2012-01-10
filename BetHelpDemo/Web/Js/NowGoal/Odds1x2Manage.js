@@ -81,6 +81,7 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
             for (var i = 12; i <= 15; i++) {
                 grid.getView().getCell(index, i).style.color = "#666";
             }
+            r.gamedata = gameData[index];
         });
     });
 
@@ -135,8 +136,6 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
     var sm = new Ext.grid.RowSelectionModel({
         dataIndex: "oddsid",
         listeners: {
-            // On selection change, set enabled state of the removeButton
-            // which was placed into the GridPanel using the ref config
             selectionchange: function (s) {
 
             }
@@ -378,7 +377,7 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
 		        } else {
 		            var oddsArr = [];
 		            Ext.each(row, function (r) {
-		                oddsArr.push(gameData[grid.getStore().indexOf(r)]);
+		                oddsArr.push(r.gamedata);
 		            })
 		            Odds1x2History(scheduleArr, [], oddsArr);
 		        }
