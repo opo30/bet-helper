@@ -106,7 +106,11 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perwin",
             sortable: false,
             renderer: function (value, last, row, index) {
-                return value.toFixed(2);
+                var change = "";
+                if (index == 2 || index == 3) {
+                    change = "(" + (value - store.getAt(index - 2).get("perwin")).toFixed(2) + ")";
+                }
+                return value.toFixed(2) + change;
             }
         }, {
             header: "和局",
@@ -114,7 +118,11 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perdraw",
             sortable: false,
             renderer: function (value, last, row, index) {
-                return value.toFixed(2);
+                var change = "";
+                if (index == 2 || index == 3) {
+                    change = "(" + (value - store.getAt(index - 2).get("perdraw")).toFixed(2) + ")";
+                }
+                return value.toFixed(2) + change;
             }
         }, {
             header: "客胜",
@@ -122,7 +130,11 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perlost",
             sortable: false,
             renderer: function (value, last, row, index) {
-                return value.toFixed(2);
+                var change = "";
+                if (index == 2 || index == 3) {
+                    change = "(" + (value - store.getAt(index - 2).get("perlost")).toFixed(2) + ")";
+                }
+                return value.toFixed(2) + change;
             }
         }, {
             header: "赢",
@@ -355,7 +367,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
 
     var win = new Ext.Window({
         title: "历史赔率",
-        width: 600,
+        width: 700,
         height: 500,
         plain: true,
         iconCls: "total",
