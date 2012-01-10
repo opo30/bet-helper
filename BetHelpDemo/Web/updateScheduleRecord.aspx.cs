@@ -16,15 +16,15 @@ public partial class Default7 : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            DataSet ds = DbHelperSQL.Query("select a.id from Schedule a where a.updated=1 and a.id not in (select b.scheduleid from ScheduleRecord b) and year(a.date)=2011");
+            DataSet ds = DbHelperSQL.Query("select a.id from Schedule a where a.updated=1 and a.id not in (select b.scheduleid from ScheduleRecord b) and year(a.date)=2011",999);
 
             if (ds.Tables[0].Rows.Count > 0)
 	        {
 		            foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        DataSet avgPer = DbHelperSQL.Query("select AVG(s_winper),AVG(s_drawper),AVG(s_lostper),AVG(e_winper),AVG(e_drawper),AVG(e_lostper) from odds where scheduleid =" + dr["id"]);
+                        DataSet avgPer = DbHelperSQL.Query("select AVG(s_winper),AVG(s_drawper),AVG(s_lostper),AVG(e_winper),AVG(e_drawper),AVG(e_lostper) from odds where scheduleid =" + dr["id"], 999);
                         DataRow avgdr = avgPer.Tables[0].Rows[0];
-                        DataSet dsOdds = DbHelperSQL.Query("select companyid,s_win,s_draw,s_lost,e_win,e_draw,e_lost from odds where scheduleid =" + dr["id"]);
+                        DataSet dsOdds = DbHelperSQL.Query("select companyid,s_win,s_draw,s_lost,e_win,e_draw,e_lost from odds where scheduleid =" + dr["id"], 999);
                         List<string> swhereList = new List<string>();
                         List<string> ewhereList = new List<string>();
                         foreach (DataRow oddsdr in dsOdds.Tables[0].Rows)
