@@ -56,7 +56,8 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
             { name: 'lastupdatetime', type: 'string' },
             { name: 'companyfullname', type: 'string' },
             { name: 'isprimary', type: 'boolean' },
-            { name: 'isexchange', type: 'string' }
+            { name: 'isexchange', type: 'string' },
+            { name: 'data', type: 'string' }
             ];
 
     Odds1x2store = new Ext.data.ArrayStore({
@@ -81,7 +82,6 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
             for (var i = 12; i <= 15; i++) {
                 grid.getView().getCell(index, i).style.color = "#666";
             }
-            r.gamedata = gameData[index];
         });
     });
 
@@ -96,7 +96,9 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
                     var arrayData = [];
                     eval(res.responseText + "gameData = game;");
                     Ext.each(gameData, function (oddsinfo) {
-                        arrayData.push(oddsinfo.split('|'));
+                        var arr = oddsinfo.split('|');
+                        arr.push(oddsinfo);
+                        arrayData.push(arr);
                     });
                     Odds1x2store.loadData(arrayData)
                 }
@@ -377,7 +379,7 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
 		        } else {
 		            var oddsArr = [];
 		            Ext.each(row, function (r) {
-		                oddsArr.push(r.gamedata);
+		                oddsArr.push(r.get("data"));
 		            })
 		            Odds1x2History(scheduleArr, [], oddsArr);
 		        }
@@ -394,7 +396,7 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
 		        } else {
 		            var oddsArr = [];
 		            Ext.each(row, function (r) {
-		                oddsArr.push(gameData[grid.getStore().indexOf(r)]);
+		                oddsArr.push(r.get("data"));
 		            })
 		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr);
 		        }
