@@ -275,7 +275,7 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
 		    header: "更新时间",
 		    dataIndex: "lastupdatetime",
 		    sortable: true,
-		    width: 180,
+		    width: 200,
 		    renderer: function (value) {
 		        return showDate(value);
 		    }
