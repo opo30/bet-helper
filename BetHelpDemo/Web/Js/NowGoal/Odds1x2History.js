@@ -107,8 +107,12 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             sortable: false,
             renderer: function (value, last, row, index) {
                 var change = "";
-                if (index == 2 || index == 3) {
-                    change = "(" + (value - store.getAt(index - 2).get("perwin")).toFixed(2) + ")";
+                if (index == 3) {
+                    var num1 = store.getAt(1).get("perwin") - store.getAt(0).get("perwin");
+                    var num2 = value - store.getAt(2).get("perwin");
+                    var num3 = store.getAt(2).get("perwin") - store.getAt(0).get("perwin");
+                    var num4 = value - store.getAt(1).get("perwin");
+                    change = "(" + (num1 + num2 + num3 + num4).toFixed(2) + ")";
                 }
                 return value.toFixed(2) + change;
             }
@@ -119,8 +123,12 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             sortable: false,
             renderer: function (value, last, row, index) {
                 var change = "";
-                if (index == 2 || index == 3) {
-                    change = "(" + (value - store.getAt(index - 2).get("perdraw")).toFixed(2) + ")";
+                if (index == 3) {
+                    var num1 = store.getAt(1).get("perdraw") - store.getAt(0).get("perdraw");
+                    var num2 = value - store.getAt(2).get("perdraw");
+                    var num3 = store.getAt(2).get("perdraw") - store.getAt(0).get("perdraw");
+                    var num4 = value - store.getAt(1).get("perdraw");
+                    change = "(" + (num1 + num2 + num3 + num4).toFixed(2) + ")";
                 }
                 return value.toFixed(2) + change;
             }
@@ -131,8 +139,12 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             sortable: false,
             renderer: function (value, last, row, index) {
                 var change = "";
-                if (index == 2 || index == 3) {
-                    change = "(" + (value - store.getAt(index - 2).get("perlost")).toFixed(2) + ")";
+                if (index == 3) {
+                    var num1 = store.getAt(1).get("perlost") - store.getAt(0).get("perlost");
+                    var num2 = value - store.getAt(2).get("perlost");
+                    var num3 = store.getAt(2).get("perlost") - store.getAt(0).get("perlost");
+                    var num4 = value - store.getAt(1).get("perlost");
+                    change = "(" + (num1 + num2 + num3 + num4).toFixed(2) + ")";
                 }
                 return value.toFixed(2) + change;
             }
