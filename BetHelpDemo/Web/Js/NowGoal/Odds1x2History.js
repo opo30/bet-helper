@@ -367,7 +367,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
 
     var win = new Ext.Window({
         title: "历史赔率",
-        width: 700,
+        width: 800,
         height: 500,
         plain: true,
         iconCls: "total",
