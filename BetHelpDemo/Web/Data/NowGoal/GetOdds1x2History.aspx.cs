@@ -224,7 +224,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     {
                         res += numList.IndexOf(item) + ",";
                     }
-                    DataSet dsNum = DbHelperSQL.Query("select perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),rqwin=100.0*sum(case when a.home-a.away>" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqdraw=100.0*sum(case when a.home-a.away=" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqlost=100.0*sum(case when a.home-a.away<" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),avgscore=avg(1.0*(a.home+a.away)),count(a.id) totalCount  from schedule a join schedulerecord b on b.scheduleid=a.id and b.result='" + res + "'");
+                    DataSet dsNum = DbHelperSQL.Query("select perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),rqwin=100.0*sum(case when a.home-a.away>" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqdraw=100.0*sum(case when a.home-a.away=" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqlost=100.0*sum(case when a.home-a.away<" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),avgscore=avg(1.0*(a.home+a.away)),count(a.id) totalCount  from schedule a join schedulerecord b on b.scheduleid=a.id and b.result='" + res + "'", 999);
                     dt.ImportRow(dsNum.Tables[0].Rows[0]);
 
                     JObject result = JObject.Parse("{success:true}");
