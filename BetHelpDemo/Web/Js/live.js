@@ -25,7 +25,7 @@ HistoryScore.ShowBf = function () {
 
     var html = new Array();
     var scheduleData = [];
-    for (var i = 0; i < matchcount; i++) {
+    for (var i = 0; i < this.matchcount; i++) {
         try {
             this.B[this.A[i][1]][8]++;
             for (var j = 0; j < C.length; j++) {
@@ -142,7 +142,7 @@ HistoryScore.SetMatchType = function (m, obj) {
     }
     for (var i = 0; i < this.matchcount; i++) {
         var display = "none";
-        if (m == 0 || m == 1 && this.B[this.A[i][1]][5] == "1" || m == 2 && this.A[i][25] != null) {
+        if (m == 0 || (m == 1 && this.B[this.A[i][1]][5] == "1") || (m == 2 && this.A[i][25] != null)) {
             display = "";
         }
         Ext.getDom("htr1_" + this.A[i][0]).style.display = display;
