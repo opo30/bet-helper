@@ -67,7 +67,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                     JsonConvert.SerializeObject(ds.Tables[0], new JavaScriptDateTimeConverter());
                     StringJSON = result.ToString();
                 }
-                
             }
         }
 
@@ -75,16 +74,20 @@ namespace SeoWebSite.Web.Data.NowGoal
         {
             if (Request["rowindex"] != null)
             {
-                string cacheName = Request.Form["rowindex"] == "0" ? "swhere" : "ewhere";
-                string whereStr = Common.DataCache.GetCache(cacheName).ToString();
-                if (Request["date"] != null && !String.IsNullOrEmpty(Request.Form["date"]))
+                string strWhere = "";
+                if (Request.Form["rowindex"] == "2")
                 {
-                    whereStr += " and a.date='" + Request.Form["date"] + "'";
+                    strWhere = Common.DataCache.GetCache("swhere").ToString();
                 }
-                DataSet ds = scheduleBLL.queryOddsHistory(whereStr);
+                else if (Request.Form["rowindex"] == "3")
+                {
+                    strWhere = Common.DataCache.GetCache("ewhere").ToString();
+                }
+                DataSet ds = scheduleBLL.queryOddsHistory(Common.DataCache.GetCache("sclassid").ToString(), strWhere);
                 JArray data = new JArray();
                 if (ds.Tables[0].Rows.Count > 0)
                 {
+                    string[] Cookie = Request.Cookies["Cookie"].Value.Split('^');
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
                         string[] scheduleArr = dr["data"].ToString().Split(',');
@@ -94,13 +97,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                         row.Add("score", scheduleArr[13] + "-" + scheduleArr[14]);
                         row.Add("rangqiu", scheduleArr[25]);
                         row.Add("s_time", scheduleArr[10].Replace("<br>", ""));
-                        row.Add("s_win", dr["s_win"].ToString());
-                        row.Add("s_draw", dr["s_draw"].ToString());
-                        row.Add("s_lost", dr["s_lost"].ToString());
-                        row.Add("e_win", dr["e_win"].ToString());
-                        row.Add("e_draw", dr["e_draw"].ToString());
-                        row.Add("e_lost", dr["e_lost"].ToString());
-                        row.Add("companyid", Convert.ToInt32(dr["companyid"]));
+                        row.Add("scount", dr["scount"].ToString());
                         data.Add(row);
                     }
                 }
@@ -162,18 +159,12 @@ namespace SeoWebSite.Web.Data.NowGoal
                             eoddsperlost.Add(Convert.ToDecimal(odds[15]));
                         }
                     }
-                    string scheduleFilter = "";
-                    if (!String.IsNullOrEmpty(stypeid))
-                    {
-                        scheduleFilter += "sclassid=" + stypeid + " and ";
-                    }
                     //string scheduleFilter = "sclassid=" + stypeid + " and c.id<>" + scheduleArr[0];
-                    DataSet sds = scheduleBLL.statOddsHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
-                    DataSet eds = scheduleBLL.statOddsHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
-                    //DataSet srqds = scheduleBLL.statRangQiuHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
-                    //DataSet erqds = scheduleBLL.statRangQiuHistory(scheduleArr[25], scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
-                    Common.DataCache.SetCache("swhere", scheduleFilter + "(" + String.Join(" or ", swhereList.ToArray()) + ")");
-                    Common.DataCache.SetCache("ewhere", scheduleFilter + "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    DataSet sds = scheduleBLL.statOddsHistory(scheduleArr[25], stypeid,"(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    DataSet eds = scheduleBLL.statOddsHistory(scheduleArr[25], stypeid,"(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    Common.DataCache.SetCache("swhere",  "(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    Common.DataCache.SetCache("ewhere",  "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    Common.DataCache.SetCache("sclassid", stypeid);
                     Common.DataCache.SetCache("rangqiu", scheduleArr[25]);
                     //DataSet oddsds = scheduleBLL.statOddsHistory(String.Join(" or ", oddswhereList.ToArray()),"");
                     DataTable dt = new DataTable();
@@ -204,6 +195,8 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[3]["name"] = "终盘";
 
+<<<<<<< .mine
+=======
                     List<decimal> numList = new List<decimal>();
                     numList.Add(soddsperwin.Average());
                     numList.Add(soddsperdraw.Average());
@@ -227,6 +220,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     DataSet dsNum = DbHelperSQL.Query("select perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),rqwin=100.0*sum(case when a.home-a.away>" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqdraw=100.0*sum(case when a.home-a.away=" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqlost=100.0*sum(case when a.home-a.away<" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),avgscore=avg(1.0*(a.home+a.away)),count(a.id) totalCount  from schedule a join schedulerecord b on b.scheduleid=a.id and b.result='" + res + "'", 999);
                     dt.ImportRow(dsNum.Tables[0].Rows[0]);
 
+>>>>>>> .r61
                     JObject result = JObject.Parse("{success:true}");
                     result.Add("data", JArray.FromObject(dt));
                     StringJSON = result.ToString();

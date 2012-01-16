@@ -1,12 +1,19 @@
 ﻿/// <reference path="../lib/ext/adapter/ext/ext-base.js"/>
 /// <reference path="../lib/ext/ext-all-debug.js" />
 
+var loadMask = new Ext.LoadMask(document.body, {
+    msg: '正在读取数据，请稍候...',
+    removeMask: true
+});
+
 //加载中样式
 var hideMask = function() {
     Ext.get('loading').remove();
     Ext.fly('loading-mask').fadeOut({
         remove: true
     });
+    loadMask.show();
+    LoadLiveFile();
 }
 
 //--设置一些共有参数
@@ -26,7 +33,6 @@ Ext.override(Ext.chart.Chart, {
 function delHtmlTag(str) {
     return str.replace(/<[^>]+>/g, ""); //去掉所有的html标记 
 } 
-
 
 //添加左边
 var west = new Ext.Panel({
@@ -141,22 +147,17 @@ var west = new Ext.Panel({
                 //加载时渲染所有
                 //deferredRender:false,
                 layoutOnTabChange: true,
-                items: [
-                //        {
-                //            xtype: "panel",
-                //            id: "index",
-                //            iconCls: "usericon",
-                //            title: "即时比分",
-                //            layout: "fit",
-                //            html: "<iframe src='live.aspx' width='100%' height='100%' frameborder='0'></iframe>"
-                //        },
-         {
-         xtype: "panel",
-         id: "index1",
-         iconCls: "indexicon",
-         title: "首页",
-         layout: "fit"
-     }], plugins: new Ext.ux.TabCloseMenu()
+                items: [{
+                    xtype: "panel",
+                    id: "livetab",
+                    iconCls: "usericon",
+                    title: "即时比分",
+                    layout: "fit",
+                    contentEl: "live",
+                    autoScroll: true,
+                    tbar:[{text:'dads'},new Ext.Toolbar.Fill()]
+                }], 
+                plugins: new Ext.ux.TabCloseMenu()
             });
 
  var south = new Ext.ux.StatusBar({
@@ -204,13 +205,13 @@ var west = new Ext.Panel({
     company[35] = "盈禾";
 
         //////////////////////////////////////////////////////////
-        Ext.onReady(function() {
-            hideMask.defer(250);
-            var vp = new Ext.Viewport({
-                layout: "border",
-                items: [west, center, south]
-            });
+    Ext.onReady(function () {
+        hideMask.defer(250);
+        var vp = new Ext.Viewport({
+            layout: "border",
+            items: [west, center, south]
         });
+    });
 
 
         

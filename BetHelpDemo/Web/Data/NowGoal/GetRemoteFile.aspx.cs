@@ -41,10 +41,17 @@ namespace SeoWebSite.Web.Data.NowGoal
         {
             if (Request["path"] != null)
             {
-                byte[] bytes = web.DownloadData(WebClientBLL.odds + Request.QueryString["path"] + "?" + DateTime.Now.Millisecond);
-                string filename = Request.QueryString["path"].Substring(Request.QueryString["path"].LastIndexOf("/") + 1);
+                try
+                {
+                    byte[] bytes = web.DownloadData(WebClientBLL.odds + Request.QueryString["path"] + "?" + DateTime.Now.Millisecond);
+                    string filename = Request.QueryString["path"].Substring(Request.QueryString["path"].LastIndexOf("/") + 1);
 
-                DownloadFile(bytes, filename);
+                    DownloadFile(bytes, filename);
+                }
+                catch (Exception e)
+                {
+                    Response.Write("");
+                }
             }
         }
 
@@ -52,7 +59,7 @@ namespace SeoWebSite.Web.Data.NowGoal
         {
             if (Request["path"]!=null)
             {
-                byte[] bytes = web.DownloadData(WebClientBLL.root + Request.QueryString["path"] + "?" + DateTime.Now.Millisecond);
+                byte[] bytes = web.DownloadData(WebClientBLL.root + Request.QueryString["path"]);
                 string filename = Request.QueryString["path"].Substring(Request.QueryString["path"].LastIndexOf("/") + 1);
                 
                 DownloadFile(bytes, filename);

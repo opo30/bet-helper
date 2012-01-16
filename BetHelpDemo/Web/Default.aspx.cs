@@ -15,6 +15,7 @@ namespace SeoWebSite.Web
     public partial class Default : System.Web.UI.Page
     {
         protected string initCompanyJS = "";
+        protected string live_url = SeoWebSite.BLL.WebClientBLL.root;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
