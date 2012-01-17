@@ -60,7 +60,7 @@ var Odds1x2Manage = function (scheduleArr, scheduleTypeArr) {
             { name: 'data', type: 'string' }
             ];
 
-    Odds1x2store = new Ext.data.ArrayStore({
+    var Odds1x2store = new Ext.data.ArrayStore({
         fields: fields
     });
 

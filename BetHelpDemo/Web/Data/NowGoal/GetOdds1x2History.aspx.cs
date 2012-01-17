@@ -90,13 +90,23 @@ namespace SeoWebSite.Web.Data.NowGoal
                     string[] Cookie = Request.Cookies["Cookie"].Value.Split('^');
                     foreach (DataRow dr in ds.Tables[0].Rows)
                     {
-                        string[] scheduleArr = dr["data"].ToString().Split(',');
+                        string[] scheduleArr = dr["sdata"].ToString().Split(',');
+                        string[] scheduleClassArr = dr["sclass"].ToString().Split(',');
                         JObject row = new JObject();
+                        row.Add("s_time", scheduleArr[10].Replace("<br>", " "));
+                        row.Add("league", scheduleClassArr[1]);
+                        row.Add("bgcolor", scheduleClassArr[4]);
                         row.Add("h_teamname", scheduleArr[4]);
                         row.Add("g_teamname", scheduleArr[7]);
                         row.Add("score", scheduleArr[13] + "-" + scheduleArr[14]);
+                        row.Add("half", scheduleArr[15] + "-" + scheduleArr[16]);
                         row.Add("rangqiu", scheduleArr[25]);
-                        row.Add("s_time", scheduleArr[10].Replace("<br>", ""));
+                        if (!string.IsNullOrEmpty(scheduleArr[25]))
+                        {
+                            double numResult = Convert.ToDouble(scheduleArr[13]) - Convert.ToDouble(scheduleArr[14]) - Convert.ToDouble(scheduleArr[25]);
+                            row.Add("numResult", numResult);
+                        }
+                        
                         row.Add("scount", dr["scount"].ToString());
                         data.Add(row);
                     }

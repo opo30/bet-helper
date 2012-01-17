@@ -15,7 +15,6 @@ HistoryScore.countrycount = 0;
 HistoryScore.matchdate = ""
 
 HistoryScore.ShowBf = function () {
-
     Ext.getCmp("MatchTypeSelect").setText(Ext.getCmp("MatchTypeSelect").menu.items.itemAt(Config.matchType).text);
     Ext.getCmp("LanguageSelect").setText(Ext.getCmp("LanguageSelect").menu.items.itemAt(Config.language).text);
 
@@ -28,7 +27,7 @@ HistoryScore.ShowBf = function () {
     for (var i = 0; i < this.matchcount; i++) {
         try {
             this.B[this.A[i][1]][8]++;
-            for (var j = 0; j < C.length; j++) {
+            for (var j = 0; j < this.C.length; j++) {
                 if (this.B[this.A[i][1]][9] == this.C[j][0]) {
                     this.C[j][2]++;
                     break;
@@ -63,13 +62,18 @@ HistoryScore.ShowBf = function () {
             if (this.A[i][20] != "0") G_yellow = "<img src='images/yellow" + this.A[i][20] + ".gif'>"; else G_yellow = "";
 
             if (bg != "ts1") bg = "ts1"; else bg = "ts2";
+
             var rowData = {};
             rowData.scheduleid = this.A[i][0];
             rowData.index = i;
             rowData.league = this.B[this.A[i][1]][1 + Config.language];
             rowData.bgcolor = this.B[this.A[i][1]][4];
             rowData.matchdate = this.A[i][10];
-
+            if (Config.matchType == 0 || (Config.matchType == 1 && this.B[this.A[i][1]][5] == "1") || (Config.matchType == 2 && this.A[i][25] != null)) {
+                rowData.display = "";
+            } else {
+                rowData.display = "none";
+            }
             if (state == "-1")
                 classx2 = "td_scoreR";
             else

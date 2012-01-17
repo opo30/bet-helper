@@ -59,7 +59,7 @@ var LoadHistoryMatch = function (node) {
         s.each(function (r, index) {
             //grid.getView().getCell(index, 1).style.backgroundColor = r.get("bgcolor"); //设置颜色
             grid.getView().getRow(index).style.display = r.get("display"); //设置隐藏
-            grid.getView().getRow(index).id = "htr1_" + r.get("scheduleid"); //设置id
+            grid.getView().getRow(index).setAttribute("id", "htr1_" + r.get("scheduleid")); //设置id
             grid.getView().getRow(index).setAttribute("index", r.get("index")); //设置序列
             grid.getView().getRow(index).setAttribute("odds", ""); //设置赔率数据
         });

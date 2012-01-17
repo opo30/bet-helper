@@ -170,7 +170,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
         loadMask: true,
         stripeRows: true,
         columnLines: true,
-        height: 200,
+        height: 150,
         //超过长度带自动滚动条
         autoScroll: true,
         border: false,
@@ -190,7 +190,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             }
         }
     });
-    
+
     var grid1 = new Ext.grid.GridPanel({
         region: "center",
         columnLines: true,
@@ -205,60 +205,115 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
            {
                fields: [{ name: 'h_teamname', type: 'string' },
                 { name: 'score', type: 'string' },
+                { name: 'half', type: 'string' },
                 { name: 'g_teamname', type: 'string' },
-                { name: 'e_win', type: 'string' },
-                { name: 'e_draw', type: 'string' },
-                { name: 'e_lost', type: 'string' }, { name: 'rangqiu', type: 'float' }, { name: 's_time', type: 'string' }, { name: 'scount', type: 'int'}],
+                { name: 'league', type: 'string' },
+                { name: 'bgcolor', type: 'string' }, { name: 'rangqiu', type: 'float' }, { name: 's_time', type: 'string' }, { name: 'scount', type: 'int' }, { name: 'numResult', type: 'float'}],
                root: "data"
            }),
-           groupField: "scount",
-           sortInfo: { field: "s_time", direction: "DESC" }
+            groupField: "scount",
+            sortInfo: { field: "s_time", direction: "DESC" }
         }),
-        cm: new Ext.grid.ColumnModel([
+        cm: new Ext.grid.ColumnModel([{
+            header: "赛事",
+            dataIndex: "league",
+            sortable: true,
+            align: "center",
+            width: 8,
+            css: 'vertical-align: inherit;color:white;',
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                cell.cellAttr = 'bgcolor="' + row.get("bgcolor") + '"';
+                return value;
+            }
+        },
         {
+            header: "时间",
+            dataIndex: "s_time",
+            sortable: true,
+            align: "center",
+            css: 'vertical-align: inherit;',
+            width: 10
+        }, {
             header: "主队",
             dataIndex: "h_teamname",
             sortable: true,
-            width: 120
+            width: 16,
+            align: "right",
+            css: 'vertical-align: inherit;',
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                cell.css = 'a1';
+                return value;
+            }
         },
 		{
 		    header: "比分",
 		    dataIndex: "score",
 		    sortable: true,
-		    width: 60
+		    width: 5,
+		    align: "center",
+		    css: 'vertical-align: inherit;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = "td_score";
+		        return value;
+		    }
 		}, {
 		    header: "客队",
 		    dataIndex: "g_teamname",
 		    sortable: true,
-		    width: 120
+		    width: 16,
+		    align: "left",
+		    css: 'vertical-align: inherit;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'a2';
+		        return value;
+		    }
 		}, {
-		    header: "胜",
-		    dataIndex: "e_win",
+		    header: "半场",
+		    dataIndex: "half",
 		    sortable: true,
-		    summaryType: 'sum'
-		}, {
-		    header: "平",
-		    dataIndex: "e_draw",
-		    sortable: true,
-		    summaryType: 'sum'
-		}, {
-		    header: "负",
-		    dataIndex: "e_lost",
-		    sortable: true,
-		    summaryType: 'average'
+		    summaryType: 'sum',
+		    width: 5,
+		    align: "center",
+		    css: 'vertical-align: inherit;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.css = 'td_half';
+		        return value;
+		    }
 		}, {
 		    header: "指数",
 		    dataIndex: "rangqiu",
 		    sortable: true,
+		    width: 5,
 		    summaryType: 'sum'
 		}, {
-		    header: "时间",
-		    dataIndex: "s_time",
-		    sortable: true
+		    header: "盘路",
+		    dataIndex: "numResult",
+		    sortable: true,
+		    width: 5,
+		    renderer: function (value) {
+		        var goalResult = "";
+		        if (value > 0) {
+		            if (value == 0.25)
+		                goalResult = "<font color='red'>赢半</font>";
+		            else
+		                goalResult = "<font color='red'>赢</font>";
+		        }
+		        else if (value == 0)
+		            goalResult = "<font color='blue'>走</font>";
+		        else {
+		            if (value == -0.25)
+		                goalResult = "<font color='green'>输半</font>";
+		            else
+		                goalResult = "<font color='green'>输</font>";
+		        }
+		        return goalResult;
+		    },
+		    summaryType: 'sum'
 		}, {
 		    header: "相同",
 		    dataIndex: "scount",
-            sortable: true
+		    width: 5,
+		    sortable: true
 		}
 ]),
         loadMask: true,
