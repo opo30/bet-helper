@@ -46,15 +46,18 @@ var LoadHistoryMatch = function (node) {
             { name: 'pankou', type: 'string' },
             { name: 'g_odds', type: 'string' }, { name: 'zoudi', type: 'string' }, { name: 'other', type: 'string' }, { name: 'index', type: 'string' }, { name: 'classx2', type: 'string'}];
 
-    var store = new Ext.data.JsonStore({
-        fields: fields,
-        id: "scheduleid"
+    var store = new Ext.data.GroupingStore({
+        id: "scheduleid",
+        reader: new Ext.data.JsonReader(
+           {
+               fields: fields
+           })
     });
 
     var date = ""; //比赛日期
 
     store.on('load', function (s, records) {
-        grid.getView().getHeaderCell(1).innerText = matchdate;
+        //grid.getView().getHeaderCell(1).innerText = matchdate;
 
         s.each(function (r, index) {
             //grid.getView().getCell(index, 1).style.backgroundColor = r.get("bgcolor"); //设置颜色
@@ -83,7 +86,6 @@ var LoadHistoryMatch = function (node) {
 		sm, {
 		    header: '赛事',
 		    dataIndex: "league",
-		    menuDisabled: true,
 		    align: "center",
 		    width: 8,
 		    css: 'vertical-align: inherit;color:white;',
@@ -95,8 +97,8 @@ var LoadHistoryMatch = function (node) {
 		    header: "时间",
 		    dataIndex: "matchdate",
 		    tooltip: "比赛开始时间",
-		    menuDisabled: true,
 		    align: "center",
+		    sortable: true,
 		    css: 'vertical-align: inherit;',
 		    width: 5,
 		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
@@ -107,7 +109,6 @@ var LoadHistoryMatch = function (node) {
 		    header: "状态",
 		    dataIndex: "state",
 		    tooltip: "注单球队名称",
-		    menuDisabled: true,
 		    align: "center",
 		    css: 'vertical-align: inherit;',
 		    width: 5,
@@ -120,7 +121,6 @@ var LoadHistoryMatch = function (node) {
 		    header: "主队",
 		    dataIndex: "h_team",
 		    tooltip: "主场球队名称",
-		    menuDisabled: true,
 		    width: 16,
 		    align: "right",
 		    css: 'vertical-align: inherit;',
@@ -132,20 +132,18 @@ var LoadHistoryMatch = function (node) {
 		    header: "比分",
 		    tooltip: "实时比分",
 		    dataIndex: "goal",
-		    menuDisabled: true,
 		    width: 5,
 		    align: "center",
 		    css: 'vertical-align: inherit;',
 		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
 		        cell.css = row.get("classx2");
-		        cell.cellAttr = "onmouseover='showdetail(" + row.get("index") + ",event)'";
+		        //cell.cellAttr = "onmouseover='showdetail(" + row.get("index") + ",event)'";
 		        return value;
 		    }
 		}, {
 		    header: "客队",
 		    dataIndex: "g_team",
 		    tooltip: "客场球队名称",
-		    menuDisabled: true,
 		    width: 16,
 		    align: "left",
 		    css: 'vertical-align: inherit;',
@@ -157,7 +155,6 @@ var LoadHistoryMatch = function (node) {
 		    header: "半场",
 		    tooltip: "半场结束比分",
 		    dataIndex: "match_half",
-		    menuDisabled: true,
 		    width: 5,
 		    align: "center",
 		    css: 'vertical-align: inherit;',
@@ -169,7 +166,6 @@ var LoadHistoryMatch = function (node) {
 		    header: "数据",
 		    tooltip: "比赛分析",
 		    dataIndex: "data",
-		    menuDisabled: true,
 		    width: 15,
 		    css: 'vertical-align: inherit;',
 		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
@@ -180,7 +176,6 @@ var LoadHistoryMatch = function (node) {
 		    header: "指数",
 		    tooltip: "即时赔率",
 		    dataIndex: "h_odds",
-		    menuDisabled: true,
 		    align: "center",
 		    css: 'vertical-align: inherit;',
 		    width: 5,
@@ -192,7 +187,6 @@ var LoadHistoryMatch = function (node) {
 		    header: "指数",
 		    tooltip: "即时赔率",
 		    dataIndex: "pankou",
-		    menuDisabled: true,
 		    align: "center",
 		    css: 'vertical-align: inherit;',
 		    width: 5,
@@ -204,7 +198,6 @@ var LoadHistoryMatch = function (node) {
 		    header: "指数",
 		    tooltip: "即时赔率",
 		    dataIndex: "g_odds",
-		    menuDisabled: true,
 		    align: "center",
 		    css: 'vertical-align: inherit;',
 		    width: 5,
@@ -218,13 +211,11 @@ var LoadHistoryMatch = function (node) {
 		    dataIndex: "zoudi",
 		    align: "center",
 		    css: 'vertical-align: inherit;',
-		    menuDisabled: true,
 		    width: 3
 		}, {
 		    header: "其他",
 		    dataIndex: "other",
 		    align: "center",
-		    menuDisabled: true,
 		    width: 10,
 		    css: 'vertical-align: inherit;color:green;',
 		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
@@ -257,13 +248,16 @@ var LoadHistoryMatch = function (node) {
         //超过长度带自动滚动条
         autoScroll: true,
         border: false,
-        viewConfig: {
+        view: new Ext.grid.GroupingView({
             //自动填充
             forceFit: true,
             sortAscText: '正序排列',
             sortDescText: '倒序排列',
-            columnsText: '列显示/隐藏'
-        },
+            columnsText: '显示/隐藏列',
+            getRowClass: function (record, rowIndex, rowParams, store) {
+            },
+            groupTextTpl: '{text} ({[values.rs.length]} {[values.rs.length > 1 ? "Items" : "Item"]})'
+        }),
         tbar: [
         datefield, {
             id: 'gameselection',
@@ -355,7 +349,7 @@ var LoadHistoryMatch = function (node) {
 		    tooltip: '刷新列表',
 		    handler: function () {
 		        grid.loadMask.show();
-		        LoadLiveFile();
+		        HistoryScore.LoadLiveFile();
 		    }
 		}, "-", {
 		    text: "综合赔率",

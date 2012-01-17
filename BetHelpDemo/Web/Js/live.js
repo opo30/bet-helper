@@ -144,12 +144,13 @@ HistoryScore.SetMatchType = function (m, obj) {
     if (obj) {
         Ext.getCmp("MatchTypeSelect").setText(obj.text);
     }
+    var s = Ext.getCmp("HistoryFileGrid").getStore();
     for (var i = 0; i < this.matchcount; i++) {
         var display = "none";
         if (m == 0 || (m == 1 && this.B[this.A[i][1]][5] == "1") || (m == 2 && this.A[i][25] != null)) {
             display = "";
         }
-        Ext.getDom("htr1_" + this.A[i][0]).style.display = display;
+        Ext.getCmp("HistoryFileGrid").getView().getRow(i).style.display = display;
     }
 }
 
