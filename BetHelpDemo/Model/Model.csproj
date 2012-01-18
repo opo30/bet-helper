@@ -120,6 +120,7 @@
     <Compile Include="BetExp.cs" />
     <Compile Include="Company.cs" />
     <Compile Include="CompanyAsia.cs" />
+    <Compile Include="CountryClass.cs" />
     <Compile Include="ForecastScriptscs.cs" />
     <Compile Include="NowGoal\Company.cs" />
     <Compile Include="NowGoal\Game.cs" />

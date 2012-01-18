@@ -13,6 +13,7 @@ namespace SeoWebSite.Model
 		private int _id;
 		private string _name;
 		private string _data;
+        private int _cclassid;
 		/// <summary>
 		/// 
 		/// </summary>
@@ -37,6 +38,14 @@ namespace SeoWebSite.Model
 			set{ _data=value;}
 			get{return _data;}
 		}
+        /// <summary>
+        /// 
+        /// </summary>
+        public int cclassid
+        {
+            set { _cclassid = value; }
+            get { return _cclassid; }
+        }
 		#endregion Model
 
 	}

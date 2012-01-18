@@ -127,6 +127,7 @@
     <Compile Include="BetFairBLL.cs" />
     <Compile Include="CompanyBLL.cs" />
     <Compile Include="CompanyAsiaBLL.cs" />
+    <Compile Include="CountryClassBLL.cs" />
     <Compile Include="ForecastScriptsBLL.cs" />
     <Compile Include="HistoryDataBLL.cs" />
     <Compile Include="HistoryOddsBLL.cs" />

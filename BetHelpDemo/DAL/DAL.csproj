@@ -138,6 +138,7 @@
     <Compile Include="BetExpDAO.cs" />
     <Compile Include="CompanyDAO.cs" />
     <Compile Include="CompanyAsiaDAO.cs" />
+    <Compile Include="CountryClassDAO.cs" />
     <Compile Include="ForecastScriptsDAO.cs" />
     <Compile Include="OddsDAO.cs" />
     <Compile Include="Odds1x2HistoryDAO.cs" />
