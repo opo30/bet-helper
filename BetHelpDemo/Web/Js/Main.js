@@ -155,7 +155,7 @@ var west = new Ext.Panel({
                     layout: "fit",
                     contentEl: "live",
                     autoScroll: true,
-                    tbar:[{text:'dads'},new Ext.Toolbar.Fill()]
+                    tbar: [{ text: 'dads' }, { xtype: 'tbfill' }]
                 }], 
                 plugins: new Ext.ux.TabCloseMenu()
             });

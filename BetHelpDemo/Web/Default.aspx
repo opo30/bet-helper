@@ -321,10 +321,6 @@
 	  <div id="scriptScore"><script type="text/javascript"></script></div>
 	</div>
   </div>
-  <div id="right">
-    <div id="rightAd" style='line-height:60%'></div>    
-    <div id="rightFloatAd" style='line-height:60%'></div>
-  </div>
   <br style="clear:both">
 </div>
 
@@ -625,7 +621,7 @@
                     else
                         html.push("<a href='javascript:'>");
                     html.push(B[A[i][1]][1 + Config.language] + "</a> </span><span class='l2'>");
-                    html.push("<a href='javascript:HiddenLeague(" + leagueIndex + ",false)' id='collapse" + leagueIndex + "'><img src='images/collapse.gif'/></a><a href='javascript:HiddenLeague(" + leagueIndex + ",true)' id='expand" + leagueIndex + "' style='display:none;'><img src='images/expand.gif'/></a><a href='javascript:CloseLeague(" + leagueIndex + ") '><img src='images/closes.gif'/></a></span></td></tr>");
+                    html.push("<a href='javascript:HiddenLeague(" + leagueIndex + ",false)' id='collapse" + leagueIndex + "'><img src='http://live.nowscore.com/images/collapse.gif'/></a><a href='javascript:HiddenLeague(" + leagueIndex + ",true)' id='expand" + leagueIndex + "' style='display:none;'><img src='images/expand.gif'/></a><a href='javascript:CloseLeague(" + leagueIndex + ") '><img src='images/closes.gif'/></a></span></td></tr>");
                 }
                 html.push("<tr align=center id='tr1_" + A[i][0] + "' class='" + bg + "' index='" + i + "' odds='' style='display:" + classx + "'>");
                 html.push("<td height=18><input type=checkbox checked onclick='hidematch(" + i + ");return false;' class='inp'></td>");
