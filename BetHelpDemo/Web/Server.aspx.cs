@@ -418,13 +418,15 @@ public partial class Server : System.Web.UI.Page
 
     private void updateSchedules()
     {
-        SeoWebSite.BLL.ScheduleClassBLL scheduleTypeBLL = new SeoWebSite.BLL.ScheduleClassBLL();
+        SeoWebSite.BLL.ScheduleClassBLL scheduleClassBLL = new SeoWebSite.BLL.ScheduleClassBLL();
+        SeoWebSite.BLL.CountryClassBLL countryClassBLL = new SeoWebSite.BLL.CountryClassBLL();
         try
         {
-            if (Request["schedulelist"] != null && Request["scheduletypelist"] != null && Request["date"] != null)
+            if (Request["schedulelist"] != null && Request["sclasslist"] != null && Request["cclasslist"] != null && Request["date"] != null)
             {
                 string[] scheduleList = HttpUtility.HtmlDecode(Request.Form["schedulelist"]).Split('^');
-                string[] scheduleTypeList = HttpUtility.HtmlDecode(Request.Form["scheduletypelist"]).Split('^');
+                string[] sclasslist = HttpUtility.HtmlDecode(Request.Form["sclasslist"]).Split('^');
+                string[] cclasslist = HttpUtility.HtmlDecode(Request.Form["cclasslist"]).Split('^');
                 string date = Request.Form["date"];
                 foreach (string item in scheduleList)
                 {
@@ -446,20 +448,32 @@ public partial class Server : System.Web.UI.Page
                         model.away = int.Parse(schedule[14]);
                         model.halfhome = int.Parse(schedule[15]);
                         model.halfaway = int.Parse(schedule[16]);
-                        model.sclassid = int.Parse(scheduleTypeList[int.Parse(schedule[1])].Split(',')[0]);
+                        model.sclassid = int.Parse(sclasslist[int.Parse(schedule[1])].Split(',')[0]);
                         scheduleBLL.Add(model);
                     }
                 }
-                foreach (string item in scheduleTypeList)
+                foreach (string item in sclasslist)
                 {
-                    string[] scheduleType = item.Split(',');
-                    if (scheduleType.Length > 1 && !scheduleTypeBLL.Exists(int.Parse(scheduleType[0])))
+                    string[] sclass = item.Split(',');
+                    if (sclass.Length > 1 && !scheduleClassBLL.Exists(int.Parse(sclass[0])))
                     {
                         SeoWebSite.Model.ScheduleClass model = new SeoWebSite.Model.ScheduleClass();
-                        model.id = int.Parse(scheduleType[0]);
-                        model.name = scheduleType[1];
+                        model.id = int.Parse(sclass[0]);
+                        model.name = sclass[1];
                         model.data = item;
-                        scheduleTypeBLL.Add(model);
+                        model.cclassid = Convert.ToInt32(sclass[9]);
+                        scheduleClassBLL.Add(model);
+                    }
+                }
+                foreach (string item in cclasslist)
+                {
+                    string[] cclass = item.Split(',');
+                    if (cclass.Length > 1 && !countryClassBLL.Exists(int.Parse(cclass[0])))
+                    {
+                        SeoWebSite.Model.CountryClass model = new SeoWebSite.Model.CountryClass();
+                        model.id = int.Parse(cclass[0]);
+                        model.data = item;
+                        countryClassBLL.Add(model);
                     }
                 }
                 JsonStr = "{success:true }";

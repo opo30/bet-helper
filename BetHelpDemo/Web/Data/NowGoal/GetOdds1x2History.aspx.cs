@@ -83,7 +83,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 {
                     strWhere = Common.DataCache.GetCache("ewhere").ToString();
                 }
-                DataSet ds = scheduleBLL.queryOddsHistory(Common.DataCache.GetCache("sclassid").ToString(), strWhere);
+                DataSet ds = scheduleBLL.queryOddsHistory(Common.DataCache.GetCache("cclassid").ToString(),Common.DataCache.GetCache("sclassid").ToString(), strWhere);
                 JArray data = new JArray();
                 if (ds.Tables[0].Rows.Count > 0)
                 {
@@ -123,7 +123,7 @@ namespace SeoWebSite.Web.Data.NowGoal
             {
                 try
                 {
-                    string stypeid = Request.Form["stypeid"];
+                    string[] sclassArr = Request.Form["stypeid"].Split('^');
                     string[] oddsArr = Request.Form["oddsarr"].Split('^');
                     string[] scheduleArr = Request.Form["schedulearr"].Split('^');
                     List<string> swhereList = new List<string>();
@@ -169,12 +169,28 @@ namespace SeoWebSite.Web.Data.NowGoal
                             eoddsperlost.Add(Convert.ToDecimal(odds[15]));
                         }
                     }
-                    //string scheduleFilter = "sclassid=" + stypeid + " and c.id<>" + scheduleArr[0];
-                    DataSet sds = scheduleBLL.statOddsHistory(scheduleArr[25], stypeid,"(" + String.Join(" or ", swhereList.ToArray()) + ")");
-                    DataSet eds = scheduleBLL.statOddsHistory(scheduleArr[25], stypeid,"(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
+                    string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
+                    string cclassid = "";
+                    string sclassid = "";
+                    switch (Request.Form["type"])
+                    {
+                        case "2":
+                            cclassid = sclassArr[9];
+                            break;
+                        case "3":
+                            sclassid = sclassArr[0];
+                            break;
+                        default:
+                            break;
+                    }
+
+                    DataSet sds = scheduleBLL.statOddsHistory(scheduleArr[25], cclassid, sclassid, swhereStr);
+                    DataSet eds = scheduleBLL.statOddsHistory(scheduleArr[25], cclassid, sclassid, ewhereStr);
                     Common.DataCache.SetCache("swhere",  "(" + String.Join(" or ", swhereList.ToArray()) + ")");
                     Common.DataCache.SetCache("ewhere",  "(" + String.Join(" or ", ewhereList.ToArray()) + ")");
-                    Common.DataCache.SetCache("sclassid", stypeid);
+                    Common.DataCache.SetCache("cclassid", cclassid);
+                    Common.DataCache.SetCache("sclassid", sclassid);
                     Common.DataCache.SetCache("rangqiu", scheduleArr[25]);
                     //DataSet oddsds = scheduleBLL.statOddsHistory(String.Join(" or ", oddswhereList.ToArray()),"");
                     DataTable dt = new DataTable();

@@ -359,7 +359,7 @@ var EuropeOdds = function (scheduleid) {
                 grid.getSelectionModel().deselectRange(0, grid.store.data.items.length);
             }
         },
-		new Ext.Toolbar.Fill()
+		{ xtype: 'tbfill' }
 		, {
 		    text: '历史统计',
 		    iconCls: "totalicon",
@@ -374,7 +374,24 @@ var EuropeOdds = function (scheduleid) {
 		            Ext.each(row, function (r) {
 		                oddsArr.push(r.get("data"));
 		            })
-		            Odds1x2History(scheduleArr, [], oddsArr);
+		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr, 1);
+		        }
+		    }
+		}, {
+		    text: '国家统计',
+		    iconCls: "totalicon",
+		    tooltip: '统计所选公司的历史相似指数',
+		    handler: function () {
+		        var row = grid.getSelectionModel().getSelections();
+		        if (row.length == 0) {
+		            Ext.Msg.alert("提示信息", "您没有选中任何行!");
+		            return;
+		        } else {
+		            var oddsArr = [];
+		            Ext.each(row, function (r) {
+		                oddsArr.push(r.get("data"));
+		            })
+		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr, 2);
 		        }
 		    }
 		}, {
@@ -391,24 +408,7 @@ var EuropeOdds = function (scheduleid) {
 		            Ext.each(row, function (r) {
 		                oddsArr.push(r.get("data"));
 		            })
-		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr);
-		        }
-		    }
-		}, {
-		    text: '比赛查询',
-		    iconCls: "totalicon",
-		    tooltip: '统计所选公司的历史相似指数',
-		    handler: function () {
-		        var row = grid.getSelectionModel().getSelections();
-		        if (row.length == 0) {
-		            Ext.Msg.alert("提示信息", "您没有选中任何行!");
-		            return;
-		        } else {
-		            var oddsArr = [];
-		            Ext.each(row, function (r) {
-		                oddsArr.push(r.get("data"));
-		            });
-		            EuropeOdds_Schedule(scheduleArr, scheduleTypeArr, oddsArr);
+		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr, 3);
 		        }
 		    }
 		}, {

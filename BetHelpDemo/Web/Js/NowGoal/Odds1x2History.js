@@ -8,7 +8,7 @@ Array.prototype.min = function () {
     return Math.min.apply({}, this)
 }
 
-var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
+var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
 
     var fields = [
             { name: 'companyid', type: 'int' },
@@ -23,9 +23,10 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             { name: 'totalCount', type: 'int' }
             ];
     var params = {
-        stypeid: scheduleTypeArr.length > 0 ? scheduleTypeArr[0] : '',
+        stypeid: scheduleTypeArr.join('^'),
         oddsarr: oddsArr.join('^'),
-        schedulearr: scheduleArr.join('^')
+        schedulearr: scheduleArr.join('^'),
+        type:type
     };
 
     var store = new Ext.data.JsonStore({

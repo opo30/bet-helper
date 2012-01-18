@@ -197,7 +197,8 @@ var LoadMatchUpdate = function (node) {
                                                     params: {
                                                         date: dateString,
                                                         schedulelist: Ext.util.Format.htmlEncode(A.join('^')),
-                                                        scheduletypelist: Ext.util.Format.htmlEncode(B.join('^'))
+                                                        sclasslist: Ext.util.Format.htmlEncode(B.join('^')),
+                                                        cclasslist: Ext.util.Format.htmlEncode(C.join('^'))
                                                     },
                                                     success: function (res) {
                                                         var result = Ext.decode(res.responseText);
