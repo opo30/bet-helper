@@ -45,16 +45,18 @@ namespace SeoWebSite.DAL
 		{
 			StringBuilder strSql=new StringBuilder();
             strSql.Append("insert into ScheduleClass(");
-			strSql.Append("id,name,data)");
+			strSql.Append("id,name,data,cclassid)");
 			strSql.Append(" values (");
-			strSql.Append("@id,@name,@data)");
+            strSql.Append("@id,@name,@data,@cclassid)");
 			SqlParameter[] parameters = {
 					new SqlParameter("@id", SqlDbType.Int,4),
 					new SqlParameter("@name", SqlDbType.NVarChar,50),
-					new SqlParameter("@data", SqlDbType.NVarChar,1000)};
+					new SqlParameter("@data", SqlDbType.NVarChar,1000),
+                    new SqlParameter("@cclassid", SqlDbType.Int,4)};
 			parameters[0].Value = model.id;
 			parameters[1].Value = model.name;
 			parameters[2].Value = model.data;
+            parameters[3].Value = model.cclassid;
 
 			DbHelperSQL.ExecuteSql(strSql.ToString(),parameters);
 		}
