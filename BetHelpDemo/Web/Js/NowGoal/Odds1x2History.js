@@ -25,8 +25,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
     var params = {
         stypeid: scheduleTypeArr.join('^'),
         oddsarr: oddsArr.join('^'),
-        schedulearr: scheduleArr.join('^'),
-        type:type
+        schedulearr: scheduleArr.join('^')
     };
 
     var store = new Ext.data.JsonStore({
@@ -105,38 +104,17 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
             header: "主胜",
             tooltip: "主场球队获胜赔率",
             dataIndex: "perwin",
-            sortable: false,
-            renderer: function (value, last, row, index) {
-                var change = "";
-                if (index == 2 || index == 3) {
-                    change = "(" + (value - store.getAt(index - 2).get("perwin")).toFixed(2) + ")";
-                }
-                return value.toFixed(2) + change;
-            }
+            sortable: false
         }, {
             header: "和局",
             tooltip: "比赛打平的赔率",
             dataIndex: "perdraw",
-            sortable: false,
-            renderer: function (value, last, row, index) {
-                var change = "";
-                if (index == 2 || index == 3) {
-                    change = "(" + (value - store.getAt(index - 2).get("perdraw")).toFixed(2) + ")";
-                }
-                return value.toFixed(2) + change;
-            }
+            sortable: false
         }, {
             header: "客胜",
             tooltip: "客场球队获胜赔率",
             dataIndex: "perlost",
-            sortable: false,
-            renderer: function (value, last, row, index) {
-                var change = "";
-                if (index == 2 || index == 3) {
-                    change = "(" + (value - store.getAt(index - 2).get("perlost")).toFixed(2) + ")";
-                }
-                return value.toFixed(2) + change;
-            }
+            sortable: false
         }, {
             header: "赢",
             tooltip: "主场球队获胜赔率",

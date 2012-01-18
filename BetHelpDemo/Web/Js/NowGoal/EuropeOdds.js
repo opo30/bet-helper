@@ -374,41 +374,7 @@ var EuropeOdds = function (scheduleid) {
 		            Ext.each(row, function (r) {
 		                oddsArr.push(r.get("data"));
 		            })
-		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr, 1);
-		        }
-		    }
-		}, {
-		    text: '国家统计',
-		    iconCls: "totalicon",
-		    tooltip: '统计所选公司的历史相似指数',
-		    handler: function () {
-		        var row = grid.getSelectionModel().getSelections();
-		        if (row.length == 0) {
-		            Ext.Msg.alert("提示信息", "您没有选中任何行!");
-		            return;
-		        } else {
-		            var oddsArr = [];
-		            Ext.each(row, function (r) {
-		                oddsArr.push(r.get("data"));
-		            })
-		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr, 2);
-		        }
-		    }
-		}, {
-		    text: '赛事统计',
-		    iconCls: "totalicon",
-		    tooltip: '统计所选公司的历史相似指数',
-		    handler: function () {
-		        var row = grid.getSelectionModel().getSelections();
-		        if (row.length == 0) {
-		            Ext.Msg.alert("提示信息", "您没有选中任何行!");
-		            return;
-		        } else {
-		            var oddsArr = [];
-		            Ext.each(row, function (r) {
-		                oddsArr.push(r.get("data"));
-		            })
-		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr, 3);
+		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr);
 		        }
 		    }
 		}, {

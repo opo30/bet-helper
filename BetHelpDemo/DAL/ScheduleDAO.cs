@@ -414,13 +414,12 @@ namespace SeoWebSite.DAL
             strSql.Append(" Schedule a join (select scheduleid,count(*) scount from Odds");
             strSql.Append(" where " + whereStr);
             strSql.Append(" group by scheduleid) b on a.id=b.scheduleid join scheduleclass c on a.sclassid=c.id");
-            strSql.Append(" where a.updated=1 and b.scount>1");
+            strSql.Append(" where a.updated=1 and b.scount>0");
             if (!String.IsNullOrEmpty(cclassid))
             {
                 strSql.Append(" and c.cclassid=" + cclassid);
             }
-            
-            if (!String.IsNullOrEmpty(sclassid))
+            else if (!String.IsNullOrEmpty(sclassid))
             {
                 strSql.Append(" and a.sclassid=" + sclassid);
             }
@@ -435,12 +434,16 @@ namespace SeoWebSite.DAL
             strSql.Append(" where " + whereStr);
             strSql.Append(" group by scheduleid) b on a.id=b.scheduleid");
             strSql.Append(" join scheduleclass c on a.sclassid=c.id");
-            strSql.Append(" where a.updated=1 and b.scount>1");
-            if (!String.IsNullOrEmpty(cclassid))
+            strSql.Append(" where a.updated=1");
+            if (String.IsNullOrEmpty(cclassid) && String.IsNullOrEmpty(sclassid))
+            {
+                strSql.Append(" and b.scount>2");
+            }
+            else if (!String.IsNullOrEmpty(cclassid))
             {
                 strSql.Append(" and c.cclassid=" + cclassid);
             }
-            if (!String.IsNullOrEmpty(sclassid))
+            else if (!String.IsNullOrEmpty(sclassid))
             {
                 strSql.Append(" and a.sclassid=" + sclassid);
             }
