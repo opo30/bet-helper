@@ -27,7 +27,7 @@
     <script type="text/javascript" src="http://live.nowscore.com/func.js"></script>
     <script type="text/javascript" src="http://live.nowscore.com/matchScore.js"></script>
 
-    <script src="Js/NowGoal/Common.js" type="text/javascript"></script>
+    <%--<script src="Js/NowGoal/Common.js" type="text/javascript"></script>--%>
     
     <script src="Js/BettingLine/AddBettingLine.js" type="text/javascript"></script>
     
@@ -476,7 +476,9 @@
                     classx2 = "td_scoreR";
                 else
                     classx2 = "td_score";
-
+                if (A[i][0]==666457) {
+    
+}
                 html.push("<td align=center id='time_" + A[i][0] + "' class='fortime'>" + state_ch[state + 14].split(",")[Config.language] + "</td>");
                 html.push("<td class=a1><span id=horder_" + A[i][0] + "></span><a id='yellow1_" + A[i][0] + "'>" + H_yellow + "</a><a id='redcard1_" + A[i][0] + "'>" + H_redcard + "</a><a id='team1_" + A[i][0] + "' href='javascript:' onclick='TeamPanlu_10(" + A[i][0] + ")' title='" + A[i][21] + "'>" + A[i][4 + Config.language] + "</a></td>");
                 html.push("<td onclick='showgoallist(" + A[i][0] + ")' class='" + classx2 + "' onmouseover='showdetail(" + i + ",event)' onmouseout='hiddendetail()'>" + match_score + "</td>");
@@ -632,7 +634,7 @@
                     classx2 = "td_scoreR";
                 else
                     classx2 = "td_score";
-
+                
                 html.push("<td align=center id='time_" + A[i][0] + "' class='fortime'>" + state_ch[state + 14].split(",")[Config.language] + "</td>");
                 html.push("<td class=a1><span id=horder_" + A[i][0] + "></span><a id='yellow1_" + A[i][0] + "'>" + H_yellow + "</a><a id='redcard1_" + A[i][0] + "'>" + H_redcard + "</a><a id='team1_" + A[i][0] + "' href='javascript:' onclick='TeamPanlu_10(" + A[i][0] + ")' title='" + A[i][21] + "'>" + A[i][4 + Config.language] + "</a></td>");
                 html.push("<td onclick='showgoallist(" + A[i][0] + ")' class='" + classx2 + "' onmouseover='showdetail(" + i + ",event)' onmouseout='hiddendetail()'>" + match_score + "</td>");

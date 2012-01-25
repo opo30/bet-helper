@@ -140,6 +140,11 @@ namespace SeoWebSite.Web.Data.NowGoal
                     List<string> swhereList = new List<string>();
                     List<string> ewhereList = new List<string>();
                     List<string> oddswhereList = new List<string>();
+                    string pankou = scheduleArr[25];
+                    //if (Request["pankou"] != null && !string.IsNullOrEmpty(Request.Form["pankou"].Split(',')[2]))
+                    //{
+                    //    pankou = Request.Form["pankou"].Split(',')[2];
+                    //}
                     foreach (string oddsStr in oddsArr)
                     {
                         string[] odds = oddsStr.Split('|');
@@ -153,11 +158,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                             " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + " and e_win=" + odds[10] +
                                 " and e_draw=" + odds[11] + " and e_lost=" + odds[12] + ")");
                         }
-                        //else
-                        //{
-                        //    ewhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
-                        //    " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + " and e_win is null and e_draw is null and e_lost is null)");
-                        //}
                     }
                     string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
                     string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
@@ -166,7 +166,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     Common.DataCache.SetCache("ewhere", ewhereStr);
                     Common.DataCache.SetCache("cclassid", sclassArr[9]);
                     Common.DataCache.SetCache("sclassid", sclassArr[0]);
-                    Common.DataCache.SetCache("rangqiu", scheduleArr[25]);
+                    Common.DataCache.SetCache("rangqiu", pankou);
 
                     DataTable dt = new DataTable();
                     dt.Columns.Add("name", typeof(string));
@@ -179,20 +179,20 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.Columns.Add("avgscore", typeof(float));
                     dt.Columns.Add("totalCount", typeof(float));
 
-                    DataSet sds = scheduleBLL.statOddsHistory(scheduleArr[25], null, null, swhereStr);
-                    DataSet eds = scheduleBLL.statOddsHistory(scheduleArr[25], null, null, ewhereStr);
+                    DataSet sds = scheduleBLL.statOddsHistory(pankou, null, null, swhereStr);
+                    DataSet eds = scheduleBLL.statOddsHistory(pankou, null, null, ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[0]["name"] = "全局初";
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[1]["name"] = "全局终";
-                    sds = scheduleBLL.statOddsHistory(scheduleArr[25], sclassArr[9], null, swhereStr);
-                    eds = scheduleBLL.statOddsHistory(scheduleArr[25], sclassArr[9], null, ewhereStr);
+                    sds = scheduleBLL.statOddsHistory(pankou, sclassArr[9], null, swhereStr);
+                    eds = scheduleBLL.statOddsHistory(pankou, sclassArr[9], null, ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[2]["name"] = "国家初";
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[3]["name"] = "国家终";
-                    sds = scheduleBLL.statOddsHistory(scheduleArr[25], null, sclassArr[0], swhereStr);
-                    eds = scheduleBLL.statOddsHistory(scheduleArr[25], null, sclassArr[0], ewhereStr);
+                    sds = scheduleBLL.statOddsHistory(pankou, null, sclassArr[0], swhereStr);
+                    eds = scheduleBLL.statOddsHistory(pankou, null, sclassArr[0], ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[4]["name"] = "赛事初";
                     dt.ImportRow(eds.Tables[0].Rows[0]);

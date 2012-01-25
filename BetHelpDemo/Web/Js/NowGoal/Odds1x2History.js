@@ -22,11 +22,16 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
             { name: 'avgscore', type: 'float' },
             { name: 'totalCount', type: 'int' }
             ];
+
     var params = {
         stypeid: scheduleTypeArr.join('^'),
         oddsarr: oddsArr.join('^'),
         schedulearr: scheduleArr.join('^')
     };
+
+    if (Ext.getDom('tr1_' + scheduleArr[0])) {
+        params.pankou = Ext.getDom('tr1_' + scheduleArr[0]).getAttribute("odds");
+    }
 
     var store = new Ext.data.JsonStore({
         root: 'data',

@@ -435,11 +435,11 @@ namespace SeoWebSite.DAL
             strSql.Append(" group by scheduleid) b on a.id=b.scheduleid");
             strSql.Append(" join scheduleclass c on a.sclassid=c.id");
             strSql.Append(" where a.updated=1");
-            if (String.IsNullOrEmpty(cclassid) && String.IsNullOrEmpty(sclassid))
-            {
-                strSql.Append(" and b.scount>2");
-            }
-            else if (!String.IsNullOrEmpty(cclassid))
+            //if (String.IsNullOrEmpty(cclassid) && String.IsNullOrEmpty(sclassid))
+            //{
+            //    strSql.Append(" and b.scount>2");
+            //}
+            if (!String.IsNullOrEmpty(cclassid))
             {
                 strSql.Append(" and c.cclassid=" + cclassid);
             }
