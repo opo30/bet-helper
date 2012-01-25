@@ -195,7 +195,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
                 { name: 'bgcolor', type: 'string' }, { name: 'rangqiu', type: 'float' }, { name: 's_time', type: 'string' }, { name: 'scount', type: 'int' }, { name: 'numResult', type: 'float'}],
                root: "data"
            }),
-            groupField: "scount",
+            //groupField: "scount",
             sortInfo: { field: "s_time", direction: "DESC" }
         }),
         cm: new Ext.grid.ColumnModel([{
