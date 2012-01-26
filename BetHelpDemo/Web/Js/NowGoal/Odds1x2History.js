@@ -46,13 +46,6 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
     });
 
     store.on('load', function (s, records) {
-        var perwin = [], perdraw = [], perlost = [];
-        Ext.each(oddsArr, function (oddsStr) {
-            var oddsVal = oddsStr.split('|');
-            perwin.push(parseFloat(oddsVal[6]));
-            perdraw.push(parseFloat(oddsVal[7]));
-            perlost.push(parseFloat(oddsVal[8]));
-        });
         s.each(function (r, index) {
             if (index % 2 > 0) {
                 if (r.get("perwin") > store.getAt(index - 1).get("perwin")) {
@@ -69,21 +62,6 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
                 } else if (r.get("perlost") < store.getAt(index - 1).get("perlost")) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
-                if (r.get("rqwin") > store.getAt(index - 1).get("rqwin")) {
-                    grid.getView().getCell(index, 5).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("rqwin") < store.getAt(index - 1).get("rqwin")) {
-                    grid.getView().getCell(index, 5).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
-                if (r.get("rqdraw") > store.getAt(index - 1).get("rqdraw")) {
-                    grid.getView().getCell(index, 6).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("rqdraw") < store.getAt(index - 1).get("rqdraw")) {
-                    grid.getView().getCell(index, 6).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
-                if (r.get("rqlost") > store.getAt(index - 1).get("rqlost")) {
-                    grid.getView().getCell(index, 7).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("rqlost") < store.getAt(index - 1).get("rqlost")) {
-                    grid.getView().getCell(index, 7).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
                 if (r.get("avgscore") > store.getAt(index - 1).get("avgscore")) {
                     grid.getView().getCell(index, 8).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
@@ -124,17 +102,35 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
             header: "赢",
             tooltip: "主场球队获胜赔率",
             dataIndex: "rqwin",
-            sortable: false
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                if (value > row.get("rqdraw") && value > row.get("rqlost")) {
+                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+                }
+                return value;
+            }
         }, {
             header: "走",
             tooltip: "比赛打平的赔率",
             dataIndex: "rqdraw",
-            sortable: false
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                if (value > row.get("rqwin") && value > row.get("rqlost")) {
+                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+                }
+                return value;
+            }
         }, {
             header: "输",
             tooltip: "客场球队获胜赔率",
             dataIndex: "rqlost",
-            sortable: false
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                if (value > row.get("rqdraw") && value > row.get("rqwin")) {
+                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+                }
+                return value;
+            }
         }, {
             header: "进球数",
             dataIndex: "avgscore",
