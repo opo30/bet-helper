@@ -173,7 +173,7 @@ namespace SeoWebSite.BLL
         /// <returns></returns>
         public string GetOddsDetail(string scheduleID, string companyID, string dateStr)
         {
-            if (dateStr == "undefined")
+            if (string.IsNullOrEmpty(dateStr))
             {
                 WebClientBLL.UpdateOddsDetailContent(companyID);
             }

@@ -2,7 +2,32 @@
 /// <reference path="../../lib/ext/ext-all-debug.js" />
 
 //比赛编码，比赛名称，是否完场
-OddsDetailManage = function (scheduleID, schedule, scheduleType) {
+var AsianOdds = function (scheduleID) {
+    
+    var scheduleName, scheduleType, matchdate;
+    Ext.each(A, function (s) {
+        if (scheduleID == s[0]) {
+            scheduleName = s[4] + "-" + s[7];
+            scheduleType = B[s[1]];
+            var dateStr = s[11].split(',');
+            if (s[12] == -1) {
+                matchdate = dateStr[0] + "-" + (dateStr[1] + 1) + "-" + dateStr[2];
+            }
+        }
+    });
+    if (!scheduleName) {
+        Ext.each(HistoryScore.A, function (s) {
+            if (scheduleID == s[0]) {
+                scheduleName = s[4] + "-" + s[7];
+                scheduleType = HistoryScore.B[s[1]];
+                var dateStr = s[10].split('<br>');
+                if (s[12] == -1) {
+                    matchdate = "20" + dateStr[0];
+                }
+            }
+        });
+    }
+
     var companyid_array = [];
     for (var i in company) {
         if (typeof (company[i]) == "string") {
@@ -152,8 +177,8 @@ OddsDetailManage = function (scheduleID, schedule, scheduleType) {
     var store = new Ext.data.Store({
         proxy: new Ext.data.HttpProxy(
            {
-               //url: "Data/NowGoal/GetOddsDetail.aspx",
-               url: "Server.aspx?a=getOdds3in1",
+               url: "Data/NowGoal/GetOddsDetail.aspx",
+               //url: "Server.aspx?a=getOdds3in1",
                method: "POST",
                timeout: 600000
            }),
@@ -167,7 +192,7 @@ OddsDetailManage = function (scheduleID, schedule, scheduleType) {
            }),
         sortInfo: { field: 'companyid', direction: "DESC" },
         baseParams: {
-            scheduleID: scheduleID, companyid: companyid_array, scheduleType: 0
+            scheduleID: scheduleID, companyID: companyid_array, date: matchdate
         }
     });
 
@@ -175,6 +200,7 @@ OddsDetailManage = function (scheduleID, schedule, scheduleType) {
         title: "综合赔率",
         store: store,
         columns: columns,
+        columnLines: true,
         loadMask: true,
         viewConfig: {
             forceFit: true
@@ -1097,13 +1123,13 @@ OddsDetailManage = function (scheduleID, schedule, scheduleType) {
     });
 
 
-    var tab = center.getItem("OddsDetail_" + scheduleID);
+    var tab = center.getItem("AsianOddsTab_" + scheduleID);
     if (!tab) {
         var tab = center.add({
-            id: "OddsDetail_" + scheduleID,
+            id: "AsianOddsTab_" + scheduleID,
             iconCls: "totalicon",
             xtype: "panel",
-            title: schedule + "综合",
+            title: scheduleName + "综合",
             closable: true,
             layout: "fit",
             items: [grid]

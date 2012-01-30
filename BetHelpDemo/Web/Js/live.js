@@ -12,7 +12,8 @@ HistoryScore.C = Array();
 HistoryScore.matchcount = 0;
 HistoryScore.sclasscount = 0;
 HistoryScore.countrycount = 0;
-HistoryScore.matchdate = ""
+HistoryScore.matchdate = "";
+HistoryScore.oddsData = "";
 
 HistoryScore.ShowBf = function () {
     Ext.getCmp("MatchTypeSelect").setText(Ext.getCmp("MatchTypeSelect").menu.items.itemAt(Config.matchType).text);
@@ -84,6 +85,7 @@ HistoryScore.ShowBf = function () {
             rowData.g_team = this.A[i][7 + Config.language] + "" + G_redcard + "" + G_yellow + (this.A[i][22] == "" ? "" : "<font color=#888888>[" + this.A[i][22] + "]</font>");
             rowData.match_half = match_half;
             rowData.classx2 = classx2;
+
             rowData.pankou = Goal2GoalCn(this.A[i][25]);
 
             var goalResult = "";
@@ -119,11 +121,67 @@ HistoryScore.ShowBf = function () {
             scheduleData.push(rowData);
         } catch (e) { }
     }
-    //document.getElementById("ScoreDiv").innerHTML = html.join("");
+
     var grid = Ext.getCmp("HistoryFileGrid");
     grid.getStore().loadData(scheduleData);
 }
 
+
+HistoryScore.showodds = function (oddsDataStr) {
+    try {
+        var D = new Array();
+        var odds, old = new Array();
+        var grid = Ext.getCmp("HistoryFileGrid");
+        var oddsData = oddsDataStr.split("$");
+        for (var i = 2; i < oddsData.length; i++) {
+            var oddsArray = oddsData[i].split(';');
+            Ext.each(oddsArray, function (odds) {
+                D = odds.split(",");
+
+                tr = document.getElementById("htr1_" + D[0]);
+                if (tr != null && D[1] == Config.companyID) {
+                    var index = tr.getAttribute("index");
+                    grid.getView().getCell(index, 9).innerHTML = "<p class=odds1>" + D[3] + "</p><p class=odds2>" + D[6] + "</p>";
+                    grid.getView().getCell(index, 10).innerHTML = "<p class=odds1>" + Goal2GoalCn(D[2]) + "</p><p class=odds2>" + Goal2GoalCn(D[5]) + "</p>";
+                    grid.getView().getCell(index, 11).innerHTML = "<p class=odds1>" + D[4] + "</p><p class=odds2>" + D[7] + "</p>";
+                    
+
+                    //                    if (old.length == 14 && old != odds && old[10] != "") {
+                    //                        if (D[10] > old[10]) D[10] = "<span class=up>" + Goal2GoalCn2(D[10]) + "</span>";
+                    //                        else if (D[10] < old[10]) D[10] = "<span class=down>" + Goal2GoalCn2(D[10]) + "</span>";
+                    //                        else D[10] = Goal2GoalCn2(D[10]);
+                    //                    }
+                    //                    else D[10] = Goal2GoalCn2(D[10]);
+
+                    //                    var tmp = "";
+                    //                    if (Config.yp == 1) tmp += "<p class=odds1>" + D[3] + "</p>";
+                    //                    if (Config.op == 1) tmp += "<p class=odds2>" + D[6] + "</p>";
+                    //                    if (Config.dx == 1) tmp += "<p class=odds3>" + D[11] + "</p>";
+                    //                    tr.cells[9].innerHTML = tmp;
+
+                    //                    tmp = "";
+                    //                    if (Config.yp == 1) tmp += "<p class=odds1>" + D[2] + "</p>";
+                    //                    if (Config.op == 1) tmp += "<p class=odds2>" + D[7] + "</p>";
+                    //                    if (Config.dx == 1) tmp += "<p class=odds3>" + D[10] + "</p>";
+                    //                    tr.cells[10].innerHTML = tmp;
+
+                    //                    tmp = "";
+                    //                    if (Config.yp == 1) tmp += "<p class=odds1>" + D[4] + "</p>";
+                    //                    if (Config.op == 1) tmp += "<p class=odds2>" + D[8] + "</p>";
+                    //                    if (Config.dx == 1) tmp += "<p class=odds3>" + D[12] + "</p>";
+                    //                    tr.cells[11].innerHTML = tmp;
+
+                    //                    tmp = "";
+                    //                    if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowscore.com/images/t3.gif' height=10 width=10 title='有走地赛事'></a>";
+                    //                    if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowscore.com/images/t32.gif' height=10 width=10 title='正在走地'></a>";
+                    //                    tr.cells[12].innerHTML = tmp;
+
+                    //                    tr.attributes["odds"].value = odds;
+                }
+            });
+        }
+    } catch (e) { alert(e) }
+}
 
 HistoryScore.SetLanguage = function (l, obj) {
     Ext.getCmp(obj.id).findParentByType('button').setText(obj.text);
@@ -218,12 +276,12 @@ HistoryScore.SelectOtherLeague=function() {
 
 HistoryScore.LoadLiveFile = function () {
     if (Ext.getCmp("datefield").getValue()) {
-        date = Ext.getCmp("datefield").getValue().format("Y-m-d");
+        HistoryScore.matchdate = Ext.getCmp("datefield").getValue().format("Y-m-d");
     } else {
-        date = new Date().format("Y-m-d");
+        HistoryScore.matchdate = new Date().format("Y-m-d");
     }
     Ext.Ajax.request({
-        url: "Data/NowGoal/GetRemoteFile.aspx?f=rootjs&path=data/score.aspx?date=" + date,
+        url: "Data/NowGoal/GetRemoteFile.aspx?f=rootjs&path=data/score.aspx?date=" + HistoryScore.matchdate,
         success: function (res) {
             var jsdata = res.responseText;
             if (jsdata) {

@@ -79,9 +79,6 @@ var west = new Ext.Panel({
                 listeners: {
                     click: function(node) {
                         switch (node.attributes.text) {
-                            case "即时比分":
-                                LoadLiveFile(node);
-                            break;
                             case "历史数据":
                                 LoadHistoryMatch(node);
                                 break;

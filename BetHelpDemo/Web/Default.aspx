@@ -476,9 +476,7 @@
                     classx2 = "td_scoreR";
                 else
                     classx2 = "td_score";
-                if (A[i][0]==666457) {
-    
-}
+
                 html.push("<td align=center id='time_" + A[i][0] + "' class='fortime'>" + state_ch[state + 14].split(",")[Config.language] + "</td>");
                 html.push("<td class=a1><span id=horder_" + A[i][0] + "></span><a id='yellow1_" + A[i][0] + "'>" + H_yellow + "</a><a id='redcard1_" + A[i][0] + "'>" + H_redcard + "</a><a id='team1_" + A[i][0] + "' href='javascript:' onclick='TeamPanlu_10(" + A[i][0] + ")' title='" + A[i][21] + "'>" + A[i][4 + Config.language] + "</a></td>");
                 html.push("<td onclick='showgoallist(" + A[i][0] + ")' class='" + classx2 + "' onmouseover='showdetail(" + i + ",event)' onmouseout='hiddendetail()'>" + match_score + "</td>");
@@ -497,6 +495,7 @@
                     else
                         html.push("<a href='http://www.310tv.com/" + V[A[i][0]][4] + "/" + V[A[i][0]][0] + "_" + V[A[i][0]][2] + "_" + V[A[i][0]][3] + ".html' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>直</a>");
                 }
+                html.push(A[i][25]);//增加初盘显示
 
                 html.push("</td><td class=oddstd>&nbsp;</td>");
                 html.push("<td class=oddstd onclick='oddsDetail(" + A[i][0] + "," + Config.companyID + " )' style='cursor:pointer;'>&nbsp;</td>");

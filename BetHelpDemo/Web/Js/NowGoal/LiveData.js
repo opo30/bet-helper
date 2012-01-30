@@ -29,7 +29,6 @@ var GetPrediction = function (scheduleID) {
 }
 
 var LoadHistoryMatch = function (node) {
-
     //指定列参数
     var fields = [{ name: 'scheduleid', type: 'int' },
             { name: 'display', type: 'string' },
@@ -69,6 +68,12 @@ var LoadHistoryMatch = function (node) {
         if (grid.loadMask) {
             grid.loadMask.hide();
         }
+        Ext.Ajax.request({
+            url: 'Data/NowGoal/GetRemoteFile.aspx?f=rootjs&path=odds/oddsData.aspx?date=' + HistoryScore.matchdate,
+            success: function (res1) {
+                HistoryScore.showodds(res1.responseText);
+            }
+        });
     });
 
     //--------------------------------------------------列选择模式
@@ -365,7 +370,7 @@ var LoadHistoryMatch = function (node) {
 		        else if (row.length > 1) {
 		            Ext.Msg.alert("提示信息", "对不起只能选择一个!");
 		        } else if (row.length == 1) {
-		            OddsDetailManage(row[0].data.scheduleid, row[0].data.match_4 + "-" + row[0].data.match_7, B[row[0].data.match_1][0]);
+		            AsianOdds(row[0].get("scheduleid"));
 		        }
 		    }
 		}, "-", {
