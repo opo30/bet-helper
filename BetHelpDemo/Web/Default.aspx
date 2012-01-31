@@ -101,7 +101,7 @@
 		<div id="myleague"></div>
 		<p class="bts">
 		<script language="javascript" type="text/javascript">
-		    document.write('<input type="button" name="btn_all" id="btn_all" value="全部" style="cursor:pointer;" onclick="SetMatchType(0)"/>');
+		    document.write('<input type="button" name="btn_all" id="btn_all" value="全部" style="cursor:pointer;" onclick="SetMatchType(0)"/>');
 		</script>
 			<input type="button" name="button2" id="button2" value="一级赛事" style="cursor:pointer;" onclick="SetMatchType(1)"/>
 			<input type="button" name="button2" id="button4" value="全选" style="cursor:pointer;" onclick="ShowAllMatch()"/>
@@ -111,11 +111,10 @@
   </div>  
   
   <div id="DivCountry" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')">
-    <div id="countryList" class="gamelist"></div>
-		<p class="bts">
-			<input type="button" name="button2" id="button7" value="全选" style="cursor:pointer;" onclick="ShowAllMatch()"/>
-			<input type="button" name="button3" id="button8" value="反选" style="cursor:pointer;" onclick="SelectOtherLeague()" />
-			
+    <div id="countryList" class="gamelist"></div>
+		<p class="bts">
+			<input type="button" name="button2" id="button7" value="全选" style="cursor:pointer;" onclick="ShowAllMatch()"/>
+			<input type="button" name="button3" id="button8" value="反选" style="cursor:pointer;" onclick="SelectOtherLeague()" />
 		</p>
   </div> 
  		
@@ -149,31 +148,28 @@
 				<option value="5">右上角</option>
 				<option value="6">左下角</option>
 				<option value="7">右下角</option>
-				</select><br>			 
-						
-				<p class="bts"><input type="button" name="button2" id="button1" value="打印" style="cursor:pointer;" onclick="javascript:window.open('/score_print.aspx','','')";/><input type="button" name="button" id="button5" value="关闭"  style="cursor:pointer;" onclick="MM_showHideLayers('DivFunction','','hide')"/></p>
-			  </td></tr>
-		  </table>
-  </div>
-  <div id="divMatchType3" onmouseout="MM_showHideLayers('divMatchType3','','hide')" onmousemove="MM_showHideLayers('divMatchType3','','show')">
-		<div><a href="javascript:SetLevel(0);">所有赛事</a></div>
-		<div><a href="javascript:SetLevel(1);">胜负彩</a></div>
-		<div><a href="javascript:SetLevel(2);">北京单场</a></div>
-  </div>   
-</div>
-
-
-<div>
-	<ul class="Companys" style="margin-left:25px;">
-      <li><a href="javascript:SetCompany(1);" id="company1"><span>澳门</span></a></li>
-      <li><a href="javascript:SetCompany(4);" id="company4"><span>立博</span></a></li>
-      <li><a href="javascript:SetCompany(3);" id="company3"><span>ＳＢ</span></a></li>
-      <li><a href="javascript:SetCompany(24);" id="company24"><span>沙巴</span></a></li>
-      <li><a href="javascript:SetCompany(31);" id="company31"><span>利记</span></a></li>
-      <li><a href="javascript:SetCompany(17);" id="company17"><span>明陞</span></a></li>
-      <li><a href="javascript:SetCompany(23);" id="company23"><span>金宝博</span></a></li>
-      <li><a href="javascript:SetCompany(12);" id="company12"><span>易胜博</span></a></li>
-      <li><a href="javascript:SetCompany(8);" id="company8"><span>Bet365</span></a></li>
+				</select><br>
+				<p class="bts"><input type="button" name="button2" id="button1" value="打印" style="cursor:pointer;" onclick="javascript:window.open('/score_print.aspx','','')";/><input type="button" name="button" id="button5" value="关闭"  style="cursor:pointer;" onclick="MM_showHideLayers('DivFunction','','hide')"/></p>
+			  </td></tr>
+		  </table>
+  </div>
+  <div id="divMatchType3" onmouseout="MM_showHideLayers('divMatchType3','','hide')" onmousemove="MM_showHideLayers('divMatchType3','','show')">
+		<div><a href="javascript:SetLevel(0);">所有赛事</a></div>
+		<div><a href="javascript:SetLevel(1);">胜负彩</a></div>
+		<div><a href="javascript:SetLevel(2);">北京单场</a></div>
+  </div>
+</div>
+<div>
+	<ul class="Companys" style="margin-left:25px;">
+      <li><a href="javascript:SetCompany(1);" id="company1"><span>澳门</span></a></li>
+      <li><a href="javascript:SetCompany(4);" id="company4"><span>立博</span></a></li>
+      <li><a href="javascript:SetCompany(3);" id="company3"><span>ＳＢ</span></a></li>
+      <li><a href="javascript:SetCompany(24);" id="company24"><span>沙巴</span></a></li>
+      <li><a href="javascript:SetCompany(31);" id="company31"><span>利记</span></a></li>
+      <li><a href="javascript:SetCompany(17);" id="company17"><span>明陞</span></a></li>
+      <li><a href="javascript:SetCompany(23);" id="company23"><span>金宝博</span></a></li>
+      <li><a href="javascript:SetCompany(12);" id="company12"><span>易胜博</span></a></li>
+      <li><a href="javascript:SetCompany(8);" id="company8"><span>Bet365</span></a></li>
     </ul>  
     <div style="clear:both"></div>
     </div>
@@ -189,27 +185,27 @@
 	<div id="main2">
 	  <div id="leagueList"></div>
 <table width='100%' id="hotLeague" style="display:none;" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='text-align:center; margin-bottom:5px;'><tr height=20>
-<td bgcolor=#FF3333><a href="javascript:ChangeJS(36,1)">英超</a></td>
-<td bgcolor=#cc3300><a href="javascript:ChangeJS(37,1)">英冠</a></td>
-<td bgcolor=#0088FF><a href="javascript:ChangeJS(34,1)">意甲</a></td>
-<td bgcolor=#006633><a href="javascript:ChangeJS(31,1)">西甲</a></td>
-<td bgcolor=#990099><a href="javascript:ChangeJS(8,1)">德甲</a></td>
-<td bgcolor=#DDDD00><a href="javascript:ChangeJS(4,1)">巴西甲</a></td>
-<td bgcolor=#663333><a href="javascript:ChangeJS(11,1)">法甲</a></td>
-<td bgcolor=#008888><a href="javascript:ChangeJS(23,1)">葡超</a></td>
-<td bgcolor=#57A87B><a href="javascript:ChangeJS(29,1)">苏超</a></td>
-<td bgcolor=#FF6699><a href="javascript:ChangeJS(16,1)">荷甲</a></td></tr>
+<td bgcolor="#FF3333"><a href="javascript:ChangeJS(36,1)">英超</a></td>
+<td bgcolor="#cc3300"><a href="javascript:ChangeJS(37,1)">英冠</a></td>
+<td bgcolor="#0088FF"><a href="javascript:ChangeJS(34,1)">意甲</a></td>
+<td bgcolor="#006633"><a href="javascript:ChangeJS(31,1)">西甲</a></td>
+<td bgcolor="#990099"><a href="javascript:ChangeJS(8,1)">德甲</a></td>
+<td bgcolor="#DDDD00"><a href="javascript:ChangeJS(4,1)">巴西甲</a></td>
+<td bgcolor="#663333"><a href="javascript:ChangeJS(11,1)">法甲</a></td>
+<td bgcolor="#008888"><a href="javascript:ChangeJS(23,1)">葡超</a></td>
+<td bgcolor="#57A87B"><a href="javascript:ChangeJS(29,1)">苏超</a></td>
+<td bgcolor="#FF6699"><a href="javascript:ChangeJS(16,1)">荷甲</a></td></tr>
 <tr height=20>
-<td bgcolor=#660033><a href="javascript:ChangeJS(21,1)">美职业</a></td>
-<td bgcolor=#009900><a href="javascript:ChangeJS(25,1)">日职联</a></td>
-<td bgcolor=#FC9B0A><a href="javascript:ChangeJS(5,1)">比甲</a></td>
-<td bgcolor=#004488><a href="javascript:ChangeJS(26,1)">瑞典超</a></td>
-<td bgcolor=#137AAC><a href="javascript:ChangeJS(13,1)">芬超</a></td>
-<td bgcolor=#0066FF><a href="javascript:ChangeJS(60,1)">中超</a></td>
-<td bgcolor=#666666><a href="javascript:ChangeJS(22,1)">挪超</a></td>
-<td bgcolor=#2f3fd2><a href="javascript:ChangeJS(3,1)">奥甲</a></td>
-<td bgcolor=#1ba578><a href="javascript:ChangeJS(27,1)">瑞士超</a></td>
-<td bgcolor=#006699><a href="javascript:ChangeJS(10,1)">俄超</a></td>
+<td bgcolor="#660033"><a href="javascript:ChangeJS(21,1)">美职业</a></td>
+<td bgcolor="#009900"><a href="javascript:ChangeJS(25,1)">日职联</a></td>
+<td bgcolor="#FC9B0A"><a href="javascript:ChangeJS(5,1)">比甲</a></td>
+<td bgcolor="#004488"><a href="javascript:ChangeJS(26,1)">瑞典超</a></td>
+<td bgcolor="#137AAC"><a href="javascript:ChangeJS(13,1)">芬超</a></td>
+<td bgcolor="#0066FF"><a href="javascript:ChangeJS(60,1)">中超</a></td>
+<td bgcolor="#666666"><a href="javascript:ChangeJS(22,1)">挪超</a></td>
+<td bgcolor="#2f3fd2"><a href="javascript:ChangeJS(3,1)">奥甲</a></td>
+<td bgcolor="#1ba578"><a href="javascript:ChangeJS(27,1)">瑞士超</a></td>
+<td bgcolor="#006699"><a href="javascript:ChangeJS(10,1)">俄超</a></td>
 </tr></table>
 
 <table width='100%' id="hotCup" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='display:none;text-align:center; margin-bottom:5px;'><tr style="height:20;">
