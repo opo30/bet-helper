@@ -212,10 +212,10 @@
 <td bgcolor=#006699><a href="javascript:ChangeJS(10,1)">俄超</a></td>
 </tr></table>
 
-<table width='100%' id="hotCup" style="display:none;" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='text-align:center; margin-bottom:5px;'><tr height=20>
-<td bgcolor=#660000><a href="javascript:ChangeJS(75,2)">世界杯</a></td>
-<td bgcolor=#660033><a href="javascript:ChangeJS(650,2)">欧洲预选</a></td>
-<td bgcolor=#f36229><a href="javascript:ChangeJS(652,2)">南美预选</a></td>
+<table width='100%' id="hotCup" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='display:none;text-align:center; margin-bottom:5px;'><tr style="height:20;">
+<td bgcolor="#660000"><a href="javascript:ChangeJS(75,2)">世界杯</a></td>
+<td bgcolor="#660033"><a href="javascript:ChangeJS(650,2)">欧洲预选</a></td>
+<td bgcolor="#f36229"><a href="javascript:ChangeJS(652,2)">南美预选</a></td>
 <td bgcolor=#448e08><a href="javascript:ChangeJS(653,2)">北美预选</a></td>
 <td bgcolor=#49a63d><a href="javascript:ChangeJS(648,2)">亚洲预选</a></td>
 <td bgcolor=#2f4e07><a href="javascript:ChangeJS(651,2)">非洲预选</a></td>
