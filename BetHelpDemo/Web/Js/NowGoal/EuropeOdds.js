@@ -10,17 +10,17 @@ function formatFloat(src, pos) {
 }
 
 var EuropeOdds = function (scheduleid) {
-    var index,scheduleArr,scheduleTypeArr;
+    var index, scheduleArr, scheduleTypeArr;
     if (Ext.fly("tr1_" + scheduleid)) {
         index = Ext.getDom("tr1_" + scheduleid).getAttribute("index");
         scheduleArr = A[index];
         scheduleTypeArr = B[A[index][1]];
-    }else {
+    } else {
         index = Ext.getDom("htr1_" + scheduleid).getAttribute("index");
         scheduleArr = HistoryScore.A[index];
         scheduleTypeArr = HistoryScore.B[HistoryScore.A[index][1]];
     }
-    
+
     var schedule = scheduleArr[4] + "-" + scheduleArr[7];
     var upcolor = "red";
     var downcolor = "green";
@@ -71,7 +71,8 @@ var EuropeOdds = function (scheduleid) {
             ];
 
     Odds1x2store = new Ext.data.ArrayStore({
-        fields: fields
+        fields: fields,
+        sortInfo: { field: "lastupdatetime", direction: "DESC" }
     });
 
     Odds1x2store.on('load', function (s, records) {
@@ -373,7 +374,7 @@ var EuropeOdds = function (scheduleid) {
 		            var oddsArr = [];
 		            Ext.each(row, function (r) {
 		                oddsArr.push(r.get("data"));
-		            })
+		            });
 		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr);
 		        }
 		    }

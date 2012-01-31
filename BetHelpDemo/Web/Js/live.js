@@ -133,8 +133,8 @@ HistoryScore.showodds = function (oddsDataStr) {
         var odds, old = new Array();
         var grid = Ext.getCmp("HistoryFileGrid");
         var oddsData = oddsDataStr.split("$");
-        for (var i = 2; i < oddsData.length; i++) {
-            var oddsArray = oddsData[i].split(';');
+        //for (var i = 2; i < oddsData.length; i++) {
+            var oddsArray = oddsData[2].split(';');
             Ext.each(oddsArray, function (odds) {
                 D = odds.split(",");
 
@@ -179,7 +179,7 @@ HistoryScore.showodds = function (oddsDataStr) {
                     //                    tr.attributes["odds"].value = odds;
                 }
             });
-        }
+        //}
     } catch (e) { alert(e) }
 }
 
