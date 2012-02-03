@@ -145,11 +145,20 @@ namespace SeoWebSite.Web.Data.NowGoal
                     //{
                     //    pankou = Request.Form["pankou"].Split(',')[2];
                     //}
+                    List<decimal> swlist = new List<decimal>();
+                    List<decimal> sdlist = new List<decimal>();
+                    List<decimal> sllist = new List<decimal>();
+                    List<decimal> ewlist = new List<decimal>();
+                    List<decimal> edlist = new List<decimal>();
+                    List<decimal> ellist = new List<decimal>();
                     foreach (string oddsStr in oddsArr)
                     {
                         string[] odds = oddsStr.Split('|');
                         swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
                             " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
+                        swlist.Add(Convert.ToDecimal(odds[6]));
+                        sdlist.Add(Convert.ToDecimal(odds[7]));
+                        sllist.Add(Convert.ToDecimal(odds[8]));
                         if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
                         {
                             ewhereList.Add("(companyid=" + odds[0] + " and e_win=" + odds[10] +
@@ -157,6 +166,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                             oddswhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
                             " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + " and e_win=" + odds[10] +
                                 " and e_draw=" + odds[11] + " and e_lost=" + odds[12] + ")");
+                            ewlist.Add(Convert.ToDecimal(odds[13]));
+                            edlist.Add(Convert.ToDecimal(odds[14]));
+                            ellist.Add(Convert.ToDecimal(odds[15]));
                         }
                     }
                     string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
@@ -198,6 +210,18 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[5]["name"] = "赛事终";
 
+                    DataRow dr = dt.NewRow();
+                    dr["name"] = "赔率";
+                    dr["perwin"] = ewlist.Average() - swlist.Average();
+                    dr["perdraw"] = edlist.Average() - sdlist.Average();
+                    dr["perlost"] = ellist.Average() - sllist.Average();
+                    dt.Rows.Add(dr);
+                    dr = dt.NewRow();
+                    dr["name"] = "胜率";
+                    dr["perwin"] = Convert.ToDecimal(dt.Rows[1][1]) - Convert.ToDecimal(dt.Rows[0][1]);
+                    dr["perdraw"] = Convert.ToDecimal(dt.Rows[1][2]) - Convert.ToDecimal(dt.Rows[0][2]);
+                    dr["perlost"] = Convert.ToDecimal(dt.Rows[1][3]) - Convert.ToDecimal(dt.Rows[0][3]);
+                    dt.Rows.Add(dr);
                     //List<decimal> numList = new List<decimal>();
                     //numList.Add(soddsperwin.Average());
                     //numList.Add(soddsperdraw.Average());
