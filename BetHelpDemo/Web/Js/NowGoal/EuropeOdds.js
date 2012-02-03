@@ -71,25 +71,12 @@ var EuropeOdds = function (scheduleid) {
             ];
 
     Odds1x2store = new Ext.data.ArrayStore({
-        fields: fields,
-        sortInfo: { field: "lastupdatetime", direction: "DESC" }
+        fields: fields
+        //sortInfo: { field: "lastupdatetime", direction: "DESC" }
     });
 
     Odds1x2store.on('load', function (s, records) {
         s.each(function (r, index) {
-            var game = gameData[index].split('|');
-            if (game[10] != "") {
-                for (var i = 10; i < 13; i++) {
-                    var stra = Number(game[i]);
-                    var strb = Number(game[i - 7]);
-                    if (stra > strb) {
-                        grid.getView().getCell(index, i - 1).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                    }
-                    else if (stra < strb) {
-                        grid.getView().getCell(index, i - 1).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                    }
-                }
-            }
             for (var i = 12; i <= 15; i++) {
                 grid.getView().getCell(index, i).style.color = "#666";
             }
@@ -148,7 +135,7 @@ var EuropeOdds = function (scheduleid) {
 
     //--------------------------------------------------列头
     var cm = new Ext.grid.ColumnModel([
-		new Ext.grid.RowNumberer(), {
+		new Ext.grid.RowNumberer({ width: 27 }), {
 		    header: "公司",
 		    dataIndex: "companyfullname",
 		    tooltip: "公司名称",
@@ -209,17 +196,50 @@ var EuropeOdds = function (scheduleid) {
 		    header: "主胜",
 		    tooltip: "主场球队获胜赔率",
 		    dataIndex: "g_win",
-		    sortable: true
+		    sortable: true,
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        if (value != 0) {
+		            if (value > row.get("h_win")) {
+		                cell.cellAttr = 'bgcolor="#F7CFD6"';
+		            }
+		            else if (value < row.get("h_win")) {
+		                cell.cellAttr = 'bgcolor="#DFF3B1"';
+		            }
+		        }
+		        return value;
+		    }
 		}, {
 		    header: "和局",
 		    tooltip: "比赛打平的赔率",
 		    dataIndex: "g_draw",
-		    sortable: true
+		    sortable: true,
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        if (value != 0) {
+		            if (value > row.get("h_draw")) {
+		                cell.cellAttr = 'bgcolor="#F7CFD6"';
+		            }
+		            else if (value < row.get("h_draw")) {
+		                cell.cellAttr = 'bgcolor="#DFF3B1"';
+		            }
+		        }
+		        return value;
+		    }
 		}, {
 		    header: "客胜",
 		    tooltip: "客场球队获胜赔率",
 		    dataIndex: "g_lost",
-		    sortable: true
+		    sortable: true,
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        if (value != 0) {
+		            if (value > row.get("h_lost")) {
+		                cell.cellAttr = 'bgcolor="#F7CFD6"';
+		            }
+		            else if (value < row.get("h_lost")) {
+		                cell.cellAttr = 'bgcolor="#DFF3B1"';
+		            }
+		        }
+		        return value;
+		    }
 		}, {
 		    header: "主胜率",
 		    tooltip: "主场获胜概率",
@@ -290,6 +310,7 @@ var EuropeOdds = function (scheduleid) {
         rows: [oddsGroupRow]
     });
 
+
     //----------------------------------------------------定义grid
     var grid = new Ext.grid.GridPanel({
         id: "EuropeOdds_" + scheduleid,
@@ -300,7 +321,7 @@ var EuropeOdds = function (scheduleid) {
         loadMask: true,
         stripeRows: true,
         columnLines: true,
-        plugins: group,
+        plugins: [group],
         autoWidth: true,
         //超过长度带自动滚动条
         autoScroll: true,
@@ -477,6 +498,7 @@ var EuropeOdds = function (scheduleid) {
 		    }
 		}
     });
+
 
 
     var tab = center.getItem("EuropeOddsTab_" + scheduleid);
