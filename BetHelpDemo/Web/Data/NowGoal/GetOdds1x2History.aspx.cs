@@ -210,17 +210,31 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[5]["name"] = "赛事终";
 
+                    List<decimal> support = new List<decimal>();
+                    support.Add(ewlist.Average() - swlist.Average());
+                    support.Add(edlist.Average() - sdlist.Average());
+                    support.Add(ellist.Average() - sllist.Average());
+                    support.Add(Convert.ToDecimal(dt.Rows[1][1]) - Convert.ToDecimal(dt.Rows[0][1]));
+                    support.Add(Convert.ToDecimal(dt.Rows[1][2]) - Convert.ToDecimal(dt.Rows[0][2]));
+                    support.Add(Convert.ToDecimal(dt.Rows[1][3]) - Convert.ToDecimal(dt.Rows[0][3]));
                     DataRow dr = dt.NewRow();
                     dr["name"] = "赔率";
-                    dr["perwin"] = ewlist.Average() - swlist.Average();
-                    dr["perdraw"] = edlist.Average() - sdlist.Average();
-                    dr["perlost"] = ellist.Average() - sllist.Average();
+                    dr["perwin"] = support[0];
+                    dr["perdraw"] = support[1];
+                    dr["perlost"] = support[2];
                     dt.Rows.Add(dr);
                     dr = dt.NewRow();
                     dr["name"] = "胜率";
-                    dr["perwin"] = Convert.ToDecimal(dt.Rows[1][1]) - Convert.ToDecimal(dt.Rows[0][1]);
-                    dr["perdraw"] = Convert.ToDecimal(dt.Rows[1][2]) - Convert.ToDecimal(dt.Rows[0][2]);
-                    dr["perlost"] = Convert.ToDecimal(dt.Rows[1][3]) - Convert.ToDecimal(dt.Rows[0][3]);
+                    dr["perwin"] = support[3];
+                    dr["perdraw"] = support[4];
+                    dr["perlost"] = support[5];
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (support[i] > 0 && support[i+3] > 1)
+                        {
+                            dr[4 + i] = support[i + 3] / Math.Ceiling(support[i]) * 10;
+                        }
+                    }
                     dt.Rows.Add(dr);
                     //List<decimal> numList = new List<decimal>();
                     //numList.Add(soddsperwin.Average());

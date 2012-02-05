@@ -142,7 +142,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
         loadMask: true,
         stripeRows: true,
         columnLines: true,
-        height: 150,
+        height: 200,
         //超过长度带自动滚动条
         autoScroll: true,
         border: false,
