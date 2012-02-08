@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SeoWebSite.DBUtility;
+using SeoWebSite.Model;
 
 namespace SeoWebSite.Web.Data.NowGoal
 {
@@ -17,6 +18,7 @@ namespace SeoWebSite.Web.Data.NowGoal
     {
         protected string StringJSON = "";
         ScheduleBLL scheduleBLL = new ScheduleBLL();
+        ScheduleAnalysisBLL scheduleAnalysisBLL = new ScheduleAnalysisBLL();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -35,12 +37,75 @@ namespace SeoWebSite.Web.Data.NowGoal
                         case "list":
                             queryOddsHistory();
                             break;
+                        case "update":
+                            updateOddsHistory();
+                            break;
                         default:
                             break;
                     }
                 }
             }
 
+        }
+
+        private void updateOddsHistory()
+        {
+            if (Request["odds"] != null && Request["scheduleid"] != null)
+            {
+                JObject result = new JObject();
+                try
+                {
+                    string[] allOddsArray = Request.Form["odds"].Split('^');
+                    List<string> swhereList = new List<string>();
+                    List<string> ewhereList = new List<string>();
+                    List<decimal> swlist = new List<decimal>();
+                    List<decimal> sdlist = new List<decimal>();
+                    List<decimal> sllist = new List<decimal>();
+                    List<decimal> ewlist = new List<decimal>();
+                    List<decimal> edlist = new List<decimal>();
+                    List<decimal> ellist = new List<decimal>();
+                    foreach (string oddsStr in allOddsArray)
+                    {
+                        string[] oddsArray = oddsStr.Split('|');
+                        swhereList.Add("(companyid=" + oddsArray[0] + " and s_win=" + oddsArray[3] +
+                                " and s_draw=" + oddsArray[4] + " and s_lost=" + oddsArray[5] + ")");
+                        swlist.Add(Convert.ToDecimal(oddsArray[6]));
+                        sdlist.Add(Convert.ToDecimal(oddsArray[7]));
+                        sllist.Add(Convert.ToDecimal(oddsArray[8]));
+                        if (!string.IsNullOrEmpty(oddsArray[13]) && !string.IsNullOrEmpty(oddsArray[14]) && !string.IsNullOrEmpty(oddsArray[15]))
+                        {
+                            ewhereList.Add("(companyid=" + oddsArray[0] + " and e_win=" + oddsArray[10] +
+                                    " and e_draw=" + oddsArray[11] + " and e_lost=" + oddsArray[12] + ")");
+                            ewlist.Add(Convert.ToDecimal(oddsArray[13]));
+                            edlist.Add(Convert.ToDecimal(oddsArray[14]));
+                            ellist.Add(Convert.ToDecimal(oddsArray[15]));
+                        }
+                    }
+                    DataSet sds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    DataSet eds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    if (sds != null && eds != null)
+                    {
+                        ScheduleAnalysis model = new ScheduleAnalysis();
+                        model.scheduleid = Convert.ToInt32(Request.Form["scheduleid"]);
+                        model.oddswin = ewlist.Average() - swlist.Average();
+                        model.oddsdraw = edlist.Average() - sdlist.Average();
+                        model.oddslost = ellist.Average() - sllist.Average();
+                        model.perwin = Convert.ToDecimal(eds.Tables[0].Rows[0][0]) - Convert.ToDecimal(sds.Tables[0].Rows[0][0]);
+                        model.perdraw = Convert.ToDecimal(eds.Tables[0].Rows[0][1]) - Convert.ToDecimal(sds.Tables[0].Rows[0][1]);
+                        model.perlost = Convert.ToDecimal(eds.Tables[0].Rows[0][2]) - Convert.ToDecimal(sds.Tables[0].Rows[0][2]);
+                        model.time = DateTime.Now;
+                        if (!scheduleAnalysisBLL.Exists(model))
+                        {
+                            scheduleAnalysisBLL.Add(model);
+                            Response.Write("更新赔率成功");
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Response.Write(e.Message);
+                }
+            }
         }
 
         private void statOddsHistoryDate()
@@ -189,7 +254,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.Columns.Add("rqdraw", typeof(float));
                     dt.Columns.Add("rqlost", typeof(float));
                     dt.Columns.Add("avgscore", typeof(float));
-                    dt.Columns.Add("totalCount", typeof(float));
+                    dt.Columns.Add("totalCount", typeof(int));
 
                     DataSet sds = scheduleBLL.statOddsHistory(pankou, null, null, swhereStr);
                     DataSet eds = scheduleBLL.statOddsHistory(pankou, null, null, ewhereStr);
@@ -230,12 +295,15 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dr["perlost"] = support[5];
                     for (int i = 0; i < 3; i++)
                     {
-                        if (support[i] > 0 && support[i+3] > 1)
+                        if (support[i] > 0 && support[i + 3] > 1)
                         {
                             dr[4 + i] = support[i + 3] / Math.Ceiling(support[i]) * 10;
                         }
                     }
                     dt.Rows.Add(dr);
+
+                    ScheduleAnalysis model = new ScheduleAnalysis();
+
                     //List<decimal> numList = new List<decimal>();
                     //numList.Add(soddsperwin.Average());
                     //numList.Add(soddsperdraw.Average());

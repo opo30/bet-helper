@@ -427,6 +427,19 @@ namespace SeoWebSite.DAL
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
+        public DataSet statOddsHistory(string whereStr)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id)");
+            strSql.Append(" from Schedule a join (select scheduleid,count(*) scount from Odds");
+            strSql.Append(" where " + whereStr);
+            strSql.Append(" group by scheduleid) b on a.id=b.scheduleid");
+            strSql.Append(" where a.updated=1");
+            return DbHelperSQL.Query(strSql.ToString(), 999);
+        }
+
         public DataSet queryOddsHistory(string cclassid,string sclassid, string whereStr)
         {
             StringBuilder strSql = new StringBuilder();
@@ -472,18 +485,6 @@ namespace SeoWebSite.DAL
             throw new NotImplementedException();
         }
 
-        public DataSet statOddsHistory(string whereStr)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select perwin=100.0*sum(case when c.home>c.away then 1 else 0 end)/count(c.id),");
-            strSql.Append("perdraw=100.0*sum(case when c.home=c.away then 1 else 0 end)/count(c.id),");
-            strSql.Append("perlost=100.0*sum(case when c.home<c.away then 1 else 0 end)/count(c.id),");
-            strSql.Append("count(c.id) totalCount from");
-            strSql.Append(" (select distinct a.id,a.home,a.away from Schedule a join Odds b on a.id=b.scheduleid and a.updated=1");
-            strSql.Append(" where " + whereStr);
-            strSql.Append(") c");
-            return DbHelperSQL.Query(strSql.ToString(), 999);
-        }
     }
 }
 

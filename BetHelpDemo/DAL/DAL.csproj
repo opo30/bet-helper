@@ -148,6 +148,7 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ScheduleAnalysisDAO.cs" />
     <Compile Include="ScheduleDAO.cs" />
     <Compile Include="ScheduleClassDAO.cs" />
     <Compile Include="SysManage.cs" />

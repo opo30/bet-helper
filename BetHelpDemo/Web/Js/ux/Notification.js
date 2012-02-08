@@ -74,7 +74,7 @@ Ext.ux.Notification = Ext.extend(Ext.Window, {
          }
 		}
 		Ext.ux.NotificationMgr.positions.push(this.pos);
-		this.setSize(475,100);
+		this.setSize(200,100);
 		this.el.alignTo(this.animateTarget || document, (this.animateFrom === 'top' ? 'tr-br' : 'br-tr'), [ -1, -1-((this.getSize().height+10)*this.pos) ]);
 		this.el.slideIn((this.animateFrom === 'top' ? 't' : 'b'), {
 			duration: .7

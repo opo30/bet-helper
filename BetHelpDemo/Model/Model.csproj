@@ -134,6 +134,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Schedule.cs" />
+    <Compile Include="ScheduleAnalysis.cs" />
     <Compile Include="ScheduleClass.cs" />
     <Compile Include="SysNode.cs" />
     <Compile Include="BetDetail.cs" />

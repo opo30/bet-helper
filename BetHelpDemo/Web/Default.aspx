@@ -41,6 +41,7 @@
     <script src="Js/NowGoal/Odds1x2History.js" type="text/javascript"></script>
     <script src="Js/NowGoal/EuropeOdds.js" type="text/javascript"></script>
     <script src="Js/NowGoal/EuropeOdds_Schedule.js" type="text/javascript"></script>
+    <script src="Js/NowGoal/ScheduleAnalysis.js" type="text/javascript"></script>
     <script src="Js/live.js" type="text/javascript"></script>
     <script src="Js/NowGoal/LiveData.js" type="text/javascript"></script>
     <script src="Js/Algorithm.js" type="text/javascript"></script>

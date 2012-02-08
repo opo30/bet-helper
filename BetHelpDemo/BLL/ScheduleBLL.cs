@@ -215,6 +215,11 @@ namespace SeoWebSite.BLL
         }
 
 
+
+        public DataSet statOddsHistory(string whereStr)
+        {
+            return dal.statOddsHistory(whereStr);
+        }
     }
 }
 

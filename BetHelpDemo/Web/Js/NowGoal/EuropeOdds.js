@@ -99,6 +99,27 @@ var EuropeOdds = function (scheduleid) {
                         arr.push(oddsinfo);
                         arrayData.push(arr);
                     });
+                    Ext.Ajax.request({
+                        url: 'Data/NowGoal/GetOdds1x2History.aspx?a=update',
+                        params: { scheduleid: scheduleid,odds: gameData.join('^') },
+                        success: function (res) {
+                            if (res.responseText) {
+                                new Ext.ux.Notification({
+                                    animateTarget: Ext.getCmp("statusbar").getEl(),
+                                    animateFrom: Ext.getCmp("statusbar").getPosition(),
+                                    autoDestroy: true,
+                                    hideDelay: 5000,
+                                    html: res.responseText,
+                                    iconCls: 'x-icon-information',
+                                    title: '提示',
+                                    listeners: {
+                                        'beforerender': function () {
+                                        }
+                                    }
+                                }).show();
+                            }
+                        }
+                    });
                     Odds1x2store.loadData(arrayData)
                 }
                 else {
@@ -398,6 +419,12 @@ var EuropeOdds = function (scheduleid) {
 		            });
 		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr);
 		        }
+		    }
+		}, {
+		    text: '历史分析',
+		    iconCls: "totalicon",
+		    handler: function () {
+		        scheduleAnalysis(scheduleArr[0]);
 		    }
 		}, {
 		    text: "凯利变化",

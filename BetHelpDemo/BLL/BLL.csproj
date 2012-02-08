@@ -136,6 +136,7 @@
     <Compile Include="odds_dx.cs" />
     <Compile Include="odds_rq.cs" />
     <Compile Include="Schedule.cs" />
+    <Compile Include="ScheduleAnalysisBLL.cs" />
     <Compile Include="ScheduleBLL.cs">
       <SubType>Code</SubType>
     </Compile>
