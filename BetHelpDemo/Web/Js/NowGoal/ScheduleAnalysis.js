@@ -32,7 +32,7 @@ var scheduleAnalysis = function (scheduleid) {
             sortable: false,
             width: 150,
             renderer: function (value) {
-                return value.format("Y-m-d H:i");
+                return value.format("m-d H:i");
             }
         }, {
             header: "胜赔",
