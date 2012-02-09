@@ -72,7 +72,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                         swlist.Add(Convert.ToDecimal(oddsArray[6]));
                         sdlist.Add(Convert.ToDecimal(oddsArray[7]));
                         sllist.Add(Convert.ToDecimal(oddsArray[8]));
-                        if (!string.IsNullOrEmpty(oddsArray[13]) && !string.IsNullOrEmpty(oddsArray[14]) && !string.IsNullOrEmpty(oddsArray[15]))
+                        if (!string.IsNullOrEmpty(oddsArray[10]) && !string.IsNullOrEmpty(oddsArray[11]) && !string.IsNullOrEmpty(oddsArray[12]) && !string.IsNullOrEmpty(oddsArray[13]) && !string.IsNullOrEmpty(oddsArray[14]) && !string.IsNullOrEmpty(oddsArray[15]))
                         {
                             ewhereList.Add("(companyid=" + oddsArray[0] + " and e_win=" + oddsArray[10] +
                                     " and e_draw=" + oddsArray[11] + " and e_lost=" + oddsArray[12] + ")");
