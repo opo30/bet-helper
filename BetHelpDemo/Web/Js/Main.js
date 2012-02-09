@@ -210,6 +210,62 @@ var west = new Ext.Panel({
         });
     });
 
+    var showInfoNotify = function (title, content) {
+        new Ext.ux.Notification({
+            animateTarget: Ext.getCmp("statusbar").getEl(),
+            animateFrom: Ext.getCmp("statusbar").getPosition(),
+            autoDestroy: true,
+            hideDelay: 5000,
+            html: content,
+            iconCls: 'x-icon-information',
+            title: title,
+            listeners: {
+                'beforerender': function () {
+                }
+            }
+        }).show();
+    }
 
+    var showErrorNotify = function (title,content) {
+        new Ext.ux.Notification({
+            animateTarget: Ext.getCmp("statusbar").getEl(),
+            animateFrom: Ext.getCmp("statusbar").getPosition(),
+            autoDestroy: true,
+            hideDelay: 5000,
+            html: content,
+            iconCls: 'x-icon-error',
+            title: "错误",
+            listeners: {
+                'beforerender': function () {
+                }
+            }
+        }).show();
+    }
+
+
+    var analysis = function (scheduleid) {
+        Ext.Ajax.request({
+            url: "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js",
+            method: 'POST',
+            success: function (res) {
+                if (res.responseText != "") {
+                    var arrayData = [];
+                    eval(res.responseText);
+                    Ext.Ajax.request({
+                        url: 'Data/NowGoal/GetOdds1x2History.aspx?a=update',
+                        params: { scheduleid: scheduleid, odds: game.join('^') },
+                        success: function (res) {
+                            if (res.responseText) {
+                                showInfoNotify("提示", hometeam_cn + "-" + guestteam_cn + "[" + matchname_cn + "]<br>" + res.responseText);
+                            }
+                        }
+                    });
+                }
+                else {
+                    Ext.Msg.alert("提示", "请求数据失败！");
+                }
+            }
+        });
+    }
         
 		

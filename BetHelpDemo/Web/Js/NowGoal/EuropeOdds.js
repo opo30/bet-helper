@@ -93,30 +93,18 @@ var EuropeOdds = function (scheduleid) {
             success: function (res) {
                 if (res.responseText != "") {
                     var arrayData = [];
-                    eval(res.responseText + "gameData = game;");
-                    Ext.each(gameData, function (oddsinfo) {
+                    eval(res.responseText);
+                    Ext.each(game, function (oddsinfo) {
                         var arr = oddsinfo.split('|');
                         arr.push(oddsinfo);
                         arrayData.push(arr);
                     });
                     Ext.Ajax.request({
                         url: 'Data/NowGoal/GetOdds1x2History.aspx?a=update',
-                        params: { scheduleid: scheduleid,odds: gameData.join('^') },
+                        params: { scheduleid: scheduleid, odds: game.join('^') },
                         success: function (res) {
                             if (res.responseText) {
-                                new Ext.ux.Notification({
-                                    animateTarget: Ext.getCmp("statusbar").getEl(),
-                                    animateFrom: Ext.getCmp("statusbar").getPosition(),
-                                    autoDestroy: true,
-                                    hideDelay: 5000,
-                                    html: res.responseText,
-                                    iconCls: 'x-icon-information',
-                                    title: '提示',
-                                    listeners: {
-                                        'beforerender': function () {
-                                        }
-                                    }
-                                }).show();
+                                showInfoNotify("提示", res.responseText);
                             }
                         }
                     });
