@@ -127,6 +127,14 @@ var scheduleAnalysis = function (scheduleid) {
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                 value = row.get("perwin") - row.get("oddswin");
+                if (store.getAt(rowIndex + 1)) {
+                    value1 = store.getAt(rowIndex + 1).get("perwin") - store.getAt(rowIndex + 1).get("oddswin");
+                    if (value > value1) {
+                        cell.cellAttr = 'bgcolor="#F7CFD6"';
+                    } else if (value < value1) {
+                        cell.cellAttr = 'bgcolor="#DFF3B1"';
+                    }
+                }
                 return value;
             }
         }, {
@@ -134,6 +142,14 @@ var scheduleAnalysis = function (scheduleid) {
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                 value = row.get("perdraw") - row.get("oddsdraw");
+                if (store.getAt(rowIndex + 1)) {
+                    value1 = store.getAt(rowIndex + 1).get("perdraw") - store.getAt(rowIndex + 1).get("oddsdraw");
+                    if (value > value1) {
+                        cell.cellAttr = 'bgcolor="#F7CFD6"';
+                    } else if (value < value1) {
+                        cell.cellAttr = 'bgcolor="#DFF3B1"';
+                    }
+                }
                 return value;
             }
         }, {
@@ -141,6 +157,14 @@ var scheduleAnalysis = function (scheduleid) {
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                 value = row.get("perlost") - row.get("oddslost");
+                if (store.getAt(rowIndex + 1)) {
+                    value1 = store.getAt(rowIndex + 1).get("perlost") - store.getAt(rowIndex + 1).get("oddslost");
+                    if (value > value1) {
+                        cell.cellAttr = 'bgcolor="#F7CFD6"';
+                    } else if (value < value1) {
+                        cell.cellAttr = 'bgcolor="#DFF3B1"';
+                    }
+                }
                 return value;
             }
         }
