@@ -151,6 +151,7 @@ var west = new Ext.Panel({
                     title: "即时比分",
                     layout: "fit",
                     contentEl: "live",
+                    closable: true,
                     autoScroll: true,
                     tbar: [{ text: 'dads' }, { xtype: 'tbfill' }]
                 }], 
