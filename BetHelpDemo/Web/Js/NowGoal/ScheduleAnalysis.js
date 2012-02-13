@@ -126,19 +126,22 @@ var scheduleAnalysis = function (scheduleid) {
             header: "胜差",
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-                return row.get("perwin") - row.get("oddswin");
+                value = row.get("perwin") - row.get("oddswin");
+                return value;
             }
         }, {
             header: "平差",
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-                return row.get("perdraw") - row.get("oddsdraw");
+                value = row.get("perdraw") - row.get("oddsdraw");
+                return value;
             }
         }, {
             header: "负差",
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-                return row.get("perlost") - row.get("oddslost");
+                value = row.get("perlost") - row.get("oddslost");
+                return value;
             }
         }
     ]);

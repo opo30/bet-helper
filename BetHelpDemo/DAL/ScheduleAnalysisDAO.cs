@@ -241,7 +241,7 @@ namespace SeoWebSite.DAL
             {
                 strSql.Append(" where " + strWhere);
             }
-            return DbHelperSQL.Query(strSql.ToString());
+            return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
         /// <summary>

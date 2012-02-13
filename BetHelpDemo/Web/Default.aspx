@@ -795,6 +795,7 @@
                     if (Config.oddsSound == 1) {
                         if (tr.style.display != "none") needSound = true;
                     }
+                    analysis(D[0]);
                 }
                 if (old.length == 14 && old != odds && old[2] != "") {
                     if (D[2] > old[2]) D[2] = "<span class=up>" + Goal2GoalCn(D[2]) + "</span>";
