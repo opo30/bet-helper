@@ -23,6 +23,7 @@ public partial class Data_NowGoal_GetRemoteHtml : System.Web.UI.Page
     private string TeamPanlu_10 = "/panlu/{0}.html";
     private string oddsDetail = "/odds/detail.aspx?scheduleID={0}&companyID={1}";
     private string historyMatch = "/data/score.aspx?date={0}";
+    private string OddsHistory = "/1x2/OddsHistory.aspx?id={0}";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -57,6 +58,9 @@ public partial class Data_NowGoal_GetRemoteHtml : System.Web.UI.Page
                     break;
                 case "historyMatch":
                     html = bll.GetRemoteHtml(historyMatch, new string[] { Request.Form["date"] });
+                    break;
+                case "OddsHistory":
+                    html = bll.GetRemoteHtml(OddsHistory, new string[] { Request.Form["oddsid"] });
                     break;
                 default:
                     break;

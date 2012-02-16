@@ -90,7 +90,7 @@ namespace SeoWebSite.BLL
                             company.isprimary = Convert.ToBoolean(int.Parse(oddsArr[22]));
                             company.isexchange = Convert.ToBoolean(int.Parse(oddsArr[23]));
                             companyDAO.Add(company);
-                        } 
+                        }
                         #endregion
 
                         #region 插入欧赔数据
@@ -153,8 +153,79 @@ namespace SeoWebSite.BLL
                             string[] timeArr = oddsArr[20].Split(',');
                             odds.lastupdatetime = new DateTime(int.Parse(timeArr[0]), int.Parse(timeArr[1].Remove(2)), int.Parse(timeArr[2]), int.Parse(timeArr[3]), int.Parse(timeArr[4]), int.Parse(timeArr[5])).AddHours(8);
                             oddsDAO.Add(odds);
-                        } 
+                        }
                         #endregion
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void updateOdds1x2Stat(string scheduleID)
+        {
+            try
+            {
+                ScheduleAnalysisBLL scheduleAnalysisBLL = new ScheduleAnalysisBLL();
+                ScheduleBLL scheduleBLL = new ScheduleBLL();
+                WebClientBLL bll = new WebClientBLL();
+                string actual = bll.UpdateOdds1x2Content(scheduleID);
+
+                //获取赔率原始数据
+                Regex reg = new Regex("game\\=Array\\(\"" + "\\w[^;" + "]*;");
+                Match mat = reg.Match(actual);
+                if (mat != null && !String.IsNullOrEmpty(mat.Value))
+                {
+
+                    List<string> swhereList = new List<string>();
+                    List<string> ewhereList = new List<string>();
+                    List<decimal> swlist = new List<decimal>();
+                    List<decimal> sdlist = new List<decimal>();
+                    List<decimal> sllist = new List<decimal>();
+                    List<decimal> ewlist = new List<decimal>();
+                    List<decimal> edlist = new List<decimal>();
+                    List<decimal> ellist = new List<decimal>();
+
+                    //所有公司数据
+                    string source = mat.Value.Substring(12, mat.Value.Length - 10 - 4);
+                    //分解出每个公司数据
+                    string[] oddsArr = Regex.Split(source, "\",\"", RegexOptions.IgnoreCase);
+                    foreach (string oddsStr in oddsArr)
+                    {
+                        string[] oddsArray = oddsStr.Replace("\"", "").Split('|');
+                        swhereList.Add("(companyid=" + oddsArray[0] + " and s_win=" + oddsArray[3] +
+                                " and s_draw=" + oddsArray[4] + " and s_lost=" + oddsArray[5] + ")");
+                        swlist.Add(Convert.ToDecimal(oddsArray[6]));
+                        sdlist.Add(Convert.ToDecimal(oddsArray[7]));
+                        sllist.Add(Convert.ToDecimal(oddsArray[8]));
+                        if (!string.IsNullOrEmpty(oddsArray[10]) && !string.IsNullOrEmpty(oddsArray[11]) && !string.IsNullOrEmpty(oddsArray[12]) && !string.IsNullOrEmpty(oddsArray[13]) && !string.IsNullOrEmpty(oddsArray[14]) && !string.IsNullOrEmpty(oddsArray[15]))
+                        {
+                            ewhereList.Add("(companyid=" + oddsArray[0] + " and e_win=" + oddsArray[10] +
+                                    " and e_draw=" + oddsArray[11] + " and e_lost=" + oddsArray[12] + ")");
+                            ewlist.Add(Convert.ToDecimal(oddsArray[13]));
+                            edlist.Add(Convert.ToDecimal(oddsArray[14]));
+                            ellist.Add(Convert.ToDecimal(oddsArray[15]));
+                        }
+                    }
+                    DataSet sds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    DataSet eds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    if (sds != null && eds != null)
+                    {
+                        ScheduleAnalysis model = new ScheduleAnalysis();
+                        model.scheduleid = Convert.ToInt32(scheduleID);
+                        model.oddswin = ewlist.Average() - swlist.Average();
+                        model.oddsdraw = edlist.Average() - sdlist.Average();
+                        model.oddslost = ellist.Average() - sllist.Average();
+                        model.perwin = Convert.ToDecimal(eds.Tables[0].Rows[0][0]) - Convert.ToDecimal(sds.Tables[0].Rows[0][0]);
+                        model.perdraw = Convert.ToDecimal(eds.Tables[0].Rows[0][1]) - Convert.ToDecimal(sds.Tables[0].Rows[0][1]);
+                        model.perlost = Convert.ToDecimal(eds.Tables[0].Rows[0][2]) - Convert.ToDecimal(sds.Tables[0].Rows[0][2]);
+                        model.time = DateTime.Now;
+                        if (!scheduleAnalysisBLL.Exists(model))
+                        {
+                            scheduleAnalysisBLL.Add(model);
+                        }
                     }
                 }
             }

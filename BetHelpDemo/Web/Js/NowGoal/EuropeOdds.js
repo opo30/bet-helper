@@ -99,15 +99,6 @@ var EuropeOdds = function (scheduleid) {
                         arr.push(oddsinfo);
                         arrayData.push(arr);
                     });
-                    Ext.Ajax.request({
-                        url: 'Data/NowGoal/GetOdds1x2History.aspx?a=update',
-                        params: { scheduleid: scheduleid, odds: game.join('^') },
-                        success: function (res) {
-                            if (res.responseText) {
-                                showInfoNotify("提示", res.responseText);
-                            }
-                        }
-                    });
                     Odds1x2store.loadData(arrayData)
                 }
                 else {
@@ -413,6 +404,22 @@ var EuropeOdds = function (scheduleid) {
 		    iconCls: "totalicon",
 		    handler: function () {
 		        scheduleAnalysis(scheduleArr[0]);
+		    }
+		}, {
+		    text: '赔率变化',
+		    iconCls: "totalicon",
+		    handler: function () {
+		        var row = grid.getSelectionModel().getSelections();
+		        if (row.length == 0) {
+		            Ext.Msg.alert("提示信息", "您没有选中任何行!");
+		            return;
+		        } else if (row.length > 1) {
+		            Ext.Msg.alert("提示信息", "您只能选中一行!");
+		            return;
+		        } else {
+		            oddsChange(row[0].get("oddsid"));
+		        }
+
 		    }
 		}, {
 		    text: "凯利变化",

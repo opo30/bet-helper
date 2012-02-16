@@ -225,3 +225,97 @@ var scheduleAnalysis = function (scheduleid) {
 
     win.show();
 }
+
+var oddsChange = function (oddsid) {
+    var grid = new Ext.grid.GridPanel({
+        store: new Ext.data.JsonStore({
+            fields: [{ name: 'win', type: 'float' }, { name: 'draw', type: 'float' }, { name: 'lost', type: 'float' },
+                { name: 'time', type: 'date'}]
+        }),
+        cm: new Ext.grid.ColumnModel([{
+            header: "胜",
+            dataIndex: "win",
+            sortable: false
+        }, {
+            header: "平",
+            dataIndex: "draw",
+            sortable: false
+        }, {
+            header: "负",
+            dataIndex: "lost",
+            sortable: false
+        }, {
+            header: "变化时间",
+            dataIndex: "time",
+            sortable: false,
+            width: 150,
+            renderer: function (t) {
+                t = new Date(Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours(), t.getMinutes(), t.getSeconds()));
+                return t.format("m-d H:i");
+            }
+        }]),
+        region: "north",
+        loadMask: true,
+        stripeRows: true,
+        columnLines: true,
+        height: 200,
+        //超过长度带自动滚动条
+        autoScroll: true,
+        border: false,
+        viewConfig: {
+            //自动填充
+            forceFit: true,
+            sortAscText: '正序排列',
+            sortDescText: '倒序排列',
+            columnsText: '显示/隐藏列',
+            getRowClass: function (record, rowIndex, rowParams, store) {
+            }
+        }
+    });
+
+    var win = new Ext.Window({
+        title: "历史赔率",
+        width: 800,
+        height: 500,
+        plain: true,
+        iconCls: "total",
+        //不可以随意改变大小
+        resizable: true,
+        //是否可以拖动
+        draggable: true,
+        defaultType: "textfield",
+        labelWidth: 100,
+        collapsible: true, //允许缩放条
+        closeAction: 'close',
+        closable: true,
+        maximizable: true,
+        //弹出模态窗体
+        modal: false,
+        layout: "fit",
+        buttonAlign: "center",
+        items: [grid]
+    });
+
+    Ext.Ajax.request({
+        url: "Data/NowGoal/GetRemoteHtml.aspx?a=OddsHistory",
+        params: { oddsid: oddsid },
+        success: function (res) {
+            document.getElementById("OddsHistory").innerHTML = res.responseText;
+            var t = Ext.fly("OddsHistory").query("table")[0];
+            var changelist = [];
+            for (var i = 1; i < t.rows.length; i++) {
+                changelist.push({
+                    win: t.rows[i].cells[0].innerText,
+                    draw: t.rows[i].cells[1].innerText,
+                    lost: t.rows[i].cells[2].innerText,
+                    time: eval(t.rows[i].cells[3].innerText.replace("showtime","new Date"))
+                });
+            }
+            win.show();
+            grid.getStore().loadData(changelist);
+        }
+    });
+
+
+
+}

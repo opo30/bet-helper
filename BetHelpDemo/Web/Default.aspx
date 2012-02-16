@@ -173,7 +173,8 @@
       <li><a href="javascript:SetCompany(8);" id="company8"><span>Bet365</span></a></li>
     </ul>  
     <div style="clear:both"></div>
-    </div>
+    </div>
+    <span id="OddsHistory">历史变化欧赔</span>
 	<span id="notify"></span>
 	<span id="ScoreDiv"></span>
 	<span id="flashsound"></span>
@@ -795,7 +796,6 @@
                     if (Config.oddsSound == 1) {
                         if (tr.style.display != "none") needSound = true;
                     }
-                    analysis(D[0]);
                 }
                 if (old.length == 14 && old != odds && old[2] != "") {
                     if (D[2] > old[2]) D[2] = "<span class=up>" + Goal2GoalCn(D[2]) + "</span>";
