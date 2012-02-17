@@ -174,7 +174,7 @@
     </ul>  
     <div style="clear:both"></div>
     </div>
-    <span id="OddsHistory">历史变化欧赔</span>
+    <span id="OddsHistory"></span>
 	<span id="notify"></span>
 	<span id="ScoreDiv"></span>
 	<span id="flashsound"></span>
