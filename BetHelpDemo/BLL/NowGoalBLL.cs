@@ -209,14 +209,6 @@ namespace SeoWebSite.BLL
                             edlist.Add(Convert.ToDecimal(oddsArray[14]));
                             ellist.Add(Convert.ToDecimal(oddsArray[15]));
                         }
-                        else
-                        {
-                            ewhereList.Add("(companyid=" + oddsArray[0] + " and s_win=" + oddsArray[3] +
-                                " and s_draw=" + oddsArray[4] + " and s_lost=" + oddsArray[5] + ")");
-                            ewlist.Add(Convert.ToDecimal(oddsArray[6]));
-                            edlist.Add(Convert.ToDecimal(oddsArray[7]));
-                            ellist.Add(Convert.ToDecimal(oddsArray[8]));
-                        }
                     }
                     DataSet sds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", swhereList.ToArray()) + ")");
                     DataSet eds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", ewhereList.ToArray()) + ")");
