@@ -80,6 +80,14 @@ namespace SeoWebSite.Web.Data.NowGoal
                             edlist.Add(Convert.ToDecimal(oddsArray[14]));
                             ellist.Add(Convert.ToDecimal(oddsArray[15]));
                         }
+                        else
+                        {
+                            ewhereList.Add("(companyid=" + oddsArray[0] + " and s_win=" + oddsArray[3] +
+                                " and s_draw=" + oddsArray[4] + " and s_lost=" + oddsArray[5] + ")");
+                            ewlist.Add(Convert.ToDecimal(oddsArray[6]));
+                            edlist.Add(Convert.ToDecimal(oddsArray[7]));
+                            ellist.Add(Convert.ToDecimal(oddsArray[8]));
+                        }
                     }
                     DataSet sds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", swhereList.ToArray()) + ")");
                     DataSet eds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", ewhereList.ToArray()) + ")");
@@ -204,7 +212,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                     string[] scheduleArr = Request.Form["schedulearr"].Split('^');
                     List<string> swhereList = new List<string>();
                     List<string> ewhereList = new List<string>();
-                    List<string> oddswhereList = new List<string>();
                     string pankou = scheduleArr[25];
                     //if (Request["pankou"] != null && !string.IsNullOrEmpty(Request.Form["pankou"].Split(',')[2]))
                     //{
@@ -228,12 +235,17 @@ namespace SeoWebSite.Web.Data.NowGoal
                         {
                             ewhereList.Add("(companyid=" + odds[0] + " and e_win=" + odds[10] +
                                 " and e_draw=" + odds[11] + " and e_lost=" + odds[12] + ")");
-                            oddswhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
-                            " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + " and e_win=" + odds[10] +
-                                " and e_draw=" + odds[11] + " and e_lost=" + odds[12] + ")");
                             ewlist.Add(Convert.ToDecimal(odds[13]));
                             edlist.Add(Convert.ToDecimal(odds[14]));
                             ellist.Add(Convert.ToDecimal(odds[15]));
+                        }
+                        else
+                        {
+                            ewhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
+                            " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
+                            ewlist.Add(Convert.ToDecimal(odds[6]));
+                            edlist.Add(Convert.ToDecimal(odds[7]));
+                            ellist.Add(Convert.ToDecimal(odds[8]));
                         }
                     }
                     string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";

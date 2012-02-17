@@ -413,13 +413,13 @@ var EuropeOdds = function (scheduleid) {
 		        if (row.length == 0) {
 		            Ext.Msg.alert("提示信息", "您没有选中任何行!");
 		            return;
-		        } else if (row.length > 1) {
-		            Ext.Msg.alert("提示信息", "您只能选中一行!");
-		            return;
 		        } else {
-		            oddsChange(row[0].get("oddsid"));
+		            var oddsArr = [];
+		            for (var i = 0; i < row.length; i++) {
+		                oddsArr.push(row[i].get("data"));
+		            }
+		            OddsHistory(oddsArr);
 		        }
-
 		    }
 		}, {
 		    text: "凯利变化",
@@ -539,4 +539,81 @@ var EuropeOdds = function (scheduleid) {
     center.setActiveTab(tab);
 
     LoadOddsJS();
+}
+
+var showHistoryOdds = function (oddsid) {
+//    var grid = new Ext.grid.GridPanel({
+//        store: new Ext.data.JsonStore({
+//            fields: [{ name: 'win', type: 'float' }, { name: 'draw', type: 'float' }, { name: 'lost', type: 'float' },
+//                { name: 'time', type: 'date'}]
+//        }),
+//        cm: new Ext.grid.ColumnModel([{
+//            header: "胜",
+//            dataIndex: "win",
+//            sortable: false
+//        }, {
+//            header: "平",
+//            dataIndex: "draw",
+//            sortable: false
+//        }, {
+//            header: "负",
+//            dataIndex: "lost",
+//            sortable: false
+//        }, {
+//            header: "变化时间",
+//            dataIndex: "time",
+//            sortable: false,
+//            width: 150,
+//            renderer: function (t) {
+//                return t.format("m-d H:i");
+//            }
+//        }]),
+//        loadMask: true,
+//        stripeRows: true,
+//        columnLines: true,
+//        height: 200,
+//        //超过长度带自动滚动条
+//        autoScroll: true,
+//        border: false,
+//        viewConfig: {
+//            //自动填充
+//            forceFit: true,
+//            sortAscText: '正序排列',
+//            sortDescText: '倒序排列',
+//            columnsText: '显示/隐藏列',
+//            getRowClass: function (record, rowIndex, rowParams, store) {
+//            }
+//        }
+//    });
+
+    var tooltip = new Ext.ToolTip({
+        target: this,
+        autoDestroy: true,
+        //unstyled: true,
+        autoWidth: true,
+        html:'asdadasd'
+    });
+
+    tooltip.show();
+//    Ext.Ajax.request({
+//        url: "Data/NowGoal/GetRemoteHtml.aspx?a=OddsHistory",
+//        params: { oddsid: oddsid },
+//        success: function (res) {
+//            document.getElementById("OddsHistory").innerHTML = res.responseText;
+//            var table = Ext.fly("OddsHistory").query("table")[0];
+//            var changelist = [];
+//            for (var i = 1; i < table.rows.length; i++) {
+//                var t = eval(table.rows[i].cells[3].innerText.replace("showtime", "new Date"));
+//                t = new Date(Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours(), t.getMinutes(), t.getSeconds()));
+//                changelist.push({
+//                    win: table.rows[i].cells[0].innerText,
+//                    draw: table.rows[i].cells[1].innerText,
+//                    lost: table.rows[i].cells[2].innerText,
+//                    time: t
+//                });
+//            }
+//            win.show();
+//            grid.getStore().loadData(changelist);
+//        }
+//    });
 }

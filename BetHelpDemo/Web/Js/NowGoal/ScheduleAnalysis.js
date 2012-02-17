@@ -226,7 +226,7 @@ var scheduleAnalysis = function (scheduleid) {
     win.show();
 }
 
-var oddsChange = function (oddsid) {
+var OddsHistory = function (oddsArr) {
     var grid = new Ext.grid.GridPanel({
         store: new Ext.data.JsonStore({
             fields: [{ name: 'win', type: 'float' }, { name: 'draw', type: 'float' }, { name: 'lost', type: 'float' },
@@ -250,11 +250,9 @@ var oddsChange = function (oddsid) {
             sortable: false,
             width: 150,
             renderer: function (t) {
-                t = new Date(Date.UTC(t.getFullYear(), t.getMonth(), t.getDate(), t.getHours(), t.getMinutes(), t.getSeconds()));
                 return t.format("m-d H:i");
             }
         }]),
-        region: "north",
         loadMask: true,
         stripeRows: true,
         columnLines: true,
@@ -295,27 +293,15 @@ var oddsChange = function (oddsid) {
         buttonAlign: "center",
         items: [grid]
     });
+    win.show();
 
     Ext.Ajax.request({
-        url: "Data/NowGoal/GetRemoteHtml.aspx?a=OddsHistory",
-        params: { oddsid: oddsid },
+        url: "Data/NowGoal/OddsHistory.aspx",
+        params: { odds: oddsArr.join('^') },
         success: function (res) {
-            document.getElementById("OddsHistory").innerHTML = res.responseText;
-            var t = Ext.fly("OddsHistory").query("table")[0];
-            var changelist = [];
-            for (var i = 1; i < t.rows.length; i++) {
-                changelist.push({
-                    win: t.rows[i].cells[0].innerText,
-                    draw: t.rows[i].cells[1].innerText,
-                    lost: t.rows[i].cells[2].innerText,
-                    time: eval(t.rows[i].cells[3].innerText.replace("showtime","new Date"))
-                });
-            }
-            win.show();
+            changelist = [];
+
             grid.getStore().loadData(changelist);
         }
     });
-
-
-
 }

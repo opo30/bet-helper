@@ -17,7 +17,7 @@
             SeoWebSite.BLL.NowGoalBLL bll = new SeoWebSite.BLL.NowGoalBLL();
             System.Xml.XmlDocument xmldoc = new System.Xml.XmlDocument();
             xmldoc.Load("http://live.nowscore.com/data/ch_goal8.xml");
-            SeoWebSite.Common.DataCache.SetCache("ch_goal8.xml", xmldoc);
+            //SeoWebSite.Common.DataCache.SetCache("ch_goal8.xml", xmldoc);
             System.Xml.XmlNodeList nodelist = xmldoc.SelectNodes("c/match/m");
             foreach (System.Xml.XmlNode item in nodelist)
             {
