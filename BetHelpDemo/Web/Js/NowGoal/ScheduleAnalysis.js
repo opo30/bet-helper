@@ -127,12 +127,10 @@ var scheduleAnalysis = function (scheduleid) {
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                 value = row.get("perwin") - row.get("oddswin");
-                if (store.getAt(rowIndex + 1)) {
-                    if (value > 0) {
-                        cell.cellAttr = 'bgcolor="#F7CFD6"';
-                    } else if (value < 0) {
-                        cell.cellAttr = 'bgcolor="#DFF3B1"';
-                    }
+                if (value > 0) {
+                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+                } else if (value < 0) {
+                    cell.cellAttr = 'bgcolor="#DFF3B1"';
                 }
                 return value;
             }
@@ -141,12 +139,10 @@ var scheduleAnalysis = function (scheduleid) {
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                 value = row.get("perdraw") - row.get("oddsdraw");
-                if (store.getAt(rowIndex + 1)) {
-                    if (value > 0) {
-                        cell.cellAttr = 'bgcolor="#F7CFD6"';
-                    } else if (value < 0) {
-                        cell.cellAttr = 'bgcolor="#DFF3B1"';
-                    }
+                if (value > 0) {
+                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+                } else if (value < 0) {
+                    cell.cellAttr = 'bgcolor="#DFF3B1"';
                 }
                 return value;
             }
@@ -155,12 +151,10 @@ var scheduleAnalysis = function (scheduleid) {
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                 value = row.get("perlost") - row.get("oddslost");
-                if (store.getAt(rowIndex + 1)) {
-                    if (value > 0) {
-                        cell.cellAttr = 'bgcolor="#F7CFD6"';
-                    } else if (value < 0) {
-                        cell.cellAttr = 'bgcolor="#DFF3B1"';
-                    }
+                if (value > 0) {
+                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+                } else if (value < 0) {
+                    cell.cellAttr = 'bgcolor="#DFF3B1"';
                 }
                 return value;
             }
