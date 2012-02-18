@@ -80,14 +80,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                             edlist.Add(Convert.ToDecimal(oddsArray[14]));
                             ellist.Add(Convert.ToDecimal(oddsArray[15]));
                         }
-                        else
-                        {
-                            ewhereList.Add("(companyid=" + oddsArray[0] + " and s_win=" + oddsArray[3] +
-                                    " and s_draw=" + oddsArray[4] + " and s_lost=" + oddsArray[5] + ")");
-                            ewlist.Add(Convert.ToDecimal(oddsArray[6]));
-                            edlist.Add(Convert.ToDecimal(oddsArray[7]));
-                            ellist.Add(Convert.ToDecimal(oddsArray[8]));
-                        }
                     }
                     DataSet sds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", swhereList.ToArray()) + ")");
                     DataSet eds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", ewhereList.ToArray()) + ")");
@@ -239,14 +231,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                             ewlist.Add(Convert.ToDecimal(odds[13]));
                             edlist.Add(Convert.ToDecimal(odds[14]));
                             ellist.Add(Convert.ToDecimal(odds[15]));
-                        }
-                        else
-                        {
-                            ewhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
-                                    " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
-                            ewlist.Add(Convert.ToDecimal(odds[6]));
-                            edlist.Add(Convert.ToDecimal(odds[7]));
-                            ellist.Add(Convert.ToDecimal(odds[8]));
                         }
                     }
                     string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
