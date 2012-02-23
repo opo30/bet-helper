@@ -185,6 +185,233 @@ var scheduleAnalysis = function (scheduleid) {
         }
     });
 
+    var chartStore = new Ext.data.JsonStore({
+        root: 'data',
+        fields: fields,
+        baseParams: { scheduleid: scheduleid },
+        proxy: new Ext.data.HttpProxy(
+            {
+                url: "Data/NowGoal/ScheduleAnalysis.aspx?a=list",
+                method: "POST",
+                timeout: 3600000
+            })
+    });
+
+
+    var chart = new Ext.chart.LineChart({
+        store: chartStore,
+        autoShow: true,
+        flex: 1,
+        series: [
+                {
+                    type: 'line',
+                    displayName: '胜',
+                    xField: 'time',
+                    yField: 'oddswin',
+                    style: {
+                        color: 0xFF0000,
+                        size: 5
+                    }
+                }, {
+                    type: 'line',
+                    displayName: '平',
+                    xField: 'time',
+                    yField: 'oddsdraw',
+                    style: {
+                        color: 0x008000,
+                        size: 5
+                    }
+                }, {
+                    type: 'line',
+                    displayName: '负',
+                    xField: 'time',
+                    yField: 'oddslost',
+                    style: {
+                        color: 0x0000FF,
+                        size: 5
+                    }
+                }],
+        tipRenderer: function (chart, record, index, series) {
+            var s = "时间 " + record.data.time.format('m月d日 H时i分') + "\r\n";
+            s += "胜差 " + Ext.util.Format.round(record.data.oddswin, 2) + " ";
+            s += "平差 " + Ext.util.Format.round(record.data.oddsdraw, 2) + " ";
+            s += "负差 " + Ext.util.Format.round(record.data.oddslost, 2) + "\r\n";
+            return s;
+        },
+        yAxis: new Ext.chart.NumericAxis(),
+        xAxis: new Ext.chart.TimeAxis({
+            labelRenderer: Ext.util.Format.dateRenderer('H:i'),
+            majorUnit: 10
+        }),
+        chartStyle: {
+            padding: 10,
+            animationEnabled: true,
+            font: {
+                name: 'Tahoma',
+                color: 0x444444,
+                size: 11
+            },
+            dataTip: {
+                padding: 5,
+                border: {
+                    color: 0x99bbe8,
+                    size: 1
+                },
+                background: {
+                    color: 0xDAE7F6,
+                    alpha: .9
+                },
+                font: {
+                    name: 'Tahoma',
+                    color: 0x15428B,
+                    size: 10,
+                    bold: true
+                }
+            },
+            xAxis: {
+                color: 0x69aBc8,
+                majorTicks: { color: 0x69aBc8, length: 4 },
+                minorTicks: { color: 0x69aBc8, length: 2 },
+                majorGridLines: { size: 1, color: 0xeeeeee }
+            },
+            yAxis: {
+                color: 0x69aBc8,
+                majorTicks: { color: 0x69aBc8, length: 4 },
+                minorTicks: { color: 0x69aBc8, length: 2 },
+                majorGridLines: { size: 1, color: 0xdfe8f6 }
+            }
+        },
+        listeners: {
+            itemclick: function (o) {
+                if (o.seriesIndex == 0) {
+                    var rec = store.getAt(o.index);
+                    var rec1 = store.getAt(o.index - 1);
+                    var html = "<font color=" + TdBgColor(rec.get('homek'), rec1.get('homek')) + ">" + rec.get('homek') + "</font>";
+                    Ext.Msg.show({
+                        title: '提示',
+                        msg: html,
+                        modal: false,
+                        buttons: Ext.Msg.OK
+                    });
+                }
+                if (o.seriesIndex == 1) {
+                    var rec = store.getAt(o.index);
+                    var rec1 = store.getAt(o.index - 1);
+                    var html = "<font color=" + TdBgColor(rec.get('drawk'), rec1.get('drawk')) + ">" + rec.get('drawk') + "</font>&nbsp;&nbsp;";
+                    Ext.Msg.show({
+                        title: '提示',
+                        msg: html,
+                        modal: false,
+                        buttons: Ext.Msg.OK
+                    });
+                }
+                if (o.seriesIndex == 2) {
+                    var rec = store.getAt(o.index);
+                    var rec1 = store.getAt(o.index - 1);
+                    var html = "<font color=" + TdBgColor(rec.get('awayk'), rec1.get('awayk')) + ">" + rec.get('awayk') + "</font>&nbsp;&nbsp;";
+                    Ext.Msg.show({
+                        title: '提示',
+                        msg: html,
+                        modal: false,
+                        buttons: Ext.Msg.OK
+                    });
+                }
+
+            }
+        }
+    });
+
+
+    var chart1 = new Ext.chart.LineChart({
+        flex: 1,
+        store: chartStore,
+        //autoShow: true,
+
+        series: [
+                {
+                    type: 'line',
+                    displayName: '胜',
+                    xField: 'time',
+                    yField: 'perwin',
+                    style: {
+                        color: 0xFF0000,
+                        size: 5
+                    }
+                }, {
+                    type: 'line',
+                    displayName: '平',
+                    xField: 'time',
+                    yField: 'perdraw',
+                    style: {
+                        color: 0x008000,
+                        size: 5
+                    }
+                }, {
+                    type: 'line',
+                    displayName: '负',
+                    xField: 'time',
+                    yField: 'perlost',
+                    style: {
+                        color: 0x0000FF,
+                        size: 5
+                    }
+                }],
+        tipRenderer: function (chart, record, index, series) {
+            var s = "时间 " + record.data.time.format('m月d日 h时i分') + "\r\n";
+            s += "胜差 " + Ext.util.Format.round(record.data.perwin, 2) + " ";
+            s += "平差 " + Ext.util.Format.round(record.data.perdraw, 2) + " ";
+            s += "负差 " + Ext.util.Format.round(record.data.perlost, 2) + "\r\n";
+            return s;
+        },
+        yAxis: new Ext.chart.NumericAxis(),
+        xAxis: new Ext.chart.TimeAxis({
+            labelRenderer: Ext.util.Format.dateRenderer('H:i'),
+            majorUnit: 10
+        }),
+        chartStyle: {
+            padding: 10,
+            animationEnabled: true,
+            font: {
+                name: 'Tahoma',
+                color: 0x444444,
+                size: 11
+            },
+            dataTip: {
+                padding: 5,
+                border: {
+                    color: 0x99bbe8,
+                    size: 1
+                },
+                background: {
+                    color: 0xDAE7F6,
+                    alpha: .9
+                },
+                font: {
+                    name: 'Tahoma',
+                    color: 0x15428B,
+                    size: 10,
+                    bold: true
+                }
+            },
+            xAxis: {
+                color: 0x69aBc8,
+                majorTicks: { color: 0x69aBc8, length: 4 },
+                minorTicks: { color: 0x69aBc8, length: 2 },
+                majorGridLines: { size: 1, color: 0xeeeeee }
+            },
+            yAxis: {
+                color: 0x69aBc8,
+                majorTicks: { color: 0x69aBc8, length: 4 },
+                minorTicks: { color: 0x69aBc8, length: 2 },
+                majorGridLines: { size: 1, color: 0xdfe8f6 }
+            }
+        },
+        listeners: {
+
+        }
+    });
+
+
     var win = new Ext.Window({
         title: "历史分析",
         width: 800,
@@ -203,13 +430,14 @@ var scheduleAnalysis = function (scheduleid) {
         maximizable: true,
         //弹出模态窗体
         modal: false,
-        layout: "fit",
+        layout: "vbox",
         buttonAlign: "center",
-        items: [grid],
+        items: [chart, chart1],
         listeners: {
             "show": function () {
                 //当window show事件发生时清空一下表单
-                store.load();
+                //store.load();
+                chartStore.load();
             }
         }
     });
