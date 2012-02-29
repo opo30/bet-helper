@@ -153,8 +153,14 @@ var west = new Ext.Panel({
                     contentEl: "live",
                     closable: true,
                     autoScroll: true,
-                    tbar: [{ text: 'dads' }, { xtype: 'tbfill' }]
-                }], 
+                    tbar: [{
+                        text: '开始更新',
+                        enableToggle:true,
+                        toggleHandler: function (button, state) {
+                            isliving = state;
+                        }
+                    }, { xtype: 'tbfill'}]
+                }],
                 plugins: new Ext.ux.TabCloseMenu()
             });
 
