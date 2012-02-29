@@ -406,7 +406,7 @@ var EuropeOdds = function (scheduleid) {
 		        scheduleAnalysis(scheduleArr[0]);
 		    }
 		}, {
-		    text: '赔率变化',
+		    text: '终赔变化',
 		    iconCls: "totalicon",
 		    handler: function () {
 		        var row = grid.getSelectionModel().getSelections();

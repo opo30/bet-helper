@@ -9,6 +9,9 @@ var scheduleAnalysis = function (scheduleid) {
             { name: 'perwin', type: 'float' },
             { name: 'perdraw', type: 'float' },
             { name: 'perlost', type: 'float' },
+            { name: 'chawin', type: 'float' },
+            { name: 'chadraw', type: 'float' },
+            { name: 'chalost', type: 'float' },
             { name: 'time', type: 'date' }
             ];
 
@@ -411,6 +414,91 @@ var scheduleAnalysis = function (scheduleid) {
         }
     });
 
+    var chart2 = new Ext.chart.LineChart({
+        store: chartStore,
+        autoShow: true,
+        flex: 1,
+        series: [
+                {
+                    type: 'line',
+                    displayName: '胜',
+                    xField: 'time',
+                    yField: 'chawin',
+                    style: {
+                        color: 0xFF0000,
+                        size: 5
+                    }
+                }, {
+                    type: 'line',
+                    displayName: '平',
+                    xField: 'time',
+                    yField: 'chadraw',
+                    style: {
+                        color: 0x008000,
+                        size: 5
+                    }
+                }, {
+                    type: 'line',
+                    displayName: '负',
+                    xField: 'time',
+                    yField: 'chalost',
+                    style: {
+                        color: 0x0000FF,
+                        size: 5
+                    }
+                }],
+        tipRenderer: function (chart, record, index, series) {
+            var s = "时间 " + record.data.time.format('m月d日 H时i分') + "\r\n";
+            s += "胜差 " + Ext.util.Format.round(record.data.oddswin, 2) + " ";
+            s += "平差 " + Ext.util.Format.round(record.data.oddsdraw, 2) + " ";
+            s += "负差 " + Ext.util.Format.round(record.data.oddslost, 2) + "\r\n";
+            return s;
+        },
+        yAxis: new Ext.chart.NumericAxis(),
+        xAxis: new Ext.chart.TimeAxis({
+            labelRenderer: Ext.util.Format.dateRenderer('H:i'),
+            majorUnit: 10
+        }),
+        chartStyle: {
+            padding: 10,
+            animationEnabled: true,
+            font: {
+                name: 'Tahoma',
+                color: 0x444444,
+                size: 11
+            },
+            dataTip: {
+                padding: 5,
+                border: {
+                    color: 0x99bbe8,
+                    size: 1
+                },
+                background: {
+                    color: 0xDAE7F6,
+                    alpha: .9
+                },
+                font: {
+                    name: 'Tahoma',
+                    color: 0x15428B,
+                    size: 10,
+                    bold: true
+                }
+            },
+            xAxis: {
+                color: 0x69aBc8,
+                majorTicks: { color: 0x69aBc8, length: 4 },
+                minorTicks: { color: 0x69aBc8, length: 2 },
+                majorGridLines: { size: 1, color: 0xeeeeee }
+            },
+            yAxis: {
+                color: 0x69aBc8,
+                majorTicks: { color: 0x69aBc8, length: 4 },
+                minorTicks: { color: 0x69aBc8, length: 2 },
+                majorGridLines: { size: 1, color: 0xdfe8f6 }
+            }
+        }
+    });
+
 
     var win = new Ext.Window({
         title: "历史分析",
@@ -432,7 +520,7 @@ var scheduleAnalysis = function (scheduleid) {
         modal: false,
         layout: "vbox",
         buttonAlign: "center",
-        items: [chart, chart1],
+        items: [chart, chart1, chart2],
         listeners: {
             "show": function () {
                 //当window show事件发生时清空一下表单
