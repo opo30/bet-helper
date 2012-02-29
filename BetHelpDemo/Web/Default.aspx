@@ -16,7 +16,7 @@
     </div>
 
     <script type="text/javascript">        document.getElementById('loading-msg').innerHTML = '正在加载 Core API...';</script>
-     <script src="lib/ext/adapter/ext/ext-base.js" type="text/javascript"></script>
+    <script src="lib/ext/adapter/ext/ext-base.js" type="text/javascript"></script>
     <script type="text/javascript">        document.getElementById('loading-msg').innerHTML = '正在加载 UI Components...';</script>
     <script src="lib/ext/ext-all.js" type="text/javascript"></script>
     <script src="Lib/ext/examples/ux/ux-all.js" type="text/javascript"></script>
@@ -340,6 +340,7 @@
     var oddsHttp = zXmlHttp.createRequest();
     var needSound = false;
     var orderby = "time";
+    var isliving = false;
 
     function ShowBf() {
         loaded = 0;
@@ -848,9 +849,11 @@
     }
 
     function getoddsxml() {
-        oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/ch_goal" + Config.companyID + ".xml?" + Date.parse(new Date()), true);
-        oddsHttp.onreadystatechange = oddsrefresh;
-        oddsHttp.send(null);
+        if (isliving) {
+            oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/ch_goal" + Config.companyID + ".xml?" + Date.parse(new Date()), true);
+            oddsHttp.onreadystatechange = oddsrefresh;
+            oddsHttp.send(null);
+        }
         getoddsxmlTimer = window.setTimeout("getoddsxml()", 3000);
     }
     function oddsrefresh() {
@@ -880,12 +883,14 @@
     function gettime() {
         try {
             LoadTime = (LoadTime + 1) % 60;
-            if (LoadTime == 0)
-                oXmlHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/change2.xml?" + Date.parse(new Date()), true);
-            else
-                oXmlHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/change.xml?" + Date.parse(new Date()), true);
-            oXmlHttp.onreadystatechange = refresh;
-            oXmlHttp.send(null);
+            if (isliving) {
+                if (LoadTime == 0)
+                    oXmlHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/change2.xml?" + Date.parse(new Date()), true);
+                else
+                    oXmlHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/change.xml?" + Date.parse(new Date()), true);
+                oXmlHttp.onreadystatechange = refresh;
+                oXmlHttp.send(null);
+            }
         }
         catch (e) { }
         window.setTimeout("gettime()", 2000);
