@@ -1572,7 +1572,7 @@
     }
 
     function check() {
-        if (oldUpdateTime == lastUpdateTime && oldUpdateTime != "") {
+        if (oldUpdateTime == lastUpdateTime && oldUpdateTime != "" && isliving) {
             if (confirm("由于程序忙，或其他网络问题，你已经和服务器断开连接超过 5 分钟，是否要重新连接观看比分？")) window.location.reload();
         }
         oldUpdateTime = lastUpdateTime;
