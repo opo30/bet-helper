@@ -520,7 +520,7 @@ var scheduleAnalysis = function (scheduleid) {
         modal: false,
         layout: "vbox",
         buttonAlign: "center",
-        items: [chart, chart1, chart2],
+        items: [chart2],
         listeners: {
             "show": function () {
                 //当window show事件发生时清空一下表单
