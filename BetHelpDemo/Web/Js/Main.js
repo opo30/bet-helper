@@ -158,6 +158,8 @@ var west = new Ext.Panel({
                         enableToggle:true,
                         toggleHandler: function (button, state) {
                             isliving = state;
+                            if(isliving)
+                                LoadLiveFile();
                         }
                     }, { xtype: 'tbfill'}]
                 }],
