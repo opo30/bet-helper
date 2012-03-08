@@ -69,7 +69,7 @@ public partial class Data_NowGoal_ScheduleAnalysis : System.Web.UI.Page
     {
         if (Request["scheduleid"] != null)
         {
-            DataSet ds = bll.GetList("scheduleid=" + Request.Form["scheduleid"] + " and DATEDIFF(HOUR,time,(select max(time) from scheduleanalysis where scheduleid=" + Request.Form["scheduleid"] + "))<=3 order by time desc");
+            DataSet ds = bll.GetList("scheduleid=" + Request.Form["scheduleid"] + " and DATEDIFF(minute,time,(select max(time) from scheduleanalysis where scheduleid=" + Request.Form["scheduleid"] + "))<60 order by time");
             string javascriptJson = JsonConvert.SerializeObject(ds.Tables[0], new JavaScriptDateTimeConverter());
             responseText = "{success:true,totalCount:" + ds.Tables[0].Rows.Count + ",data:" + javascriptJson + "}";
         }
