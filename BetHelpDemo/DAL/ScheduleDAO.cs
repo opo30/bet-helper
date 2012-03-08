@@ -432,7 +432,7 @@ namespace SeoWebSite.DAL
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
             strSql.Append("perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id)");
+            strSql.Append("perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),count(a.id) totalcount");
             strSql.Append(" from Schedule a join (select scheduleid,count(*) scount from Odds");
             strSql.Append(" where " + whereStr);
             strSql.Append(" group by scheduleid) b on a.id=b.scheduleid");

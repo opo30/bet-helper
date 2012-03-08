@@ -430,7 +430,6 @@ var EuropeOdds = function (scheduleid) {
 		            Ext.Msg.alert("提示信息", "您没有选中任何行!");
 		            return;
 		        } else {
-
 		            for (var i = 0; i < row.length; i++) {
 		                var companyids = new Array();
 		                var companynames = new Array();
