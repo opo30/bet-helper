@@ -209,18 +209,35 @@ namespace SeoWebSite.BLL
                             ellist.Add(Convert.ToDecimal(oddsArray[15]));
                         }
                     }
-                    DataSet sds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    //DataSet sds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", swhereList.ToArray()) + ")");
+                    //DataSet eds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", ewhereList.ToArray()) + ")");
+                    //if (sds != null && eds != null)
+                    //{
+                    //    ScheduleAnalysis model = new ScheduleAnalysis();
+                    //    model.scheduleid = Convert.ToInt32(scheduleID);
+                    //    model.oddswin = ewlist.Average() - swlist.Average();
+                    //    model.oddsdraw = edlist.Average() - sdlist.Average();
+                    //    model.oddslost = ellist.Average() - sllist.Average();
+                    //    model.perwin = Convert.ToDecimal(eds.Tables[0].Rows[0][0]) - Convert.ToDecimal(sds.Tables[0].Rows[0][0]);
+                    //    model.perdraw = Convert.ToDecimal(eds.Tables[0].Rows[0][1]) - Convert.ToDecimal(sds.Tables[0].Rows[0][1]);
+                    //    model.perlost = Convert.ToDecimal(eds.Tables[0].Rows[0][2]) - Convert.ToDecimal(sds.Tables[0].Rows[0][2]);
+                    //    model.time = DateTime.Now;
+                    //    if (!scheduleAnalysisBLL.Exists(model))
+                    //    {
+                    //        scheduleAnalysisBLL.Add(model);
+                    //    }
+                    //}
                     DataSet eds = scheduleBLL.statOddsHistory("(" + String.Join(" or ", ewhereList.ToArray()) + ")");
-                    if (sds != null && eds != null)
+                    if (eds != null)
                     {
                         ScheduleAnalysis model = new ScheduleAnalysis();
                         model.scheduleid = Convert.ToInt32(scheduleID);
-                        model.oddswin = ewlist.Average() - swlist.Average();
-                        model.oddsdraw = edlist.Average() - sdlist.Average();
-                        model.oddslost = ellist.Average() - sllist.Average();
-                        model.perwin = Convert.ToDecimal(eds.Tables[0].Rows[0][0]) - Convert.ToDecimal(sds.Tables[0].Rows[0][0]);
-                        model.perdraw = Convert.ToDecimal(eds.Tables[0].Rows[0][1]) - Convert.ToDecimal(sds.Tables[0].Rows[0][1]);
-                        model.perlost = Convert.ToDecimal(eds.Tables[0].Rows[0][2]) - Convert.ToDecimal(sds.Tables[0].Rows[0][2]);
+                        model.oddswin = ewlist.Average();
+                        model.oddsdraw = edlist.Average();
+                        model.oddslost = ellist.Average();
+                        model.perwin = Convert.ToDecimal(eds.Tables[0].Rows[0][0]);
+                        model.perdraw = Convert.ToDecimal(eds.Tables[0].Rows[0][1]);
+                        model.perlost = Convert.ToDecimal(eds.Tables[0].Rows[0][2]);
                         model.time = DateTime.Now;
                         if (!scheduleAnalysisBLL.Exists(model))
                         {

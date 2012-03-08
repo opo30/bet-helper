@@ -869,6 +869,7 @@ var OddsHistory = function (oddsArr) {
             activeTab: 0,
             //如果Tab过多会出现滚动条
             enableTabScroll: true,
+            closable :true,
             items: panelArray
         }]
     });
