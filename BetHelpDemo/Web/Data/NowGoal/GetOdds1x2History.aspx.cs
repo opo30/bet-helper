@@ -193,6 +193,23 @@ namespace SeoWebSite.Web.Data.NowGoal
             }
         }
 
+        private string createEndWhere(string s,string e)
+        {
+            if (decimal.Parse(e) > decimal.Parse(s))
+            {
+                return ">=" + e;
+            }
+            else if (decimal.Parse(e) < decimal.Parse(s))
+            {
+                return "<=" + e;
+            }
+            else if (decimal.Parse(e) == decimal.Parse(s))
+            {
+                return "=" + e;
+            }
+            return "";
+        }
+
         private void statOddsHistory()
         {
             if (Request["stypeid"] != null && Request["oddsarr"] != null)
@@ -221,8 +238,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                         sllist.Add(Convert.ToDecimal(odds[8]));
                         if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
                         {
-                            ewhereList.Add("(companyid=" + odds[0] + " and e_win=" + odds[10] +
-                                " and e_draw=" + odds[11] + " and e_lost=" + odds[12] + ")");
+                            ewhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
+                                " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + " and e_win" + createEndWhere(odds[3], odds[10]) +
+                                " and e_draw" + createEndWhere(odds[4], odds[11]) + " and e_lost" + createEndWhere(odds[5], odds[12]) + ")");
                             ewlist.Add(Convert.ToDecimal(odds[13]));
                             edlist.Add(Convert.ToDecimal(odds[14]));
                             ellist.Add(Convert.ToDecimal(odds[15]));
