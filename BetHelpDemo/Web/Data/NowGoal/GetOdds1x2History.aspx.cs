@@ -205,11 +205,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                     List<string> swhereList = new List<string>();
                     List<string> ewhereList = new List<string>();
                     List<string> oddswhereList = new List<string>();
-                    string pankou = scheduleArr[25];
-                    //if (Request["pankou"] != null && !string.IsNullOrEmpty(Request.Form["pankou"].Split(',')[2]))
-                    //{
-                    //    pankou = Request.Form["pankou"].Split(',')[2];
-                    //}
                     List<decimal> swlist = new List<decimal>();
                     List<decimal> sdlist = new List<decimal>();
                     List<decimal> sllist = new List<decimal>();
@@ -240,7 +235,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                     Common.DataCache.SetCache("ewhere", ewhereStr);
                     Common.DataCache.SetCache("cclassid", sclassArr[9]);
                     Common.DataCache.SetCache("sclassid", sclassArr[0]);
-                    Common.DataCache.SetCache("rangqiu", pankou);
 
                     DataTable dt = new DataTable();
                     dt.Columns.Add("name", typeof(string));
@@ -253,20 +247,20 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.Columns.Add("avgscore", typeof(float));
                     dt.Columns.Add("totalCount", typeof(int));
 
-                    DataSet sds = scheduleBLL.statOddsHistory(pankou, null, null, swhereStr);
-                    DataSet eds = scheduleBLL.statOddsHistory(pankou, null, null, ewhereStr);
+                    DataSet sds = scheduleBLL.statOddsHistory(null, null, swhereStr);
+                    DataSet eds = scheduleBLL.statOddsHistory(null, null, ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[0]["name"] = "全局初";
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[1]["name"] = "全局终";
-                    sds = scheduleBLL.statOddsHistory(pankou, sclassArr[9], null, swhereStr);
-                    eds = scheduleBLL.statOddsHistory(pankou, sclassArr[9], null, ewhereStr);
+                    sds = scheduleBLL.statOddsHistory(sclassArr[9], null, swhereStr);
+                    eds = scheduleBLL.statOddsHistory(sclassArr[9], null, ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[2]["name"] = "国家初";
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[3]["name"] = "国家终";
-                    sds = scheduleBLL.statOddsHistory(pankou, null, sclassArr[0], swhereStr);
-                    eds = scheduleBLL.statOddsHistory(pankou, null, sclassArr[0], ewhereStr);
+                    sds = scheduleBLL.statOddsHistory(null, sclassArr[0], swhereStr);
+                    eds = scheduleBLL.statOddsHistory(null, sclassArr[0], ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[4]["name"] = "赛事初";
                     dt.ImportRow(eds.Tables[0].Rows[0]);

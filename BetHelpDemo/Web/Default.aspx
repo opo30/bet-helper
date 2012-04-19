@@ -484,7 +484,8 @@
                 html.push("<td class=fr style='text-align:left'><a href='javascript:' onclick=analysis(" + A[i][0] + ") title='数据分析' style='padding-left:2px;'>析</a><a style='cursor:pointer;padding-left:4px;' href=javascript: onclick=\"AsianOdds(" + A[i][0] + ");return false\" title='11家指数'>亚</a><a href='javascript:EuropeOdds(" + A[i][0] + ")' style='padding-left:4px;' title='百家欧赔'>欧</a>");
                 if (A[i][29] == "1") html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>现</a>");
                 else html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:blue;padding-left:4px;' target=_blank>现</a>");
-                if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>荐</a>");
+                //if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>荐</a>");
+                 html.push("<a href='javascript:' onclick='Odds1x2History("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>荐</a>");
                 if (typeof (V) != "undefined" && typeof (V[A[i][0]]) != "undefined") {
                     if (V[A[i][0]][1].indexOf("外部链接") != -1) {
                         var urls = V[A[i][0]][1].split('|');

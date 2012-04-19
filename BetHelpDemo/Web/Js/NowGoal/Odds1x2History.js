@@ -8,7 +8,31 @@ Array.prototype.min = function () {
     return Math.min.apply({}, this)
 }
 
-var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
+var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
+    if (typeof (scheduleArr) == "number") {
+        if (oddsArr == undefined) {
+            oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleArr + ".js", false);
+            oddsHttp.send(null);
+            eval(oddsHttp.responseText);
+            oddsArr = game;
+        }
+
+        for (var i = 0; i < A.length; i++) {
+            if (A[i][0] == scheduleArr) {
+                scheduleArr = A[i];
+                scheduleTypeArr = B[A[i][1]];
+            }
+        }
+        if (typeof (scheduleArr) == "number")
+            for (var i = 0; i < HistoryScore.A.length; i++) {
+                if (HistoryScore.A[i][0] == scheduleArr) {
+                    scheduleArr = HistoryScore.A[i];
+                    scheduleTypeArr = HistoryScore.B[HistoryScore.A[i][1]];
+                }
+            }
+    }
+
+
 
     var fields = [
             { name: 'companyid', type: 'int' },
@@ -29,9 +53,9 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
         schedulearr: scheduleArr.join('^')
     };
 
-    if (Ext.getDom('tr1_' + scheduleArr[0])) {
-        params.pankou = Ext.getDom('tr1_' + scheduleArr[0]).getAttribute("odds");
-    }
+    //    if (Ext.getDom('tr1_' + scheduleArr[0])) {
+    //        params.pankou = Ext.getDom('tr1_' + scheduleArr[0]).getAttribute("odds");
+    //    }
 
     var store = new Ext.data.JsonStore({
         root: 'data',
@@ -63,21 +87,6 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
                 } else if (r.get("perlost") < store.getAt(index - 1).get("perlost")) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
-                if (r.get("rqwin") > store.getAt(index - 1).get("rqwin")) {
-                    grid.getView().getCell(index, 5).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("rqwin") < store.getAt(index - 1).get("rqwin")) {
-                    grid.getView().getCell(index, 5).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
-                if (r.get("rqdraw") > store.getAt(index - 1).get("rqdraw")) {
-                    grid.getView().getCell(index, 6).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("rqdraw") < store.getAt(index - 1).get("rqdraw")) {
-                    grid.getView().getCell(index, 6).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
-                if (r.get("rqlost") > store.getAt(index - 1).get("rqlost")) {
-                    grid.getView().getCell(index, 7).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
-                } else if (r.get("rqlost") < store.getAt(index - 1).get("rqlost")) {
-                    grid.getView().getCell(index, 7).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
-                }
             }
         });
     });
@@ -97,32 +106,41 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr, type) {
             header: "主胜",
             tooltip: "主场球队获胜赔率",
             dataIndex: "perwin",
-            sortable: false
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                if (rowIndex < 6 && value > row.get("perdraw") && value > row.get("perlost")) {
+                    return "*" + value;
+                }
+                else {
+                    return value.toFixed(2);
+                }
+            }
         }, {
             header: "和局",
             tooltip: "比赛打平的赔率",
             dataIndex: "perdraw",
-            sortable: false
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                if (rowIndex < 6 && value > row.get("perwin") && value > row.get("perlost")) {
+                    return "*" + value;
+                }
+                else {
+                    return value;
+                }
+            }
         }, {
             header: "客胜",
             tooltip: "客场球队获胜赔率",
             dataIndex: "perlost",
-            sortable: false
-        }, {
-            header: "赢",
-            tooltip: "主场球队获胜赔率",
-            dataIndex: "rqwin",
-            sortable: false
-        }, {
-            header: "走",
-            tooltip: "比赛打平的赔率",
-            dataIndex: "rqdraw",
-            sortable: false
-        }, {
-            header: "输",
-            tooltip: "客场球队获胜赔率",
-            dataIndex: "rqlost",
-            sortable: false
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                if (rowIndex < 6 && value > row.get("perwin") && value > row.get("perdraw")) {
+                    return "*" + value;
+                }
+                else {
+                    return value;
+                }
+            }
         }, {
             header: "进球数",
             dataIndex: "avgscore",

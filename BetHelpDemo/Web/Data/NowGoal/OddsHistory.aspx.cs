@@ -28,7 +28,7 @@ public partial class Data_NowGoal_OddsHistory : System.Web.UI.Page
             {
                 string[] oddsArray = Request["odds"].Split('|');
                 DataTable dt = this.FillOddsHistory(oddsArray);//填充
-                DateTime stime = Convert.ToDateTime(dt.Compute("max(time)", "")).AddHours(-6);// 3小时内
+                DateTime stime = Convert.ToDateTime(dt.Compute("max(time)", "")).AddHours(-6);// 6小时内
                 dt = dt.Select("time > '" + stime.ToString() + "'").CopyToDataTable();
                 JArray data = new JArray();
                 foreach (DataRow dr in dt.Rows)

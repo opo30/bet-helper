@@ -204,7 +204,7 @@ var scheduleAnalysis = function (scheduleid) {
     var chart = new Ext.chart.LineChart({
         store: chartStore,
         autoShow: true,
-        flex: 1,
+        flex:1,
         series: [
                 {
                     type: 'line',
@@ -233,7 +233,7 @@ var scheduleAnalysis = function (scheduleid) {
                         color: 0x0000FF,
                         size: 5
                     }
-                }],
+                        }],
         tipRenderer: function (chart, record, index, series) {
             var s = "时间 " + record.data.time.format('m月d日 H时i分') + "\r\n";
             s += "胜差 " + Ext.util.Format.round(record.data.oddswin, 2) + " ";
@@ -326,10 +326,9 @@ var scheduleAnalysis = function (scheduleid) {
 
 
     var chart1 = new Ext.chart.LineChart({
-        flex: 1,
         store: chartStore,
         //autoShow: true,
-
+        flex:1,
         series: [
                 {
                     type: 'line',
@@ -358,7 +357,7 @@ var scheduleAnalysis = function (scheduleid) {
                         color: 0x0000FF,
                         size: 5
                     }
-                }],
+                        }],
         tipRenderer: function (chart, record, index, series) {
             var s = "时间 " + record.data.time.format('m月d日 h时i分') + "\r\n";
             s += "胜差 " + Ext.util.Format.round(record.data.perwin, 2) + " ";
@@ -446,7 +445,7 @@ var scheduleAnalysis = function (scheduleid) {
                         color: 0x0000FF,
                         size: 5
                     }
-                }],
+                        }],
         tipRenderer: function (chart, record, index, series) {
             var s = "时间 " + record.data.time.format('m月d日 H时i分') + "\r\n";
             s += "胜差 " + Ext.util.Format.round(record.data.oddswin, 2) + " ";
@@ -518,9 +517,13 @@ var scheduleAnalysis = function (scheduleid) {
         maximizable: true,
         //弹出模态窗体
         modal: false,
-        layout: "vbox",
+        layout:'vbox',  
+        layoutConfig: {  
+            align : 'stretch',  
+            pack  : 'start'
+        },  
         buttonAlign: "center",
-        items: [chart2],
+        items: [chart, chart1],
         listeners: {
             "show": function () {
                 //当window show事件发生时清空一下表单
