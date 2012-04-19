@@ -199,9 +199,9 @@ namespace SeoWebSite.BLL
             dal.UpdateState(p, p_2);
         }
 
-        public DataSet statOddsHistory(string rangqiu,string cclassid,string sclassid, string whereStr)
+        public DataSet statOddsHistory(string cclassid,string sclassid, string whereStr)
         {
-            return dal.statOddsHistory(rangqiu,cclassid, sclassid,whereStr);
+            return dal.statOddsHistory(cclassid, sclassid,whereStr);
         }
 
         public DataSet queryOddsHistory(string cclassid,string sclassid, string whereStr)

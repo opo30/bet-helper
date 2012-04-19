@@ -396,7 +396,7 @@ var EuropeOdds = function (scheduleid) {
 		            Ext.each(row, function (r) {
 		                oddsArr.push(r.get("data"));
 		            });
-		            Odds1x2History(scheduleArr[0], oddsArr);
+		            Odds1x2History(scheduleArr, scheduleTypeArr, oddsArr);
 		        }
 		    }
 		}, {

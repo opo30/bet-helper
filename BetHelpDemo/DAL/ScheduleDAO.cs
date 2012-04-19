@@ -400,15 +400,12 @@ namespace SeoWebSite.DAL
             return DbHelperSQL.Exists(strSql.ToString(), parameters);
         }
 
-        public DataSet statOddsHistory(string rangqiu,string cclassid,string sclassid,string whereStr)
+        public DataSet statOddsHistory(string cclassid,string sclassid,string whereStr)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
             strSql.Append("perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
             strSql.Append("perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("rqwin=100.0*sum(case when a.home-a.away>" + rangqiu + " then 1 else 0 end)/count(a.id),");
-            strSql.Append("rqdraw=100.0*sum(case when a.home-a.away=" + rangqiu + " then 1 else 0 end)/count(a.id),");
-            strSql.Append("rqlost=100.0*sum(case when a.home-a.away<" + rangqiu + " then 1 else 0 end)/count(a.id),");
             strSql.Append("avgscore=avg(1.0*(a.home+a.away)),");
             strSql.Append("count(a.id) totalCount from");
             strSql.Append(" Schedule a join (select scheduleid,count(*) scount from Odds");

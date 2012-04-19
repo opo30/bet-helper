@@ -235,8 +235,8 @@ namespace SeoWebSite.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,scheduleid,oddswin,oddsdraw,oddslost,perwin,perdraw,perlost,time,");
-            strSql.Append("perwin-oddswin chawin,perdraw-oddsdraw chadraw,perlost-oddslost chalost");
+            strSql.Append("select id,scheduleid,oddswin,oddsdraw,oddslost,perwin,perdraw,perlost,time");
+            //strSql.Append("perwin-oddswin chawin,perdraw-oddsdraw chadraw,perlost-oddslost chalost");
             strSql.Append(" FROM ScheduleAnalysis ");
             if (strWhere.Trim() != "")
             {
