@@ -17,7 +17,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             oddsArr = [];
             for (var i = 0; i < game.length; i++) {
                 var arr = game[i].split('|');
-                if (arr[20] == "1" && arr[10] != "" && arr[11] != "" && arr[12] != "") {
+                if (arr[22] == "1" && arr[10] != "" && arr[11] != "" && arr[12] != "") {
                     oddsArr.push(game[i]);
                 }
             }
