@@ -14,7 +14,13 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleArr + ".js", false);
             oddsHttp.send(null);
             eval(oddsHttp.responseText);
-            oddsArr = game;
+            oddsArr = [];
+            for (var i = 0; i < game.length; i++) {
+                var arr = game[i].split('|');
+                if (arr[10] != "" && arr[11] != "" && arr[12] != "") {
+                    oddsArr.push(game[i]);
+                }
+            }
         }
 
         for (var i = 0; i < A.length; i++) {
