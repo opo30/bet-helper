@@ -40,9 +40,9 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             { name: 'perwin', type: 'float' },
             { name: 'perdraw', type: 'float' },
             { name: 'perlost', type: 'float' },
-            { name: 'rqwin', type: 'float' },
-            { name: 'rqdraw', type: 'float' },
-            { name: 'rqlost', type: 'float' },
+            { name: 'oddswin', type: 'float' },
+            { name: 'oddsdraw', type: 'float' },
+            { name: 'oddslost', type: 'float' },
             { name: 'avgscore', type: 'float' },
             { name: 'totalCount', type: 'int' }
             ];
@@ -87,6 +87,21 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
                 } else if (r.get("perlost") < store.getAt(index - 1).get("perlost")) {
                     grid.getView().getCell(index, 4).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
                 }
+                if (r.get("oddswin") > store.getAt(index - 1).get("oddswin")) {
+                    grid.getView().getCell(index, 5).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("oddswin") < store.getAt(index - 1).get("oddswin")) {
+                    grid.getView().getCell(index, 5).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
+                if (r.get("oddsdraw") > store.getAt(index - 1).get("oddsdraw")) {
+                    grid.getView().getCell(index, 6).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("oddsdraw") < store.getAt(index - 1).get("oddsdraw")) {
+                    grid.getView().getCell(index, 6).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
+                if (r.get("oddslost") > store.getAt(index - 1).get("oddslost")) {
+                    grid.getView().getCell(index, 7).style.backgroundColor = "#F7CFD6"; //上涨#F7CFD6;下降#DFF3B1;
+                } else if (r.get("oddslost") < store.getAt(index - 1).get("oddslost")) {
+                    grid.getView().getCell(index, 7).style.backgroundColor = "#DFF3B1"; //上涨#F7CFD6;下降#DFF3B1;
+                }
             }
         });
     });
@@ -108,12 +123,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perwin",
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-                if (rowIndex < 6 && value > row.get("perdraw") && value > row.get("perlost")) {
-                    return "*" + value;
-                }
-                else {
-                    return value.toFixed(2);
-                }
+                return value.toFixed(2);
             }
         }, {
             header: "和局",
@@ -121,12 +131,7 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perdraw",
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-                if (rowIndex < 6 && value > row.get("perwin") && value > row.get("perlost")) {
-                    return "*" + value;
-                }
-                else {
-                    return value;
-                }
+                return value.toFixed(2);
             }
         }, {
             header: "客胜",
@@ -134,12 +139,31 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
             dataIndex: "perlost",
             sortable: false,
             renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-                if (rowIndex < 6 && value > row.get("perwin") && value > row.get("perdraw")) {
-                    return "*" + value;
-                }
-                else {
-                    return value;
-                }
+                return value.toFixed(2);
+            }
+        }, {
+            header: "主胜",
+            tooltip: "主场球队获胜赔率",
+            dataIndex: "oddswin",
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                return value.toFixed(2);
+            }
+        }, {
+            header: "和局",
+            tooltip: "比赛打平的赔率",
+            dataIndex: "oddsdraw",
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                return value.toFixed(2);
+            }
+        }, {
+            header: "客胜",
+            tooltip: "客场球队获胜赔率",
+            dataIndex: "oddslost",
+            sortable: false,
+            renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                return value.toFixed(2);
             }
         }, {
             header: "进球数",

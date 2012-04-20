@@ -259,9 +259,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.Columns.Add("perwin", typeof(float));
                     dt.Columns.Add("perdraw", typeof(float));
                     dt.Columns.Add("perlost", typeof(float));
-                    dt.Columns.Add("rqwin", typeof(float));
-                    dt.Columns.Add("rqdraw", typeof(float));
-                    dt.Columns.Add("rqlost", typeof(float));
+                    dt.Columns.Add("oddswin", typeof(float));
+                    dt.Columns.Add("oddsdraw", typeof(float));
+                    dt.Columns.Add("oddslost", typeof(float));
                     dt.Columns.Add("avgscore", typeof(float));
                     dt.Columns.Add("totalCount", typeof(int));
 
@@ -269,73 +269,32 @@ namespace SeoWebSite.Web.Data.NowGoal
                     DataSet eds = scheduleBLL.statOddsHistory(null, null, ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[0]["name"] = "全局初";
+                    dt.Rows[0]["oddswin"] = swlist.Average();
+                    dt.Rows[0]["oddsdraw"] = sdlist.Average();
+                    dt.Rows[0]["oddslost"] = sllist.Average();
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[1]["name"] = "全局终";
+                    dt.Rows[1]["oddswin"] = ewlist.Average();
+                    dt.Rows[1]["oddsdraw"] = edlist.Average();
+                    dt.Rows[1]["oddslost"] = ellist.Average();
                     sds = scheduleBLL.statOddsHistory(sclassArr[9], null, swhereStr);
                     eds = scheduleBLL.statOddsHistory(sclassArr[9], null, ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[2]["name"] = "国家初";
+                    dt.Rows[2]["oddswin"] = Convert.ToDecimal(dt.Rows[0][1]) - swlist.Average();
+                    dt.Rows[2]["oddsdraw"] = Convert.ToDecimal(dt.Rows[0][2]) - sdlist.Average();
+                    dt.Rows[2]["oddslost"] = Convert.ToDecimal(dt.Rows[0][3]) - sllist.Average();
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[3]["name"] = "国家终";
+                    dt.Rows[3]["oddswin"] = Convert.ToDecimal(dt.Rows[1][1]) - ewlist.Average();
+                    dt.Rows[3]["oddsdraw"] = Convert.ToDecimal(dt.Rows[1][2]) - edlist.Average();
+                    dt.Rows[3]["oddslost"] = Convert.ToDecimal(dt.Rows[1][3]) - ellist.Average();
                     sds = scheduleBLL.statOddsHistory(null, sclassArr[0], swhereStr);
                     eds = scheduleBLL.statOddsHistory(null, sclassArr[0], ewhereStr);
                     dt.ImportRow(sds.Tables[0].Rows[0]);
                     dt.Rows[4]["name"] = "赛事初";
                     dt.ImportRow(eds.Tables[0].Rows[0]);
                     dt.Rows[5]["name"] = "赛事终";
-
-                    List<decimal> support = new List<decimal>();
-                    support.Add(ewlist.Average() - swlist.Average());
-                    support.Add(edlist.Average() - sdlist.Average());
-                    support.Add(ellist.Average() - sllist.Average());
-                    support.Add(Convert.ToDecimal(dt.Rows[1][1]) - Convert.ToDecimal(dt.Rows[0][1]));
-                    support.Add(Convert.ToDecimal(dt.Rows[1][2]) - Convert.ToDecimal(dt.Rows[0][2]));
-                    support.Add(Convert.ToDecimal(dt.Rows[1][3]) - Convert.ToDecimal(dt.Rows[0][3]));
-                    DataRow dr = dt.NewRow();
-                    dr["name"] = "赔率";
-                    dr["perwin"] = support[0];
-                    dr["perdraw"] = support[1];
-                    dr["perlost"] = support[2];
-                    dt.Rows.Add(dr);
-                    dr = dt.NewRow();
-                    dr["name"] = "胜率";
-                    dr["perwin"] = support[3];
-                    dr["perdraw"] = support[4];
-                    dr["perlost"] = support[5];
-                    for (int i = 0; i < 3; i++)
-                    {
-                        if (support[i] > 0 && support[i + 3] > 1)
-                        {
-                            dr[4 + i] = support[i + 3] / Math.Ceiling(support[i]) * 10;
-                        }
-                    }
-                    dt.Rows.Add(dr);
-
-                    ScheduleAnalysis model = new ScheduleAnalysis();
-
-                    //List<decimal> numList = new List<decimal>();
-                    //numList.Add(soddsperwin.Average());
-                    //numList.Add(soddsperdraw.Average());
-                    //numList.Add(soddsperlost.Average());
-                    //numList.Add(eoddsperwin.Average());
-                    //numList.Add(eoddsperdraw.Average());
-                    //numList.Add(eoddsperlost.Average());
-                    //numList.Add(Convert.ToDecimal(dt.Rows[2][1]));
-                    //numList.Add(Convert.ToDecimal(dt.Rows[2][2]));
-                    //numList.Add(Convert.ToDecimal(dt.Rows[2][3]));
-                    //numList.Add(Convert.ToDecimal(dt.Rows[3][1]));
-                    //numList.Add(Convert.ToDecimal(dt.Rows[3][2]));
-                    //numList.Add(Convert.ToDecimal(dt.Rows[3][3]));
-                    //decimal[] numArr = numList.ToArray();
-                    //numList.Sort();
-                    //string res = "";
-                    //foreach (decimal item in numArr)
-                    //{
-                    //    res += numList.IndexOf(item) + ",";
-                    //}
-                    //DataSet dsNum = DbHelperSQL.Query("select perwin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),perdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),perlost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id),rqwin=100.0*sum(case when a.home-a.away>" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqdraw=100.0*sum(case when a.home-a.away=" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),rqlost=100.0*sum(case when a.home-a.away<" + scheduleArr[25] + " then 1 else 0 end)/count(a.id),avgscore=avg(1.0*(a.home+a.away)),count(a.id) totalCount  from schedule a join schedulerecord b on b.scheduleid=a.id and b.result='" + res + "'", 999);
-                    //dt.ImportRow(dsNum.Tables[0].Rows[0]);
-
 
                     JObject result = JObject.Parse("{success:true}");
                     result.Add("data", JArray.FromObject(dt));
