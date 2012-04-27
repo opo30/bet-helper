@@ -56,7 +56,8 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
     var params = {
         stypeid: scheduleTypeArr.join('^'),
         oddsarr: oddsArr.join('^'),
-        schedulearr: scheduleArr.join('^')
+        schedulearr: scheduleArr.join('^'),
+        cha: 0
     };
 
     //    if (Ext.getDom('tr1_' + scheduleArr[0])) {
@@ -194,6 +195,25 @@ var Odds1x2History = function (scheduleArr, scheduleTypeArr, oddsArr) {
         //超过长度带自动滚动条
         autoScroll: true,
         border: false,
+        tbar: [{ xtype: 'tbfill' }, {
+            id: 'spinnerf1',
+            xtype: 'spinnerfield',
+            fieldLabel: 'Test',
+            name: 'test',
+            value: 0,
+            allowDecimals: true,
+            decimalPrecision: 2,
+            incrementValue: 0.01,
+            //alternateIncrementValue: 2.1,
+            accelerate: true
+        }, {
+            text: '查询',
+            handler: function () {
+                var val = Ext.getCmp('spinnerf1').getValue();
+                store.baseParams.cha = val;
+                store.reload();
+            }
+        }],
         viewConfig: {
             //自动填充
             forceFit: true,
