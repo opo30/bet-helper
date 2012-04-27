@@ -193,21 +193,22 @@ namespace SeoWebSite.Web.Data.NowGoal
             }
         }
 
-        private string createEndWhere(string s,string e)
+        private string createEndWhere(string e,double cha)
         {
-            if (decimal.Parse(e) > decimal.Parse(s))
-            {
-                return ">=" + e;
-            }
-            else if (decimal.Parse(e) < decimal.Parse(s))
-            {
-                return "<=" + e;
-            }
-            else if (decimal.Parse(e) == decimal.Parse(s))
-            {
-                return "=" + e;
-            }
-            return "";
+            //if (decimal.Parse(e) > decimal.Parse(s))
+            //{
+            //    return ">=" + e;
+            //}
+            //else if (decimal.Parse(e) < decimal.Parse(s))
+            //{
+            //    return "<=" + e;
+            //}
+            //else if (decimal.Parse(e) == decimal.Parse(s))
+            //{
+            //    return "=" + e;
+            //}
+
+            return "between " + (double.Parse(e) - cha) + " and " + (double.Parse(e) + cha);
         }
 
         private void statOddsHistory()
@@ -219,6 +220,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     string[] sclassArr = Request.Form["stypeid"].Split('^');
                     string[] oddsArr = Request.Form["oddsarr"].Split('^');
                     string[] scheduleArr = Request.Form["schedulearr"].Split('^');
+                    double cha = double.Parse(Request.Form["cha"]);
                     List<string> swhereList = new List<string>();
                     List<string> ewhereList = new List<string>();
                     List<string> oddswhereList = new List<string>();
@@ -238,21 +240,18 @@ namespace SeoWebSite.Web.Data.NowGoal
                         sllist.Add(Convert.ToDecimal(odds[8]));
                         if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
                         {
-                            ewhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
-                                " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + " and e_win" + createEndWhere(odds[3], odds[10]) +
-                                " and e_draw" + createEndWhere(odds[4], odds[11]) + " and e_lost" + createEndWhere(odds[5], odds[12]) + ")");
+                            ewhereList.Add("(companyid=" + odds[0] + " and (e_win " + createEndWhere(odds[10], cha) +
+                                ") and (e_draw " + createEndWhere(odds[11], cha) + ") and (e_lost " + createEndWhere(odds[12], cha) + "))");
                             ewlist.Add(Convert.ToDecimal(odds[13]));
                             edlist.Add(Convert.ToDecimal(odds[14]));
                             ellist.Add(Convert.ToDecimal(odds[15]));
                         }
                     }
                     string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
-                    string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
+                    string ewhereStr = swhereStr + " and (" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-                    Common.DataCache.SetCache("swhere", swhereStr);
-                    Common.DataCache.SetCache("ewhere", ewhereStr);
-                    Common.DataCache.SetCache("cclassid", sclassArr[9]);
-                    Common.DataCache.SetCache("sclassid", sclassArr[0]);
+                    DataSet sds = scheduleBLL.statOddsHistory(null, null, swhereStr);
+                    DataSet eds = scheduleBLL.statOddsHistory(null, null, ewhereStr);
 
                     DataTable dt = new DataTable();
                     dt.Columns.Add("name", typeof(string));
@@ -265,36 +264,43 @@ namespace SeoWebSite.Web.Data.NowGoal
                     dt.Columns.Add("avgscore", typeof(float));
                     dt.Columns.Add("totalCount", typeof(int));
 
-                    DataSet sds = scheduleBLL.statOddsHistory(null, null, swhereStr);
-                    DataSet eds = scheduleBLL.statOddsHistory(null, null, ewhereStr);
-                    dt.ImportRow(sds.Tables[0].Rows[0]);
-                    dt.Rows[0]["name"] = "全局初";
-                    dt.Rows[0]["oddswin"] = swlist.Average();
-                    dt.Rows[0]["oddsdraw"] = sdlist.Average();
-                    dt.Rows[0]["oddslost"] = sllist.Average();
-                    dt.ImportRow(eds.Tables[0].Rows[0]);
-                    dt.Rows[1]["name"] = "全局终";
-                    dt.Rows[1]["oddswin"] = ewlist.Average();
-                    dt.Rows[1]["oddsdraw"] = edlist.Average();
-                    dt.Rows[1]["oddslost"] = ellist.Average();
-                    sds = scheduleBLL.statOddsHistory(sclassArr[9], null, swhereStr);
-                    eds = scheduleBLL.statOddsHistory(sclassArr[9], null, ewhereStr);
-                    dt.ImportRow(sds.Tables[0].Rows[0]);
-                    dt.Rows[2]["name"] = "国家初";
-                    dt.Rows[2]["oddswin"] = Convert.ToDecimal(dt.Rows[0][1]) - swlist.Average();
-                    dt.Rows[2]["oddsdraw"] = Convert.ToDecimal(dt.Rows[0][2]) - sdlist.Average();
-                    dt.Rows[2]["oddslost"] = Convert.ToDecimal(dt.Rows[0][3]) - sllist.Average();
-                    dt.ImportRow(eds.Tables[0].Rows[0]);
-                    dt.Rows[3]["name"] = "国家终";
-                    dt.Rows[3]["oddswin"] = Convert.ToDecimal(dt.Rows[1][1]) - ewlist.Average();
-                    dt.Rows[3]["oddsdraw"] = Convert.ToDecimal(dt.Rows[1][2]) - edlist.Average();
-                    dt.Rows[3]["oddslost"] = Convert.ToDecimal(dt.Rows[1][3]) - ellist.Average();
-                    sds = scheduleBLL.statOddsHistory(null, sclassArr[0], swhereStr);
-                    eds = scheduleBLL.statOddsHistory(null, sclassArr[0], ewhereStr);
-                    dt.ImportRow(sds.Tables[0].Rows[0]);
-                    dt.Rows[4]["name"] = "赛事初";
-                    dt.ImportRow(eds.Tables[0].Rows[0]);
-                    dt.Rows[5]["name"] = "赛事终";
+                    if (Convert.ToInt32(eds.Tables[0].Rows[0]["totalCount"]) > 0 &&
+                        Convert.ToInt32(sds.Tables[0].Rows[0]["totalCount"]) > 0)
+                    {
+                        Common.DataCache.SetCache("swhere", swhereStr);
+                        Common.DataCache.SetCache("ewhere", ewhereStr);
+                        Common.DataCache.SetCache("cclassid", sclassArr[9]);
+                        Common.DataCache.SetCache("sclassid", sclassArr[0]);
+
+                        dt.ImportRow(sds.Tables[0].Rows[0]);
+                        dt.Rows[0]["name"] = "全局初";
+                        dt.Rows[0]["oddswin"] = swlist.Average();
+                        dt.Rows[0]["oddsdraw"] = sdlist.Average();
+                        dt.Rows[0]["oddslost"] = sllist.Average();
+                        dt.ImportRow(eds.Tables[0].Rows[0]);
+                        dt.Rows[1]["name"] = "全局终";
+                        dt.Rows[1]["oddswin"] = ewlist.Average();
+                        dt.Rows[1]["oddsdraw"] = edlist.Average();
+                        dt.Rows[1]["oddslost"] = ellist.Average();
+                        sds = scheduleBLL.statOddsHistory(sclassArr[9], null, swhereStr);
+                        eds = scheduleBLL.statOddsHistory(sclassArr[9], null, ewhereStr);
+                        dt.ImportRow(sds.Tables[0].Rows[0]);
+                        dt.Rows[2]["name"] = "国家初";
+                        dt.Rows[2]["oddswin"] = Convert.ToDecimal(dt.Rows[0][1]) - swlist.Average();
+                        dt.Rows[2]["oddsdraw"] = Convert.ToDecimal(dt.Rows[0][2]) - sdlist.Average();
+                        dt.Rows[2]["oddslost"] = Convert.ToDecimal(dt.Rows[0][3]) - sllist.Average();
+                        dt.ImportRow(eds.Tables[0].Rows[0]);
+                        dt.Rows[3]["name"] = "国家终";
+                        dt.Rows[3]["oddswin"] = Convert.ToDecimal(dt.Rows[1][1]) - ewlist.Average();
+                        dt.Rows[3]["oddsdraw"] = Convert.ToDecimal(dt.Rows[1][2]) - edlist.Average();
+                        dt.Rows[3]["oddslost"] = Convert.ToDecimal(dt.Rows[1][3]) - ellist.Average();
+                        sds = scheduleBLL.statOddsHistory(null, sclassArr[0], swhereStr);
+                        eds = scheduleBLL.statOddsHistory(null, sclassArr[0], ewhereStr);
+                        dt.ImportRow(sds.Tables[0].Rows[0]);
+                        dt.Rows[4]["name"] = "赛事初";
+                        dt.ImportRow(eds.Tables[0].Rows[0]);
+                        dt.Rows[5]["name"] = "赛事终";
+                    }
 
                     JObject result = JObject.Parse("{success:true}");
                     result.Add("data", JArray.FromObject(dt));
