@@ -39,6 +39,7 @@
     <script src="Js/NowGoal/LoadBetExperience.js" type="text/javascript"></script>
     <script src="Js/NowGoal/OddsDetailManage.js" type="text/javascript"></script>
     <script src="Js/NowGoal/Odds1x2History.js" type="text/javascript"></script>
+    <script src="Js/NowGoal/Odds1x2Mail.js" type="text/javascript"></script>
     <script src="Js/NowGoal/EuropeOdds.js" type="text/javascript"></script>
     <script src="Js/NowGoal/EuropeOdds_Schedule.js" type="text/javascript"></script>
     <script src="Js/NowGoal/ScheduleAnalysis.js" type="text/javascript"></script>
@@ -1015,7 +1016,7 @@
                 }
 
                 //¿ªÈü
-                if (A[matchindex][11] != D[8]) tr.cells[2].innerHTML = D[8];
+                if (A[matchindex][11] != D[8]) { tr.cells[2].innerHTML = D[8]; Odds1x2Mail(A[matchindex][0]) }
                 A[matchindex][10] = D[8];
                 A[matchindex][11] = D[9];
 

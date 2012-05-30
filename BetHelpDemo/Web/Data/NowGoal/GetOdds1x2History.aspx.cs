@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using SeoWebSite.DBUtility;
 using SeoWebSite.Model;
+using SeoWebSite.Common;
+using System.Text;
 
 namespace SeoWebSite.Web.Data.NowGoal
 {
@@ -34,6 +36,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                         case "stat1":
                             statOddsHistory1();
                             break;
+                        case "statmail":
+                            statOddsHistoryMail();
+                            break;
                         case "statdate":
                             statOddsHistoryDate();
                             break;
@@ -49,6 +54,60 @@ namespace SeoWebSite.Web.Data.NowGoal
                 }
             }
 
+        }
+
+        private void statOddsHistoryMail()
+        {
+            if (Request["stypeid"] != null && Request["oddsarr"] != null)
+            {
+                try
+                {
+                    string[] sclassArr = Request.Form["stypeid"].Split('^');
+                    string[] oddsArr = Request.Form["oddsarr"].Split('^');
+                    string[] scheduleArr = Request.Form["schedulearr"].Split('^');
+                    List<string> swhereList = new List<string>();
+                    List<string> ewhereList = new List<string>();
+                    foreach (string oddsStr in oddsArr)
+                    {
+                        string[] odds = oddsStr.Split('|');
+                        swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
+                                " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
+                        if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
+                        {
+                            ewhereList.Add("(companyid=" + odds[0] + " and (e_win=" + odds[10] +
+                                ") and (e_draw=" + odds[11] + ") and (e_lost=" + odds[12] + "))");
+                        }
+                    }
+                    string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
+                    string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
+
+                    DataSet sds = scheduleBLL.statOddsHistory2(null, null, swhereStr);
+                    DataSet eds = scheduleBLL.statOddsHistory2(null, null, ewhereStr);
+                    int[] c1 = new int[6] { getNum(sds.Tables[0].Rows[0][1]), getNum(sds.Tables[0].Rows[0][2]), getNum(sds.Tables[0].Rows[0][3]), getNum(eds.Tables[0].Rows[0][1]), getNum(eds.Tables[0].Rows[0][2]), getNum(eds.Tables[0].Rows[0][3]) };
+                    sds = scheduleBLL.statOddsHistory2(sclassArr[9], null, swhereStr);
+                    eds = scheduleBLL.statOddsHistory2(sclassArr[9], null, ewhereStr);
+                    int[] c2 = new int[6] { getNum(sds.Tables[0].Rows[0][1]), getNum(sds.Tables[0].Rows[0][2]), getNum(sds.Tables[0].Rows[0][3]), getNum(eds.Tables[0].Rows[0][1]), getNum(eds.Tables[0].Rows[0][2]), getNum(eds.Tables[0].Rows[0][3]) };
+                    sds = scheduleBLL.statOddsHistory2(null, sclassArr[0], swhereStr);
+                    eds = scheduleBLL.statOddsHistory2(null, sclassArr[0], ewhereStr);
+                    int[] c3 = new int[6] { getNum(sds.Tables[0].Rows[0][1]), getNum(sds.Tables[0].Rows[0][2]), getNum(sds.Tables[0].Rows[0][3]), getNum(eds.Tables[0].Rows[0][1]), getNum(eds.Tables[0].Rows[0][2]), getNum(eds.Tables[0].Rows[0][3]) };
+                    int[] c4 = new int[6]{ c1[0] + c2[0] + c3[0],c1[1] + c2[1] + c3[1],c1[2] + c2[2] + c3[2],c1[3] + c2[3] + c3[3],c1[4] + c2[4] + c3[4],c1[5] + c2[5] + c3[5] };
+                    StringBuilder sb = new StringBuilder();
+                    
+                    sb.Append("<table border=1>");
+                    sb.Append("<tr><td>比赛</td><td>初盘</td><td>终盘</td></tr>");
+                    sb.Append(String.Format("<tr><td>所有</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c1[0], c1[1], c1[2], c1[3], c1[4], c1[5] }));
+                    sb.Append(String.Format("<tr><td>国家</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c2[0], c2[1], c2[2], c2[3], c2[4], c2[5] }));
+                    sb.Append(String.Format("<tr><td>赛事</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c3[0], c3[1], c3[2], c3[3], c3[4], c3[5] }));
+                    sb.Append(String.Format("<tr><td>合计</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c4[0], c4[1], c4[2], c4[3], c4[4], c4[5] }));
+                    sb.Append("</table>");
+                    MailSender mail = new MailSender();
+                    mail.Send("博球提示", "<font color=red>" + Request.Form["schedulearr"] + "</font><br>" + sb.ToString());
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
         }
 
         private void updateOddsHistory()
@@ -196,7 +255,7 @@ namespace SeoWebSite.Web.Data.NowGoal
             }
         }
 
-        private string createEndWhere(string e,double cha)
+        private string createEndWhere(string e, double cha)
         {
             //if (decimal.Parse(e) > decimal.Parse(s))
             //{
@@ -423,7 +482,8 @@ namespace SeoWebSite.Web.Data.NowGoal
             }
         }
 
-        private int getNum(object r) {
+        private int getNum(object r)
+        {
             return r.ToString() == "" ? 0 : Convert.ToInt32(r);
         }
 
