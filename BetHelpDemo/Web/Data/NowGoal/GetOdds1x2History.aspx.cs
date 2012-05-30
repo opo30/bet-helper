@@ -101,7 +101,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     sb.Append(String.Format("<tr><td>合计</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c4[0], c4[1], c4[2], c4[3], c4[4], c4[5] }));
                     sb.Append("</table>");
                     MailSender mail = new MailSender();
-                    mail.Send("博球提示", "<font color=red>" + Request.Form["schedulearr"] + "</font><br>" + sb.ToString());
+                    mail.Send(scheduleArr[4] + "-" + scheduleArr[7], "<font color=red>" + Request.Form["schedulearr"] + "</font><br>" + sb.ToString());
                 }
                 catch (Exception e)
                 {
