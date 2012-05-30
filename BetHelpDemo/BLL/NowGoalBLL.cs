@@ -48,7 +48,7 @@ namespace SeoWebSite.BLL
             if (companyid != 0)
             {
                 XmlDocument xmldoc = new XmlDocument();
-                xmldoc.Load("http://live.nowscore.com/data/goal" + companyid + ".xml");
+                xmldoc.Load("http://live.nowodds.com/data/goal" + companyid + ".xml");
                 showids = xmldoc.SelectNodes("c/ids")[0].InnerText;
             }
             actual = ("var showlist=[" + showids + "];") + actual;

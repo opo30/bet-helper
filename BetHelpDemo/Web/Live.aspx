@@ -31,11 +31,11 @@
   
 <div id="main">
   <div class="toptool">
-  <div class="tg1"><span class="secl"><a href="http://www.nowscore.com/schedule.aspx?f=ft1">完场比分</a><a href="http://www.nowscore.com/schedule.aspx?f=sc1">近日赛程</a></span></div>
+  <div class="tg1"><span class="secl"><a href="http://live.nowodds.com/schedule.aspx?f=ft1">完场比分</a><a href="http://live.nowodds.com/schedule.aspx?f=sc1">近日赛程</a></span></div>
   <div class="tg2" onclick="ShowAllMatch()" style="cursor:pointer; width:90px;">隐藏 <span class="td_scoreR" id="hiddencount">0</span> 场</div>
   <ul class="tg3">
-  <li><a href="http://www.nowscore.com/2in1.aspx" class="selected"><span>比分+指数</span></a></li>
-  <li><a href="http://www.nowscore.com/index.aspx"><span>纯比分</span></a></li>
+  <li><a href="http://live.nowodds.com/2in1.aspx" class="selected"><span>比分+指数</span></a></li>
+  <li><a href="http://live.nowodds.com/index.aspx"><span>纯比分</span></a></li>
   <li>——</li>
   <li><a href="javascript:SetMatchType(0);" id="MatchType0" title="显示所有的比赛"><span>全部赛事</span></a></li>
   <li><a href="javascript:SetMatchType(1);" id="MatchType1" title="只显示重要的比赛，精选赛事"><span>精简赛事</span></a></li>
@@ -59,8 +59,8 @@
   
   
 <div id="left">
-    <div style="height:33px; padding-top:3px"><a href="javascript:MM_showHideLayers('DivLeague','','show')"><img src="http://www.nowscore.com/images/game_s.gif" /></a></div>
-    <div style="height:36px;"><a href="javascript:" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')"><img src="http://www.nowscore.com/images/country_s.gif" /></a></div>
+    <div style="height:33px; padding-top:3px"><a href="javascript:MM_showHideLayers('DivLeague','','show')"><img src="http://live.nowodds.com/images/game_s.gif" /></a></div>
+    <div style="height:36px;"><a href="javascript:" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')"><img src="http://live.nowodds.com/images/country_s.gif" /></a></div>
     <div id="leftAd" style='line-height:60%'></div>    
     <div id="leftFloatAd" style='line-height:60%'></div>	
 </div>
@@ -119,7 +119,7 @@
 				<option value="7">右下角</option>
 				</select><br>			 
 						
-				<p class="bts"><input type="button" name="button2" id="button1" value="打印" style="cursor:pointer;" onclick="javascript:window.open('http://www.nowscore.com/score_print.aspx','','')";/><input type="button" name="button" id="button5" value="关闭"  style="cursor:pointer;" onclick="MM_showHideLayers('DivFunction','','hide')"/></p>
+				<p class="bts"><input type="button" name="button2" id="button1" value="打印" style="cursor:pointer;" onclick="javascript:window.open('http://live.nowodds.com/score_print.aspx','','')";/><input type="button" name="button" id="button5" value="关闭"  style="cursor:pointer;" onclick="MM_showHideLayers('DivFunction','','hide')"/></p>
 			  </td></tr>
 		  </table>	 
   </div>
@@ -146,7 +146,7 @@
 	  <li class="m_on" id="LeagueKind1"><a href="javascript:showLeagueList(1)">今日赛事</a></li>
 	  <li class="m_off" id="LeagueKind2"><a href="javascript:showLeagueList(2)">热门赛事</a></li>
 	  <li class="m_off" id="LeagueKind3"><a href="javascript:showLeagueList(3)">热门杯赛</a></li>
-	  <li class="m_off"><a href="http://www.nowscore.com/odds/history.aspx" target="_blank">指数复查</a></li>
+	  <li class="m_off"><a href="http://live.nowodds.com/odds/history.aspx" target="_blank">指数复查</a></li>
 	  </ul>
 	<div id="main2">
 	  <div id="leagueList"></div>
@@ -326,7 +326,7 @@ function MakeTable()
 		html.push("<td class=a2><a id='team2_" + A[i][0] +"' href='javascript:' onclick='TeamPanlu_10(" + A[i][0] +")'  title='"+A[i][22]+"'>" + A[i][7+Config.language]+ "</a><a id='redcard2_" + A[i][0] +"'>" + G_redcard + "</a><a id='yellow2_" + A[i][0] +"'>" + G_yellow + "</a><span id=gorder_" + A[i][0] +"></span></td>");
 		html.push("<td class=td_half onmouseover='showpaulu(" + i + ",event)' onmouseout='hiddendetail()'>" + match_half + "</td>");
 		html.push("<td class=fr style='text-align:left'><a href='javascript:' onclick=analysis("+ A[i][0] + ") title='数据分析' style='padding-left:2px;'>析</a> <a style='cursor:pointer' href=javascript: onclick=\"AsianOdds("+ A[i][0] +");return false\" title='11家指数'>亚</a> <a href='javascript:EuropeOdds(" + A[i][0] +")' title='百家欧赔'>欧</a> ");
-		if (A[i][28] == "1") html.push("<a href='http://www.nowscore.com/odds/recommend.aspx?id=" + A[i][0] + "' style='color:red' target=_blank>荐</a>");
+		if (A[i][28] == "1") html.push("<a href='http://live.nowodds.com/odds/recommend.aspx?id=" + A[i][0] + "' style='color:red' target=_blank>荐</a>");
 
 		html.push("</td><td class=oddstd>&nbsp;</td>");
 		html.push("<td class=oddstd onclick='oddsDetail("+A[i][0]+","+Config.companyID+" )' style='cursor:pointer;'>&nbsp;</td>");
@@ -1068,7 +1068,7 @@ function LoadLiveFile()
 	var allDate=document.getElementById("allDate");
 	var  s=document.createElement("script");   
 	s.type="text/javascript";
-	s.src = "http://www.nowscore.com/data/bf.js?" + Date.parse(new Date());
+	s.src = "http://live.nowodds.com/data/bf.js?" + Date.parse(new Date());
 	//s.src = "Data/NowGoal/GetRemoteFile.aspx?f=rootjs&path=data/bf.js&" + Date.parse(new Date());
 	allDate.removeChild(allDate.firstChild);
 	allDate.appendChild(s,"script");
@@ -1081,7 +1081,7 @@ function LoadDetailFile()
 	var  s=document.createElement("script");   
 	s.type="text/javascript";   
 	s.charset="gb2312";
-	//s.src = "http://www.nowscore.com/data/detail.js?" + Date.parse(new Date());
+	//s.src = "http://live.nowodds.com/data/detail.js?" + Date.parse(new Date());
 	s.src = "Data/NowGoal/GetRemoteFile.aspx?f=rootjs&path=data/detail.js&" + Date.parse(new Date());
 	detail.removeChild(detail.firstChild);
 	detail.appendChild(s,"script");	  

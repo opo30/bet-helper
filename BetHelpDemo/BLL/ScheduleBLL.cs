@@ -204,6 +204,17 @@ namespace SeoWebSite.BLL
             return dal.statOddsHistory(cclassid, sclassid,whereStr);
         }
 
+        public DataSet statOddsHistory1(string cclassid, string sclassid, string whereStr)
+        {
+            return dal.statOddsHistory1(cclassid, sclassid, whereStr);
+        }
+
+
+        public DataSet statOddsHistory2(string cclassid, string sclassid, string whereStr)
+        {
+            return dal.statOddsHistory2(cclassid, sclassid, whereStr);
+        }
+
         public DataSet queryOddsHistory(string cclassid,string sclassid, string whereStr)
         {
             return dal.queryOddsHistory(cclassid,sclassid,whereStr);

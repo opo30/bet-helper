@@ -110,9 +110,9 @@ HistoryScore.ShowBf = function () {
                 }
             }
             rowData.g_odds = goalResult;
-            rowData.data = "<a href='javascript:' onclick=analysis(" + this.A[i][0] + ") title='数据分析'>析</a> <a href=javascript: onclick=\"AsianOdds(" + this.A[i][0] + ");return false\" title='11家指数'>亚</a> <a href='javascript:EuropeOdds(" + this.A[i][0] + ")' title='百家欧赔'>欧</a> <a href='javascript:scheduleAnalysis(" + this.A[i][0] + ")' title='现'>现</a>";
+            rowData.data = "<a href='javascript:' onclick=analysis(" + this.A[i][0] + ") title='数据分析'>析</a> <a href=javascript: onclick=\"AsianOdds(" + this.A[i][0] + ");return false\" title='11家指数'>亚</a> <a href='javascript:EuropeOdds(" + this.A[i][0] + ")' title='百家欧赔'>欧</a> <a href='javascript:Odds1x2History(" + this.A[i][0] + ")' title='现'>现</a>";
             if (this.A[i][24] == "True")
-                rowData.zoudi = "<a href='Odds/runningDetail.aspx?scheduleID=" + this.A[i][0] + "' target='_blank'><img src='http://live.nowscore.com/images/t3.gif' height=10 width=10 title='走地'></a>";
+                rowData.zoudi = "<a href='Odds/runningDetail.aspx?scheduleID=" + this.A[i][0] + "' target='_blank'><img src='http://live.nowodds.com/images/t3.gif' height=10 width=10 title='走地'></a>";
 
 
             if (this.A[i][27] + this.A[i][28] == "") classx = "none"; else classx = "";
@@ -172,8 +172,8 @@ HistoryScore.showodds = function (oddsDataStr) {
                     //                    tr.cells[11].innerHTML = tmp;
 
                     //                    tmp = "";
-                    //                    if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowscore.com/images/t3.gif' height=10 width=10 title='有走地赛事'></a>";
-                    //                    if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowscore.com/images/t32.gif' height=10 width=10 title='正在走地'></a>";
+                    //                    if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowodds.com/images/t3.gif' height=10 width=10 title='有走地赛事'></a>";
+                    //                    if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowodds.com/images/t32.gif' height=10 width=10 title='正在走地'></a>";
                     //                    tr.cells[12].innerHTML = tmp;
 
                     //                    tr.attributes["odds"].value = odds;

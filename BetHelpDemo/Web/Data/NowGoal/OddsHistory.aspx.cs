@@ -64,7 +64,7 @@ public partial class Data_NowGoal_OddsHistory : System.Web.UI.Page
         dt.Columns.Add("time", typeof(DateTime));
         WebClient web = new WebClient();
         web.Encoding = System.Text.Encoding.UTF8;
-        string s = web.DownloadString("http://live.nowscore.com/1x2/OddsHistory.aspx?id=" + odds[1]);
+        string s = web.DownloadString("http://live.nowodds.com/1x2/OddsHistory.aspx?id=" + odds[1]);
         
         Parser parser = Parser.CreateParser(s, "utf-8");
         

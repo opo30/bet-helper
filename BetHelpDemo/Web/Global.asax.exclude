@@ -16,7 +16,7 @@
         {
             SeoWebSite.BLL.NowGoalBLL bll = new SeoWebSite.BLL.NowGoalBLL();
             System.Xml.XmlDocument xmldoc = new System.Xml.XmlDocument();
-            xmldoc.Load("http://live.nowscore.com/odds/xml/ch_odds.xml");
+            xmldoc.Load("http://live.nowodds.com/odds/xml/ch_odds.xml");
             //SeoWebSite.Common.DataCache.SetCache("ch_goal8.xml", xmldoc);
             System.Xml.XmlNodeList nodelist = xmldoc.SelectNodes("c/o/h");
             foreach (System.Xml.XmlNode item in nodelist)

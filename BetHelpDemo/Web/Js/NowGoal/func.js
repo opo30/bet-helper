@@ -123,33 +123,33 @@ function dismisspopup()
 
 function showgoallist(ID)
 {
-    window.open("http://www.nowscore.com/detail/" + ID + ".html", "", "scrollbars=yes,resizable=yes,width=668, height=720");
+    window.open("http://live.nowodds.com/detail/" + ID + ".html", "", "scrollbars=yes,resizable=yes,width=668, height=720");
 }
 function  analysis(ID)
 {
-    var theURL = "http://www.nowscore.com/analysis/" + ID + ".html";
+    var theURL = "http://live.nowodds.com/analysis/" + ID + ".html";
 	window.open(theURL);
 }
 function AsianOdds(ID)
 {
-    var theURL = "http://www.nowscore.com/odds/match.aspx?id=" + ID;
+    var theURL = "http://live.nowodds.com/odds/match.aspx?id=" + ID;
 	window.open(theURL);
 }
 
 function EuropeOdds(ID)
 {
-    var theURL = "http://www.nowscore.com/1x2/" + ID + ".htm";
+    var theURL = "http://live.nowodds.com/1x2/" + ID + ".htm";
 	window.open(theURL);
 }
 
 function TeamPanlu_10(ID)
 {
-    var theURL = "http://www.nowscore.com/panlu/" + ID + ".html";
+    var theURL = "http://live.nowodds.com/panlu/" + ID + ".html";
 	window.open(theURL,"","width=640,height=700,top=10,left=100,resizable=yes,scrollbars=yes");
 }
 function oddsDetail(ID,cId)
 {
-    window.open("http://www.nowscore.com/odds/detail.aspx?scheduleID=" + ID + "&companyID=" + cId, "", "");
+    window.open("http://live.nowodds.com/odds/detail.aspx?scheduleID=" + ID + "&companyID=" + cId, "", "");
 }
 
 var zXml = {

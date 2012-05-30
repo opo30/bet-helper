@@ -86,7 +86,7 @@
                     html.push("<td class=a2><a id='team2_" + A[i][0] + "' href='javascript:' onclick='TeamPanlu_10(" + A[i][0] + ")'  title='" + A[i][22] + "'>" + A[i][7 + Config.language] + "</a><a id='redcard2_" + A[i][0] + "'>" + G_redcard + "</a><a id='yellow2_" + A[i][0] + "'>" + G_yellow + "</a><span id=gorder_" + A[i][0] + "></span></td>");
                     html.push("<td class=td_half onmouseover='showpaulu(" + i + ",event)' onmouseout='hiddendetail()'>" + match_half + "</td>");
                     html.push("<td class=fr style='text-align:left'><a href='javascript:' onclick=analysis(" + A[i][0] + ") title='数据分析' style='padding-left:2px;'>析</a> <a style='cursor:pointer' href=javascript: onclick=\"AsianOdds(" + A[i][0] + ");return false\" title='11家指数'>亚</a> <a href='javascript:EuropeOdds(" + A[i][0] + ")' title='百家欧赔'>欧</a> ");
-                    if (A[i][28] == "1") html.push("<a href='http://www.nowscore.com/odds/recommend.aspx?id=" + A[i][0] + "' style='color:red' target=_blank>荐</a>");
+                    if (A[i][28] == "1") html.push("<a href='http://live.nowodds.com/odds/recommend.aspx?id=" + A[i][0] + "' style='color:red' target=_blank>荐</a>");
 
                     html.push("</td><td class=oddstd>&nbsp;</td>");
                     html.push("<td class=oddstd onclick='oddsDetail(" + A[i][0] + "," + Config.companyID + " )' style='cursor:pointer;'>&nbsp;</td>");

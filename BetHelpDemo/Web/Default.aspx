@@ -4,7 +4,7 @@
 <head runat="server">
     <title>首页</title>
     <link href="css/Style.css" rel="stylesheet" type="text/css" />
-    <link href="http://live.nowscore.com/live.css" rel="stylesheet" type="text/css" />
+    <link href="http://live.nowodds.com/live.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="lib/ext/resources/css/ext-all.css" />
     <link href="Lib/ext/examples/ux/css/ux-all.css" rel="stylesheet" type="text/css" />
 </head>
@@ -24,8 +24,8 @@
     <script type="text/javascript">            document.getElementById('loading-msg').innerHTML = '正在初始化...';</script>
      <script src="Js/ux/Notification.js" type="text/javascript"></script>
     
-    <script type="text/javascript" src="http://live.nowscore.com/func.js"></script>
-    <script type="text/javascript" src="http://live.nowscore.com/matchScore.js"></script>
+    <script type="text/javascript" src="http://live.nowodds.com/func.js"></script>
+    <script type="text/javascript" src="http://live.nowodds.com/matchScore.js"></script>
 
     <%--<script src="Js/NowGoal/Common.js" type="text/javascript"></script>--%>
     
@@ -85,8 +85,8 @@
   
   
 <div id="left">
-    <div style="height:33px; padding-top:3px"><a href="javascript:MM_showHideLayers('DivLeague','','show')"><img src="http://live.nowscore.com/images/game_s.gif" /></a></div>
-    <div style="height:36px;"><a href="javascript:" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')"><img src="http://live.nowscore.com/images/country_s.gif" /></a></div>
+    <div style="height:33px; padding-top:3px"><a href="javascript:MM_showHideLayers('DivLeague','','show')"><img src="http://live.nowodds.com/images/game_s.gif" /></a></div>
+    <div style="height:36px;"><a href="javascript:" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')"><img src="http://live.nowodds.com/images/country_s.gif" /></a></div>
 </div>
 <div id="middle">
   
@@ -375,7 +375,7 @@
         var oldHiddenID = true;
         var html = new Array();
         html.push("<table id='table_live' width=100% bgcolor=#C6C6C6 align=center cellspacing=1 border=0 cellpadding=0><tr class=ki1 align=center>");
-        html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>选</font></td><td  width=8%><font color=white>" + matchdate + "</font></td><td  width=5%><font color=white>时间</font></td><td  width=5%><font color=white>状态</font></td><td  width=16%><font color=white>主队</font></td><td  width=5%><font color=white>比分</font></td><td  width=16%><font color=white>客队</font></td><td  width=5%><font color=white>半场</font></td><td  width=15%><font color=white>数据</font></td><td width=19% colspan=3><font color=white>指数</font></td><td width=3%>走</td></tr>");
+        html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>选</font></td><td  width=8%><font color=white>" + matchdate + "</font></td><td  width=5%><font color=white>时间</font></td><td  width=5%><font color=white>状态</font></td><td  width=16%><font color=white>主队</font></td><td  width=5%><font color=white>比分</font></td><td  width=16%><font color=white>客队</font></td><td  width=5%><font color=white>半场</font></td><td  width=15%><font color=white>数据</font></td><td width=19% colspan=3><font color=white>指数</font></td><td width=3%>走</td><td width=3%>总数</td><td width=6%>胜</td><td width=6%>平</td><td width=6%>负</td></tr>");
 
         oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/goal" + Config.companyID + ".xml?" + Date.parse(new Date()), false);
         oddsHttp.send(null);
@@ -485,7 +485,7 @@
                 if (A[i][29] == "1") html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>现</a>");
                 else html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:blue;padding-left:4px;' target=_blank>现</a>");
                 //if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>荐</a>");
-                 html.push("<a href='javascript:' onclick='Odds1x2History("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>荐</a>");
+                 html.push("<a href='javascript:' onclick='Odds1x2History("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>荐</a>");html.push("<a href='javascript:' onclick='Odds1x2History1("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>必</a>");
                 if (typeof (V) != "undefined" && typeof (V[A[i][0]]) != "undefined") {
                     if (V[A[i][0]][1].indexOf("外部链接") != -1) {
                         var urls = V[A[i][0]][1].split('|');
@@ -500,6 +500,12 @@
                 html.push("</td><td class=oddstd>&nbsp;</td>");
                 html.push("<td class=oddstd onclick='oddsDetail(" + A[i][0] + "," + Config.companyID + " )' style='cursor:pointer;'>&nbsp;</td>");
                 html.push("<td class=oddstd>&nbsp;</td>");
+
+                html.push("<td>&nbsp;</td>");
+                html.push("<td>&nbsp;</td>");
+                html.push("<td>&nbsp;</td>");
+                html.push("<td>&nbsp;</td>");
+
                 html.push("<td>&nbsp;</td></tr>");
 
                 if (A[i][27] + A[i][32] == "" || classx == "none") classx = "none"; else classx = "";
@@ -622,7 +628,7 @@
                     else
                         html.push("<a href='javascript:'>");
                     html.push(B[A[i][1]][1 + Config.language] + "</a> </span><span class='l2'>");
-                    html.push("<a href='javascript:HiddenLeague(" + leagueIndex + ",false)' id='collapse" + leagueIndex + "'><img src='http://live.nowscore.com/images/collapse.gif'/></a><a href='javascript:HiddenLeague(" + leagueIndex + ",true)' id='expand" + leagueIndex + "' style='display:none;'><img src='images/expand.gif'/></a><a href='javascript:CloseLeague(" + leagueIndex + ") '><img src='images/closes.gif'/></a></span></td></tr>");
+                    html.push("<a href='javascript:HiddenLeague(" + leagueIndex + ",false)' id='collapse" + leagueIndex + "'><img src='http://live.nowodds.com/images/collapse.gif'/></a><a href='javascript:HiddenLeague(" + leagueIndex + ",true)' id='expand" + leagueIndex + "' style='display:none;'><img src='images/expand.gif'/></a><a href='javascript:CloseLeague(" + leagueIndex + ") '><img src='images/closes.gif'/></a></span></td></tr>");
                 }
                 html.push("<tr align=center id='tr1_" + A[i][0] + "' class='" + bg + "' index='" + i + "' odds='' style='display:" + classx + "'>");
                 html.push("<td height=18><input type=checkbox checked onclick='hidematch(" + i + ");return false;' class='inp'></td>");
@@ -832,8 +838,8 @@
                 tr.cells[11].innerHTML = tmp;
 
                 tmp = "";
-                if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowscore.com/images/t3.gif' height=10 width=10 title='有走地赛事'></a>";
-                if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowscore.com/images/t32.gif' height=10 width=10 title='正在走地'></a>";
+                if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowodds.com/images/t3.gif' height=10 width=10 title='有走地赛事'></a>";
+                if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowodds.com/images/t32.gif' height=10 width=10 title='正在走地'></a>";
                 tr.cells[12].innerHTML = tmp;
 
                 tr.attributes["odds"].value = odds;
@@ -1409,9 +1415,9 @@
                 R = rq[i].split('^');
                 if (R[0] != A[n][0]) continue;
                 if (R[1] == "1")
-                    html += "<tr bgcolor=white align=center><td width=6% height=18><img src='http://live.nowscore.com/images/" + R[2] + ".gif'></td><td width=38%>" + R[4] + "</td><td width=12% bgcolor=#EFF4EA>" + R[3] + "'</td><td width=38%></td><td width=6%></td></tr>";
+                    html += "<tr bgcolor=white align=center><td width=6% height=18><img src='http://live.nowodds.com/images/" + R[2] + ".gif'></td><td width=38%>" + R[4] + "</td><td width=12% bgcolor=#EFF4EA>" + R[3] + "'</td><td width=38%></td><td width=6%></td></tr>";
                 else
-                    html += "<tr bgcolor=white align=center><td width=6% height=18></td><td width=38%></td><td width=12% bgcolor=#EFF4EA>" + R[3] + "'</td><td width=38%>" + R[4] + "</td><td width=6%><img src='http://live.nowscore.com/images/" + R[2] + ".gif'></td></tr>";
+                    html += "<tr bgcolor=white align=center><td width=6% height=18></td><td width=38%></td><td width=12% bgcolor=#EFF4EA>" + R[3] + "'</td><td width=38%>" + R[4] + "</td><td width=6%><img src='http://live.nowodds.com/images/" + R[2] + ".gif'></td></tr>";
             }
             html += "</table>";
             
@@ -1585,9 +1591,9 @@
         var s = document.createElement("script");
         s.type = "text/javascript";
         if (orderby == "league")
-            s.src = "http://live.nowscore.com/data/bf1.js?" + Date.parse(new Date());
+            s.src = "http://live.nowodds.com/data/bf1.js?" + Date.parse(new Date());
         else
-            s.src = "http://live.nowscore.com/data/bf.js?" + Date.parse(new Date());
+            s.src = "http://live.nowodds.com/data/bf.js?" + Date.parse(new Date());
         allDate.removeChild(allDate.firstChild);
         allDate.appendChild(s, "script");
         window.clearTimeout(LoadLiveFileTimer);
@@ -1798,8 +1804,8 @@
     window.setTimeout("gettime()", 2000);
     window.setTimeout("check()", 30000);
 </script>
-<span id="span_detail"><script language="javascript" src="http://live.nowscore.com/data/detail.js" type="text/javascript" charset="gb2312"></script></span>
-<span id="span_panlu"><script language="javascript" src="http://live.nowscore.com/data/panlu.js" type="text/javascript"></script></span>
+<span id="span_detail"><script language="javascript" src="http://live.nowodds.com/data/detail.js" type="text/javascript" charset="gb2312"></script></span>
+<span id="span_panlu"><script language="javascript" src="http://live.nowodds.com/data/panlu.js" type="text/javascript"></script></span>
     </div>
     
 </body>
