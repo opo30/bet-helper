@@ -91,7 +91,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     eds = scheduleBLL.statOddsHistory2(null, sclassArr[0], ewhereStr);
                     int[] c3 = new int[6] { getNum(sds.Tables[0].Rows[0][1]), getNum(sds.Tables[0].Rows[0][2]), getNum(sds.Tables[0].Rows[0][3]), getNum(eds.Tables[0].Rows[0][1]), getNum(eds.Tables[0].Rows[0][2]), getNum(eds.Tables[0].Rows[0][3]) };
                     int[] c4 = new int[6]{ c1[0] + c2[0] + c3[0],c1[1] + c2[1] + c3[1],c1[2] + c2[2] + c3[2],c1[3] + c2[3] + c3[3],c1[4] + c2[4] + c3[4],c1[5] + c2[5] + c3[5] };
-                    if (c4.Sum() >= 3)
+                    if (c4.Sum() >= 5)
                     {
                         if (Math.Min(c4[0] + c4[3], c4[2] + c4[5]) == 0 || (c4[0] / c4[2] >= 10 || c4[0] / c4[2] <= 1 / 10))
                         {
