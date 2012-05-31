@@ -1017,7 +1017,7 @@
                 }
 
                 //¿ªÈü
-                if (A[matchindex][11] != D[8]) { tr.cells[2].innerHTML = D[8]; Odds1x2Mail(A[matchindex][0]) }
+                if (A[matchindex][11] != D[8]) tr.cells[2].innerHTML = D[8];
                 A[matchindex][10] = D[8];
                 A[matchindex][11] = D[9];
 
@@ -1037,7 +1037,7 @@
                             var t2 = new Date(t[0], t[1], t[2], t[3], t[4], t[5]);
                             goTime = Math.floor((new Date() - t2 - difftime) / 60000);
                             if (goTime > 45) goTime = "45+"
-                            if (goTime < 1) goTime = "1";
+                            if (goTime < 1) {goTime = "1" ; Odds1x2Mail(A[matchindex][0])};
                             tr.cells[3].innerHTML = goTime + "<img src='images/in.gif'>";
                             break;
                         case 2:

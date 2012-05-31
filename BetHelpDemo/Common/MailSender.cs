@@ -35,6 +35,9 @@ namespace SeoWebSite.Common
                 }
             }
 
+            smtpClient.EnableSsl = true;
+            smtpClient.Port = 587;
+            smtpClient.UseDefaultCredentials = false;
             if (isAuthentication == true)
             {
                 smtpClient.Credentials = new NetworkCredential(SmtpConfig.Create().SmtpSetting.User,
