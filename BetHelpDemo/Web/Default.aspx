@@ -487,7 +487,7 @@
                 else html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:blue;padding-left:4px;' target=_blank>现</a>");
                 //if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>荐</a>");
                  html.push("<a href='javascript:' onclick='Odds1x2History("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>荐</a>");
-                 html.push("<a href='javascript:' onclick='Odds1x2History1("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>必</a>");
+                 html.push("<a href='javascript:' onclick='Odds1x2Mail("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>必</a>");
                 if (typeof (V) != "undefined" && typeof (V[A[i][0]]) != "undefined") {
                     if (V[A[i][0]][1].indexOf("外部链接") != -1) {
                         var urls = V[A[i][0]][1].split('|');
@@ -1037,7 +1037,8 @@
                             var t2 = new Date(t[0], t[1], t[2], t[3], t[4], t[5]);
                             goTime = Math.floor((new Date() - t2 - difftime) / 60000);
                             if (goTime > 45) goTime = "45+"
-                            if (goTime < 1) {goTime = "1" ; Odds1x2Mail(A[matchindex][0])};
+                            if (goTime < 1) goTime = "1"
+                            if (goTime < 10) Odds1x2Mail(A[matchindex][0]);
                             tr.cells[3].innerHTML = goTime + "<img src='images/in.gif'>";
                             break;
                         case 2:
@@ -1088,6 +1089,7 @@
                 }
 
                 if (scorechange) {
+                    Odds1x2Mail(A[matchindex][0]);
                     ShowFlash(D[0], matchindex);
                     if (tr.style.display != "none") {
                         hometeam = A[matchindex][4 + Config.language].replace("<font color=#880000>(中)</font>", " 中").substring(0, 7);

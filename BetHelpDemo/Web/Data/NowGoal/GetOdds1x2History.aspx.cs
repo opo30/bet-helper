@@ -65,6 +65,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     string[] sclassArr = Request.Form["stypeid"].Split('^');
                     string[] oddsArr = Request.Form["oddsarr"].Split('^');
                     string[] scheduleArr = Request.Form["schedulearr"].Split('^');
+                    string[] oddsInfo = Request.Form["odds"].Split(',');
                     List<string> swhereList = new List<string>();
                     List<string> ewhereList = new List<string>();
                     foreach (string oddsStr in oddsArr)
@@ -91,23 +92,51 @@ namespace SeoWebSite.Web.Data.NowGoal
                     eds = scheduleBLL.statOddsHistory2(null, sclassArr[0], ewhereStr);
                     int[] c3 = new int[6] { getNum(sds.Tables[0].Rows[0][1]), getNum(sds.Tables[0].Rows[0][2]), getNum(sds.Tables[0].Rows[0][3]), getNum(eds.Tables[0].Rows[0][1]), getNum(eds.Tables[0].Rows[0][2]), getNum(eds.Tables[0].Rows[0][3]) };
                     int[] c4 = new int[6] { c1[0] + c2[0] + c3[0], c1[1] + c2[1] + c3[1], c1[2] + c2[2] + c3[2], c1[3] + c2[3] + c3[3], c1[4] + c2[4] + c3[4], c1[5] + c2[5] + c3[5] };
-                    if (c4.Sum() >= 5)
+                    if (c4.Sum() >= 3)
                     {
-                        if (Math.Min(c4[0] + c4[3], c4[2] + c4[5]) == 0 || (c4[0] / c4[2] >= 10 || c4[0] / c4[2] <= 1 / 10))
+                        int hc = c4[0] + c4[3];
+                        int dc = c4[1] + c4[4];
+                        int ac = c4[2] + c4[5];
+                        double hp = (double)hc / (hc + dc + ac);
+                        double dp = (double)dc / (hc + dc + ac);
+                        double ap = (double)ac / (hc + dc + ac);
+                        double up = 0; double down = 0;
+                        if (scheduleArr[13] != "" && scheduleArr[14] != "" && oddsInfo[2] != "")
+                        {
+                            if (double.Parse(scheduleArr[13]) > double.Parse(scheduleArr[14]) + double.Parse(oddsInfo[2]))
+                            {
+                                up = hp; down = dp + ap;
+                            }
+                            else if (double.Parse(scheduleArr[13]) < double.Parse(scheduleArr[14]) + double.Parse(oddsInfo[2]))
+                            {
+                                up = hp + dp; down = ap;
+                            }
+                            else
+                            {
+                                up = hp; down = ap;
+                            }
+                        }
+                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8)
                         {
                             string title = String.Format("{4}-{7} " + sclassArr[1], scheduleArr);
                             StringBuilder sb = new StringBuilder();
-                            sb.Append("<table border=1 width=90%>");
-                            sb.Append("<tr><td>赛事</td><td>时间</td><td>主队</td><td>客队</td><td>让球</td></tr>");
-                            sb.Append(String.Format("<tr><td bgcolor=" + sclassArr[4] + ">" + sclassArr[1] + "</td><td>{10}</td><td>{4}</td><td>{7}</td><td>{25}</td></tr>", scheduleArr));
+                            sb.Append("<table border=1 width=100%>");
+                            sb.Append("<tr style='border-color: inherit;'><td style='color:white;'>赛事</td><td style='color:white;'>时间</td><td style='color:white;'>主队</td><td style='color:white;'>比分</td><td style='color:white;'>客队</td><td style='color:white;'>让球</td></tr>");
+                            sb.Append(String.Format("<tr><td bgcolor=" + sclassArr[4] + " style='color:White'>" + sclassArr[1] + "</td><td>{10}</td><td>{4}</td><td>{13}-{14}</td><td>{7}</td><td>{25}</td></tr>", scheduleArr));
                             sb.Append("</table>");
-                            sb.Append("<table border=1 width=90%>");
-                            sb.Append("<tr><td>比赛</td><td>初盘</td><td>终盘</td></tr>");
+                            sb.Append("<table border=1 width=100%>");
+                            sb.Append("<tr style='border-color: inherit;'><td colspan=3 style='color:white;'>亚赔指数</td><td colspan=3 style='color:white;'>欧赔指数</td></tr>");
+                            sb.Append(String.Format("<tr><td>{3}</td><td>{2}</td><td>{4}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", oddsInfo));
+                            sb.Append("</table>");
+                            sb.Append("<table border=1 width=100%>");
+                            sb.Append("<tr style='border-color: inherit;'><td style='color:white;'>比赛</td><td style='color:white;'>初盘</td><td style='color:white;'>终盘</td></tr>");
                             sb.Append(String.Format("<tr><td>所有</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c1[0], c1[1], c1[2], c1[3], c1[4], c1[5] }));
                             sb.Append(String.Format("<tr><td>国家</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c2[0], c2[1], c2[2], c2[3], c2[4], c2[5] }));
                             sb.Append(String.Format("<tr><td>赛事</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c3[0], c3[1], c3[2], c3[3], c3[4], c3[5] }));
                             sb.Append(String.Format("<tr><td>合计</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c4[0], c4[1], c4[2], c4[3], c4[4], c4[5] }));
+                            sb.Append(String.Format("<tr><td>概率</td><td colspan=2>{0:0.00%} {1:0.00%} {2:0.00%}</td></tr>", hp, dp, ap));
                             sb.Append("</table>");
+                            
                             MailSender.Send("seo1214@gmail.com", title, sb.ToString());
                         }
                     }
