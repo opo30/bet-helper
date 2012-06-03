@@ -116,7 +116,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                                 up = hp; down = ap;
                             }
                         }
-                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8)
+                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8 || Math.Abs(hp - ap) >= 0.65)
                         {
                             string title = String.Format("{4}-{7} " + sclassArr[1], scheduleArr);
                             string header = " style='color: white;background-color: #4F608C;'";
