@@ -124,6 +124,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FetionProxy.cs" />
     <Compile Include="HttpHelper.cs" />
     <Compile Include="HttpProc.cs" />
     <Compile Include="CommonHelper.cs" />

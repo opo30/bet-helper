@@ -25,7 +25,7 @@ var Odds1x2Mail = function (scheduleid) {
             stypeid: scheduleTypeArr.join('^'),
             oddsarr: oddsArr.join('^'),
             schedulearr: scheduleArr.join('^'),
-            odds: Ext.getDom("tr1_" + scheduleid).odds
+            odds: Ext.getDom("tr1_" + scheduleid).getAttribute("odds")
         }
     });
 }

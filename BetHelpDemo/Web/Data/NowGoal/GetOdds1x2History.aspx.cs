@@ -21,6 +21,7 @@ namespace SeoWebSite.Web.Data.NowGoal
         protected string StringJSON = "";
         ScheduleBLL scheduleBLL = new ScheduleBLL();
         ScheduleAnalysisBLL scheduleAnalysisBLL = new ScheduleAnalysisBLL();
+        FetionProxy fetion = new FetionProxy("13871459996", "thinkpadt60");
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -116,29 +117,42 @@ namespace SeoWebSite.Web.Data.NowGoal
                                 up = hp; down = ap;
                             }
                         }
-                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8 || Math.Abs(hp - ap) >= 0.65)
+                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8 || Math.Abs(hp - ap) >= 0.70)
                         {
-                            string title = String.Format("{4}-{7} " + sclassArr[1], scheduleArr);
-                            string header = " style='color: white;background-color: #4F608C;'";
-                            StringBuilder sb = new StringBuilder();
-                            sb.Append("<table border=1 width=100%>");
-                            sb.Append(String.Format("<tr><td{0}>赛事</td><td{0}>时间</td><td{0}>主队</td><td{0}>比分</td><td{0}>客队</td><td{0}>让球</td></tr>", header));
-                            sb.Append(String.Format("<tr><td bgcolor=" + sclassArr[4] + " style='color:White'>" + sclassArr[1] + "</td><td>{10}</td><td>{4}</td><td>{13}-{14}</td><td>{7}</td><td>{25}</td></tr>", scheduleArr));
-                            sb.Append("</table>");
-                            sb.Append("<table border=1 width=100%>");
-                            sb.Append(String.Format("<tr><td{0} colspan=3>亚赔指数</td><td{0} colspan=3>欧赔指数</td></tr>", header));
-                            sb.Append(String.Format("<tr><td>{3}</td><td>{2}</td><td>{4}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", oddsInfo));
-                            sb.Append("</table>");
-                            sb.Append("<table border=1 width=100%>");
-                            sb.Append(String.Format("<tr><td{0}>比赛</td><td{0}>初盘</td><td{0}>终盘</td></tr>", header));
-                            sb.Append(String.Format("<tr><td>所有</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c1[0], c1[1], c1[2], c1[3], c1[4], c1[5] }));
-                            sb.Append(String.Format("<tr><td>国家</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c2[0], c2[1], c2[2], c2[3], c2[4], c2[5] }));
-                            sb.Append(String.Format("<tr><td>赛事</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c3[0], c3[1], c3[2], c3[3], c3[4], c3[5] }));
-                            sb.Append(String.Format("<tr><td>合计</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c4[0], c4[1], c4[2], c4[3], c4[4], c4[5] }));
-                            sb.Append(String.Format("<tr><td>概率</td><td colspan=2>{0:0.00%} {1:0.00%} {2:0.00%}</td></tr>", hp, dp, ap));
-                            sb.Append("</table>");
-                            
-                            MailSender.Send("seo1214@gmail.com", title, sb.ToString());
+                            string sendByMail = System.Configuration.ConfigurationManager.AppSettings["SendByMail"];
+                            if (sendByMail == "1")
+                            {
+                                string title = String.Format("{4}-{7} " + sclassArr[1], scheduleArr);
+                                string header = " style='color: white;background-color: #4F608C;'";
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append("<table border=1 width=100%>");
+                                sb.Append(String.Format("<tr><td{0}>赛事</td><td{0}>时间</td><td{0}>主队</td><td{0}>比分</td><td{0}>客队</td><td{0}>让球</td></tr>", header));
+                                sb.Append(String.Format("<tr><td bgcolor=" + sclassArr[4] + " style='color:White'>" + sclassArr[1] + "</td><td>{10}</td><td>{4}</td><td>{13}-{14}</td><td>{7}</td><td>{25}</td></tr>", scheduleArr));
+                                sb.Append("</table>");
+                                sb.Append("<table border=1 width=100%>");
+                                sb.Append(String.Format("<tr><td{0} colspan=3>亚赔指数</td><td{0} colspan=3>欧赔指数</td></tr>", header));
+                                sb.Append(String.Format("<tr><td>{3}</td><td>{2}</td><td>{4}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", oddsInfo));
+                                sb.Append("</table>");
+                                sb.Append("<table border=1 width=100%>");
+                                sb.Append(String.Format("<tr><td{0}>比赛</td><td{0}>初盘</td><td{0}>终盘</td></tr>", header));
+                                sb.Append(String.Format("<tr><td>所有</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c1[0], c1[1], c1[2], c1[3], c1[4], c1[5] }));
+                                sb.Append(String.Format("<tr><td>国家</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c2[0], c2[1], c2[2], c2[3], c2[4], c2[5] }));
+                                sb.Append(String.Format("<tr><td>赛事</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c3[0], c3[1], c3[2], c3[3], c3[4], c3[5] }));
+                                sb.Append(String.Format("<tr><td>合计</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c4[0], c4[1], c4[2], c4[3], c4[4], c4[5] }));
+                                sb.Append(String.Format("<tr><td>概率</td><td colspan=2>{0:0.00%} {1:0.00%} {2:0.00%}</td></tr>", hp, dp, ap));
+                                sb.Append("</table>");
+                                MailSender.Send("seo1214@gmail.com", title, sb.ToString());
+                            }
+                            else
+                            {
+                                StringBuilder sb = new StringBuilder();
+                                sb.Append(String.Format(sclassArr[1] + " {10} {4} {13}-{14} {7}", scheduleArr));
+                                sb.Append(String.Format(" {2} {3} {4}", oddsInfo));
+                                sb.Append(String.Format(" {0} {1} {2} {3} {4} {5}", new object[] { c4[0], c4[1], c4[2], c4[3], c4[4], c4[5] }));
+                                sb.Append(String.Format(" {0:0.0} {1:0.0} {2:0.0}", hp * 100, dp * 100, ap * 100));
+                                bool result = fetion.SendToSelf(sb.ToString());
+                                fetion.logout();
+                            }
                         }
                     }
                 }
