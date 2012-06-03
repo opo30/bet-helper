@@ -104,13 +104,27 @@ namespace SeoWebSite.Web.Data.NowGoal
                         double up = 0; double down = 0;
                         if (scheduleArr[13] != "" && scheduleArr[14] != "" && oddsInfo[2] != "")
                         {
-                            if (double.Parse(scheduleArr[13]) - double.Parse(oddsInfo[2])> double.Parse(scheduleArr[14]))
+                            if (double.Parse(oddsInfo[2]) > 0)
                             {
-                                up = hp; down = dp + ap;
+                                if (double.Parse(scheduleArr[13]) < double.Parse(oddsInfo[14]))
+                                {
+                                    up = hp + dp; down = ap;
+                                }
+                                else
+                                {
+                                    up = hp; down = dp + ap;
+                                }
                             }
-                            else if (double.Parse(scheduleArr[13]) - double.Parse(oddsInfo[2])< double.Parse(scheduleArr[14]))
+                            else if (double.Parse(oddsInfo[2]) < 0)
                             {
-                                up = hp + dp; down = ap;
+                                if (double.Parse(scheduleArr[13]) > double.Parse(oddsInfo[14]))
+                                {
+                                    up = hp; down = dp + ap;
+                                }
+                                else
+                                {
+                                    up = hp + dp; down = ap;
+                                }
                             }
                             else
                             {
