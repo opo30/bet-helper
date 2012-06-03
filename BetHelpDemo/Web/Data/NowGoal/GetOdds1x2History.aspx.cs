@@ -119,17 +119,18 @@ namespace SeoWebSite.Web.Data.NowGoal
                         if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8)
                         {
                             string title = String.Format("{4}-{7} " + sclassArr[1], scheduleArr);
+                            string header = " style='color: white;background-color: #4F608C;'";
                             StringBuilder sb = new StringBuilder();
                             sb.Append("<table border=1 width=100%>");
-                            sb.Append("<tr style='border-color: inherit;'><td style='color:white;'>赛事</td><td style='color:white;'>时间</td><td style='color:white;'>主队</td><td style='color:white;'>比分</td><td style='color:white;'>客队</td><td style='color:white;'>让球</td></tr>");
+                            sb.Append(String.Format("<tr><td{0}>赛事</td><td{0}>时间</td><td{0}>主队</td><td{0}>比分</td><td{0}>客队</td><td{0}>让球</td></tr>", header));
                             sb.Append(String.Format("<tr><td bgcolor=" + sclassArr[4] + " style='color:White'>" + sclassArr[1] + "</td><td>{10}</td><td>{4}</td><td>{13}-{14}</td><td>{7}</td><td>{25}</td></tr>", scheduleArr));
                             sb.Append("</table>");
                             sb.Append("<table border=1 width=100%>");
-                            sb.Append("<tr style='border-color: inherit;'><td colspan=3 style='color:white;'>亚赔指数</td><td colspan=3 style='color:white;'>欧赔指数</td></tr>");
+                            sb.Append(String.Format("<tr><td{0} colspan=3>亚赔指数</td><td{0} colspan=3>欧赔指数</td></tr>", header));
                             sb.Append(String.Format("<tr><td>{3}</td><td>{2}</td><td>{4}</td><td>{6}</td><td>{7}</td><td>{8}</td></tr>", oddsInfo));
                             sb.Append("</table>");
                             sb.Append("<table border=1 width=100%>");
-                            sb.Append("<tr style='border-color: inherit;'><td style='color:white;'>比赛</td><td style='color:white;'>初盘</td><td style='color:white;'>终盘</td></tr>");
+                            sb.Append(String.Format("<tr><td{0}>比赛</td><td{0}>初盘</td><td{0}>终盘</td></tr>", header));
                             sb.Append(String.Format("<tr><td>所有</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c1[0], c1[1], c1[2], c1[3], c1[4], c1[5] }));
                             sb.Append(String.Format("<tr><td>国家</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c2[0], c2[1], c2[2], c2[3], c2[4], c2[5] }));
                             sb.Append(String.Format("<tr><td>赛事</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c3[0], c3[1], c3[2], c3[3], c3[4], c3[5] }));
