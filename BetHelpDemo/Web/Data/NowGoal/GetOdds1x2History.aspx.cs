@@ -106,7 +106,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                         {
                             if (double.Parse(oddsInfo[2]) > 0)
                             {
-                                if (double.Parse(scheduleArr[13]) < double.Parse(oddsInfo[14]))
+                                if (double.Parse(scheduleArr[13]) < double.Parse(scheduleArr[14]))
                                 {
                                     up = hp + dp; down = ap;
                                 }
@@ -117,7 +117,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                             }
                             else if (double.Parse(oddsInfo[2]) < 0)
                             {
-                                if (double.Parse(scheduleArr[13]) > double.Parse(oddsInfo[14]))
+                                if (double.Parse(scheduleArr[13]) > double.Parse(scheduleArr[14]))
                                 {
                                     up = hp; down = dp + ap;
                                 }
