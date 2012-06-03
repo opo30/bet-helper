@@ -104,11 +104,11 @@ namespace SeoWebSite.Web.Data.NowGoal
                         double up = 0; double down = 0;
                         if (scheduleArr[13] != "" && scheduleArr[14] != "" && oddsInfo[2] != "")
                         {
-                            if (double.Parse(scheduleArr[13]) > double.Parse(scheduleArr[14]) + double.Parse(oddsInfo[2]))
+                            if (double.Parse(scheduleArr[13]) - double.Parse(oddsInfo[2])> double.Parse(scheduleArr[14]))
                             {
                                 up = hp; down = dp + ap;
                             }
-                            else if (double.Parse(scheduleArr[13]) < double.Parse(scheduleArr[14]) + double.Parse(oddsInfo[2]))
+                            else if (double.Parse(scheduleArr[13]) - double.Parse(oddsInfo[2])< double.Parse(scheduleArr[14]))
                             {
                                 up = hp + dp; down = ap;
                             }
@@ -117,7 +117,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                                 up = hp; down = ap;
                             }
                         }
-                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8 || Math.Abs(hp - ap) >= 0.70)
+                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8 || Math.Abs(hp - ap) >= 0.75)
                         {
                             string sendByMail = System.Configuration.ConfigurationManager.AppSettings["SendByMail"];
                             if (sendByMail == "1")
