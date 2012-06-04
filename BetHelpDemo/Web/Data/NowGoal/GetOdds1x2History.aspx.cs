@@ -131,7 +131,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                                 up = hp; down = ap;
                             }
                         }
-                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8 || Math.Abs(hp - ap) >= 0.75)
+                        if (Math.Min(hc, ac) == 0 || Math.Abs(up - down) >= 0.8 || Math.Abs(hp - ap) >= 0.7)
                         {
                             string sendByMail = System.Configuration.ConfigurationManager.AppSettings["SendByMail"];
                             if (sendByMail == "1")
@@ -153,9 +153,10 @@ namespace SeoWebSite.Web.Data.NowGoal
                                 sb.Append(String.Format("<tr><td>国家</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c2[0], c2[1], c2[2], c2[3], c2[4], c2[5] }));
                                 sb.Append(String.Format("<tr><td>赛事</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c3[0], c3[1], c3[2], c3[3], c3[4], c3[5] }));
                                 sb.Append(String.Format("<tr><td>合计</td><td>{0} {1} {2}</td><td>{3} {4} {5}</td></tr>", new object[] { c4[0], c4[1], c4[2], c4[3], c4[4], c4[5] }));
-                                sb.Append(String.Format("<tr><td>概率</td><td colspan=2>{0:0.00%} {1:0.00%} {2:0.00%}</td></tr>", hp, dp, ap));
+                                sb.Append(String.Format("<tr><td>概率</td><td colspan=2>胜{0:0.00%} 平{1:0.00%} 负{2:0.00%}</td></tr>", hp, dp, ap));
                                 sb.Append("</table>");
                                 MailSender.Send("seo1214@gmail.com", title, sb.ToString());
+                                MailSender.Send("xiaozi141@gmail.com", title, sb.ToString());
                             }
                             else
                             {

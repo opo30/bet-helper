@@ -1,0 +1,228 @@
+﻿#loading-mask
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20000;
+    background-color: white;
+}
+#loading
+{
+    position: absolute;
+    left: 45%;
+    top: 40%;
+    padding: 2px;
+    z-index: 20001;
+    height: auto;
+}
+#loading a
+{
+    color: #225588;
+}
+#loading .loading-indicator
+{
+    background: white;
+    color: #444;
+    font: bold 13px tahoma,arial,helvetica;
+    padding: 10px;
+    margin: 0;
+    height: auto;
+}
+#loading-msg
+{
+    font: normal 10px arial,tahoma,sans-serif;
+}
+
+.x-column-tree .x-tree-node {   
+    zoom:1;   
+}   
+.x-column-tree .x-tree-node-el {   
+    /*border-bottom:1px solid #eee; borders? */  
+    zoom:1;   
+}   
+.x-column-tree .x-tree-selected {   
+    background: #d9e8fb;   
+}   
+.x-column-tree  .x-tree-node a {   
+    line-height:18px;   
+    vertical-align:middle;   
+}   
+.x-column-tree  .x-tree-node a span{   
+       
+}   
+.x-column-tree  .x-tree-node .x-tree-selected a span{   
+    background:transparent;   
+    color:#000;   
+}   
+.x-tree-col {   
+    float:left;   
+    overflow:hidden;   
+    padding:0 1px;   
+    zoom:1;   
+}   
+  
+.x-tree-col-text, .x-tree-hd-text {   
+    overflow:hidden;   
+    -o-text-overflow: ellipsis;   
+    text-overflow: ellipsis;   
+    padding:3px 3px 3px 5px;   
+    white-space: nowrap;   
+    font:normal 11px arial, tahoma, helvetica, sans-serif;   
+}   
+  
+.x-tree-headers {   
+    background: #f9f9f9 url(../lib/ext/resources/images/default/grid/grid3-hrow.gif) repeat-x 0 bottom;   
+    cursor:default;   
+    zoom:1;   
+}   
+  
+.x-tree-hd {   
+    float:left;   
+    overflow:hidden;   
+    border-left:1px solid #eee;   
+    border-right:1px solid #d0d0d0;   
+}   
+
+
+.x-grid3-summary-row {
+    border-left:1px solid #fff;
+    border-right:1px solid #fff;
+    color:#333;
+    background: #f1f2f4;
+}
+.x-grid3-summary-row .x-grid3-cell-inner {
+    font-weight:bold;
+    padding-bottom:4px;
+}
+.x-grid3-cell-first .x-grid3-cell-inner {
+    padding-left:16px;
+}
+.x-grid-hide-summary .x-grid3-summary-row {
+    display:none;
+}
+.x-grid3-summary-msg {
+    padding:4px 16px;
+    font-weight:bold;
+}
+
+
+.ext-ie .x-row-editor .x-form-text {
+    margin:0 !important; 
+}
+.x-row-editor-header {
+    height:2px;
+    overflow:hidden;
+    background: transparent url(../Images/row-editor-bg.gif) repeat-x 0 0;
+}
+.x-row-editor-footer {
+    height:2px;
+    overflow:hidden;
+    background: transparent url(../Images/row-editor-bg.gif) repeat-x 0 -2px;
+}
+.ext-ie .x-row-editor-footer {
+    margin-top:-1px;
+}
+
+.x-row-editor-body {
+    overflow:hidden;
+    zoom:1;
+    background: #ebf2fb;
+    padding-top:2px;
+}
+.x-row-editor .x-btns {
+    position:absolute;
+    top:28px;
+    left:20px;
+    padding-left:5px;
+    background: transparent url(../Images/row-editor-btns.gif) no-repeat 0 0;
+}
+.x-row-editor .x-btns .x-plain-bwrap {
+    padding-right:5px;
+    background: transparent url(../Images/row-editor-btns.gif) no-repeat right -31px;
+}
+.x-row-editor .x-btns .x-plain-body {
+    background: transparent url(../Images/row-editor-btns.gif) repeat-x 0 -62px;
+    height:31px;
+}
+.x-row-editor .x-btns .x-table-layout-cell {
+    padding:3px;
+}
+
+/* Fixes for IE6/7 trigger fields */
+.ext-ie6 .x-row-editor .x-form-field-wrap .x-form-trigger, .ext-ie7 .x-row-editor .x-form-field-wrap .x-form-trigger {
+  top: 1px;
+}
+
+.ext-ie6 .x-row-editor .x-form-field-trigger-wrap, .ext-ie7 .x-row-editor .x-form-field-trigger-wrap {
+  margin-top: -1px;
+}
+
+.errorTip .x-tip-body ul{
+    list-style-type:disc;
+    margin-left:15px;
+}
+
+.up2 {
+
+	background-color:#F7CFD6;
+
+}
+
+.down2 {
+
+	background-color: #DFF3B1;
+
+}
+
+
+
+
+.task {
+    background-image:url(../lib/ext/examples/shared/icons/fam/cog.png) !important;
+}
+.task-folder {
+    background-image:url(../lib/ext/examples/shared/icons/fam/folder_go.png) !important;
+}
+
+
+.addicon
+{
+	background-image: url(../Images/icons/add.png) !important;
+}
+.editicon
+{
+	background-image: url(../Images/icons/edit.png) !important;
+}
+.deleteicon
+{
+	background-image: url(../Images/icons/delete.png) !important;
+}
+.refreshicon
+{
+	background-image: url(../Images/icons/refresh.png) !important;
+}
+.totalicon
+{
+	background-image: url(../Images/icons/totalicon.png) !important;
+}
+
+.importantcompany
+{
+    background: yellow;
+}
+.experience
+{
+    background-image: url(../Images/icons/setuseridicon.png) !important;
+}
+.publishicon
+{
+    background-image: url(../Images/icons/publishicon.png) !important;
+}
+
+.x-icon-error{background-image:url(../Images/exclamation.gif) ! important;}
+.x-icon-information{background-image:url(../Images/information.gif) ! important;}
+.x-notification .x-window-body{margin: 0;padding:1em ! important; width: auto ! important;}
+.x-notification .x-tool-close{display: none}
+.x-notification.fixed .x-tool-close{display: block}
