@@ -486,7 +486,7 @@
                 if (A[i][29] == "1") html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>现</a>");
                 else html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:blue;padding-left:4px;' target=_blank>现</a>");
                 //if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>荐</a>");
-                 html.push("<a href='javascript:' onclick='Odds1x2History1("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>荐</a>");
+                 html.push("<a href='javascript:' onclick='Odds1x2Mail1("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>荐</a>");
                  html.push("<a href='javascript:' onclick='Odds1x2Mail("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>必</a>");
                 if (typeof (V) != "undefined" && typeof (V[A[i][0]]) != "undefined") {
                     if (V[A[i][0]][1].indexOf("外部链接") != -1) {
@@ -1089,7 +1089,7 @@
                 }
 
                 if (scorechange) {
-                    Odds1x2Mail(A[matchindex][0]);
+                    //Odds1x2Mail(A[matchindex][0]);
                     ShowFlash(D[0], matchindex);
                     if (tr.style.display != "none") {
                         hometeam = A[matchindex][4 + Config.language].replace("<font color=#880000>(中)</font>", " 中").substring(0, 7);

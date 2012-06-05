@@ -219,6 +219,30 @@ var west = new Ext.Panel({
         });
     });
 
+    var showNotify = function (title, content, flag) {
+        if (Ext.ux.Notification) {
+            var iconName = "information";
+            if (flag != undefined && !flag) {
+                iconName = "error";
+            }
+            new Ext.ux.Notification({
+                animateTarget: south.getEl(),
+                animateFrom: south.getPosition(),
+                autoDestroy: true,
+                hideDelay: 5000,
+                html: content,
+                iconCls: 'x-icon-' + iconName,
+                title: title,
+                listeners: {
+                    'beforerender': function () {
+                    }
+                }
+            }).show();
+        } else {
+            Ext.MessageBox.alert(title, content);
+        }
+    }
+
     var showInfoNotify = function (title, content) {
         new Ext.ux.Notification({
             animateTarget: Ext.getCmp("statusbar").getEl(),
