@@ -487,7 +487,7 @@ var Odds1x2History1 = function (scheduleArr, scheduleTypeArr, oddsArr) {
             oddsArr = [];
             for (var i = 0; i < game.length; i++) {
                 var arr = game[i].split('|');
-                if (getDate(MatchTime) - getDate(arr[20]) < 60000 * 60) {
+                if (getDate(MatchTime) - getDate(arr[20]) < 60000 * 60 * 3) {
                     oddsArr.push(game[i]);
                 }
             }
@@ -809,12 +809,12 @@ var Odds1x2History1 = function (scheduleArr, scheduleTypeArr, oddsArr) {
             },
             close: function () {
                 if (arguments.length == 1 && store.getTotalCount() > 0) {
-                    var ws = store.getAt(0).get("swin") + store.getAt(1).get("swin") + store.getAt(2).get("swin")
-                    var ds = store.getAt(0).get("sdraw") + store.getAt(1).get("sdraw") + store.getAt(2).get("sdraw")
-                    var ls = store.getAt(0).get("slost") + store.getAt(1).get("slost") + store.getAt(2).get("slost")
-                    var w = store.getAt(0).get("ewin") + store.getAt(1).get("ewin") + store.getAt(2).get("ewin")
-                    var d = store.getAt(0).get("edraw") + store.getAt(1).get("edraw") + store.getAt(2).get("edraw")
-                    var l = store.getAt(0).get("elost") + store.getAt(1).get("elost") + store.getAt(2).get("elost")
+                    var ws = store.getAt(0).get("swin") //+ store.getAt(1).get("swin") + store.getAt(2).get("swin")
+                    var ds = store.getAt(0).get("sdraw") //+ store.getAt(1).get("sdraw") + store.getAt(2).get("sdraw")
+                    var ls = store.getAt(0).get("slost")// + store.getAt(1).get("slost") + store.getAt(2).get("slost")
+                    var w = store.getAt(0).get("ewin") //+ store.getAt(1).get("ewin") + store.getAt(2).get("ewin")
+                    var d = store.getAt(0).get("edraw") //+ store.getAt(1).get("edraw") + store.getAt(2).get("edraw")
+                    var l = store.getAt(0).get("elost") //+ store.getAt(1).get("elost") + store.getAt(2).get("elost")
                     
                     var row = Ext.getDom("tr1_" + scheduleArr[0]);
                     row.children[14].innerHTML = "<span class=" + (ws > 0 ? "up" : "down") + ">" + Math.abs(ws) +
