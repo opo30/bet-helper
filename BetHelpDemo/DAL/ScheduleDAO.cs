@@ -470,6 +470,29 @@ namespace SeoWebSite.DAL
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
+        public DataSet queryOddsHistory2(string cclassid, string sclassid, string whereStr, string selectStr)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select e.id,e.fullname,e.isprimary,e.isexchange,result=case when d.win=100 then 3 when d.draw=100 then 1 when d.lost=100 then 0 end," + selectStr + " from ");
+            strSql.Append("(select companyid, count(*) scount,");
+            strSql.Append("win=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("draw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append("lost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id) ");
+            strSql.Append("from Odds b join schedule a on b.scheduleid=a.id join scheduleclass c on a.sclassid=c.id");
+            strSql.Append(" where " + whereStr);
+            strSql.Append(" and a.updated=1");
+            if (!String.IsNullOrEmpty(cclassid))
+            {
+                strSql.Append(" and c.cclassid=" + cclassid);
+            }
+            else if (!String.IsNullOrEmpty(sclassid))
+            {
+                strSql.Append(" and a.sclassid=" + sclassid);
+            }
+            strSql.Append(" group by companyid) d join company e on e.id=d.companyid and (d.win=100 or d.draw=100 or d.lost=100)");
+            return DbHelperSQL.Query(strSql.ToString(), 999);
+        }
+
         public DataSet statOddsHistory(string whereStr)
         {
             StringBuilder strSql = new StringBuilder();

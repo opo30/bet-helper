@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="RMB.cs" />
     <Compile Include="StringPlus.cs" />
+    <Compile Include="TemplateHelper.cs" />
     <Compile Include="TimeParser.cs" />
     <Compile Include="UrlOper.cs" />
     <Compile Include="Utility.cs" />
