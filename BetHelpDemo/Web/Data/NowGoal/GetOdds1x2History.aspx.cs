@@ -371,14 +371,27 @@ namespace SeoWebSite.Web.Data.NowGoal
                 {
                     myCol.Add("oddsArr" + i, oddsInfo[i]);
                 }
-                for (int i = 1; i <= 3; i++)
+                foreach (var r in new int[3] { 3, 1, 0 })
                 {
-                    myCol.Add("q" + i + "t1r3", dt.Compute("count(id)", "query=" + i + " and time=1 and result=3").ToString());
-                    myCol.Add("q" + i + "t1r1", dt.Compute("count(id)", "query=" + i + " and time=1 and result=1").ToString());
-                    myCol.Add("q" + i + "t1r0", dt.Compute("count(id)", "query=" + i + " and time=1 and result=0").ToString());
-                    myCol.Add("q" + i + "t2r3", dt.Compute("count(id)", "query=" + i + " and time=2 and result=3").ToString());
-                    myCol.Add("q" + i + "t2r1", dt.Compute("count(id)", "query=" + i + " and time=2 and result=1").ToString());
-                    myCol.Add("q" + i + "t2r0", dt.Compute("count(id)", "query=" + i + " and time=2 and result=0").ToString());
+                    foreach (var q in new int[3] { 1, 2, 3 })
+                    {
+                        int t1 = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=" + r));
+                        int t2 = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=" + r));
+                        myCol.Add("q" + q + "t1r" + r, t1.ToString());
+                        myCol.Add("q" + q + "t2r" + r, t2.ToString());
+                        if (t2 < t1)
+                        {
+                            myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#DCFFB9");
+                        }
+                        else if (t2 > t1)
+                        {
+                            myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#FFb0c8");
+                        }
+                        else
+                        {
+                            myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#FFFFFF");
+                        }
+                    }
                 }
                 foreach (var r in new int[3] { 3, 1, 0 })
                 {
