@@ -1,1 +1,0 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="SeoWebSite.Web.Data.NowGoal.GetFile, App_Web_getremotefile.aspx.ea386d85" %>

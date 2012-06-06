@@ -220,6 +220,32 @@
 {
     background-image: url(../Images/icons/publishicon.png) !important;
 }
+.money_icon
+{
+    background-image: url(../Images/icons/money.png) !important;
+}
+.sport_soccer_icon
+{
+    background-image: url(../Images/icons/sport_soccer.png) !important;
+}
+.email_icon
+{
+    background-image: url(../Images/icons/email.png) !important;
+}
+.television_icon
+{
+    background-image: url(../Images/icons/television.png) !important;
+}
+.database_icon
+{
+    background-image: url(../Images/icons/database.png) !important;
+}
+.world_icon
+{
+    background-image: url(../Images/icons/world.png) !important;
+}
+
+
 
 .x-icon-error{background-image:url(../Images/exclamation.gif) ! important;}
 .x-icon-information{background-image:url(../Images/information.gif) ! important;}

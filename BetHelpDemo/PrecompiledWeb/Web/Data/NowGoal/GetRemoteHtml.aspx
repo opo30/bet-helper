@@ -1,1 +1,0 @@
-﻿<%@ page language="C#" autoeventwireup="true" inherits="Data_NowGoal_GetRemoteHtml, App_Web_getremotehtml.aspx.ea386d85" %>

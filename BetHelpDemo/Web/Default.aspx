@@ -341,7 +341,9 @@
     var oddsHttp = zXmlHttp.createRequest();
     var needSound = false;
     var orderby = "time";
-    var isliving = false;
+    var isliving = false;//即时更新
+    var issendmail = false;//邮件通知
+    var issendsms = false;//短信通知
 
     function ShowBf() {
         loaded = 0;
@@ -487,7 +489,7 @@
                 else html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:blue;padding-left:4px;' target=_blank>现</a>");
                 //if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>荐</a>");
                  html.push("<a href='javascript:' onclick='Odds1x2Mail1("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>荐</a>");
-                 html.push("<a href='javascript:' onclick='Odds1x2Mail("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>必</a>");
+                 html.push("<a href='javascript:' onclick='Odds1x2Mail("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>邮</a>");
                 if (typeof (V) != "undefined" && typeof (V[A[i][0]]) != "undefined") {
                     if (V[A[i][0]][1].indexOf("外部链接") != -1) {
                         var urls = V[A[i][0]][1].split('|');

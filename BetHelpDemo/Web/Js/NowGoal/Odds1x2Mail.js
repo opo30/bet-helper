@@ -2,6 +2,9 @@
 /// <reference path="../../lib/ext/ext-all-debug.js" />
 
 var Odds1x2Mail = function (scheduleid) {
+    if (!issendmail) {
+        return;
+    }
     var scheduleArr, scheduleTypeArr;
     var minite = 60 * 3;
     oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
@@ -29,7 +32,7 @@ var Odds1x2Mail = function (scheduleid) {
         }
     }
     Ext.Ajax.request({
-        url: 'Data/NowGoal/GetOdds1x2History.aspx?a=statmail',
+        url: 'Data/SendMessage.aspx?a=mail',
         params: {
             stypeid: scheduleTypeArr.join('^'),
             oddsarr: oddsArr.join('^'),
@@ -66,15 +69,6 @@ var Odds1x2Mail1 = function (scheduleid) {
             scheduleTypeArr = B[A[i][1]];
         }
     }
-    //    Ext.Ajax.request({
-    //        url: 'Data/NowGoal/GetOdds1x2History.aspx?a=statmail',
-    //        params: {
-    //            stypeid: scheduleTypeArr.join('^'),
-    //            oddsarr: oddsArr.join('^'),
-    //            schedulearr: scheduleArr.join('^'),
-    //            odds: Ext.getDom("tr1_" + scheduleid).getAttribute("odds")
-    //        }
-    //    });
     var win = new Ext.Window({
         layout: 'fit',
         closeAction: 'destroy',
@@ -88,10 +82,10 @@ var Odds1x2Mail1 = function (scheduleid) {
                 odds: Ext.getDom("tr1_" + scheduleid).getAttribute("odds")
             }
         },
-        width: 900,
-        maxHeight:600,
-        resizeable:true,
-        autoScroll:true
+        width: 960,
+        maxHeight: 500,
+        resizeable: true,
+        autoScroll: true
     });
     win.show();
 }

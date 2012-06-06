@@ -20,6 +20,7 @@ var hideMask = function() {
 Ext.chart.Chart.CHART_URL = 'Lib/ext/resources/charts.swf';
 Ext.BLANK_IMAGE_URL = "Images/s.gif";
 Ext.QuickTips.init();
+Ext.Ajax.timeout = 60000 * 5;
 
 //覆盖方法。。。因为报错 原因不明
 Ext.override(Ext.chart.Chart, {
@@ -48,12 +49,12 @@ var west = new Ext.Panel({
         animate: true
     },
     region: "west",
-    title: '菠菜辅助',
+    title: '博彩助手',
     //
     items: [{
         title: "<b>博彩</b>",
         autoScroll: true,
-        iconCls: "hotelmanageicon",
+        iconCls: "money_icon",
         xtype: 'panel',
         layout: 'fit',
         items: [{
@@ -65,13 +66,12 @@ var west = new Ext.Panel({
             root: new Ext.tree.AsyncTreeNode({
                 expanded: true,
                 children: [{
-                    text: '即时比分',
-                    leaf: true
-                }, {
                     text: '历史数据',
+                    iconCls:'world_icon',
                     leaf: true
                 }, {
                     text: '经验总结',
+
                     leaf: true
                 }]
                 }),
@@ -92,9 +92,9 @@ var west = new Ext.Panel({
                 }
 }]
         }, {
-            title: "<b>更新</b>",
+            title: "<b>数据</b>",
             autoScroll: true,
-            iconCls: "update-icon",
+            iconCls: "database_icon",
             xtype: 'panel',
             layout: 'fit',
             items: [{
@@ -147,19 +147,33 @@ var west = new Ext.Panel({
                 items: [{
                     xtype: "panel",
                     id: "livetab",
-                    iconCls: "usericon",
+                    iconCls: "sport_soccer_icon",
                     title: "即时比分",
                     layout: "fit",
                     contentEl: "live",
                     closable: true,
                     autoScroll: true,
                     tbar: [{
-                        text: '开始更新',
-                        enableToggle:true,
+                        text: '即时更新',
+                        enableToggle: true,
+                        iconCls:'television_icon',
                         toggleHandler: function (button, state) {
                             isliving = state;
                             if(isliving)
                                 LoadLiveFile();
+                        }
+                    },"-", {
+                        text: '邮件通知',
+                        iconCls:'email_icon',
+                        enableToggle: true,
+                        toggleHandler: function (button, state) {
+                            issendmail = state;
+                        }
+                    }, "-", {
+                        text: '短信通知',
+                        enableToggle: true,
+                        toggleHandler: function (button, state) {
+                            issendsms = state;
                         }
                     }, { xtype: 'tbfill'}]
                 }],
@@ -172,23 +186,13 @@ var west = new Ext.Panel({
      style: "padding:0 5px 0 5px",
      region: "south",
      defaultText: 'Default status text',
-     //defaultIconCls: 'default-icon',
+     defaultIconCls: 'default-icon',
 
      // values to set initially:
      text: 'Ready',
      iconCls: 'x-status-valid',
      items:[new Ext.Toolbar.Fill()]
  });
-
-//        var mainTabChange = function(tabpanel, activetab) {
-//            if (activetab.items != undefined && activetab.items.length > 0) {
-//                DeptMemberListstore = activetab.items.items[0].store; //赋值全局store
-//                ActiveCenterGrid = activetab.items.items[0];
-//            }
-//        }
-
-//        center.on('tabchange', mainTabChange, this); //定义主tab切换事件
-
 
     var company = new Array(40);
     company[1] = "澳门";
