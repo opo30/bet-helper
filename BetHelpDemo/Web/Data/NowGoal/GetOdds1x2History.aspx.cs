@@ -17,7 +17,7 @@ using System.Collections.Specialized;
 
 namespace SeoWebSite.Web.Data.NowGoal
 {
-    public partial class GetOdds1x2ChangeList : System.Web.UI.Page
+    public partial class GetOdds1x2History : System.Web.UI.Page
     {
         protected string StringJSON = "";
         ScheduleBLL scheduleBLL = new ScheduleBLL();
