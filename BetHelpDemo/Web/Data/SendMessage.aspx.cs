@@ -155,12 +155,12 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 int.Parse(myCol.Get("q2t1r0")) < int.Parse(myCol.Get("q2t2r0")) &&
                 int.Parse(myCol.Get("q3t1r0")) < int.Parse(myCol.Get("q3t2r0"));
 
-            bool support1 = 
-                int.Parse(myCol.Get("q1t1r3")) > 1 && int.Parse(myCol.Get("q1t1r3")) * 2 < int.Parse(myCol.Get("q1t2r3")) ||
-                int.Parse(myCol.Get("q1t1r1")) > 1 && int.Parse(myCol.Get("q1t1r1")) * 2 < int.Parse(myCol.Get("q1t2r1")) ||
-                int.Parse(myCol.Get("q1t1r0")) > 1 && int.Parse(myCol.Get("q1t1r0")) * 2 < int.Parse(myCol.Get("q1t2r0"));
+            bool support1 =
+                int.Parse(myCol.Get("q1t1r3")) + int.Parse(myCol.Get("q1t2r3")) >= 5 && int.Parse(myCol.Get("q1t1r3")) * 2 < int.Parse(myCol.Get("q1t2r3")) ||
+                int.Parse(myCol.Get("q1t1r1")) + int.Parse(myCol.Get("q1t2r1")) >= 5 && int.Parse(myCol.Get("q1t1r1")) * 2 < int.Parse(myCol.Get("q1t2r1")) ||
+                int.Parse(myCol.Get("q1t1r0")) + int.Parse(myCol.Get("q1t2r0")) >= 5 && int.Parse(myCol.Get("q1t1r0")) * 2 < int.Parse(myCol.Get("q1t2r0"));
 
-            if (Math.Min(Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=3")), Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=0"))) == 0 && Convert.ToInt32(dt.Compute("count(id)", "1=1")) >= 5 || support || support1)
+            if (Math.Min(Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=3")), Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=0"))) == 0 && Convert.ToInt32(dt.Compute("count(id)", "1=1")) >= 10 || support || support1)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");

@@ -3,6 +3,7 @@
 
 var Odds1x2Mail = function (scheduleid) {
     if (!issendmail) {
+        showNotify("提示","请先开启邮件提醒功能！",false);
         return;
     }
     var scheduleArr, scheduleTypeArr;
