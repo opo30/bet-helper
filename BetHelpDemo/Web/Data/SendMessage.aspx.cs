@@ -118,29 +118,32 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     }
                 }
             }
-            foreach (var r in new int[3] { 3, 1, 0 })
+            foreach (var q in new int[3] { 1, 2, 3 })
             {
-                foreach (var t in new int[2] { 1, 2 })
+                foreach (var r in new int[3] { 3, 1, 0 })
                 {
-                    string s = "";
-                    for (int i = 0; i < Convert.ToInt32(myCol.Get("q1t" + t + "r" + r)); i++)
+                    foreach (var t in new int[2] { 1, 2 })
                     {
+                        string s = "";
+                        for (int i = 0; i < Convert.ToInt32(myCol.Get("q" + q + "t" + t + "r" + r)); i++)
+                        {
 
-                        DataRow dr = dt.Select("query=1 and time=" + t + " and result=" + r)[i];
-                        if (Convert.ToBoolean(dr["isprimary"]))
-                        {
-                            s += "<font color=blue>" + dr["fullname"] + "</font><br>";
+                            DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r)[i];
+                            if (Convert.ToBoolean(dr["isprimary"]))
+                            {
+                                s += "<font color=blue>" + dr["fullname"] + "</font><br>";
+                            }
+                            else if (Convert.ToBoolean(dr["isexchange"]))
+                            {
+                                s += "<font color=green>" + dr["fullname"] + "</font><br>";
+                            }
+                            else
+                            {
+                                s += dr["fullname"] + "<br>";
+                            }
                         }
-                        else if (Convert.ToBoolean(dr["isexchange"]))
-                        {
-                            s += "<font color=green>" + dr["fullname"] + "</font><br>";
-                        }
-                        else
-                        {
-                            s += dr["fullname"] + "<br>";
-                        }
+                        myCol.Add("q" + q + "t" + t + "r" + r + "_list", s);
                     }
-                    myCol.Add("q1t" + t + "r" + r + "_list", s);
                 }
             }
 
