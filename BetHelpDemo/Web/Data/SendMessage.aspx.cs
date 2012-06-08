@@ -128,19 +128,22 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         for (int i = 0; i < Convert.ToInt32(myCol.Get("q" + q + "t" + t + "r" + r)); i++)
                         {
 
-                            DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r)[i];
+                            DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
+                            bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
+                            string reproduce = isreproduce ? "<img src='Images/icons/key.png'>" : "";
                             if (Convert.ToBoolean(dr["isprimary"]))
                             {
-                                s += "<font color=blue>" + dr["fullname"] + "</font><br>";
+                                s += "<font color=blue>" + dr["name"] + "</font>";
                             }
                             else if (Convert.ToBoolean(dr["isexchange"]))
                             {
-                                s += "<font color=green>" + dr["fullname"] + "</font><br>";
+                                s += "<font color=green>" + dr["name"] + "</font>";
                             }
                             else
                             {
-                                s += dr["fullname"] + "<br>";
+                                s += dr["name"];
                             }
+                            s += reproduce + "<br>";
                         }
                         myCol.Add("q" + q + "t" + t + "r" + r + "_list", s);
                     }
@@ -158,10 +161,17 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 int.Parse(myCol.Get("q2t1r0")) < int.Parse(myCol.Get("q2t2r0")) &&
                 int.Parse(myCol.Get("q3t1r0")) < int.Parse(myCol.Get("q3t2r0"));
 
-            bool support1 =
-                int.Parse(myCol.Get("q1t1r3")) + int.Parse(myCol.Get("q1t2r3")) >= 5 && int.Parse(myCol.Get("q1t1r3")) * 2 < int.Parse(myCol.Get("q1t2r3")) ||
-                int.Parse(myCol.Get("q1t1r1")) + int.Parse(myCol.Get("q1t2r1")) >= 5 && int.Parse(myCol.Get("q1t1r1")) * 2 < int.Parse(myCol.Get("q1t2r1")) ||
-                int.Parse(myCol.Get("q1t1r0")) + int.Parse(myCol.Get("q1t2r0")) >= 5 && int.Parse(myCol.Get("q1t1r0")) * 2 < int.Parse(myCol.Get("q1t2r0"));
+            bool support1 = false;
+            foreach (var q in new int[3] { 1, 2, 3 })
+            {
+                foreach (var r in new int[3] { 3, 1, 0 })
+                {
+                    if (myCol.Get("q" + q + "t1r" + r).IndexOf("key.png") != -1 && myCol.Get("q" + q + "t1r" + r).IndexOf("blue") != -1)
+                    {
+                        support1 = true;
+                    }
+                }
+            }
 
             if (Math.Min(Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=3")), Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=0"))) == 0 && Convert.ToInt32(dt.Compute("count(id)", "1=1")) >= 10 || support || support1)
             {

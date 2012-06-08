@@ -110,7 +110,7 @@ HistoryScore.ShowBf = function () {
                 }
             }
             rowData.g_odds = goalResult;
-            rowData.data = "<a href='javascript:' onclick=analysis(" + this.A[i][0] + ") title='数据分析'>析</a> <a href=javascript: onclick=\"AsianOdds(" + this.A[i][0] + ");return false\" title='11家指数'>亚</a> <a href='javascript:EuropeOdds(" + this.A[i][0] + ")' title='百家欧赔'>欧</a> <a href='javascript:Odds1x2History1(" + this.A[i][0] + ")' title='现'>现</a>";
+            rowData.data = "<a href='javascript:' onclick=analysis(" + this.A[i][0] + ") title='数据分析'>析</a> <a href=javascript: onclick=\"AsianOdds(" + this.A[i][0] + ");return false\" title='11家指数'>亚</a> <a href='javascript:EuropeOdds(" + this.A[i][0] + ")' title='百家欧赔'>欧</a> <a href='javascript:Odds1x2Mail1(" + this.A[i][0] + ")' title='现'>现</a>";
             if (this.A[i][24] == "True")
                 rowData.zoudi = "<a href='Odds/runningDetail.aspx?scheduleID=" + this.A[i][0] + "' target='_blank'><img src='http://live.nowodds.com/images/t3.gif' height=10 width=10 title='走地'></a>";
 
