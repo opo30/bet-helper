@@ -162,14 +162,12 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 int.Parse(myCol.Get("q3t1r0")) < int.Parse(myCol.Get("q3t2r0"));
 
             bool support1 = false;
-            foreach (var q in new int[3] { 1, 2, 3 })
+            foreach (var dr in dt.Select("time=1 and isprimary=1").ToArray())
             {
-                foreach (var r in new int[3] { 3, 1, 0 })
+                if (Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=" + dr["id"])) > 0)
                 {
-                    if (myCol.Get("q" + q + "t1r" + r).IndexOf("key.png") != -1 && myCol.Get("q" + q + "t1r" + r).IndexOf("blue") != -1)
-                    {
-                        support1 = true;
-                    }
+                    support1 = true;
+                    break;
                 }
             }
 
