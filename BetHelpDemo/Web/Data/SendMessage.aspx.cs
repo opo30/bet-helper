@@ -130,7 +130,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
 
                             DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
                             bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
-                            string reproduce = isreproduce ? "<img src='Images/icons/key.png'>" : "";
+                            string reproduce = isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "";
                             if (Convert.ToBoolean(dr["isprimary"]))
                             {
                                 s += "<font color=blue>" + dr["name"] + "</font>";
@@ -171,7 +171,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
             }
 
-            if (Math.Min(Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=3")), Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=0"))) == 0 && Convert.ToInt32(dt.Compute("count(id)", "1=1")) >= 10 || support || support1)
+            if (Math.Min(Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=3")), Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=0"))) == 0 && Convert.ToInt32(dt.Compute("count(id)", "1=1")) > 5 || support || support1)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");

@@ -404,7 +404,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                             {
                                 DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
                                 bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
-                                string reproduce = isreproduce ? "<img src='Images/icons/key.png'>" : "";
+                                string reproduce = isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "";
                                 if (Convert.ToBoolean(dr["isprimary"]))
                                 {
                                     s += "<font color=blue>" + dr["name"] + "</font>";
