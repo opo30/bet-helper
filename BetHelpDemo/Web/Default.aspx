@@ -7,6 +7,7 @@
     <link href="http://live.nowodds.com/live.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="lib/ext/resources/css/ext-all.css" />
     <link href="Lib/ext/examples/ux/css/ux-all.css" rel="stylesheet" type="text/css" />
+    <link href="Lib/ext/examples/ux/statusbar/css/statusbar.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
@@ -58,98 +59,184 @@
     </script>
 
     <div id="live">
-        <div id="main">
-  <div class="toptool">
-  <div class="tg1"><span class="secl"><a id="li_league" href="javascript:setOrderby('league');">按联赛排序</a><a id="li_time" style="display:none;" href="javascript:setOrderby('time');">按时间排序</a></span></div>
-  <div class="tg2" onclick="ShowAllMatch()" style="cursor:pointer; width:85px;">隐藏 <span class="td_scoreR" id="hiddencount">0</span> 场</div>
-   <ul class="tg3">
-  <li class="yu1"><a href="2in1.aspx" class="selected"><span>比分+指数</span></a></li>
-  <li class="yu1"><a href="index.aspx"><span>纯比分</span></a></li>
-  <li class="yu2"><a href="javascript:SetLevel(0);" title="显示当天足彩比赛"  id="liZC" onmousemove="MM_showHideLayers('divMatchType3','','show')" onmouseout="MM_showHideLayers('divMatchType3','','hide')"><span>足彩</span></a></li>
-  <li style="margin-left:10px;" class="yu1"><a href="javascript:SetMatchType(0);" id="MatchType0" title="显示所有的比赛"><span>全部赛事</span></a></li>
-  <li class="yu2"><a href="javascript:SetMatchType(1);" id="MatchType1" title="只显示重要的比赛，精选赛事"><span>精简</span></a></li>
-  <li class="yu1"><a href="javascript:SetMatchType(2);" id="MatchType2" title="显示有赔率的比赛"><span>开盘赛事</span></a></li>
-  </ul>
-  <div class="tg3" style="margin-left:5px;margin-right:0px;">
-	<input type="checkbox" name="yp" id="yp"  onClick="CheckFunction('yp')"/>亚赔
-	<input type="checkbox" name="op" id="op"  onClick="CheckFunction('op')"/>欧赔
-	<input type="checkbox" name="dx" id="dx"  onClick="CheckFunction('dx')"/>大小
-  </div>
-  <ul class="tg3s">
-  <li class="sh2"><a href="javascript:MM_showHideLayers('DivFunction','','show','DivLeague','','hide')">设置</a></li>
-  <li style="margin-left:5px" class="sh2"><a href="javascript:SetLanguage(1);" id="Language1"><span>繁体</span></a></li>
-  <li class="sh2"><a href="javascript:SetLanguage(0);" id="Language0"><span>简体</span></a></li>
-  <li class="sh2"><a href="http://www.nowgoal.com" id="Language2" target="_blank"><span>En</span></a></li>
-  </ul>
-   <div style="clear:both"></div>
-  </div>
-  
-  
-<div id="left">
-    <div style="height:33px; padding-top:3px"><a href="javascript:MM_showHideLayers('DivLeague','','show')"><img src="http://live.nowodds.com/images/game_s.gif" /></a></div>
-    <div style="height:36px;"><a href="javascript:" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')"><img src="http://live.nowodds.com/images/country_s.gif" /></a></div>
-</div>
-<div id="middle">
-  
-    <div id="Layer1" style="position:absolute;height:1px; z-index:5;">
- <div id="DivLeague"><div class="sotit"><h1>赛事选择</h1><span class="cc"><a style="cursor:pointer;" onClick="MM_showHideLayers('DivLeague','','hide')"></a></span></div>
-		<div class="rbl">
-			<input type="radio" name="selectType" id="rb0" value="0" onclick="ShowAllMatch()" checked="checked" /><label for="rb0">所有比赛</label>
-			  <input type="radio" name="selectType" id="rb4" value="4" onclick="ShowMatchByMatchState(4)" /><label for="rb4">滚球赛事</label>
-			  <input type="radio" name="selectType" id="rb3" value="3" onclick="ShowMatchByMatchState(3)" /><label for="rb3">未开场　</label>			  
-			  <input type="radio" name="selectType" id="rb2" value="2" onclick="ShowMatchByMatchState(2)" /><label for="rb2">已完场　</label>
-			  <input type="radio" name="selectType" id="rb1" value="1" onclick="ShowMatchByMatchState(1)" /><label for="rb1">进行中</label>
-		</div>
-		<div id="myleague"></div>
-		<p class="bts">
+        <div id="main">
+
+  <div class="toptool">
+
+  <div class="tg1"><span class="secl"><a id="li_league" href="javascript:setOrderby('league');">按联赛排序</a><a id="li_time" style="display:none;" href="javascript:setOrderby('time');">按时间排序</a></span></div>
+
+  <div class="tg2" onclick="ShowAllMatch()" style="cursor:pointer; width:85px;">隐藏 <span class="td_scoreR" id="hiddencount">0</span> 场</div>
+
+   <ul class="tg3">
+
+  <li class="yu1"><a href="2in1.aspx" class="selected"><span>比分+指数</span></a></li>
+
+  <li class="yu1"><a href="index.aspx"><span>纯比分</span></a></li>
+
+  <li class="yu2"><a href="javascript:SetLevel(0);" title="显示当天足彩比赛"  id="liZC" onmousemove="MM_showHideLayers('divMatchType3','','show')" onmouseout="MM_showHideLayers('divMatchType3','','hide')"><span>足彩</span></a></li>
+
+  <li style="margin-left:10px;" class="yu1"><a href="javascript:SetMatchType(0);" id="MatchType0" title="显示所有的比赛"><span>全部赛事</span></a></li>
+
+  <li class="yu2"><a href="javascript:SetMatchType(1);" id="MatchType1" title="只显示重要的比赛，精选赛事"><span>精简</span></a></li>
+
+  <li class="yu1"><a href="javascript:SetMatchType(2);" id="MatchType2" title="显示有赔率的比赛"><span>开盘赛事</span></a></li>
+
+  </ul>
+
+  <div class="tg3" style="margin-left:5px;margin-right:0px;">
+
+	<input type="checkbox" name="yp" id="yp"  onClick="CheckFunction('yp')"/>亚赔
+
+	<input type="checkbox" name="op" id="op"  onClick="CheckFunction('op')"/>欧赔
+
+	<input type="checkbox" name="dx" id="dx"  onClick="CheckFunction('dx')"/>大小
+
+  </div>
+
+  <ul class="tg3s">
+
+  <li class="sh2"><a href="javascript:MM_showHideLayers('DivFunction','','show','DivLeague','','hide')">设置</a></li>
+
+  <li style="margin-left:5px" class="sh2"><a href="javascript:SetLanguage(1);" id="Language1"><span>繁体</span></a></li>
+
+  <li class="sh2"><a href="javascript:SetLanguage(0);" id="Language0"><span>简体</span></a></li>
+
+  <li class="sh2"><a href="http://www.nowgoal.com" id="Language2" target="_blank"><span>En</span></a></li>
+
+  </ul>
+
+   <div style="clear:both"></div>
+
+  </div>
+
+  
+
+  
+
+<div id="left">
+
+    <div style="height:33px; padding-top:3px"><a href="javascript:MM_showHideLayers('DivLeague','','show')"><img src="http://live.nowodds.com/images/game_s.gif" /></a></div>
+
+    <div style="height:36px;"><a href="javascript:" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')"><img src="http://live.nowodds.com/images/country_s.gif" /></a></div>
+
+</div>
+
+<div id="middle">
+
+  
+
+    <div id="Layer1" style="position:absolute;height:1px; z-index:5;">
+
+ <div id="DivLeague"><div class="sotit"><h1>赛事选择</h1><span class="cc"><a style="cursor:pointer;" onClick="MM_showHideLayers('DivLeague','','hide')"></a></span></div>
+
+		<div class="rbl">
+
+			<input type="radio" name="selectType" id="rb0" value="0" onclick="ShowAllMatch()" checked="checked" /><label for="rb0">所有比赛</label>
+
+			  <input type="radio" name="selectType" id="rb4" value="4" onclick="ShowMatchByMatchState(4)" /><label for="rb4">滚球赛事</label>
+
+			  <input type="radio" name="selectType" id="rb3" value="3" onclick="ShowMatchByMatchState(3)" /><label for="rb3">未开场　</label>			  
+
+			  <input type="radio" name="selectType" id="rb2" value="2" onclick="ShowMatchByMatchState(2)" /><label for="rb2">已完场　</label>
+
+			  <input type="radio" name="selectType" id="rb1" value="1" onclick="ShowMatchByMatchState(1)" /><label for="rb1">进行中</label>
+
+		</div>
+
+		<div id="myleague"></div>
+
+		<p class="bts">
+
 		<script language="javascript" type="text/javascript">
 		    document.write('<input type="button" name="btn_all" id="btn_all" value="全部" style="cursor:pointer;" onclick="SetMatchType(0)"/>');
-		</script>
-			<input type="button" name="button2" id="button2" value="一级赛事" style="cursor:pointer;" onclick="SetMatchType(1)"/>
-			<input type="button" name="button2" id="button4" value="全选" style="cursor:pointer;" onclick="ShowAllMatch()"/>
-			<input type="button" name="button3" id="button3" value="反选" style="cursor:pointer;" onclick="SelectOtherLeague()" />
-			<input type="button" name="button" id="button" value="关闭"  style="cursor:pointer;" onclick="MM_showHideLayers('DivLeague','','hide')"/>
-		</p>
-  </div>  
-  
-  <div id="DivCountry" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')">
+		</script>
+
+			<input type="button" name="button2" id="button2" value="一级赛事" style="cursor:pointer;" onclick="SetMatchType(1)"/>
+
+			<input type="button" name="button2" id="button4" value="全选" style="cursor:pointer;" onclick="ShowAllMatch()"/>
+
+			<input type="button" name="button3" id="button3" value="反选" style="cursor:pointer;" onclick="SelectOtherLeague()" />
+
+			<input type="button" name="button" id="button" value="关闭"  style="cursor:pointer;" onclick="MM_showHideLayers('DivLeague','','hide')"/>
+
+		</p>
+
+  </div>  
+
+  
+
+  <div id="DivCountry" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')">
+
     <div id="countryList" class="gamelist"></div>
 		<p class="bts">
 			<input type="button" name="button2" id="button7" value="全选" style="cursor:pointer;" onclick="ShowAllMatch()"/>
 			<input type="button" name="button3" id="button8" value="反选" style="cursor:pointer;" onclick="SelectOtherLeague()" />
-		</p>
-  </div> 
- 		
-  <div id="DivFunction" style="position:absolute;z-index:6;"> 
-	<div class="sotit"><h1>功能选项</h1><span class="cc"><a style="cursor:pointer;" onClick="MM_showHideLayers('DivFunction','','hide')"></a></span></div>
-	<table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
-			<tr> 
-			  <td style="line-height:25px;">
-		 <div class="fontse" style="line-height:20px;"><div style="float:left;">字体： </div><a href="javascript:changeFontSize('table_live',12)">A</a><a  href="javascript:changeFontSize('table_live',14)" class="e12">A</a><a href="javascript:changeFontSize('table_live',16)"  class="e14">A</a></div>
-		 <div style="clear:both"></div>
-					<p><input type="checkbox" name="rank" id="rank" onclick="CheckTeamRank()"> 球队排名</p>				
-					<p><input type="checkbox" name="explain" id="explain" checked="checked" onclick="CheckExplain()">文字备注信息</p>
-					<p><input type="checkbox" name="redcard" id="redcard" checked="checked" onclick="CheckFunction('redcard')">红牌颜色提示</p>
-					<p><input type="checkbox" name="detail" id="detail" checked="checked"  onclick="CheckFunction('detail')"/>移到比分显示入球</p>
-					<p><input type="checkbox" name="vs" id="vs" checked="checked"  onclick="CheckFunction('vs')"/>移到半场显示往绩</p>
-					<!--<p><input type="checkbox" name="odds" id="odds"  checked onClick="CheckFunction('odds')"/>移到走地显示指数</p>-->
-					<p><input type="checkbox" name="oddsSound" id="oddsSound"  onclick="CheckFunction('oddsSound')"/>指数变化声音提示</p>
-								
-				<input type="checkbox" name="soundCheck" id="soundCheck" checked="checked" onclick="CheckSound()"/>进球声<select name="sound" id="sound" onchange="CheckSound()" />
-				<option value="0">默认</option>
-				<option value="1">警报</option>
-				<option value="2">贝司</option>
-				<option value="3">嘟嘟</option>
-				</select><br>				
-				<input type="checkbox" name="windowCheck" ID="windowCheck" checked="checked" onclick="CheckWindow()" />提示窗<select name="winLocation" id="winLocation" onchange="CheckWindow()">
-				<option value="0">正上方</option>
-				<option value="1">正下方</option>
-				<option value="2">正左方</option>
-				<option value="3">正右方</option>
-				<option value="4">左上角</option>
-				<option value="5">右上角</option>
-				<option value="6">左下角</option>
-				<option value="7">右下角</option>
+		</p>
+
+  </div> 
+
+ 		
+
+  <div id="DivFunction" style="position:absolute;z-index:6;"> 
+
+	<div class="sotit"><h1>功能选项</h1><span class="cc"><a style="cursor:pointer;" onClick="MM_showHideLayers('DivFunction','','hide')"></a></span></div>
+
+	<table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
+
+			<tr> 
+
+			  <td style="line-height:25px;">
+
+		 <div class="fontse" style="line-height:20px;"><div style="float:left;">字体： </div><a href="javascript:changeFontSize('table_live',12)">A</a><a  href="javascript:changeFontSize('table_live',14)" class="e12">A</a><a href="javascript:changeFontSize('table_live',16)"  class="e14">A</a></div>
+
+		 <div style="clear:both"></div>
+
+					<p><input type="checkbox" name="rank" id="rank" onclick="CheckTeamRank()"> 球队排名</p>				
+
+					<p><input type="checkbox" name="explain" id="explain" checked="checked" onclick="CheckExplain()">文字备注信息</p>
+
+					<p><input type="checkbox" name="redcard" id="redcard" checked="checked" onclick="CheckFunction('redcard')">红牌颜色提示</p>
+
+					<p><input type="checkbox" name="detail" id="detail" checked="checked"  onclick="CheckFunction('detail')"/>移到比分显示入球</p>
+
+					<p><input type="checkbox" name="vs" id="vs" checked="checked"  onclick="CheckFunction('vs')"/>移到半场显示往绩</p>
+
+					<!--<p><input type="checkbox" name="odds" id="odds"  checked onClick="CheckFunction('odds')"/>移到走地显示指数</p>-->
+
+					<p><input type="checkbox" name="oddsSound" id="oddsSound"  onclick="CheckFunction('oddsSound')"/>指数变化声音提示</p>
+
+								
+
+				<input type="checkbox" name="soundCheck" id="soundCheck" checked="checked" onclick="CheckSound()"/>进球声<select name="sound" id="sound" onchange="CheckSound()" />
+
+				<option value="0">默认</option>
+
+				<option value="1">警报</option>
+
+				<option value="2">贝司</option>
+
+				<option value="3">嘟嘟</option>
+
+				</select><br>				
+
+				<input type="checkbox" name="windowCheck" ID="windowCheck" checked="checked" onclick="CheckWindow()" />提示窗<select name="winLocation" id="winLocation" onchange="CheckWindow()">
+
+				<option value="0">正上方</option>
+
+				<option value="1">正下方</option>
+
+				<option value="2">正左方</option>
+
+				<option value="3">正右方</option>
+
+				<option value="4">左上角</option>
+
+				<option value="5">右上角</option>
+
+				<option value="6">左下角</option>
+
+				<option value="7">右下角</option>
+
 				</select><br>
 				<p class="bts"><input type="button" name="button2" id="button1" value="打印" style="cursor:pointer;" onclick="javascript:window.open('/score_print.aspx','','')";/><input type="button" name="button" id="button5" value="关闭"  style="cursor:pointer;" onclick="MM_showHideLayers('DivFunction','','hide')"/></p>
 			  </td></tr>
@@ -172,162 +259,316 @@
       <li><a href="javascript:SetCompany(23);" id="company23"><span>金宝博</span></a></li>
       <li><a href="javascript:SetCompany(12);" id="company12"><span>易胜博</span></a></li>
       <li><a href="javascript:SetCompany(8);" id="company8"><span>Bet365</span></a></li>
-    </ul>  
-    <div style="clear:both"></div>
+    </ul>  
+
+    <div style="clear:both"></div>
+
     </div>
     <span id="OddsHistory"></span>
-	<span id="notify"></span>
-	<span id="ScoreDiv"></span>
-	<span id="flashsound"></span>
-	<ul class="main2_tool">
-	  <li class="m_on" id="LeagueKind1"><a href="javascript:showLeagueList(1)">今日赛事</a></li>
-	  <li class="m_off" id="LeagueKind2"><a href="javascript:showLeagueList(2)">热门赛事</a></li>
-	  <li class="m_off" id="LeagueKind3"><a href="javascript:showLeagueList(3)">热门杯赛</a></li>
-	  <li class="m_off"><a href="odds/history.aspx" target="_blank">指数复查</a></li>
-	  </ul>
-	<div id="main2">
-	  <div id="leagueList"></div>
-<table width='100%' id="hotLeague" style="display:none;" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='text-align:center; margin-bottom:5px;'><tr height=20>
-<td bgcolor="#FF3333"><a href="javascript:ChangeJS(36,1)">英超</a></td>
-<td bgcolor="#cc3300"><a href="javascript:ChangeJS(37,1)">英冠</a></td>
-<td bgcolor="#0088FF"><a href="javascript:ChangeJS(34,1)">意甲</a></td>
-<td bgcolor="#006633"><a href="javascript:ChangeJS(31,1)">西甲</a></td>
-<td bgcolor="#990099"><a href="javascript:ChangeJS(8,1)">德甲</a></td>
-<td bgcolor="#DDDD00"><a href="javascript:ChangeJS(4,1)">巴西甲</a></td>
-<td bgcolor="#663333"><a href="javascript:ChangeJS(11,1)">法甲</a></td>
-<td bgcolor="#008888"><a href="javascript:ChangeJS(23,1)">葡超</a></td>
-<td bgcolor="#57A87B"><a href="javascript:ChangeJS(29,1)">苏超</a></td>
-<td bgcolor="#FF6699"><a href="javascript:ChangeJS(16,1)">荷甲</a></td></tr>
-<tr height=20>
-<td bgcolor="#660033"><a href="javascript:ChangeJS(21,1)">美职业</a></td>
-<td bgcolor="#009900"><a href="javascript:ChangeJS(25,1)">日职联</a></td>
-<td bgcolor="#FC9B0A"><a href="javascript:ChangeJS(5,1)">比甲</a></td>
-<td bgcolor="#004488"><a href="javascript:ChangeJS(26,1)">瑞典超</a></td>
-<td bgcolor="#137AAC"><a href="javascript:ChangeJS(13,1)">芬超</a></td>
-<td bgcolor="#0066FF"><a href="javascript:ChangeJS(60,1)">中超</a></td>
-<td bgcolor="#666666"><a href="javascript:ChangeJS(22,1)">挪超</a></td>
-<td bgcolor="#2f3fd2"><a href="javascript:ChangeJS(3,1)">奥甲</a></td>
-<td bgcolor="#1ba578"><a href="javascript:ChangeJS(27,1)">瑞士超</a></td>
-<td bgcolor="#006699"><a href="javascript:ChangeJS(10,1)">俄超</a></td>
-</tr></table>
-
-<table width='100%' id="hotCup" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='display:none;text-align:center; margin-bottom:5px;'><tr style="height:20;">
-<td bgcolor="#660000"><a href="javascript:ChangeJS(75,2)">世界杯</a></td>
-<td bgcolor="#660033"><a href="javascript:ChangeJS(650,2)">欧洲预选</a></td>
-<td bgcolor="#f36229"><a href="javascript:ChangeJS(652,2)">南美预选</a></td>
-<td bgcolor=#448e08><a href="javascript:ChangeJS(653,2)">北美预选</a></td>
-<td bgcolor=#49a63d><a href="javascript:ChangeJS(648,2)">亚洲预选</a></td>
-<td bgcolor=#2f4e07><a href="javascript:ChangeJS(651,2)">非洲预选</a></td>
-<td bgcolor=#d15023><a href="javascript:ChangeJS(649,2)">大洋预选</a></td>
-<td bgcolor=#009933><a href="javascript:ChangeJS(88,2)">洲际杯</a></td>
-<td bgcolor=#660000><a href="javascript:ChangeJS(67,2)">欧国杯</a></td>
-<td bgcolor=#F75000><a href="javascript:ChangeJS(103,2)">欧冠杯</a></td></tr>
-<tr height=20>
-<td bgcolor=#6F00DD><a href="javascript:ChangeJS(113,2)">欧霸杯</a></td>
-<td bgcolor=#990044><a href="javascript:ChangeJS(224,2)">美洲杯</a></td>
-<td bgcolor=#37BE5A><a href="javascript:ChangeJS(95,2)">亚洲杯</a></td>
-<td bgcolor=#0000DB><a href="javascript:ChangeJS(192,2)">亚冠杯</a></td>
-<td bgcolor=#567576><a href="javascript:ChangeJS(93,2)">非洲杯</a></td>
-<td bgcolor=#660000><a href="javascript:ChangeJS(90,2)">英足总杯</a></td>
-<td bgcolor=#808080><a href="javascript:ChangeJS(84,2)">英联杯</a></td>
-<td bgcolor=#3c3cff><a href="javascript:ChangeJS(83,2)">意杯</a></td>
-<td bgcolor=#006666><a href="javascript:ChangeJS(81,2)">西杯</a></td>
-<td bgcolor=#a00800><a href="javascript:ChangeJS(51,2)">德国杯</a></td>
-</tr></table>
-	  
-	  <div id="divScsg" style="display:none;"> 
-	  <div class="tdsolid" style=" margin:0px; line-height:inherit;" id="SubSelectDiv">        
-    </div>
-	  <table border="0" cellspacing="0" cellpadding="0" id="Table1">
-                <tr>
-                    <td id="showRound">
-                        
-                    </td>
-                </tr>
-            </table>
-            <div class="tdsolid">
-                <table width="680" border="0" cellpadding="0" cellspacing="1"   bgcolor="#C6C6C6" class="tdlink" id="Table3">
-                <tr>
-                        <td width="18" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>轮次</strong></div></td>
-                        <td width="37" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>时间</strong></div></td>
-                        <td width="106" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>主队</strong></div></td>
-                        <td width="60" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>比分</strong></div></td>
-                        <td width="106" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>客队</strong></div></td>
-                        <td height="18" colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>让球</strong></div></td>
-                        <td colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>大小</strong></div></td>
-
-                        <td width="65" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>资料</strong></div></td>
-                        <td width="27" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>半场</strong></div></td>
-                    </tr><tr>
-                        <td width="41" height="18" bgcolor="#83acc2"><div align="center" class="STYLE4">全场</div></td>
-                        <td width="41" bgcolor="#83acc2"><div align="center" class="STYLE4">半场</div></td>
-                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">全场</div></td>
-
-                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">半场</div></td>
-                    </tr>
-                    </table>
-
-
-
-<table width="680" border="1" cellpadding="2" cellspacing="0"   bgcolor="#ffffff" class="tdlink" id="Table2">
-                    <tr bgcolor='#f5bcbc'><td height='21' align='center'  style=" color:#ffffff; font-weight:bold; width:550px;" bgcolor='#456da8' id="scoreTitle">总积分榜</td><td   height='21' align='center'  bgcolor='#456da8' >
-                    <select name="scoreRound" id="scoreRound" onchange="scoreRoundChange(this)"><option value="0">总积分榜</option></select></td></tr></table>
-                
-            </div>
-<div style='WIDTH: 680px; FLOAT: left'>           
-<div class="nav_select">
-<ul>
-  <li id="menu1" class="nav_selected" onclick="SelectScore(1)" style=" cursor:pointer">总积分榜</li>
-  <li id="menu2" class="nav_unselected" onclick='SelectScore(2)'  style=" cursor:pointer">主场积分榜</li>
-
-  <li id='menu3' class='nav_unselected' onclick='SelectScore(3)'  style=" cursor:pointer">客场积分榜</li>
-  <li id='menu4' class='nav_unselected' onclick='SelectScore(4)' style=" cursor:pointer">半场总积分榜</li>
-  <li id='menu5' class='nav_unselected' onclick='SelectScore(5)' style=" cursor:pointer">半场主场积分榜</li>
-
-  <li id='menu6' class='nav_unselected' onclick='SelectScore(6)' style=" cursor:pointer">半场客场积分榜</li></ul></div></div>
-  <div class='nav_select_bottom'></div>
-<div id='tableId' class='data' style="clear:both;"></div>
-  </div>
-	  <div id="divScore"  style="display:none;"><div class="tdsolid" id="SubSelectDiv2"></div>
-<div class="tdsolid" id="showRound2"></div>
-<div class="tdsolid" id="ScoreGroupDiv">
-<table border="0" cellspacing="1" cellpadding="1" bgcolor="#cccccc" style="border-collapse:inherit" width="680" align="center" id="ScoreGroupTab"><tbody><tr><td bgcolor="#d1e2f5" width="32"><div align="center">排名</div></td>  <td bgcolor="#d1e2f5" width="254"><div align="center">球队</div></td>  <td bgcolor="#d1e2f5" width="44" align="center">总</td>  <td bgColor="#d1e2f5" width="44" align="center">胜</td>  <td bgcolor="#d1e2f5" width="44" align="center">平</td>  <td bgcolor="#d1e2f5" width="44" align="center">负</td>  <td bgcolor="#d1e2f5" width="44" align="center">得</td>  <td bgcolor="#d1e2f5" width="44" align="center">失</td>  <td bgcolor="#d1e2f5" width="44" align="center">净</td><td bgcolor="#d1e2f5" width="44" align="center">积分</td></tr></tbody></table>
-</div>
-
-            
-            <div class="tdsolid" id="mainTableDiv">
-                <table width="680" border="0" cellpadding="0" cellspacing="1"   bgcolor="#C6C6C6" class="tdlink" id="Table4"><tr>
-                        <td width="48" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>轮次</strong></div></td>
-                        <td width="37" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>时间</strong></div></td>
-                        <td width="96" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>主队</strong></div></td>
-                        <td width="60" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>比分</strong></div></td>
-                        <td width="96" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>客队</strong></div></td>
-                        <td height="18" colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>让球</strong></div></td>
-                        <td colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>大小</strong></div></td>
-
-                        <td width="55" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>资料</strong></div></td>
-                        <td width="27" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>半场</strong></div></td>
-                    </tr><tr>
-                        <td width="41" height="18" bgcolor="#83acc2"><div align="center" class="STYLE4">全场</div></td>
-                        <td width="41" bgcolor="#83acc2"><div align="center" class="STYLE4">半场</div></td>
-                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">全场</div></td>
-
-                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">半场</div></td>
-                    </tr></table>
-                
-            </div></div>
-	  <div id="scriptScsg"><script type="text/javascript"></script></div>
-	  <div id="scriptScore"><script type="text/javascript"></script></div>
-	</div>
-  </div>
-  <br style="clear:both">
-</div>
-
-<div id="winScore" style='position:absolute; z-index:8;top:100px;left:100px;'></div>
-<div id="videoInfo" style='position:absolute; z-index:8;top:100px;left:100px;' onmouseover="MM_showHideLayers('videoInfo','','show')" onmouseout="MM_showHideLayers('videoInfo','','hidden')"></div>
-<span id="allDate"><script language="javascript" type="text/javascript" defer="defer"></script></span>
-<span id="videoData"><script language="javascript" src="http://www.310tv.com/js/programs.js" type="text/javascript"></script></span>
-
+	<span id="notify"></span>
+
+	<span id="ScoreDiv"></span>
+
+	<span id="flashsound"></span>
+
+	<ul class="main2_tool">
+
+	  <li class="m_on" id="LeagueKind1"><a href="javascript:showLeagueList(1)">今日赛事</a></li>
+
+	  <li class="m_off" id="LeagueKind2"><a href="javascript:showLeagueList(2)">热门赛事</a></li>
+
+	  <li class="m_off" id="LeagueKind3"><a href="javascript:showLeagueList(3)">热门杯赛</a></li>
+
+	  <li class="m_off"><a href="odds/history.aspx" target="_blank">指数复查</a></li>
+
+	  </ul>
+
+	<div id="main2">
+
+	  <div id="leagueList"></div>
+
+<table width='100%' id="hotLeague" style="display:none;" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='text-align:center; margin-bottom:5px;'><tr height=20>
+
+<td bgcolor="#FF3333"><a href="javascript:ChangeJS(36,1)">英超</a></td>
+
+<td bgcolor="#cc3300"><a href="javascript:ChangeJS(37,1)">英冠</a></td>
+
+<td bgcolor="#0088FF"><a href="javascript:ChangeJS(34,1)">意甲</a></td>
+
+<td bgcolor="#006633"><a href="javascript:ChangeJS(31,1)">西甲</a></td>
+
+<td bgcolor="#990099"><a href="javascript:ChangeJS(8,1)">德甲</a></td>
+
+<td bgcolor="#DDDD00"><a href="javascript:ChangeJS(4,1)">巴西甲</a></td>
+
+<td bgcolor="#663333"><a href="javascript:ChangeJS(11,1)">法甲</a></td>
+
+<td bgcolor="#008888"><a href="javascript:ChangeJS(23,1)">葡超</a></td>
+
+<td bgcolor="#57A87B"><a href="javascript:ChangeJS(29,1)">苏超</a></td>
+
+<td bgcolor="#FF6699"><a href="javascript:ChangeJS(16,1)">荷甲</a></td></tr>
+
+<tr height=20>
+
+<td bgcolor="#660033"><a href="javascript:ChangeJS(21,1)">美职业</a></td>
+
+<td bgcolor="#009900"><a href="javascript:ChangeJS(25,1)">日职联</a></td>
+
+<td bgcolor="#FC9B0A"><a href="javascript:ChangeJS(5,1)">比甲</a></td>
+
+<td bgcolor="#004488"><a href="javascript:ChangeJS(26,1)">瑞典超</a></td>
+
+<td bgcolor="#137AAC"><a href="javascript:ChangeJS(13,1)">芬超</a></td>
+
+<td bgcolor="#0066FF"><a href="javascript:ChangeJS(60,1)">中超</a></td>
+
+<td bgcolor="#666666"><a href="javascript:ChangeJS(22,1)">挪超</a></td>
+
+<td bgcolor="#2f3fd2"><a href="javascript:ChangeJS(3,1)">奥甲</a></td>
+
+<td bgcolor="#1ba578"><a href="javascript:ChangeJS(27,1)">瑞士超</a></td>
+
+<td bgcolor="#006699"><a href="javascript:ChangeJS(10,1)">俄超</a></td>
+
+</tr></table>
+
+
+
+<table width='100%' id="hotCup" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='display:none;text-align:center; margin-bottom:5px;'><tr style="height:20;">
+
+<td bgcolor="#660000"><a href="javascript:ChangeJS(75,2)">世界杯</a></td>
+
+<td bgcolor="#660033"><a href="javascript:ChangeJS(650,2)">欧洲预选</a></td>
+
+<td bgcolor="#f36229"><a href="javascript:ChangeJS(652,2)">南美预选</a></td>
+
+<td bgcolor=#448e08><a href="javascript:ChangeJS(653,2)">北美预选</a></td>
+
+<td bgcolor=#49a63d><a href="javascript:ChangeJS(648,2)">亚洲预选</a></td>
+
+<td bgcolor=#2f4e07><a href="javascript:ChangeJS(651,2)">非洲预选</a></td>
+
+<td bgcolor=#d15023><a href="javascript:ChangeJS(649,2)">大洋预选</a></td>
+
+<td bgcolor=#009933><a href="javascript:ChangeJS(88,2)">洲际杯</a></td>
+
+<td bgcolor=#660000><a href="javascript:ChangeJS(67,2)">欧国杯</a></td>
+
+<td bgcolor=#F75000><a href="javascript:ChangeJS(103,2)">欧冠杯</a></td></tr>
+
+<tr height=20>
+
+<td bgcolor=#6F00DD><a href="javascript:ChangeJS(113,2)">欧霸杯</a></td>
+
+<td bgcolor=#990044><a href="javascript:ChangeJS(224,2)">美洲杯</a></td>
+
+<td bgcolor=#37BE5A><a href="javascript:ChangeJS(95,2)">亚洲杯</a></td>
+
+<td bgcolor=#0000DB><a href="javascript:ChangeJS(192,2)">亚冠杯</a></td>
+
+<td bgcolor=#567576><a href="javascript:ChangeJS(93,2)">非洲杯</a></td>
+
+<td bgcolor=#660000><a href="javascript:ChangeJS(90,2)">英足总杯</a></td>
+
+<td bgcolor=#808080><a href="javascript:ChangeJS(84,2)">英联杯</a></td>
+
+<td bgcolor=#3c3cff><a href="javascript:ChangeJS(83,2)">意杯</a></td>
+
+<td bgcolor=#006666><a href="javascript:ChangeJS(81,2)">西杯</a></td>
+
+<td bgcolor=#a00800><a href="javascript:ChangeJS(51,2)">德国杯</a></td>
+
+</tr></table>
+
+	  
+
+	  <div id="divScsg" style="display:none;"> 
+
+	  <div class="tdsolid" style=" margin:0px; line-height:inherit;" id="SubSelectDiv">        
+
+    </div>
+
+	  <table border="0" cellspacing="0" cellpadding="0" id="Table1">
+
+                <tr>
+
+                    <td id="showRound">
+
+                        
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+            <div class="tdsolid">
+
+                <table width="680" border="0" cellpadding="0" cellspacing="1"   bgcolor="#C6C6C6" class="tdlink" id="Table3">
+
+                <tr>
+
+                        <td width="18" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>轮次</strong></div></td>
+
+                        <td width="37" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>时间</strong></div></td>
+
+                        <td width="106" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>主队</strong></div></td>
+
+                        <td width="60" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>比分</strong></div></td>
+
+                        <td width="106" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>客队</strong></div></td>
+
+                        <td height="18" colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>让球</strong></div></td>
+
+                        <td colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>大小</strong></div></td>
+
+
+
+                        <td width="65" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>资料</strong></div></td>
+
+                        <td width="27" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>半场</strong></div></td>
+
+                    </tr><tr>
+
+                        <td width="41" height="18" bgcolor="#83acc2"><div align="center" class="STYLE4">全场</div></td>
+
+                        <td width="41" bgcolor="#83acc2"><div align="center" class="STYLE4">半场</div></td>
+
+                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">全场</div></td>
+
+
+
+                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">半场</div></td>
+
+                    </tr>
+
+                    </table>
+
+
+
+
+
+
+
+<table width="680" border="1" cellpadding="2" cellspacing="0"   bgcolor="#ffffff" class="tdlink" id="Table2">
+
+                    <tr bgcolor='#f5bcbc'><td height='21' align='center'  style=" color:#ffffff; font-weight:bold; width:550px;" bgcolor='#456da8' id="scoreTitle">总积分榜</td><td   height='21' align='center'  bgcolor='#456da8' >
+
+                    <select name="scoreRound" id="scoreRound" onchange="scoreRoundChange(this)"><option value="0">总积分榜</option></select></td></tr></table>
+
+                
+
+            </div>
+
+<div style='WIDTH: 680px; FLOAT: left'>           
+
+<div class="nav_select">
+
+<ul>
+
+  <li id="menu1" class="nav_selected" onclick="SelectScore(1)" style=" cursor:pointer">总积分榜</li>
+
+  <li id="menu2" class="nav_unselected" onclick='SelectScore(2)'  style=" cursor:pointer">主场积分榜</li>
+
+
+
+  <li id='menu3' class='nav_unselected' onclick='SelectScore(3)'  style=" cursor:pointer">客场积分榜</li>
+
+  <li id='menu4' class='nav_unselected' onclick='SelectScore(4)' style=" cursor:pointer">半场总积分榜</li>
+
+  <li id='menu5' class='nav_unselected' onclick='SelectScore(5)' style=" cursor:pointer">半场主场积分榜</li>
+
+
+
+  <li id='menu6' class='nav_unselected' onclick='SelectScore(6)' style=" cursor:pointer">半场客场积分榜</li></ul></div></div>
+
+  <div class='nav_select_bottom'></div>
+
+<div id='tableId' class='data' style="clear:both;"></div>
+
+  </div>
+
+	  <div id="divScore"  style="display:none;"><div class="tdsolid" id="SubSelectDiv2"></div>
+
+<div class="tdsolid" id="showRound2"></div>
+
+<div class="tdsolid" id="ScoreGroupDiv">
+
+<table border="0" cellspacing="1" cellpadding="1" bgcolor="#cccccc" style="border-collapse:inherit" width="680" align="center" id="ScoreGroupTab"><tbody><tr><td bgcolor="#d1e2f5" width="32"><div align="center">排名</div></td>  <td bgcolor="#d1e2f5" width="254"><div align="center">球队</div></td>  <td bgcolor="#d1e2f5" width="44" align="center">总</td>  <td bgColor="#d1e2f5" width="44" align="center">胜</td>  <td bgcolor="#d1e2f5" width="44" align="center">平</td>  <td bgcolor="#d1e2f5" width="44" align="center">负</td>  <td bgcolor="#d1e2f5" width="44" align="center">得</td>  <td bgcolor="#d1e2f5" width="44" align="center">失</td>  <td bgcolor="#d1e2f5" width="44" align="center">净</td><td bgcolor="#d1e2f5" width="44" align="center">积分</td></tr></tbody></table>
+
+</div>
+
+
+
+            
+
+            <div class="tdsolid" id="mainTableDiv">
+
+                <table width="680" border="0" cellpadding="0" cellspacing="1"   bgcolor="#C6C6C6" class="tdlink" id="Table4"><tr>
+
+                        <td width="48" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>轮次</strong></div></td>
+
+                        <td width="37" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>时间</strong></div></td>
+
+                        <td width="96" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>主队</strong></div></td>
+
+                        <td width="60" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>比分</strong></div></td>
+
+                        <td width="96" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>客队</strong></div></td>
+
+                        <td height="18" colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>让球</strong></div></td>
+
+                        <td colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>大小</strong></div></td>
+
+
+
+                        <td width="55" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>资料</strong></div></td>
+
+                        <td width="27" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>半场</strong></div></td>
+
+                    </tr><tr>
+
+                        <td width="41" height="18" bgcolor="#83acc2"><div align="center" class="STYLE4">全场</div></td>
+
+                        <td width="41" bgcolor="#83acc2"><div align="center" class="STYLE4">半场</div></td>
+
+                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">全场</div></td>
+
+
+
+                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">半场</div></td>
+
+                    </tr></table>
+
+                
+
+            </div></div>
+
+	  <div id="scriptScsg"><script type="text/javascript"></script></div>
+
+	  <div id="scriptScore"><script type="text/javascript"></script></div>
+
+	</div>
+
+  </div>
+
+  <br style="clear:both">
+
+</div>
+
+
+
+<div id="winScore" style='position:absolute; z-index:8;top:100px;left:100px;'></div>
+
+<div id="videoInfo" style='position:absolute; z-index:8;top:100px;left:100px;' onmouseover="MM_showHideLayers('videoInfo','','show')" onmouseout="MM_showHideLayers('videoInfo','','hidden')"></div>
+
+<span id="allDate"><script language="javascript" type="text/javascript" defer="defer"></script></span>
+
+<span id="videoData"><script language="javascript" src="http://www.310tv.com/js/programs.js" type="text/javascript"></script></span>
+
+
+
 <script language="javascript" type="text/javascript">
     var loaded = 0, LoadTime = 0, nofityTimer, matchType = -1, runtimeTimer, getoddsxmlTimer, LoadLiveFileTimer;
     var difftime = new Date() - new Date(<%= DateTime.Now.Year %>, <%= DateTime.Now.Month-1 %>, <%= DateTime.Now.Day %>, <%= DateTime.Now.Hour %>, <%= DateTime.Now.Minute %>, <%= DateTime.Now.Second %>);
@@ -1610,7 +1851,7 @@
         var s = document.createElement("script");
         s.type = "text/javascript";
         s.charset = "gb2312";
-        s.src = "data/detail.js?" + Date.parse(new Date());
+        s.src = "http://live.nowodds.com/data/detail.js?" + Date.parse(new Date());
         detail.removeChild(detail.firstChild);
         detail.appendChild(s, "script");
         loadDetailFileTime = new Date();
@@ -1808,7 +2049,8 @@
     if (Config.fontsize != 12) document.getElementById("ScoreDiv").style.fontSize = Config.fontsize + "px";
 
     window.setTimeout("gettime()", 2000);
-    window.setTimeout("check()", 30000);
+    window.setTimeout("check()", 30000);
+
 </script>
 <span id="span_detail"><script language="javascript" src="http://live.nowodds.com/data/detail.js" type="text/javascript" charset="gb2312"></script></span>
 <span id="span_panlu"><script language="javascript" src="http://live.nowodds.com/data/panlu.js" type="text/javascript"></script></span>
