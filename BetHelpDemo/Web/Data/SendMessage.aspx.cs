@@ -171,7 +171,14 @@ public partial class Data_SendMessage : System.Web.UI.Page
             //    }
             //}
 
-            if (Convert.ToInt32(dt.Compute("count(id)", "1=1")) > 1)
+            bool support = Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=3")) > 0 &&
+            Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=3")) > Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=3")) ||
+            Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=1")) > 0 &&
+            Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=1")) > Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=3")) ||
+            Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=0")) > 0 &&
+            Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=0")) > Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=3"));
+
+            if (Convert.ToInt32(dt.Compute("count(id)", "id in (281,255,115,82,499)")) > 0 || support)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");
