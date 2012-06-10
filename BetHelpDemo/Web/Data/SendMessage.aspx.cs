@@ -171,7 +171,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             //    }
             //}
 
-            if (Convert.ToInt32(dt.Compute("count(id)", "isprimary=1")) > 0)
+            if (Convert.ToInt32(dt.Compute("count(id)", "result=3")) >= 3 || Convert.ToInt32(dt.Compute("count(id)", "result=1")) >= 3 || Convert.ToInt32(dt.Compute("count(id)", "result=0")) >= 3 || Convert.ToInt32(dt.Compute("count(id)", "isprimary=1")) > 0)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");
