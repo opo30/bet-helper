@@ -150,28 +150,28 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
             }
 
-            bool support =
-                int.Parse(myCol.Get("q1t1r3")) < int.Parse(myCol.Get("q1t2r3")) &&
-                int.Parse(myCol.Get("q2t1r3")) < int.Parse(myCol.Get("q2t2r3")) &&
-                int.Parse(myCol.Get("q3t1r3")) < int.Parse(myCol.Get("q3t2r3")) ||
-                int.Parse(myCol.Get("q1t1r1")) < int.Parse(myCol.Get("q1t2r1")) &&
-                int.Parse(myCol.Get("q2t1r1")) < int.Parse(myCol.Get("q2t2r1")) &&
-                int.Parse(myCol.Get("q3t1r1")) < int.Parse(myCol.Get("q3t2r1")) ||
-                int.Parse(myCol.Get("q1t1r0")) < int.Parse(myCol.Get("q1t2r0")) &&
-                int.Parse(myCol.Get("q2t1r0")) < int.Parse(myCol.Get("q2t2r0")) &&
-                int.Parse(myCol.Get("q3t1r0")) < int.Parse(myCol.Get("q3t2r0"));
+            //bool support =
+            //    int.Parse(myCol.Get("q1t1r3")) < int.Parse(myCol.Get("q1t2r3")) &&
+            //    int.Parse(myCol.Get("q2t1r3")) < int.Parse(myCol.Get("q2t2r3")) &&
+            //    int.Parse(myCol.Get("q3t1r3")) < int.Parse(myCol.Get("q3t2r3")) ||
+            //    int.Parse(myCol.Get("q1t1r1")) < int.Parse(myCol.Get("q1t2r1")) &&
+            //    int.Parse(myCol.Get("q2t1r1")) < int.Parse(myCol.Get("q2t2r1")) &&
+            //    int.Parse(myCol.Get("q3t1r1")) < int.Parse(myCol.Get("q3t2r1")) ||
+            //    int.Parse(myCol.Get("q1t1r0")) < int.Parse(myCol.Get("q1t2r0")) &&
+            //    int.Parse(myCol.Get("q2t1r0")) < int.Parse(myCol.Get("q2t2r0")) &&
+            //    int.Parse(myCol.Get("q3t1r0")) < int.Parse(myCol.Get("q3t2r0"));
 
-            bool support1 = false;
-            foreach (var dr in dt.Select("time=1 and isprimary=1").ToArray())
-            {
-                if (Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=" + dr["id"])) > 0)
-                {
-                    support1 = true;
-                    break;
-                }
-            }
+            //bool support1 = false;
+            //foreach (var dr in dt.Select("time=1 and isprimary=1").ToArray())
+            //{
+            //    if (Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=" + dr["id"])) > 0)
+            //    {
+            //        support1 = true;
+            //        break;
+            //    }
+            //}
 
-            if (Math.Min(Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=3")), Convert.ToInt32(dt.Compute("count(id)", "query=1 and result=0"))) == 0 && Convert.ToInt32(dt.Compute("count(id)", "1=1")) > 5 || support || support1)
+            if (Convert.ToInt32(dt.Compute("count(id)", "t=2")) > 0)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");
