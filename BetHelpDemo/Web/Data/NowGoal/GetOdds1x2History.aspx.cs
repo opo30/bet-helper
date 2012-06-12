@@ -351,6 +351,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 dt.Columns.Add("result", typeof(int));
                 dt.Columns.Add("query", typeof(int));
                 dt.Columns.Add("time", typeof(int));
+                dt.Columns.Add("scount", typeof(int));
                 dt.Merge(scheduleBLL.queryOddsHistory2(null, null, swhereStr, "query=1,time=1").Tables[0]);
                 dt.Merge(scheduleBLL.queryOddsHistory2(null, null, ewhereStr, "query=1,time=2").Tables[0]);
                 dt.Merge(scheduleBLL.queryOddsHistory2(sclassArr[9], null, swhereStr, "query=2,time=1").Tables[0]);
@@ -404,7 +405,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                             {
                                 DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
                                 bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
-                                string reproduce = isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "";
+                                string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
                                 if (Convert.ToBoolean(dr["isprimary"]))
                                 {
                                     s += "<font color=blue>" + dr["name"] + "</font>";

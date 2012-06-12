@@ -76,6 +76,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             dt.Columns.Add("result", typeof(int));
             dt.Columns.Add("query", typeof(int));
             dt.Columns.Add("time", typeof(int));
+            dt.Columns.Add("scount", typeof(int));
             dt.Merge(scheduleBLL.queryOddsHistory2(null, null, swhereStr, "query=1,time=1").Tables[0]);
             dt.Merge(scheduleBLL.queryOddsHistory2(null, null, ewhereStr, "query=1,time=2").Tables[0]);
             dt.Merge(scheduleBLL.queryOddsHistory2(sclassArr[9], null, swhereStr, "query=2,time=1").Tables[0]);
@@ -130,7 +131,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
 
                             DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
                             bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
-                            string reproduce = isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "";
+                            string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
                             if (Convert.ToBoolean(dr["isprimary"]))
                             {
                                 s += "<font color=blue>" + dr["name"] + "</font>";
@@ -171,15 +172,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             //    }
             //}
 
-            bool support = 
-            Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=3")) > 0 &&
-            Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=3")) > Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=3")) ||
-            Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=1")) > 0 &&
-            Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=1")) > Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=1")) ||
-            Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=0")) > 0 &&
-            Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=0")) > Convert.ToInt32(dt.Compute("count(id)", "time=1 and result=0"));
-
-            if (Convert.ToInt32(dt.Compute("count(id)", "time=2 and isprimary=1")) > 0 || support)
+            if (Convert.ToInt32(dt.Compute("count(id)", "time=1")) > 0 && Convert.ToInt32(dt.Compute("count(id)", "time=2")) > 0 || Convert.ToInt32(dt.Compute("max(scount)", "1=1")) > 3)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");

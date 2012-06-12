@@ -3,7 +3,7 @@
 
 var Odds1x2Mail = function (scheduleid) {
     if (!issendmail) {
-        showNotify("提示","请先开启邮件提醒功能！",false);
+        showNotify("提示", "请先开启邮件提醒功能！", false);
         return;
     }
     var scheduleArr, scheduleTypeArr;
@@ -32,13 +32,21 @@ var Odds1x2Mail = function (scheduleid) {
             scheduleTypeArr = B[A[i][1]];
         }
     }
+    if (scheduleArr == undefined) {
+        for (var i = 0; i < HistoryScore.A.length; i++) {
+            if (HistoryScore.A[i][0] == scheduleid) {
+                scheduleArr = HistoryScore.A[i];
+                scheduleTypeArr = HistoryScore.B[HistoryScore.A[i][1]];
+            }
+        }
+    }
     Ext.Ajax.request({
         url: 'Data/SendMessage.aspx?a=mail',
         params: {
             stypeid: scheduleTypeArr.join('^'),
             oddsarr: oddsArr.join('^'),
             schedulearr: scheduleArr.join('^'),
-            odds: Ext.getDom("tr1_" + scheduleid).getAttribute("odds")
+            odds: Ext.getDom("tr1_" + scheduleid) ? Ext.getDom("tr1_" + scheduleid).getAttribute("odds") : ""
         }
     });
 }
@@ -70,6 +78,14 @@ var Odds1x2Mail1 = function (scheduleid) {
             scheduleTypeArr = B[A[i][1]];
         }
     }
+    if (scheduleArr == undefined) {
+        for (var i = 0; i < HistoryScore.A.length; i++) {
+            if (HistoryScore.A[i][0] == scheduleid) {
+                scheduleArr = HistoryScore.A[i];
+                scheduleTypeArr = HistoryScore.B[HistoryScore.A[i][1]];
+            }
+        }
+    }
     var win = new Ext.Window({
         layout: 'fit',
         closeAction: 'destroy',
@@ -80,7 +96,7 @@ var Odds1x2Mail1 = function (scheduleid) {
                 stypeid: scheduleTypeArr.join('^'),
                 oddsarr: oddsArr.join('^'),
                 schedulearr: scheduleArr.join('^'),
-                odds: Ext.getDom("tr1_" + scheduleid).getAttribute("odds")
+                odds: Ext.getDom("tr1_" + scheduleid)?Ext.getDom("tr1_" + scheduleid).getAttribute("odds"):""
             }
         },
         width: 960,
