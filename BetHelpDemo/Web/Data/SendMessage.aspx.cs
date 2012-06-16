@@ -119,6 +119,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     }
                 }
             }
+            List<int> scountList = new List<int>();
             foreach (var q in new int[3] { 1, 2, 3 })
             {
                 foreach (var r in new int[3] { 3, 1, 0 })
@@ -132,6 +133,10 @@ public partial class Data_SendMessage : System.Web.UI.Page
                             DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
                             bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
                             string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
+                            if (t == 2 && q > 1)
+                            {
+                                scountList.Add(Convert.ToInt32(dr["scount"]));
+                            }
                             if (Convert.ToBoolean(dr["isprimary"]))
                             {
                                 s += "<font color=blue>" + dr["name"] + "</font>";
@@ -151,28 +156,8 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
             }
 
-            //bool support =
-            //    int.Parse(myCol.Get("q1t1r3")) < int.Parse(myCol.Get("q1t2r3")) &&
-            //    int.Parse(myCol.Get("q2t1r3")) < int.Parse(myCol.Get("q2t2r3")) &&
-            //    int.Parse(myCol.Get("q3t1r3")) < int.Parse(myCol.Get("q3t2r3")) ||
-            //    int.Parse(myCol.Get("q1t1r1")) < int.Parse(myCol.Get("q1t2r1")) &&
-            //    int.Parse(myCol.Get("q2t1r1")) < int.Parse(myCol.Get("q2t2r1")) &&
-            //    int.Parse(myCol.Get("q3t1r1")) < int.Parse(myCol.Get("q3t2r1")) ||
-            //    int.Parse(myCol.Get("q1t1r0")) < int.Parse(myCol.Get("q1t2r0")) &&
-            //    int.Parse(myCol.Get("q2t1r0")) < int.Parse(myCol.Get("q2t2r0")) &&
-            //    int.Parse(myCol.Get("q3t1r0")) < int.Parse(myCol.Get("q3t2r0"));
 
-            //bool support1 = false;
-            //foreach (var dr in dt.Select("time=1 and isprimary=1").ToArray())
-            //{
-            //    if (Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=" + dr["id"])) > 0)
-            //    {
-            //        support1 = true;
-            //        break;
-            //    }
-            //}
-
-            if (Convert.ToInt32(dt.Compute("count(id)", "time=1")) > 0 && Convert.ToInt32(dt.Compute("count(id)", "time=2")) > 0 || Convert.ToInt32(dt.Compute("max(scount)", "1=1")) > 3)
+            if ((scountList.Max() >= 5 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and isprimary=1 and scount>1 and query>1")) > 0 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=115")) > 0) && Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");

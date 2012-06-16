@@ -489,7 +489,7 @@ namespace SeoWebSite.DAL
             {
                 strSql.Append(" and a.sclassid=" + sclassid);
             }
-            strSql.Append(" group by companyid) d join company e on e.id=d.companyid and d.scount>1 and (d.win>90 or d.draw>90 or d.lost>90)");
+            strSql.Append(" group by companyid) d join company e on e.id=d.companyid and d.scount>0 and (d.win>90 or d.draw>90 or d.lost>90)");
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 

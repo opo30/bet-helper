@@ -408,15 +408,15 @@ namespace SeoWebSite.Web.Data.NowGoal
                                 string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
                                 if (Convert.ToBoolean(dr["isprimary"]))
                                 {
-                                    s += "<font color=blue>" + dr["name"] + "</font>";
+                                    s += "<font color=blue>" + dr["fullname"] + "</font>";
                                 }
                                 else if (Convert.ToBoolean(dr["isexchange"]))
                                 {
-                                    s += "<font color=green>" + dr["name"] + "</font>";
+                                    s += "<font color=green>" + dr["fullname"] + "</font>";
                                 }
                                 else
                                 {
-                                    s += dr["name"];
+                                    s += dr["fullname"];
                                 }
                                 s += reproduce + "<br>";
                             }

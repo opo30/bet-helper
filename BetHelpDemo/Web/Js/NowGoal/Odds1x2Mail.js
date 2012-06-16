@@ -100,7 +100,7 @@ var Odds1x2Mail1 = function (scheduleid) {
             }
         },
         width: 960,
-        maxHeight: 500,
+        height: 500,
         resizeable: true,
         autoScroll: true
     });
