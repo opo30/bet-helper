@@ -119,7 +119,6 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     }
                 }
             }
-            List<int> scountList = new List<int>();
             foreach (var q in new int[3] { 1, 2, 3 })
             {
                 foreach (var r in new int[3] { 3, 1, 0 })
@@ -133,10 +132,6 @@ public partial class Data_SendMessage : System.Web.UI.Page
                             DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
                             bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
                             string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
-                            if (t == 2 && q > 1)
-                            {
-                                scountList.Add(Convert.ToInt32(dr["scount"]));
-                            }
                             if (Convert.ToBoolean(dr["isprimary"]))
                             {
                                 s += "<font color=blue>" + dr["name"] + "</font>";
@@ -156,8 +151,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
             }
 
-
-            if ((scountList.Max() >= 5 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and isprimary=1 and scount>1 and query>1")) > 0 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=115")) > 0) && Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+            if ((Convert.ToInt32(dt.Compute("max(scount)", "time=2 and isprimary=1")) >= 5 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and isprimary=1 and scount>1 and query>1")) > 0 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=115")) > 0) && Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");
