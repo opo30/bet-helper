@@ -97,28 +97,6 @@ public partial class Data_SendMessage : System.Web.UI.Page
             {
                 myCol.Add("oddsArr" + i, oddsInfo[i]);
             }
-            foreach (var r in new int[3] { 3, 1, 0 })
-            {
-                foreach (var q in new int[3] { 1, 2, 3 })
-                {
-                    int t1 = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=" + r));
-                    int t2 = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=" + r));
-                    myCol.Add("q" + q + "t1r" + r, t1.ToString());
-                    myCol.Add("q" + q + "t2r" + r, t2.ToString());
-                    if (t2 < t1)
-                    {
-                        myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#DCFFB9");
-                    }
-                    else if (t2 > t1)
-                    {
-                        myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#FFb0c8");
-                    }
-                    else
-                    {
-                        myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#FFFFFF");
-                    }
-                }
-            }
             foreach (var q in new int[3] { 1, 2, 3 })
             {
                 foreach (var r in new int[3] { 3, 1, 0 })
@@ -126,10 +104,8 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     foreach (var t in new int[2] { 1, 2 })
                     {
                         string s = "";
-                        for (int i = 0; i < Convert.ToInt32(myCol.Get("q" + q + "t" + t + "r" + r)); i++)
+                        foreach (DataRow dr in dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc"))
                         {
-
-                            DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
                             bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
                             string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
                             if (Convert.ToBoolean(dr["isprimary"]))
@@ -151,7 +127,21 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
             }
 
-            if ((Convert.ToInt32(dt.Compute("max(scount)", "time=2 and isprimary=1")) >= 5 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and isprimary=1 and scount>1 and query>1")) > 0 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=115")) > 0) && Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+            bool ismail = false;
+            if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+            {
+                ismail = (Convert.ToInt32(dt.Compute("max(scount)", "time=2 and isprimary=1")) >= 5 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and isprimary=1 and scount>1 and query>1")) > 0 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=115")) > 0);
+            }
+            else if (Convert.ToDouble(oddsInfo[2]) > 1)
+            {
+                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=3")) == 0);
+            }
+            else if (Convert.ToDouble(oddsInfo[2]) < -1)
+            {
+                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=0")) == 0);
+            }
+
+            if (ismail)
             {
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");

@@ -372,28 +372,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                 {
                     myCol.Add("oddsArr" + i, oddsInfo[i]);
                 }
-                foreach (var r in new int[3] { 3, 1, 0 })
-                {
-                    foreach (var q in new int[3] { 1, 2, 3 })
-                    {
-                        int t1 = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=" + r));
-                        int t2 = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=" + r));
-                        myCol.Add("q" + q + "t1r" + r, t1.ToString());
-                        myCol.Add("q" + q + "t2r" + r, t2.ToString());
-                        if (t2 < t1)
-                        {
-                            myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#DCFFB9");
-                        }
-                        else if (t2 > t1)
-                        {
-                            myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#FFb0c8");
-                        }
-                        else
-                        {
-                            myCol.Add("q" + q + "t2r" + r + "_bgcolor", "#FFFFFF");
-                        }
-                    }
-                }
                 foreach (var q in new int[3] { 1, 2, 3 })
                 {
                     foreach (var r in new int[3] { 3, 1, 0 })
@@ -401,9 +379,8 @@ namespace SeoWebSite.Web.Data.NowGoal
                         foreach (var t in new int[2] { 1, 2 })
                         {
                             string s = "";
-                            for (int i = 0; i < Convert.ToInt32(myCol.Get("q" + q + "t" + t + "r" + r)); i++)
+                            foreach (DataRow dr in dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc"))
                             {
-                                DataRow dr = dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc")[i];
                                 bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
                                 string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
                                 if (Convert.ToBoolean(dr["isprimary"]))
