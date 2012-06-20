@@ -130,13 +130,13 @@ public partial class Data_SendMessage : System.Web.UI.Page
             bool ismail = false;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
             {
-                ismail = (Convert.ToInt32(dt.Compute("max(scount)", "time=2 and isprimary=1")) >= 5 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and isprimary=1 and scount>1 and query>1")) > 0 || Convert.ToInt32(dt.Compute("count(id)", "time=2 and id=115")) > 0);
+                ismail = (Convert.ToInt32(dt.Compute("max(scount)", "time=2 and isprimary=1")) >= 2);
             }
-            else if (Convert.ToDouble(oddsInfo[2]) > 1)
+            else if (Convert.ToDouble(oddsInfo[6]) <= 1.5)
             {
                 ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=3")) == 0);
             }
-            else if (Convert.ToDouble(oddsInfo[2]) < -1)
+            else if (Convert.ToDouble(oddsInfo[8]) <= 1.5)
             {
                 ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=0")) == 0);
             }
