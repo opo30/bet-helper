@@ -128,17 +128,37 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+            if (Math.Abs(Convert.ToDouble(oddsInfo[2])) <= 1)
             {
-                ismail = (Convert.ToInt32(dt.Compute("max(scount)", "time=2 and isprimary=1")) >= 2);
+                if (Convert.ToDouble(oddsInfo[2]) > 0)
+                {
+                    ismail = Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result=3")) > Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result=3")) && 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result<>3")) < Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result<>3")) || 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result=3")) < Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result=3")) && 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result<>3")) > Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result<>3"));
+                }
+                else if (Convert.ToDouble(oddsInfo[2]) < 0)
+                {
+                    ismail = Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result=0")) > Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result=0")) && 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result<>0")) < Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result<>0")) || 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result=0")) < Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result=0")) && 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result<>0")) > Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result<>0"));
+                }
+                else
+                {
+                    ismail = Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result=3")) > Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result=3")) && 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result=0")) < Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result=0")) || 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result=3")) < Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result=3")) && 
+                        Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=2 and result=0")) > Convert.ToInt32(dt.Compute("sum(scount)", "query=3 and time=1 and result=0"));
+                }
             }
             else if (Convert.ToDouble(oddsInfo[6]) <= 1.5)
             {
-                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=3")) == 0);
+                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=3")) == 0 && Convert.ToInt32(dt.Compute("count(id)", "1=1")) >= 5);
             }
             else if (Convert.ToDouble(oddsInfo[8]) <= 1.5)
             {
-                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=0")) == 0);
+                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=0")) == 0 && Convert.ToInt32(dt.Compute("count(id)", "1=1")) >= 5);
             }
 
             if (ismail)
