@@ -131,24 +131,18 @@ public partial class Data_SendMessage : System.Web.UI.Page
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) <= 1)
             {
                 int s = 3;
-                for (int q = 1; q <= 3; q++)
+                int q = 3;
+                if (Convert.ToDouble(oddsInfo[2]) > 0)
                 {
-                    if (Convert.ToDouble(oddsInfo[2]) > 0)
-                    {
-                        ismail = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=3")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=3")) >= s && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result<>3")) < Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result<>3")) || Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result<>3")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result<>3")) >= s && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=3")) < Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=3"));
-                    }
-                    else if (Convert.ToDouble(oddsInfo[2]) < 0)
-                    {
-                        ismail = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=0")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=0")) >= s && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result<>0")) < Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result<>0")) || Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result<>0")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result<>0")) >= s && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=0")) < Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=0"));
-                    }
-                    else
-                    {
-                        ismail = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=3")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=3")) >= s && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=0")) < Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=0")) || Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=0")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=0")) >= s && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=3")) < Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=3"));
-                    }
-                    if (ismail)
-                    {
-                        break;
-                    }
+                    ismail = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=3")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=3")) >= s || Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result<>3")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result<>3")) >= s;
+                }
+                else if (Convert.ToDouble(oddsInfo[2]) < 0)
+                {
+                    ismail = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=0")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=0")) >= s || Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result<>0")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result<>0")) >= s;
+                }
+                else
+                {
+                    ismail = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=3")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=3")) >= s || Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=0")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=0")) >= s;
                 }
             }
             else if (Convert.ToDouble(oddsInfo[6]) <= 1.5)
