@@ -131,6 +131,9 @@ public partial class Data_SendMessage : System.Web.UI.Page
             int limit = 10;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) <= 1)
             {
+<<<<<<< .mine
+                ismail = Convert.ToInt32(dt.Compute("max(scount)", "query>1 and time=2 and isprimary=1")) >= 3;
+=======
                 foreach (int r in new int[2] { 3, 0 })
                 {
                     ismail = Convert.ToInt32(dt.Compute("count(id)", "time=2 and query>1 and result=" + r)) == 0 && Convert.ToInt32(dt.Compute("count(id)", "time=2 and result<>" + r)) >= limit;
@@ -149,6 +152,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 //    l[q - 1] = Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=2 and result=0")) - Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and result=0"));
                 //}
                 //ismail = w.Min() >= 0 && w.Max() >= s || d.Min() >= 0 && d.Max() >= s || l.Min() >= 0 && l.Max() >= s;
+>>>>>>> .r185
             }
             else if (Convert.ToDouble(oddsInfo[6]) <= 1.5)
             {
