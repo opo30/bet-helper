@@ -161,7 +161,7 @@ namespace SeoWebSite.BLL
             }
             catch (Exception e)
             {
-                sdal.Delete(Convert.ToInt32(scheduleID));
+                //sdal.Delete(Convert.ToInt32(scheduleID));
                 throw e;
             }
         }

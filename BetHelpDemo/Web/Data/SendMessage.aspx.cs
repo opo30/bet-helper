@@ -128,11 +128,11 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            int limit = 4;
+            int limit = 3;
             int limit1 = 5;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) <= 1)
             {
-                ismail = Convert.ToInt32(dt.Compute("max(scount)", "time=2 and query>1")) >= limit;
+                ismail = Convert.ToInt32(dt.Compute("max(scount)", "time=2 and query=3")) >= limit;
             }
             else if (Convert.ToDouble(oddsInfo[6]) <= 1.5)
             {
