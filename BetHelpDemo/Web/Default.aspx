@@ -571,7 +571,7 @@
 
 <script language="javascript" type="text/javascript">
     var loaded = 0, LoadTime = 0, nofityTimer, matchType = -1, runtimeTimer, getoddsxmlTimer, LoadLiveFileTimer;
-    var difftime = new Date() - new Date(<%= DateTime.Now.Year %>, <%= DateTime.Now.Month-1 %>, <%= DateTime.Now.Day %>, <%= DateTime.Now.Hour %>, <%= DateTime.Now.Minute %>, <%= DateTime.Now.Second %>);
+    var difftime = new Date() - new Date(<%= DateTime.Now.ToString("yyyy,MM-1,dd,HH,mm,ss") %>);
     var loadDetailFileTime = new Date();
     var loadVideoFileTime = new Date();
     var oldOddsXML = "";

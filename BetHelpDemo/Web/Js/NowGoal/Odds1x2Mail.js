@@ -7,7 +7,7 @@ var Odds1x2Mail = function (scheduleid) {
         return;
     }
     var scheduleArr, scheduleTypeArr;
-    var minite = 60 * 3;
+    var minite = 60;
     oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
     oddsHttp.send(null);
     if (oddsHttp.responseText == "") {
