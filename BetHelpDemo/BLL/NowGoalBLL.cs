@@ -17,6 +17,7 @@ namespace SeoWebSite.BLL
     public class NowGoalBLL
     {
         private readonly SeoWebSite.DAL.Odds1x2HistoryDAO dal = new SeoWebSite.DAL.Odds1x2HistoryDAO();
+        private readonly SeoWebSite.DAL.ScheduleDAO sdal = new SeoWebSite.DAL.ScheduleDAO();
 
         public string GetBetLiveData(string date, int companyid)
         {
@@ -160,6 +161,7 @@ namespace SeoWebSite.BLL
             }
             catch (Exception e)
             {
+                sdal.Delete(Convert.ToInt32(scheduleID));
                 throw e;
             }
         }
