@@ -128,18 +128,18 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            int limit = 5;
+            int limit = 3;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) <= 1)
             {
-                ismail = Convert.ToInt32(dt.Compute("max(scount)", "time=2")) >= limit;
+                ismail = Convert.ToInt32(dt.Compute("max(scount)", "time=2 and query>1")) >= limit;
             }
             else if (Convert.ToDouble(oddsInfo[6]) <= 1.5)
             {
-                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=3")) == 0 && Convert.ToInt32(dt.Compute("count(id)", "time=2")) >= limit);
+                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and query>1 and result=3")) == 0 && Convert.ToInt32(dt.Compute("count(id)", "time=2 and query>1")) >= limit);
             }
             else if (Convert.ToDouble(oddsInfo[8]) <= 1.5)
             {
-                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and result=0")) == 0 && Convert.ToInt32(dt.Compute("count(id)", "time=2")) >= limit);
+                ismail = (Convert.ToInt32(dt.Compute("count(id)", "time=2 and query>1 and result=0")) == 0 && Convert.ToInt32(dt.Compute("count(id)", "time=2 and query>1")) >= limit);
             }
 
             if (ismail)
