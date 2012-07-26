@@ -50,7 +50,7 @@ namespace SeoWebSite.Common
 
         public static void Send(string recipient, string subject, string body)
         {
-            Send(SmtpConfig.Create().SmtpSetting.Server, SmtpConfig.Create().SmtpSetting.Sender, recipient, subject, body, true, Encoding.Default, true, null);
+            Send(SmtpConfig.Create().SmtpSetting.Server, SmtpConfig.Create().SmtpSetting.Sender, recipient, subject, body, true, Encoding.UTF8, true, null);
         }
 
         public static void Send(string Recipient, string Sender, string Subject, string Body)
