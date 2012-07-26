@@ -11,6 +11,7 @@ using System.Data;
 using System.Xml;
 using SeoWebSite.DAL;
 using SeoWebSite.Model;
+using System.Net;
 
 namespace SeoWebSite.BLL
 {
@@ -159,10 +160,14 @@ namespace SeoWebSite.BLL
                     }
                 }
             }
-            catch (Exception e)
+            catch (WebException e)
             {
-                //sdal.Delete(Convert.ToInt32(scheduleID));
-                throw e;
+                HttpWebResponse response = (HttpWebResponse)e.Response;
+                if (response != null)  //排除对象为空的错误
+                {
+                    if (response.StatusCode == HttpStatusCode.NotFound)  //判断是否是404错误
+                        sdal.Delete(Convert.ToInt32(scheduleID));
+                }
             }
         }
 

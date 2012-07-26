@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data;
 using System.Configuration;
 using System.Collections;
@@ -16,10 +16,15 @@ namespace SeoWebSite.Web
     {
         protected string initCompanyJS = "";
         protected string live_url = SeoWebSite.BLL.WebClientBLL.root;
+        protected DateTime serverTime;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                TimeZoneInfo timezone = TimeZoneInfo.FindSystemTimeZoneById("China Standard Time");
+                serverTime = TimeZoneInfo.ConvertTime(DateTime.Now, timezone);
+
                 BLL.CompanyAsiaBLL companyBLL = new BLL.CompanyAsiaBLL();
                 DataSet ds = companyBLL.GetList("isasia=1");
                 JArray array = new JArray();

@@ -1,8 +1,8 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="SeoWebSite.Web.Default" Buffer="false" %>
+ï»¿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Default.aspx.cs" Inherits="SeoWebSite.Web.Default" Buffer="false" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-    <title>Ê×Ò³</title>
+    <title>é¦–é¡µ</title>
     <link href="css/Style.css" rel="stylesheet" type="text/css" />
     <link href="http://live.nowodds.com/live.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="lib/ext/resources/css/ext-all.css" />
@@ -16,13 +16,13 @@
     <div class="loading-indicator"><img src="Lib/ext/examples/shared/extjs/images/extanim32.gif" width="32" height="32" style="margin-right:8px;float:left;vertical-align:top;"/>Bet Helper - <a href="http://www.yuuzle.com">yuuzle.com</a><br /><span id="loading-msg">Loading styles and images...</span></div>
     </div>
 
-    <script type="text/javascript">        document.getElementById('loading-msg').innerHTML = 'ÕıÔÚ¼ÓÔØ Core API...';</script>
+    <script type="text/javascript">        document.getElementById('loading-msg').innerHTML = 'æ­£åœ¨åŠ è½½ Core API...';</script>
     <script src="lib/ext/adapter/ext/ext-base.js" type="text/javascript"></script>
-    <script type="text/javascript">        document.getElementById('loading-msg').innerHTML = 'ÕıÔÚ¼ÓÔØ UI Components...';</script>
+    <script type="text/javascript">        document.getElementById('loading-msg').innerHTML = 'æ­£åœ¨åŠ è½½ UI Components...';</script>
     <script src="lib/ext/ext-all.js" type="text/javascript"></script>
     <script src="Lib/ext/examples/ux/ux-all.js" type="text/javascript"></script>
     <script src="Lib/ext/src/locale/ext-lang-zh_CN.js" type="text/javascript"></script>
-    <script type="text/javascript">            document.getElementById('loading-msg').innerHTML = 'ÕıÔÚ³õÊ¼»¯...';</script>
+    <script type="text/javascript">            document.getElementById('loading-msg').innerHTML = 'æ­£åœ¨åˆå§‹åŒ–...';</script>
      <script src="Js/ux/Notification.js" type="text/javascript"></script>
     
     <script type="text/javascript" src="http://live.nowodds.com/func.js"></script>
@@ -63,43 +63,43 @@
 
   <div class="toptool">
 
-  <div class="tg1"><span class="secl"><a id="li_league" href="javascript:setOrderby('league');">°´ÁªÈüÅÅĞò</a><a id="li_time" style="display:none;" href="javascript:setOrderby('time');">°´Ê±¼äÅÅĞò</a></span></div>
+  <div class="tg1"><span class="secl"><a id="li_league" href="javascript:setOrderby('league');">æŒ‰è”èµ›æ’åº</a><a id="li_time" style="display:none;" href="javascript:setOrderby('time');">æŒ‰æ—¶é—´æ’åº</a></span></div>
 
-  <div class="tg2" onclick="ShowAllMatch()" style="cursor:pointer; width:85px;">Òş²Ø <span class="td_scoreR" id="hiddencount">0</span> ³¡</div>
+  <div class="tg2" onclick="ShowAllMatch()" style="cursor:pointer; width:85px;">éšè— <span class="td_scoreR" id="hiddencount">0</span> åœº</div>
 
    <ul class="tg3">
 
-  <li class="yu1"><a href="2in1.aspx" class="selected"><span>±È·Ö+Ö¸Êı</span></a></li>
+  <li class="yu1"><a href="2in1.aspx" class="selected"><span>æ¯”åˆ†+æŒ‡æ•°</span></a></li>
 
-  <li class="yu1"><a href="index.aspx"><span>´¿±È·Ö</span></a></li>
+  <li class="yu1"><a href="index.aspx"><span>çº¯æ¯”åˆ†</span></a></li>
 
-  <li class="yu2"><a href="javascript:SetLevel(0);" title="ÏÔÊ¾µ±Ìì×ã²Ê±ÈÈü"  id="liZC" onmousemove="MM_showHideLayers('divMatchType3','','show')" onmouseout="MM_showHideLayers('divMatchType3','','hide')"><span>×ã²Ê</span></a></li>
+  <li class="yu2"><a href="javascript:SetLevel(0);" title="æ˜¾ç¤ºå½“å¤©è¶³å½©æ¯”èµ›"  id="liZC" onmousemove="MM_showHideLayers('divMatchType3','','show')" onmouseout="MM_showHideLayers('divMatchType3','','hide')"><span>è¶³å½©</span></a></li>
 
-  <li style="margin-left:10px;" class="yu1"><a href="javascript:SetMatchType(0);" id="MatchType0" title="ÏÔÊ¾ËùÓĞµÄ±ÈÈü"><span>È«²¿ÈüÊÂ</span></a></li>
+  <li style="margin-left:10px;" class="yu1"><a href="javascript:SetMatchType(0);" id="MatchType0" title="æ˜¾ç¤ºæ‰€æœ‰çš„æ¯”èµ›"><span>å…¨éƒ¨èµ›äº‹</span></a></li>
 
-  <li class="yu2"><a href="javascript:SetMatchType(1);" id="MatchType1" title="Ö»ÏÔÊ¾ÖØÒªµÄ±ÈÈü£¬¾«Ñ¡ÈüÊÂ"><span>¾«¼ò</span></a></li>
+  <li class="yu2"><a href="javascript:SetMatchType(1);" id="MatchType1" title="åªæ˜¾ç¤ºé‡è¦çš„æ¯”èµ›ï¼Œç²¾é€‰èµ›äº‹"><span>ç²¾ç®€</span></a></li>
 
-  <li class="yu1"><a href="javascript:SetMatchType(2);" id="MatchType2" title="ÏÔÊ¾ÓĞÅâÂÊµÄ±ÈÈü"><span>¿ªÅÌÈüÊÂ</span></a></li>
+  <li class="yu1"><a href="javascript:SetMatchType(2);" id="MatchType2" title="æ˜¾ç¤ºæœ‰èµ”ç‡çš„æ¯”èµ›"><span>å¼€ç›˜èµ›äº‹</span></a></li>
 
   </ul>
 
   <div class="tg3" style="margin-left:5px;margin-right:0px;">
 
-	<input type="checkbox" name="yp" id="yp"  onClick="CheckFunction('yp')"/>ÑÇÅâ
+	<input type="checkbox" name="yp" id="yp"  onClick="CheckFunction('yp')"/>äºšèµ”
 
-	<input type="checkbox" name="op" id="op"  onClick="CheckFunction('op')"/>Å·Åâ
+	<input type="checkbox" name="op" id="op"  onClick="CheckFunction('op')"/>æ¬§èµ”
 
-	<input type="checkbox" name="dx" id="dx"  onClick="CheckFunction('dx')"/>´óĞ¡
+	<input type="checkbox" name="dx" id="dx"  onClick="CheckFunction('dx')"/>å¤§å°
 
   </div>
 
   <ul class="tg3s">
 
-  <li class="sh2"><a href="javascript:MM_showHideLayers('DivFunction','','show','DivLeague','','hide')">ÉèÖÃ</a></li>
+  <li class="sh2"><a href="javascript:MM_showHideLayers('DivFunction','','show','DivLeague','','hide')">è®¾ç½®</a></li>
 
-  <li style="margin-left:5px" class="sh2"><a href="javascript:SetLanguage(1);" id="Language1"><span>·±Ìå</span></a></li>
+  <li style="margin-left:5px" class="sh2"><a href="javascript:SetLanguage(1);" id="Language1"><span>ç¹ä½“</span></a></li>
 
-  <li class="sh2"><a href="javascript:SetLanguage(0);" id="Language0"><span>¼òÌå</span></a></li>
+  <li class="sh2"><a href="javascript:SetLanguage(0);" id="Language0"><span>ç®€ä½“</span></a></li>
 
   <li class="sh2"><a href="http://www.nowgoal.com" id="Language2" target="_blank"><span>En</span></a></li>
 
@@ -127,19 +127,19 @@
 
     <div id="Layer1" style="position:absolute;height:1px; z-index:5;">
 
- <div id="DivLeague"><div class="sotit"><h1>ÈüÊÂÑ¡Ôñ</h1><span class="cc"><a style="cursor:pointer;" onClick="MM_showHideLayers('DivLeague','','hide')"></a></span></div>
+ <div id="DivLeague"><div class="sotit"><h1>èµ›äº‹é€‰æ‹©</h1><span class="cc"><a style="cursor:pointer;" onClick="MM_showHideLayers('DivLeague','','hide')"></a></span></div>
 
 		<div class="rbl">
 
-			<input type="radio" name="selectType" id="rb0" value="0" onclick="ShowAllMatch()" checked="checked" /><label for="rb0">ËùÓĞ±ÈÈü</label>
+			<input type="radio" name="selectType" id="rb0" value="0" onclick="ShowAllMatch()" checked="checked" /><label for="rb0">æ‰€æœ‰æ¯”èµ›</label>
 
-			  <input type="radio" name="selectType" id="rb4" value="4" onclick="ShowMatchByMatchState(4)" /><label for="rb4">¹öÇòÈüÊÂ</label>
+			  <input type="radio" name="selectType" id="rb4" value="4" onclick="ShowMatchByMatchState(4)" /><label for="rb4">æ»šçƒèµ›äº‹</label>
 
-			  <input type="radio" name="selectType" id="rb3" value="3" onclick="ShowMatchByMatchState(3)" /><label for="rb3">Î´¿ª³¡¡¡</label>			  
+			  <input type="radio" name="selectType" id="rb3" value="3" onclick="ShowMatchByMatchState(3)" /><label for="rb3">æœªå¼€åœºã€€</label>			  
 
-			  <input type="radio" name="selectType" id="rb2" value="2" onclick="ShowMatchByMatchState(2)" /><label for="rb2">ÒÑÍê³¡¡¡</label>
+			  <input type="radio" name="selectType" id="rb2" value="2" onclick="ShowMatchByMatchState(2)" /><label for="rb2">å·²å®Œåœºã€€</label>
 
-			  <input type="radio" name="selectType" id="rb1" value="1" onclick="ShowMatchByMatchState(1)" /><label for="rb1">½øĞĞÖĞ</label>
+			  <input type="radio" name="selectType" id="rb1" value="1" onclick="ShowMatchByMatchState(1)" /><label for="rb1">è¿›è¡Œä¸­</label>
 
 		</div>
 
@@ -148,16 +148,16 @@
 		<p class="bts">
 
 		<script language="javascript" type="text/javascript">
-		    document.write('<input type="button" name="btn_all" id="btn_all" value="È«²¿" style="cursor:pointer;" onclick="SetMatchType(0)"/>');
+		    document.write('<input type="button" name="btn_all" id="btn_all" value="å…¨éƒ¨" style="cursor:pointer;" onclick="SetMatchType(0)"/>');
 		</script>
 
-			<input type="button" name="button2" id="button2" value="Ò»¼¶ÈüÊÂ" style="cursor:pointer;" onclick="SetMatchType(1)"/>
+			<input type="button" name="button2" id="button2" value="ä¸€çº§èµ›äº‹" style="cursor:pointer;" onclick="SetMatchType(1)"/>
 
-			<input type="button" name="button2" id="button4" value="È«Ñ¡" style="cursor:pointer;" onclick="ShowAllMatch()"/>
+			<input type="button" name="button2" id="button4" value="å…¨é€‰" style="cursor:pointer;" onclick="ShowAllMatch()"/>
 
-			<input type="button" name="button3" id="button3" value="·´Ñ¡" style="cursor:pointer;" onclick="SelectOtherLeague()" />
+			<input type="button" name="button3" id="button3" value="åé€‰" style="cursor:pointer;" onclick="SelectOtherLeague()" />
 
-			<input type="button" name="button" id="button" value="¹Ø±Õ"  style="cursor:pointer;" onclick="MM_showHideLayers('DivLeague','','hide')"/>
+			<input type="button" name="button" id="button" value="å…³é—­"  style="cursor:pointer;" onclick="MM_showHideLayers('DivLeague','','hide')"/>
 
 		</p>
 
@@ -169,8 +169,8 @@
 
     <div id="countryList" class="gamelist"></div>
 		<p class="bts">
-			<input type="button" name="button2" id="button7" value="È«Ñ¡" style="cursor:pointer;" onclick="ShowAllMatch()"/>
-			<input type="button" name="button3" id="button8" value="·´Ñ¡" style="cursor:pointer;" onclick="SelectOtherLeague()" />
+			<input type="button" name="button2" id="button7" value="å…¨é€‰" style="cursor:pointer;" onclick="ShowAllMatch()"/>
+			<input type="button" name="button3" id="button8" value="åé€‰" style="cursor:pointer;" onclick="SelectOtherLeague()" />
 		</p>
 
   </div> 
@@ -179,7 +179,7 @@
 
   <div id="DivFunction" style="position:absolute;z-index:6;"> 
 
-	<div class="sotit"><h1>¹¦ÄÜÑ¡Ïî</h1><span class="cc"><a style="cursor:pointer;" onClick="MM_showHideLayers('DivFunction','','hide')"></a></span></div>
+	<div class="sotit"><h1>åŠŸèƒ½é€‰é¡¹</h1><span class="cc"><a style="cursor:pointer;" onClick="MM_showHideLayers('DivFunction','','hide')"></a></span></div>
 
 	<table width="100%" border="0" align="center" cellpadding="2" cellspacing="0">
 
@@ -187,77 +187,77 @@
 
 			  <td style="line-height:25px;">
 
-		 <div class="fontse" style="line-height:20px;"><div style="float:left;">×ÖÌå£º </div><a href="javascript:changeFontSize('table_live',12)">A</a><a  href="javascript:changeFontSize('table_live',14)" class="e12">A</a><a href="javascript:changeFontSize('table_live',16)"  class="e14">A</a></div>
+		 <div class="fontse" style="line-height:20px;"><div style="float:left;">å­—ä½“ï¼š </div><a href="javascript:changeFontSize('table_live',12)">A</a><a  href="javascript:changeFontSize('table_live',14)" class="e12">A</a><a href="javascript:changeFontSize('table_live',16)"  class="e14">A</a></div>
 
 		 <div style="clear:both"></div>
 
-					<p><input type="checkbox" name="rank" id="rank" onclick="CheckTeamRank()"> Çò¶ÓÅÅÃû</p>				
+					<p><input type="checkbox" name="rank" id="rank" onclick="CheckTeamRank()"> çƒé˜Ÿæ’å</p>				
 
-					<p><input type="checkbox" name="explain" id="explain" checked="checked" onclick="CheckExplain()">ÎÄ×Ö±¸×¢ĞÅÏ¢</p>
+					<p><input type="checkbox" name="explain" id="explain" checked="checked" onclick="CheckExplain()">æ–‡å­—å¤‡æ³¨ä¿¡æ¯</p>
 
-					<p><input type="checkbox" name="redcard" id="redcard" checked="checked" onclick="CheckFunction('redcard')">ºìÅÆÑÕÉ«ÌáÊ¾</p>
+					<p><input type="checkbox" name="redcard" id="redcard" checked="checked" onclick="CheckFunction('redcard')">çº¢ç‰Œé¢œè‰²æç¤º</p>
 
-					<p><input type="checkbox" name="detail" id="detail" checked="checked"  onclick="CheckFunction('detail')"/>ÒÆµ½±È·ÖÏÔÊ¾ÈëÇò</p>
+					<p><input type="checkbox" name="detail" id="detail" checked="checked"  onclick="CheckFunction('detail')"/>ç§»åˆ°æ¯”åˆ†æ˜¾ç¤ºå…¥çƒ</p>
 
-					<p><input type="checkbox" name="vs" id="vs" checked="checked"  onclick="CheckFunction('vs')"/>ÒÆµ½°ë³¡ÏÔÊ¾Íù¼¨</p>
+					<p><input type="checkbox" name="vs" id="vs" checked="checked"  onclick="CheckFunction('vs')"/>ç§»åˆ°åŠåœºæ˜¾ç¤ºå¾€ç»©</p>
 
-					<!--<p><input type="checkbox" name="odds" id="odds"  checked onClick="CheckFunction('odds')"/>ÒÆµ½×ßµØÏÔÊ¾Ö¸Êı</p>-->
+					<!--<p><input type="checkbox" name="odds" id="odds"  checked onClick="CheckFunction('odds')"/>ç§»åˆ°èµ°åœ°æ˜¾ç¤ºæŒ‡æ•°</p>-->
 
-					<p><input type="checkbox" name="oddsSound" id="oddsSound"  onclick="CheckFunction('oddsSound')"/>Ö¸Êı±ä»¯ÉùÒôÌáÊ¾</p>
+					<p><input type="checkbox" name="oddsSound" id="oddsSound"  onclick="CheckFunction('oddsSound')"/>æŒ‡æ•°å˜åŒ–å£°éŸ³æç¤º</p>
 
 								
 
-				<input type="checkbox" name="soundCheck" id="soundCheck" checked="checked" onclick="CheckSound()"/>½øÇòÉù<select name="sound" id="sound" onchange="CheckSound()" />
+				<input type="checkbox" name="soundCheck" id="soundCheck" checked="checked" onclick="CheckSound()"/>è¿›çƒå£°<select name="sound" id="sound" onchange="CheckSound()" />
 
-				<option value="0">Ä¬ÈÏ</option>
+				<option value="0">é»˜è®¤</option>
 
-				<option value="1">¾¯±¨</option>
+				<option value="1">è­¦æŠ¥</option>
 
-				<option value="2">±´Ë¾</option>
+				<option value="2">è´å¸</option>
 
-				<option value="3">à½à½</option>
+				<option value="3">å˜Ÿå˜Ÿ</option>
 
 				</select><br>				
 
-				<input type="checkbox" name="windowCheck" ID="windowCheck" checked="checked" onclick="CheckWindow()" />ÌáÊ¾´°<select name="winLocation" id="winLocation" onchange="CheckWindow()">
+				<input type="checkbox" name="windowCheck" ID="windowCheck" checked="checked" onclick="CheckWindow()" />æç¤ºçª—<select name="winLocation" id="winLocation" onchange="CheckWindow()">
 
-				<option value="0">ÕıÉÏ·½</option>
+				<option value="0">æ­£ä¸Šæ–¹</option>
 
-				<option value="1">ÕıÏÂ·½</option>
+				<option value="1">æ­£ä¸‹æ–¹</option>
 
-				<option value="2">Õı×ó·½</option>
+				<option value="2">æ­£å·¦æ–¹</option>
 
-				<option value="3">ÕıÓÒ·½</option>
+				<option value="3">æ­£å³æ–¹</option>
 
-				<option value="4">×óÉÏ½Ç</option>
+				<option value="4">å·¦ä¸Šè§’</option>
 
-				<option value="5">ÓÒÉÏ½Ç</option>
+				<option value="5">å³ä¸Šè§’</option>
 
-				<option value="6">×óÏÂ½Ç</option>
+				<option value="6">å·¦ä¸‹è§’</option>
 
-				<option value="7">ÓÒÏÂ½Ç</option>
+				<option value="7">å³ä¸‹è§’</option>
 
 				</select><br>
-				<p class="bts"><input type="button" name="button2" id="button1" value="´òÓ¡" style="cursor:pointer;" onclick="javascript:window.open('/score_print.aspx','','')";/><input type="button" name="button" id="button5" value="¹Ø±Õ"  style="cursor:pointer;" onclick="MM_showHideLayers('DivFunction','','hide')"/></p>
+				<p class="bts"><input type="button" name="button2" id="button1" value="æ‰“å°" style="cursor:pointer;" onclick="javascript:window.open('/score_print.aspx','','')";/><input type="button" name="button" id="button5" value="å…³é—­"  style="cursor:pointer;" onclick="MM_showHideLayers('DivFunction','','hide')"/></p>
 			  </td></tr>
 		  </table>
   </div>
   <div id="divMatchType3" onmouseout="MM_showHideLayers('divMatchType3','','hide')" onmousemove="MM_showHideLayers('divMatchType3','','show')">
-		<div><a href="javascript:SetLevel(0);">ËùÓĞÈüÊÂ</a></div>
-		<div><a href="javascript:SetLevel(1);">Ê¤¸º²Ê</a></div>
-		<div><a href="javascript:SetLevel(2);">±±¾©µ¥³¡</a></div>
+		<div><a href="javascript:SetLevel(0);">æ‰€æœ‰èµ›äº‹</a></div>
+		<div><a href="javascript:SetLevel(1);">èƒœè´Ÿå½©</a></div>
+		<div><a href="javascript:SetLevel(2);">åŒ—äº¬å•åœº</a></div>
   </div>
 </div>
 <div>
 	<ul class="Companys" style="margin-left:25px;">
-      <li><a href="javascript:SetCompany(1);" id="company1"><span>°ÄÃÅ</span></a></li>
-      <li><a href="javascript:SetCompany(4);" id="company4"><span>Á¢²©</span></a></li>
-      <li><a href="javascript:SetCompany(3);" id="company3"><span>£Ó£Â</span></a></li>
-      <li><a href="javascript:SetCompany(24);" id="company24"><span>É³°Í</span></a></li>
-      <li><a href="javascript:SetCompany(31);" id="company31"><span>Àû¼Ç</span></a></li>
-      <li><a href="javascript:SetCompany(17);" id="company17"><span>Ã÷ê…</span></a></li>
-      <li><a href="javascript:SetCompany(23);" id="company23"><span>½ğ±¦²©</span></a></li>
-      <li><a href="javascript:SetCompany(12);" id="company12"><span>Ò×Ê¤²©</span></a></li>
+      <li><a href="javascript:SetCompany(1);" id="company1"><span>æ¾³é—¨</span></a></li>
+      <li><a href="javascript:SetCompany(4);" id="company4"><span>ç«‹åš</span></a></li>
+      <li><a href="javascript:SetCompany(3);" id="company3"><span>ï¼³ï¼¢</span></a></li>
+      <li><a href="javascript:SetCompany(24);" id="company24"><span>æ²™å·´</span></a></li>
+      <li><a href="javascript:SetCompany(31);" id="company31"><span>åˆ©è®°</span></a></li>
+      <li><a href="javascript:SetCompany(17);" id="company17"><span>æ˜é™</span></a></li>
+      <li><a href="javascript:SetCompany(23);" id="company23"><span>é‡‘å®åš</span></a></li>
+      <li><a href="javascript:SetCompany(12);" id="company12"><span>æ˜“èƒœåš</span></a></li>
       <li><a href="javascript:SetCompany(8);" id="company8"><span>Bet365</span></a></li>
     </ul>  
 
@@ -273,13 +273,13 @@
 
 	<ul class="main2_tool">
 
-	  <li class="m_on" id="LeagueKind1"><a href="javascript:showLeagueList(1)">½ñÈÕÈüÊÂ</a></li>
+	  <li class="m_on" id="LeagueKind1"><a href="javascript:showLeagueList(1)">ä»Šæ—¥èµ›äº‹</a></li>
 
-	  <li class="m_off" id="LeagueKind2"><a href="javascript:showLeagueList(2)">ÈÈÃÅÈüÊÂ</a></li>
+	  <li class="m_off" id="LeagueKind2"><a href="javascript:showLeagueList(2)">çƒ­é—¨èµ›äº‹</a></li>
 
-	  <li class="m_off" id="LeagueKind3"><a href="javascript:showLeagueList(3)">ÈÈÃÅ±­Èü</a></li>
+	  <li class="m_off" id="LeagueKind3"><a href="javascript:showLeagueList(3)">çƒ­é—¨æ¯èµ›</a></li>
 
-	  <li class="m_off"><a href="odds/history.aspx" target="_blank">Ö¸Êı¸´²é</a></li>
+	  <li class="m_off"><a href="odds/history.aspx" target="_blank">æŒ‡æ•°å¤æŸ¥</a></li>
 
 	  </ul>
 
@@ -289,47 +289,47 @@
 
 <table width='100%' id="hotLeague" style="display:none;" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='text-align:center; margin-bottom:5px;'><tr height=20>
 
-<td bgcolor="#FF3333"><a href="javascript:ChangeJS(36,1)">Ó¢³¬</a></td>
+<td bgcolor="#FF3333"><a href="javascript:ChangeJS(36,1)">è‹±è¶…</a></td>
 
-<td bgcolor="#cc3300"><a href="javascript:ChangeJS(37,1)">Ó¢¹Ú</a></td>
+<td bgcolor="#cc3300"><a href="javascript:ChangeJS(37,1)">è‹±å† </a></td>
 
-<td bgcolor="#0088FF"><a href="javascript:ChangeJS(34,1)">Òâ¼×</a></td>
+<td bgcolor="#0088FF"><a href="javascript:ChangeJS(34,1)">æ„ç”²</a></td>
 
-<td bgcolor="#006633"><a href="javascript:ChangeJS(31,1)">Î÷¼×</a></td>
+<td bgcolor="#006633"><a href="javascript:ChangeJS(31,1)">è¥¿ç”²</a></td>
 
-<td bgcolor="#990099"><a href="javascript:ChangeJS(8,1)">µÂ¼×</a></td>
+<td bgcolor="#990099"><a href="javascript:ChangeJS(8,1)">å¾·ç”²</a></td>
 
-<td bgcolor="#DDDD00"><a href="javascript:ChangeJS(4,1)">°ÍÎ÷¼×</a></td>
+<td bgcolor="#DDDD00"><a href="javascript:ChangeJS(4,1)">å·´è¥¿ç”²</a></td>
 
-<td bgcolor="#663333"><a href="javascript:ChangeJS(11,1)">·¨¼×</a></td>
+<td bgcolor="#663333"><a href="javascript:ChangeJS(11,1)">æ³•ç”²</a></td>
 
-<td bgcolor="#008888"><a href="javascript:ChangeJS(23,1)">ÆÏ³¬</a></td>
+<td bgcolor="#008888"><a href="javascript:ChangeJS(23,1)">è‘¡è¶…</a></td>
 
-<td bgcolor="#57A87B"><a href="javascript:ChangeJS(29,1)">ËÕ³¬</a></td>
+<td bgcolor="#57A87B"><a href="javascript:ChangeJS(29,1)">è‹è¶…</a></td>
 
-<td bgcolor="#FF6699"><a href="javascript:ChangeJS(16,1)">ºÉ¼×</a></td></tr>
+<td bgcolor="#FF6699"><a href="javascript:ChangeJS(16,1)">è·ç”²</a></td></tr>
 
 <tr height=20>
 
-<td bgcolor="#660033"><a href="javascript:ChangeJS(21,1)">ÃÀÖ°Òµ</a></td>
+<td bgcolor="#660033"><a href="javascript:ChangeJS(21,1)">ç¾èŒä¸š</a></td>
 
-<td bgcolor="#009900"><a href="javascript:ChangeJS(25,1)">ÈÕÖ°Áª</a></td>
+<td bgcolor="#009900"><a href="javascript:ChangeJS(25,1)">æ—¥èŒè”</a></td>
 
-<td bgcolor="#FC9B0A"><a href="javascript:ChangeJS(5,1)">±È¼×</a></td>
+<td bgcolor="#FC9B0A"><a href="javascript:ChangeJS(5,1)">æ¯”ç”²</a></td>
 
-<td bgcolor="#004488"><a href="javascript:ChangeJS(26,1)">Èğµä³¬</a></td>
+<td bgcolor="#004488"><a href="javascript:ChangeJS(26,1)">ç‘å…¸è¶…</a></td>
 
-<td bgcolor="#137AAC"><a href="javascript:ChangeJS(13,1)">·Ò³¬</a></td>
+<td bgcolor="#137AAC"><a href="javascript:ChangeJS(13,1)">èŠ¬è¶…</a></td>
 
-<td bgcolor="#0066FF"><a href="javascript:ChangeJS(60,1)">ÖĞ³¬</a></td>
+<td bgcolor="#0066FF"><a href="javascript:ChangeJS(60,1)">ä¸­è¶…</a></td>
 
-<td bgcolor="#666666"><a href="javascript:ChangeJS(22,1)">Å²³¬</a></td>
+<td bgcolor="#666666"><a href="javascript:ChangeJS(22,1)">æŒªè¶…</a></td>
 
-<td bgcolor="#2f3fd2"><a href="javascript:ChangeJS(3,1)">°Â¼×</a></td>
+<td bgcolor="#2f3fd2"><a href="javascript:ChangeJS(3,1)">å¥¥ç”²</a></td>
 
-<td bgcolor="#1ba578"><a href="javascript:ChangeJS(27,1)">ÈğÊ¿³¬</a></td>
+<td bgcolor="#1ba578"><a href="javascript:ChangeJS(27,1)">ç‘å£«è¶…</a></td>
 
-<td bgcolor="#006699"><a href="javascript:ChangeJS(10,1)">¶í³¬</a></td>
+<td bgcolor="#006699"><a href="javascript:ChangeJS(10,1)">ä¿„è¶…</a></td>
 
 </tr></table>
 
@@ -337,47 +337,47 @@
 
 <table width='100%' id="hotCup" border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#ffffff' class='gre' style='display:none;text-align:center; margin-bottom:5px;'><tr style="height:20;">
 
-<td bgcolor="#660000"><a href="javascript:ChangeJS(75,2)">ÊÀ½ç±­</a></td>
+<td bgcolor="#660000"><a href="javascript:ChangeJS(75,2)">ä¸–ç•Œæ¯</a></td>
 
-<td bgcolor="#660033"><a href="javascript:ChangeJS(650,2)">Å·ÖŞÔ¤Ñ¡</a></td>
+<td bgcolor="#660033"><a href="javascript:ChangeJS(650,2)">æ¬§æ´²é¢„é€‰</a></td>
 
-<td bgcolor="#f36229"><a href="javascript:ChangeJS(652,2)">ÄÏÃÀÔ¤Ñ¡</a></td>
+<td bgcolor="#f36229"><a href="javascript:ChangeJS(652,2)">å—ç¾é¢„é€‰</a></td>
 
-<td bgcolor=#448e08><a href="javascript:ChangeJS(653,2)">±±ÃÀÔ¤Ñ¡</a></td>
+<td bgcolor=#448e08><a href="javascript:ChangeJS(653,2)">åŒ—ç¾é¢„é€‰</a></td>
 
-<td bgcolor=#49a63d><a href="javascript:ChangeJS(648,2)">ÑÇÖŞÔ¤Ñ¡</a></td>
+<td bgcolor=#49a63d><a href="javascript:ChangeJS(648,2)">äºšæ´²é¢„é€‰</a></td>
 
-<td bgcolor=#2f4e07><a href="javascript:ChangeJS(651,2)">·ÇÖŞÔ¤Ñ¡</a></td>
+<td bgcolor=#2f4e07><a href="javascript:ChangeJS(651,2)">éæ´²é¢„é€‰</a></td>
 
-<td bgcolor=#d15023><a href="javascript:ChangeJS(649,2)">´óÑóÔ¤Ñ¡</a></td>
+<td bgcolor=#d15023><a href="javascript:ChangeJS(649,2)">å¤§æ´‹é¢„é€‰</a></td>
 
-<td bgcolor=#009933><a href="javascript:ChangeJS(88,2)">ÖŞ¼Ê±­</a></td>
+<td bgcolor=#009933><a href="javascript:ChangeJS(88,2)">æ´²é™…æ¯</a></td>
 
-<td bgcolor=#660000><a href="javascript:ChangeJS(67,2)">Å·¹ú±­</a></td>
+<td bgcolor=#660000><a href="javascript:ChangeJS(67,2)">æ¬§å›½æ¯</a></td>
 
-<td bgcolor=#F75000><a href="javascript:ChangeJS(103,2)">Å·¹Ú±­</a></td></tr>
+<td bgcolor=#F75000><a href="javascript:ChangeJS(103,2)">æ¬§å† æ¯</a></td></tr>
 
 <tr height=20>
 
-<td bgcolor=#6F00DD><a href="javascript:ChangeJS(113,2)">Å·°Ô±­</a></td>
+<td bgcolor=#6F00DD><a href="javascript:ChangeJS(113,2)">æ¬§éœ¸æ¯</a></td>
 
-<td bgcolor=#990044><a href="javascript:ChangeJS(224,2)">ÃÀÖŞ±­</a></td>
+<td bgcolor=#990044><a href="javascript:ChangeJS(224,2)">ç¾æ´²æ¯</a></td>
 
-<td bgcolor=#37BE5A><a href="javascript:ChangeJS(95,2)">ÑÇÖŞ±­</a></td>
+<td bgcolor=#37BE5A><a href="javascript:ChangeJS(95,2)">äºšæ´²æ¯</a></td>
 
-<td bgcolor=#0000DB><a href="javascript:ChangeJS(192,2)">ÑÇ¹Ú±­</a></td>
+<td bgcolor=#0000DB><a href="javascript:ChangeJS(192,2)">äºšå† æ¯</a></td>
 
-<td bgcolor=#567576><a href="javascript:ChangeJS(93,2)">·ÇÖŞ±­</a></td>
+<td bgcolor=#567576><a href="javascript:ChangeJS(93,2)">éæ´²æ¯</a></td>
 
-<td bgcolor=#660000><a href="javascript:ChangeJS(90,2)">Ó¢×ã×Ü±­</a></td>
+<td bgcolor=#660000><a href="javascript:ChangeJS(90,2)">è‹±è¶³æ€»æ¯</a></td>
 
-<td bgcolor=#808080><a href="javascript:ChangeJS(84,2)">Ó¢Áª±­</a></td>
+<td bgcolor=#808080><a href="javascript:ChangeJS(84,2)">è‹±è”æ¯</a></td>
 
-<td bgcolor=#3c3cff><a href="javascript:ChangeJS(83,2)">Òâ±­</a></td>
+<td bgcolor=#3c3cff><a href="javascript:ChangeJS(83,2)">æ„æ¯</a></td>
 
-<td bgcolor=#006666><a href="javascript:ChangeJS(81,2)">Î÷±­</a></td>
+<td bgcolor=#006666><a href="javascript:ChangeJS(81,2)">è¥¿æ¯</a></td>
 
-<td bgcolor=#a00800><a href="javascript:ChangeJS(51,2)">µÂ¹ú±­</a></td>
+<td bgcolor=#a00800><a href="javascript:ChangeJS(51,2)">å¾·å›½æ¯</a></td>
 
 </tr></table>
 
@@ -409,37 +409,37 @@
 
                 <tr>
 
-                        <td width="18" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>ÂÖ´Î</strong></div></td>
+                        <td width="18" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>è½®æ¬¡</strong></div></td>
 
-                        <td width="37" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>Ê±¼ä</strong></div></td>
+                        <td width="37" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>æ—¶é—´</strong></div></td>
 
-                        <td width="106" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>Ö÷¶Ó</strong></div></td>
+                        <td width="106" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>ä¸»é˜Ÿ</strong></div></td>
 
-                        <td width="60" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>±È·Ö</strong></div></td>
+                        <td width="60" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>æ¯”åˆ†</strong></div></td>
 
-                        <td width="106" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>¿Í¶Ó</strong></div></td>
+                        <td width="106" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>å®¢é˜Ÿ</strong></div></td>
 
-                        <td height="18" colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>ÈÃÇò</strong></div></td>
+                        <td height="18" colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>è®©çƒ</strong></div></td>
 
-                        <td colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>´óĞ¡</strong></div></td>
+                        <td colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>å¤§å°</strong></div></td>
 
 
 
-                        <td width="65" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>×ÊÁÏ</strong></div></td>
+                        <td width="65" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>èµ„æ–™</strong></div></td>
 
-                        <td width="27" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>°ë³¡</strong></div></td>
+                        <td width="27" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>åŠåœº</strong></div></td>
 
                     </tr><tr>
 
-                        <td width="41" height="18" bgcolor="#83acc2"><div align="center" class="STYLE4">È«³¡</div></td>
+                        <td width="41" height="18" bgcolor="#83acc2"><div align="center" class="STYLE4">å…¨åœº</div></td>
 
-                        <td width="41" bgcolor="#83acc2"><div align="center" class="STYLE4">°ë³¡</div></td>
+                        <td width="41" bgcolor="#83acc2"><div align="center" class="STYLE4">åŠåœº</div></td>
 
-                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">È«³¡</div></td>
+                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">å…¨åœº</div></td>
 
 
 
-                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">°ë³¡</div></td>
+                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">åŠåœº</div></td>
 
                     </tr>
 
@@ -453,9 +453,9 @@
 
 <table width="680" border="1" cellpadding="2" cellspacing="0"   bgcolor="#ffffff" class="tdlink" id="Table2">
 
-                    <tr bgcolor='#f5bcbc'><td height='21' align='center'  style=" color:#ffffff; font-weight:bold; width:550px;" bgcolor='#456da8' id="scoreTitle">×Ü»ı·Ö°ñ</td><td   height='21' align='center'  bgcolor='#456da8' >
+                    <tr bgcolor='#f5bcbc'><td height='21' align='center'  style=" color:#ffffff; font-weight:bold; width:550px;" bgcolor='#456da8' id="scoreTitle">æ€»ç§¯åˆ†æ¦œ</td><td   height='21' align='center'  bgcolor='#456da8' >
 
-                    <select name="scoreRound" id="scoreRound" onchange="scoreRoundChange(this)"><option value="0">×Ü»ı·Ö°ñ</option></select></td></tr></table>
+                    <select name="scoreRound" id="scoreRound" onchange="scoreRoundChange(this)"><option value="0">æ€»ç§¯åˆ†æ¦œ</option></select></td></tr></table>
 
                 
 
@@ -467,21 +467,21 @@
 
 <ul>
 
-  <li id="menu1" class="nav_selected" onclick="SelectScore(1)" style=" cursor:pointer">×Ü»ı·Ö°ñ</li>
+  <li id="menu1" class="nav_selected" onclick="SelectScore(1)" style=" cursor:pointer">æ€»ç§¯åˆ†æ¦œ</li>
 
-  <li id="menu2" class="nav_unselected" onclick='SelectScore(2)'  style=" cursor:pointer">Ö÷³¡»ı·Ö°ñ</li>
-
-
-
-  <li id='menu3' class='nav_unselected' onclick='SelectScore(3)'  style=" cursor:pointer">¿Í³¡»ı·Ö°ñ</li>
-
-  <li id='menu4' class='nav_unselected' onclick='SelectScore(4)' style=" cursor:pointer">°ë³¡×Ü»ı·Ö°ñ</li>
-
-  <li id='menu5' class='nav_unselected' onclick='SelectScore(5)' style=" cursor:pointer">°ë³¡Ö÷³¡»ı·Ö°ñ</li>
+  <li id="menu2" class="nav_unselected" onclick='SelectScore(2)'  style=" cursor:pointer">ä¸»åœºç§¯åˆ†æ¦œ</li>
 
 
 
-  <li id='menu6' class='nav_unselected' onclick='SelectScore(6)' style=" cursor:pointer">°ë³¡¿Í³¡»ı·Ö°ñ</li></ul></div></div>
+  <li id='menu3' class='nav_unselected' onclick='SelectScore(3)'  style=" cursor:pointer">å®¢åœºç§¯åˆ†æ¦œ</li>
+
+  <li id='menu4' class='nav_unselected' onclick='SelectScore(4)' style=" cursor:pointer">åŠåœºæ€»ç§¯åˆ†æ¦œ</li>
+
+  <li id='menu5' class='nav_unselected' onclick='SelectScore(5)' style=" cursor:pointer">åŠåœºä¸»åœºç§¯åˆ†æ¦œ</li>
+
+
+
+  <li id='menu6' class='nav_unselected' onclick='SelectScore(6)' style=" cursor:pointer">åŠåœºå®¢åœºç§¯åˆ†æ¦œ</li></ul></div></div>
 
   <div class='nav_select_bottom'></div>
 
@@ -495,7 +495,7 @@
 
 <div class="tdsolid" id="ScoreGroupDiv">
 
-<table border="0" cellspacing="1" cellpadding="1" bgcolor="#cccccc" style="border-collapse:inherit" width="680" align="center" id="ScoreGroupTab"><tbody><tr><td bgcolor="#d1e2f5" width="32"><div align="center">ÅÅÃû</div></td>  <td bgcolor="#d1e2f5" width="254"><div align="center">Çò¶Ó</div></td>  <td bgcolor="#d1e2f5" width="44" align="center">×Ü</td>  <td bgColor="#d1e2f5" width="44" align="center">Ê¤</td>  <td bgcolor="#d1e2f5" width="44" align="center">Æ½</td>  <td bgcolor="#d1e2f5" width="44" align="center">¸º</td>  <td bgcolor="#d1e2f5" width="44" align="center">µÃ</td>  <td bgcolor="#d1e2f5" width="44" align="center">Ê§</td>  <td bgcolor="#d1e2f5" width="44" align="center">¾»</td><td bgcolor="#d1e2f5" width="44" align="center">»ı·Ö</td></tr></tbody></table>
+<table border="0" cellspacing="1" cellpadding="1" bgcolor="#cccccc" style="border-collapse:inherit" width="680" align="center" id="ScoreGroupTab"><tbody><tr><td bgcolor="#d1e2f5" width="32"><div align="center">æ’å</div></td>  <td bgcolor="#d1e2f5" width="254"><div align="center">çƒé˜Ÿ</div></td>  <td bgcolor="#d1e2f5" width="44" align="center">æ€»</td>  <td bgColor="#d1e2f5" width="44" align="center">èƒœ</td>  <td bgcolor="#d1e2f5" width="44" align="center">å¹³</td>  <td bgcolor="#d1e2f5" width="44" align="center">è´Ÿ</td>  <td bgcolor="#d1e2f5" width="44" align="center">å¾—</td>  <td bgcolor="#d1e2f5" width="44" align="center">å¤±</td>  <td bgcolor="#d1e2f5" width="44" align="center">å‡€</td><td bgcolor="#d1e2f5" width="44" align="center">ç§¯åˆ†</td></tr></tbody></table>
 
 </div>
 
@@ -507,37 +507,37 @@
 
                 <table width="680" border="0" cellpadding="0" cellspacing="1"   bgcolor="#C6C6C6" class="tdlink" id="Table4"><tr>
 
-                        <td width="48" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>ÂÖ´Î</strong></div></td>
+                        <td width="48" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>è½®æ¬¡</strong></div></td>
 
-                        <td width="37" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>Ê±¼ä</strong></div></td>
+                        <td width="37" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>æ—¶é—´</strong></div></td>
 
-                        <td width="96" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>Ö÷¶Ó</strong></div></td>
+                        <td width="96" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>ä¸»é˜Ÿ</strong></div></td>
 
-                        <td width="60" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>±È·Ö</strong></div></td>
+                        <td width="60" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>æ¯”åˆ†</strong></div></td>
 
-                        <td width="96" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>¿Í¶Ó</strong></div></td>
+                        <td width="96" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>å®¢é˜Ÿ</strong></div></td>
 
-                        <td height="18" colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>ÈÃÇò</strong></div></td>
+                        <td height="18" colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>è®©çƒ</strong></div></td>
 
-                        <td colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>´óĞ¡</strong></div></td>
+                        <td colspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>å¤§å°</strong></div></td>
 
 
 
-                        <td width="55" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>×ÊÁÏ</strong></div></td>
+                        <td width="55" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>èµ„æ–™</strong></div></td>
 
-                        <td width="27" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>°ë³¡</strong></div></td>
+                        <td width="27" rowspan="2" bgcolor="#456da8"><div align="center" class="STYLE4"><strong>åŠåœº</strong></div></td>
 
                     </tr><tr>
 
-                        <td width="41" height="18" bgcolor="#83acc2"><div align="center" class="STYLE4">È«³¡</div></td>
+                        <td width="41" height="18" bgcolor="#83acc2"><div align="center" class="STYLE4">å…¨åœº</div></td>
 
-                        <td width="41" bgcolor="#83acc2"><div align="center" class="STYLE4">°ë³¡</div></td>
+                        <td width="41" bgcolor="#83acc2"><div align="center" class="STYLE4">åŠåœº</div></td>
 
-                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">È«³¡</div></td>
+                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">å…¨åœº</div></td>
 
 
 
-                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">°ë³¡</div></td>
+                        <td width="39" bgcolor="#9d8dad"><div align="center" class="STYLE4">åŠåœº</div></td>
 
                     </tr></table>
 
@@ -571,7 +571,7 @@
 
 <script language="javascript" type="text/javascript">
     var loaded = 0, LoadTime = 0, nofityTimer, matchType = -1, runtimeTimer, getoddsxmlTimer, LoadLiveFileTimer;
-    var difftime = new Date() - new Date(<%= DateTime.Now.ToString("yyyy,MM-1,dd,HH,mm,ss") %>);
+    var difftime = new Date() - new Date(<%= serverTime.ToString("yyyy,MM-1,dd,HH,mm,ss") %>);
     var loadDetailFileTime = new Date();
     var loadVideoFileTime = new Date();
     var oldOddsXML = "";
@@ -582,9 +582,9 @@
     var oddsHttp = zXmlHttp.createRequest();
     var needSound = false;
     var orderby = "time";
-    var isliving = false;//¼´Ê±¸üĞÂ
-    var issendmail = false;//ÓÊ¼şÍ¨Öª
-    var issendsms = false;//¶ÌĞÅÍ¨Öª
+    var isliving = false;//å³æ—¶æ›´æ–°
+    var issendmail = false;//é‚®ä»¶é€šçŸ¥
+    var issendsms = false;//çŸ­ä¿¡é€šçŸ¥
 
     function ShowBf() {
         loaded = 0;
@@ -619,7 +619,7 @@
         var oldHiddenID = true;
         var html = new Array();
         html.push("<table id='table_live' width=100% bgcolor=#C6C6C6 align=center cellspacing=1 border=0 cellpadding=0><tr class=ki1 align=center>");
-        html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>Ñ¡</font></td><td  width=8%><font color=white>" + matchdate + "</font></td><td  width=5%><font color=white>Ê±¼ä</font></td><td  width=5%><font color=white>×´Ì¬</font></td><td  width=16%><font color=white>Ö÷¶Ó</font></td><td  width=5%><font color=white>±È·Ö</font></td><td  width=16%><font color=white>¿Í¶Ó</font></td><td  width=5%><font color=white>°ë³¡</font></td><td  width=15%><font color=white>Êı¾İ</font></td><td width=19% colspan=3><font color=white>Ö¸Êı</font></td><td width=3%>×ß</td><td width=3%>×ÜÊı</td><td width=6%>Ê¤</td><td width=6%>Æ½</td><td width=6%>¸º</td></tr>");
+        html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>é€‰</font></td><td  width=8%><font color=white>" + matchdate + "</font></td><td  width=5%><font color=white>æ—¶é—´</font></td><td  width=5%><font color=white>çŠ¶æ€</font></td><td  width=16%><font color=white>ä¸»é˜Ÿ</font></td><td  width=5%><font color=white>æ¯”åˆ†</font></td><td  width=16%><font color=white>å®¢é˜Ÿ</font></td><td  width=5%><font color=white>åŠåœº</font></td><td  width=15%><font color=white>æ•°æ®</font></td><td width=19% colspan=3><font color=white>æŒ‡æ•°</font></td><td width=3%>èµ°</td><td width=3%>æ€»æ•°</td><td width=6%>èƒœ</td><td width=6%>å¹³</td><td width=6%>è´Ÿ</td></tr>");
 
         oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/goal" + Config.companyID + ".xml?" + Date.parse(new Date()), false);
         oddsHttp.send(null);
@@ -666,7 +666,7 @@
                 state = parseInt(A[i][12]);
                 switch (state) {
                     case 0:
-                        if (A[i][23] == "1") match_score = "ÕóÈİ"; else match_score = "-";
+                        if (A[i][23] == "1") match_score = "é˜µå®¹"; else match_score = "-";
                         match_half = "-";
                         break;
                     case 1:
@@ -725,22 +725,22 @@
                 html.push("<td onclick='showgoallist(" + A[i][0] + ")' class='" + classx2 + "' onmouseover='showdetail(" + i + ",event)' onmouseout='hiddendetail()'>" + match_score + "</td>");
                 html.push("<td class=a2><a id='team2_" + A[i][0] + "' href='javascript:' onclick='TeamPanlu_10(" + A[i][0] + ")'  title='" + A[i][22] + "'>" + A[i][7 + Config.language] + "</a><a id='redcard2_" + A[i][0] + "'>" + G_redcard + "</a><a id='yellow2_" + A[i][0] + "'>" + G_yellow + "</a><span id=gorder_" + A[i][0] + "></span></td>");
                 html.push("<td class=td_half onmouseover='showpaulu(" + i + ",event)' onmouseout='hiddendetail()'>" + match_half + "</td>");
-                html.push("<td class=fr style='text-align:left'><a href='javascript:' onclick=analysis(" + A[i][0] + ") title='Êı¾İ·ÖÎö' style='padding-left:2px;'>Îö</a><a style='cursor:pointer;padding-left:4px;' href=javascript: onclick=\"AsianOdds(" + A[i][0] + ");return false\" title='11¼ÒÖ¸Êı'>ÑÇ</a><a href='javascript:EuropeOdds(" + A[i][0] + ")' style='padding-left:4px;' title='°Ù¼ÒÅ·Åâ'>Å·</a>");
-                if (A[i][29] == "1") html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>ÏÖ</a>");
-                else html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:blue;padding-left:4px;' target=_blank>ÏÖ</a>");
-                //if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>¼ö</a>");
-                 html.push("<a href='javascript:' onclick='Odds1x2Mail1("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>¼ö</a>");
-                 html.push("<a href='javascript:' onclick='Odds1x2Mail("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>ÓÊ</a>");
+                html.push("<td class=fr style='text-align:left'><a href='javascript:' onclick=analysis(" + A[i][0] + ") title='æ•°æ®åˆ†æ' style='padding-left:2px;'>æ</a><a style='cursor:pointer;padding-left:4px;' href=javascript: onclick=\"AsianOdds(" + A[i][0] + ");return false\" title='11å®¶æŒ‡æ•°'>äºš</a><a href='javascript:EuropeOdds(" + A[i][0] + ")' style='padding-left:4px;' title='ç™¾å®¶æ¬§èµ”'>æ¬§</a>");
+                if (A[i][29] == "1") html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>ç°</a>");
+                else html.push("<a href='javascript:' onclick='scheduleAnalysis("+A[i][0]+");return false;' style='color:blue;padding-left:4px;' target=_blank>ç°</a>");
+                //if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>è</a>");
+                 html.push("<a href='javascript:' onclick='Odds1x2Mail1("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>è</a>");
+                 html.push("<a href='javascript:' onclick='Odds1x2Mail("+A[i][0]+");return false;' style='color:red;padding-left:4px;' target=_blank>é‚®</a>");
                 if (typeof (V) != "undefined" && typeof (V[A[i][0]]) != "undefined") {
-                    if (V[A[i][0]][1].indexOf("Íâ²¿Á´½Ó") != -1) {
+                    if (V[A[i][0]][1].indexOf("å¤–éƒ¨é“¾æ¥") != -1) {
                         var urls = V[A[i][0]][1].split('|');
                         if (urls.length > 1)
-                            html.push("<a href='" + urls[1] + "' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>Ö±</a>");
+                            html.push("<a href='" + urls[1] + "' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>ç›´</a>");
                     }
                     else
-                        html.push("<a href='http://www.310tv.com/" + V[A[i][0]][4] + "/" + V[A[i][0]][0] + "_" + V[A[i][0]][2] + "_" + V[A[i][0]][3] + ".html' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>Ö±</a>");
+                        html.push("<a href='http://www.310tv.com/" + V[A[i][0]][4] + "/" + V[A[i][0]][0] + "_" + V[A[i][0]][2] + "_" + V[A[i][0]][3] + ".html' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>ç›´</a>");
                 }
-                html.push(A[i][25]);//Ôö¼Ó³õÅÌÏÔÊ¾
+                html.push(A[i][25]);//å¢åŠ åˆç›˜æ˜¾ç¤º
 
                 html.push("</td><td class=oddstd>&nbsp;</td>");
                 html.push("<td class=oddstd onclick='oddsDetail(" + A[i][0] + "," + Config.companyID + " )' style='cursor:pointer;'>&nbsp;</td>");
@@ -757,16 +757,16 @@
                 html.push("<tr id='tr2_" + A[i][0] + "' style='display:" + classx + "' bgcolor='#ffffff'><td colspan=13 align=center height=18 style='color:green;padding-right:122px;' id='other_" + A[i][0] + "'>" + showExplain(A[i][32], A[i][4 + Config.language], A[i][7 + Config.language]) + (A[i][32] != "" && A[i][27] != "" ? "<br>" + A[i][27] : A[i][27] != "" ? A[i][27] : "") + "</td></tr>");
 
 //                if (line / 2 < adinfo1.length && line % 2 == 1)
-//                    html.push("<tr id=tr_ad" + (line + 1) / 2 + "><td colspan=13 bgcolor=#ffffff align=center height=18>¹ã¸æ£º<a href='" + adinfo1[(line - 1) / 2] + "' target=_blank style='color:red'><b>" + adinfo2[(line - 1) / 2] + "</b></a></td></tr>");
+//                    html.push("<tr id=tr_ad" + (line + 1) / 2 + "><td colspan=13 bgcolor=#ffffff align=center height=18>å¹¿å‘Šï¼š<a href='" + adinfo1[(line - 1) / 2] + "' target=_blank style='color:red'><b>" + adinfo2[(line - 1) / 2] + "</b></a></td></tr>");
 
             } catch (e) { }
         }
         html.push("</table>")
         document.getElementById("ScoreDiv").innerHTML = html.join("");
         document.getElementById("hiddencount").innerHTML = hh;
-        //ÁªÈü/±­ÈüÃûÁĞ±í
+        //è”èµ›/æ¯èµ›ååˆ—è¡¨
         makeMyLeague();
-        //¹ú¼ÒÁĞ±í
+        //å›½å®¶åˆ—è¡¨
         makeMyCountry();
     }
     function MakeTableOrderByLeague() {
@@ -778,7 +778,7 @@
 
         var html = new Array();
         html.push("<table id='table_live' width=100% bgcolor=#C6C6C6 align=center cellspacing=1 border=0 cellpadding=0><tr class=ki1 align=center>");
-        html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>Ñ¡</font></td><td  width=5%><font color=white>Ê±¼ä</font></td><td  width=5%><font color=white>×´Ì¬</font></td><td  width=16%><font color=white>Ö÷¶Ó</font></td><td  width=5%><font color=white>±È·Ö</font></td><td  width=16%><font color=white>¿Í¶Ó</font></td><td  width=5%><font color=white>°ë³¡</font></td><td  width=15%><font color=white>Êı¾İ</font></td><td width=19% colspan=3><font color=white>Ö¸Êı</font></td><td width=3%>×ß</td></tr>");
+        html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>é€‰</font></td><td  width=5%><font color=white>æ—¶é—´</font></td><td  width=5%><font color=white>çŠ¶æ€</font></td><td  width=16%><font color=white>ä¸»é˜Ÿ</font></td><td  width=5%><font color=white>æ¯”åˆ†</font></td><td  width=16%><font color=white>å®¢é˜Ÿ</font></td><td  width=5%><font color=white>åŠåœº</font></td><td  width=15%><font color=white>æ•°æ®</font></td><td width=19% colspan=3><font color=white>æŒ‡æ•°</font></td><td width=3%>èµ°</td></tr>");
 
         oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/goal" + Config.companyID + ".xml?" + Date.parse(new Date()), false);
         oddsHttp.send(null);
@@ -827,7 +827,7 @@
                 state = parseInt(A[i][12]);
                 switch (state) {
                     case 0:
-                        if (A[i][23] == "1") match_score = "ÕóÈİ"; else match_score = "-";
+                        if (A[i][23] == "1") match_score = "é˜µå®¹"; else match_score = "-";
                         match_half = "-";
                         break;
                     case 1:
@@ -890,18 +890,18 @@
                 html.push("<td onclick='showgoallist(" + A[i][0] + ")' class='" + classx2 + "' onmouseover='showdetail(" + i + ",event)' onmouseout='hiddendetail()'>" + match_score + "</td>");
                 html.push("<td class=a2><a id='team2_" + A[i][0] + "' href='javascript:' onclick='TeamPanlu_10(" + A[i][0] + ")'  title='" + A[i][22] + "'>" + A[i][7 + Config.language] + "</a><a id='redcard2_" + A[i][0] + "'>" + G_redcard + "</a><a id='yellow2_" + A[i][0] + "'>" + G_yellow + "</a><span id=gorder_" + A[i][0] + "></span></td>");
                 html.push("<td class=td_half onmouseover='showpaulu(" + i + ",event)' onmouseout='hiddendetail()'>" + match_half + "</td>");
-                html.push("<td class=fr style='text-align:left'><a href='javascript:' onclick=analysis(" + A[i][0] + ") title='Êı¾İ·ÖÎö' style='padding-left:2px;'>Îö</a><a style='cursor:pointer;padding-left:4px;' href=javascript: onclick=\"AsianOdds(" + A[i][0] + ");return false\" title='11¼ÒÖ¸Êı'>ÑÇ</a><a href='javascript:EuropeOdds(" + A[i][0] + ")' style='padding-left:4px;' title='°Ù¼ÒÅ·Åâ'>Å·</a>");
-                if (A[i][29] == "1") html.push("<a href='data/matchInfo.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>ÏÖ</a>");
-                else html.push("<a href='data/matchInfo.aspx?id=" + A[i][0] + "' style='color:blue;padding-left:4px;' target=_blank>ÏÖ</a>");
-                if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>¼ö</a>");
+                html.push("<td class=fr style='text-align:left'><a href='javascript:' onclick=analysis(" + A[i][0] + ") title='æ•°æ®åˆ†æ' style='padding-left:2px;'>æ</a><a style='cursor:pointer;padding-left:4px;' href=javascript: onclick=\"AsianOdds(" + A[i][0] + ");return false\" title='11å®¶æŒ‡æ•°'>äºš</a><a href='javascript:EuropeOdds(" + A[i][0] + ")' style='padding-left:4px;' title='ç™¾å®¶æ¬§èµ”'>æ¬§</a>");
+                if (A[i][29] == "1") html.push("<a href='data/matchInfo.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>ç°</a>");
+                else html.push("<a href='data/matchInfo.aspx?id=" + A[i][0] + "' style='color:blue;padding-left:4px;' target=_blank>ç°</a>");
+                if (A[i][28] == "1") html.push("<a href='odds/recommend.aspx?id=" + A[i][0] + "' style='color:red;padding-left:4px;' target=_blank>è</a>");
                 if (typeof (V) != "undefined" && typeof (V[A[i][0]]) != "undefined") {
-                    if (V[A[i][0]][1].indexOf("Íâ²¿Á´½Ó") != -1) {
+                    if (V[A[i][0]][1].indexOf("å¤–éƒ¨é“¾æ¥") != -1) {
                         var urls = V[A[i][0]][1].split('|');
                         if (urls.length > 1)
-                            html.push("<a href='" + urls[1] + "' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>Ö±</a>");
+                            html.push("<a href='" + urls[1] + "' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>ç›´</a>");
                     }
                     else
-                        html.push("<a href='http://www.310tv.com/" + V[A[i][0]][4] + "/" + V[A[i][0]][0] + "_" + V[A[i][0]][2] + "_" + V[A[i][0]][3] + ".html' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>Ö±</a>");
+                        html.push("<a href='http://www.310tv.com/" + V[A[i][0]][4] + "/" + V[A[i][0]][0] + "_" + V[A[i][0]][2] + "_" + V[A[i][0]][3] + ".html' target='_blank' style='color:red;padding-left:4px;'  onmouseover='showvideo(" + i + ",event)' onmouseout=MM_showHideLayers('videoInfo','','hidden')>ç›´</a>");
 
                 }
 
@@ -914,19 +914,19 @@
                 html.push("<tr id='tr2_" + A[i][0] + "' style='display:" + classx + "' bgcolor='#ffffff'><td colspan=12 align=center height=18 style='color:green;padding-right:122px;' id='other_" + A[i][0] + "'>" + showExplain(A[i][32], A[i][4 + Config.language], A[i][7 + Config.language]) + (A[i][32] != "" && A[i][27] != "" ? "<br>" + A[i][27] : A[i][27] != "" ? A[i][27] : "") + "</td></tr>");
 
 //                if (line / 2 < adinfo1.length && line % 2 == 1)
-//                    html.push("<tr id=tr_ad" + (line + 1) / 2 + "><td colspan=12 bgcolor=#ffffff align=center height=18>¹ã¸æ£º<a href='" + adinfo1[(line - 1) / 2] + "' target=_blank style='color:red'><b>" + adinfo2[(line - 1) / 2] + "</b></a></td></tr>");
+//                    html.push("<tr id=tr_ad" + (line + 1) / 2 + "><td colspan=12 bgcolor=#ffffff align=center height=18>å¹¿å‘Šï¼š<a href='" + adinfo1[(line - 1) / 2] + "' target=_blank style='color:red'><b>" + adinfo2[(line - 1) / 2] + "</b></a></td></tr>");
 
             } catch (e) { }
         }
         html.push("</table>")
         document.getElementById("ScoreDiv").innerHTML = html.join("");
         document.getElementById("hiddencount").innerHTML = hh;
-        //ÁªÈü/±­ÈüÃûÁĞ±í
+        //è”èµ›/æ¯èµ›ååˆ—è¡¨
         makeMyLeague();
-        //¹ú¼ÒÁĞ±í
+        //å›½å®¶åˆ—è¡¨
         makeMyCountry();
     }
-    //ÖØĞÂ¼ÆËãÑ¡ÖĞ×´Ì¬µÄÈü³Ì
+    //é‡æ–°è®¡ç®—é€‰ä¸­çŠ¶æ€çš„èµ›ç¨‹
     function countCheckNum() {
         for (var i = 0; i < sclasscount; i++) {
             B[i][10] = 0;
@@ -964,7 +964,7 @@
         document.getElementById("tr_" + i).style.display = "";
     }
     function makeMyLeague() {
-        //ÁªÈü/±­ÈüÃûÁĞ±í
+        //è”èµ›/æ¯èµ›ååˆ—è¡¨
         var leaguehtml = new Array();
         leaguehtml.push("<ul id='checkboxleague'>");
         for (var i = 0; i < sclasscount; i++) {
@@ -997,7 +997,7 @@
     }
 
     function makeMyCountry() {
-        //¹ú¼ÒÁĞ±í
+        //å›½å®¶åˆ—è¡¨
         var country = new Array();
         country.push("<ul id='checkboxcountry'>");
         for (var i = 0; i < C.length; i++) {
@@ -1011,7 +1011,7 @@
         country.push("</ul>");
         document.getElementById("countryList").innerHTML = country.join("");
     }
-    function showodds(needSleep) //ÊÇ·ñĞèÏÔÊ¾Ò»³¡Ö®ºóÔİÍ£Ò»»á
+    function showodds(needSleep) //æ˜¯å¦éœ€æ˜¾ç¤ºä¸€åœºä¹‹åæš‚åœä¸€ä¼š
     {
         try {
             var root = oddsHttp.responseXML.documentElement.childNodes[0];
@@ -1083,8 +1083,8 @@
                 tr.cells[11].innerHTML = tmp;
 
                 tmp = "";
-                if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowodds.com/images/t3.gif' height=10 width=10 title='ÓĞ×ßµØÈüÊÂ'></a>";
-                if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowodds.com/images/t32.gif' height=10 width=10 title='ÕıÔÚ×ßµØ'></a>";
+                if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowodds.com/images/t3.gif' height=10 width=10 title='æœ‰èµ°åœ°èµ›äº‹'></a>";
+                if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live.nowodds.com/images/t32.gif' height=10 width=10 title='æ­£åœ¨èµ°åœ°'></a>";
                 tr.cells[12].innerHTML = tmp;
 
                 tr.attributes["odds"].value = odds;
@@ -1195,7 +1195,7 @@
                 }
                 scorechange = score1change || score2change;
 
-                //¸½¼ÓËµÃ÷¸ÄÊ±±äÁË'
+                //é™„åŠ è¯´æ˜æ”¹æ—¶å˜äº†'
                 D[10] = D[10].toLowerCase().replace(/<a.*<\/a>/g, "");
                 if (A[matchindex][27] != D[10] || A[matchindex][32] != D[15]) {
                     A[matchindex][27] = D[10];
@@ -1209,7 +1209,7 @@
                 }
 
                 if (Config.redcard == 1 && (D[6] != A[matchindex][17] || D[7] != A[matchindex][18]) && tr.style.display != "none") {
-                    hometeam = A[matchindex][4 + Config.language].replace("<font color=#880000>(ÖĞ)</font>", " ÖĞ").substring(0, 7);
+                    hometeam = A[matchindex][4 + Config.language].replace("<font color=#880000>(ä¸­)</font>", " ä¸­").substring(0, 7);
                     guestteam = A[matchindex][7 + Config.language].substring(0, 7);
                     sclassname = B[A[matchindex][1]][1 + Config.language];
 
@@ -1219,12 +1219,12 @@
                     if (D[7] != A[matchindex][18]) {
                         guestteam = "<font color=red>" + guestteam + "</font>";
                     }
-                    winStr += "<tr bgcolor=#ffffff height=34 align=center class=line><td><font color=red>ºìÅÆ</font></td><td> " + tr.cells[3].innerHTML + "</td><td><b>" + hometeam + "</b> " + (D[6] == "0" ? "" : "<img src=images/redcard" + D[6] + ".gif border='0'>") + "</td><td  colspan=2> vs</td><td><b>" + guestteam + "</b> " + (D[7] == "0" ? "" : "<img src=images/redcard" + D[7] + ".gif border='0'>") + "</td></tr>";
+                    winStr += "<tr bgcolor=#ffffff height=34 align=center class=line><td><font color=red>çº¢ç‰Œ</font></td><td> " + tr.cells[3].innerHTML + "</td><td><b>" + hometeam + "</b> " + (D[6] == "0" ? "" : "<img src=images/redcard" + D[6] + ".gif border='0'>") + "</td><td  colspan=2> vs</td><td><b>" + guestteam + "</b> " + (D[7] == "0" ? "" : "<img src=images/redcard" + D[7] + ".gif border='0'>") + "</td></tr>";
                     matchNum = matchNum + 1;
                 } //redcardChange
 
 
-                //ºìÅÆ±ä»¯ÁË
+                //çº¢ç‰Œå˜åŒ–äº†
                 if (D[6] != A[matchindex][17]) {
                     A[matchindex][17] = D[6];
                     if (D[6] == "0")
@@ -1243,7 +1243,7 @@
                     if (Config.redcard == 1) tr.cells[6].style.backgroundColor = "#ff8888";
                     window.setTimeout("timecolors(" + D[0] + "," + matchindex + ")", 12000);
                 }
-                //»ÆÅÆ±ä»¯ÁË
+                //é»„ç‰Œå˜åŒ–äº†
                 if (D[12] != A[matchindex][19]) {
                     A[matchindex][19] = D[12];
                     if (D[12] == "0")
@@ -1259,16 +1259,16 @@
                         document.getElementById("yellow2_" + D[0]).innerHTML = "<img src=images/yellow" + D[13] + ".gif border='0'> ";
                 }
 
-                //¿ªÈü
+                //å¼€èµ›
                 if (A[matchindex][11] != D[8]) tr.cells[2].innerHTML = D[8];
                 A[matchindex][10] = D[8];
                 A[matchindex][11] = D[9];
 
-                //°ë³¡±È·Ö
+                //åŠåœºæ¯”åˆ†
                 A[matchindex][15] = D[4];
                 A[matchindex][16] = D[5];
 
-                //×´Ì¬
+                //çŠ¶æ€
                 if (A[matchindex][12] != D[1]) {
                     A[matchindex][12] = D[1];
                     switch (A[matchindex][12]) {
@@ -1312,7 +1312,7 @@
                 switch (A[matchindex][12]) {
                     case 0:
                         if (D[11] == "1")
-                            tr.cells[5].innerHTML = "ÕóÈİ";
+                            tr.cells[5].innerHTML = "é˜µå®¹";
                         else
                             tr.cells[5].innerHTML = "-";
                         break;
@@ -1335,7 +1335,7 @@
                     //Odds1x2Mail(A[matchindex][0]);
                     ShowFlash(D[0], matchindex);
                     if (tr.style.display != "none") {
-                        hometeam = A[matchindex][4 + Config.language].replace("<font color=#880000>(ÖĞ)</font>", " ÖĞ").substring(0, 7);
+                        hometeam = A[matchindex][4 + Config.language].replace("<font color=#880000>(ä¸­)</font>", " ä¸­").substring(0, 7);
                         guestteam = A[matchindex][7 + Config.language].substring(0, 7);
                         sclassname = B[A[matchindex][1]][1 + Config.language];
                         if (score1change) {
@@ -1349,7 +1349,7 @@
                             score2 = "<font color=red>" + D[3] + "</font>";
                         }
                         window.clearTimeout(nofityTimer);
-                        if (notify == "") notify = "<font color=#6666FF><B>ÈëÇòÌáÊ¾£º</b></font>";
+                        if (notify == "") notify = "<font color=#6666FF><B>å…¥çƒæç¤ºï¼š</b></font>";
                         notify += sclassname + ":" + hometeam + " <font color=blue>" + score1 + "-" + score2 + "</font> " + guestteam + " &nbsp; ";
                         nofityTimer = window.setTimeout("clearNotify()", 20000);
 
@@ -1422,7 +1422,7 @@
         makeMyCountry();
     }
 
-    //'°´±ÈÈü×´Ì¬ÏÔÊ¾
+    //'æŒ‰æ¯”èµ›çŠ¶æ€æ˜¾ç¤º
     function ShowMatchByMatchState(n) {
         var i, j;
         var hh = 0;
@@ -1623,12 +1623,12 @@
         writeCookie("orderby", orderby);
         LoadLiveFile();
     }
-    //¸üĞÂ±ÈÈü½øĞĞµÄÊ±¼ä
+    //æ›´æ–°æ¯”èµ›è¿›è¡Œçš„æ—¶é—´
     function setMatchTime() {
         for (var i = 0; i < matchcount; i++) {
             try {
                 if (A[i][1] == -1) continue;
-                if (A[i][12] == "1") {  //ÉÏ°ë³¡			
+                if (A[i][12] == "1") {  //ä¸ŠåŠåœº			
                     var t = A[i][11].split(",");
                     var t2 = new Date(t[0], t[1], t[2], t[3], t[4], t[5]);
                     goTime = Math.floor((new Date() - t2 - difftime) / 60000);
@@ -1636,7 +1636,7 @@
                     if (goTime < 1) goTime = "1";
                     document.getElementById("time_" + A[i][0]).innerHTML = goTime + "<img src='images/in.gif' border=0>";
                 }
-                if (A[i][12] == "3") {  //ÏÂ°ë³¡		
+                if (A[i][12] == "3") {  //ä¸‹åŠåœº		
                     var t = A[i][11].split(",");
                     var t2 = new Date(t[0], t[1], t[2], t[3], t[4], t[5]);
                     goTime = Math.floor((new Date() - t2 - difftime) / 60000) + 46;
@@ -1656,8 +1656,8 @@
             if (Math.floor((new Date() - loadDetailFileTime) / 600) > 60) LoadDetailFile();
             var R = new Array();
             var html = "<table width=350 bgcolor=#E1E1E1 cellpadding=0 cellspacing=1 border=0 style='border:solid 1px #666;'>";
-            html += "<tr><td height=20 colspan=5 bgcolor=#666699 align=center><font color=white><b>³õÅÌ²Î¿¼£º" + Goal2GoalCn(A[n][25]) + "</b></font></td></tr>";
-            html += "<tr bgcolor=#D5F2B7 align=center><td height=20 colspan=2 width=44%><font color=#006600><b>" + A[n][4 + Config.language] + "[" + A[n][21] + "]</b></font></td><td width=12% bgcolor=#CCE8B5>Ê±¼ä</td><td colspan=2 width=44%><font color=#006600><b>" + A[n][7 + Config.language] + "[" + A[n][22] + "]</b></font></td></tr>";
+            html += "<tr><td height=20 colspan=5 bgcolor=#666699 align=center><font color=white><b>åˆç›˜å‚è€ƒï¼š" + Goal2GoalCn(A[n][25]) + "</b></font></td></tr>";
+            html += "<tr bgcolor=#D5F2B7 align=center><td height=20 colspan=2 width=44%><font color=#006600><b>" + A[n][4 + Config.language] + "[" + A[n][21] + "]</b></font></td><td width=12% bgcolor=#CCE8B5>æ—¶é—´</td><td colspan=2 width=44%><font color=#006600><b>" + A[n][7 + Config.language] + "[" + A[n][22] + "]</b></font></td></tr>";
             for (var i = 0; i < rq.length; i++) {
                 R = rq[i].split('^');
                 if (R[0] != A[n][0]) continue;
@@ -1685,7 +1685,7 @@
         try {
             if (Math.floor((new Date() - loadVideoFileTime) / 600) > 60) LoadVideoFile();
             var html = "<table width=200 bgcolor=#E1E1E1 cellpadding=0 cellspacing=1 border=0 style='border:solid 1px #666;font-size:13px;'>";
-            html += "<tr><td height=20 colspan=5 bgcolor=#666699 align=center><font color=white><b>Ö±²¥ÆµµÀ</b></font></td></tr>";
+            html += "<tr><td height=20 colspan=5 bgcolor=#666699 align=center><font color=white><b>ç›´æ’­é¢‘é“</b></font></td></tr>";
             var soft = "";
             for (var i = 0; i < V[A[n][0]].length / 5; i++) {
                 var j = i + i * 2;
@@ -1694,7 +1694,7 @@
                         html += "</td></tr>";
                     html += "<tr bgcolor=white align=center><td height=18 colspan='5'>"
                 }
-                if (V[A[n][0]][j + 1].indexOf("Íâ²¿Á´½Ó") != -1) {
+                if (V[A[n][0]][j + 1].indexOf("å¤–éƒ¨é“¾æ¥") != -1) {
                     var urls = V[A[n][0]][j + 1].split('|');
                     if (urls.length > 1)
                         html += "<a href='" + urls[1] + "' target='_blank'>" + urls[0] + " </a>";
@@ -1721,17 +1721,17 @@
             var countInfo = "";
             html.push("<div style='border:solid 1px #666; background-color:#e4e4e4'><table width='530' border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#dddddd'>");
             html.push("<tr align='center' bgcolor='#006699' style='color:white'>");
-            html.push("<td width='50' height='18'>ÈüÊÂ</td>");
-            html.push("<td width='50'>Ê±¼ä</td>");
-            html.push("<td>Ö÷³¡Çò¶Ó</td>");
-            html.push("<td width='35'>±È·Ö</td>");
-            html.push("<td>¿Í³¡Çò¶Ó</td>");
-            html.push("<td width='28'>°ë³¡</td>");
-            html.push("<td>ÅÌ¿Ú</td>");
-            html.push("<td width='28'>ÅÌÂ·</td>");
-            html.push("<td width='28'>Ê¤¸º</td>");
-            html.push("<td width='28'>´óĞ¡</td>");
-            html.push("<td width='28'>µ¥Ë«</td>");
+            html.push("<td width='50' height='18'>èµ›äº‹</td>");
+            html.push("<td width='50'>æ—¶é—´</td>");
+            html.push("<td>ä¸»åœºçƒé˜Ÿ</td>");
+            html.push("<td width='35'>æ¯”åˆ†</td>");
+            html.push("<td>å®¢åœºçƒé˜Ÿ</td>");
+            html.push("<td width='28'>åŠåœº</td>");
+            html.push("<td>ç›˜å£</td>");
+            html.push("<td width='28'>ç›˜è·¯</td>");
+            html.push("<td width='28'>èƒœè´Ÿ</td>");
+            html.push("<td width='28'>å¤§å°</td>");
+            html.push("<td width='28'>å•åŒ</td>");
             html.push("</tr>");
             for (var i = 0; i < p.length; i++) {
                 var b = p[i];
@@ -1744,49 +1744,49 @@
                 html.push("<td bgcolor=" + b[1] + " height=22><font color=#FFFFFF>" + b[0] + "</font></td>");
                 html.push("<td>" + b[2] + "</td>");
 
-                if (b[3] == A[n][2]) //Ö÷³¡
+                if (b[3] == A[n][2]) //ä¸»åœº
                 {
                     html.push("<td><font color=#880000>" + A[n][4 + Config.language] + "</td>");
                     html.push("<td style='color:red'><B>" + b[5] + "-" + b[6] + "</td>");
                     html.push("<td>" + A[n][7 + Config.language] + "</a></td>");
                     html.push("<td><font color=red>" + b[7] + "-" + b[8] + "</td>");
                     html.push("<TD>" + Goal2GoalCn(b[9]) + "</TD>");
-                    if (b[5] - b[9] > b[6]) { html.push("<TD><font color=red>Ó®</font></TD>"); win++; }
-                    if (b[5] - b[9] == b[6]) { html.push("<TD><font color=green>×ß</font></TD>"); standoff++ }
-                    if (b[5] - b[9] < b[6]) html.push("<TD><font color=blue>Êä</font></TD>");
-                    if (b[5] > b[6]) html.push("<TD><font color=red>Ê¤</font></TD>");
-                    if (b[5] == b[6]) html.push("<TD><font color=green>Æ½</font></TD>");
-                    if (b[5] < b[6]) html.push("<TD><font color=blue>¸º</font></TD>");
+                    if (b[5] - b[9] > b[6]) { html.push("<TD><font color=red>èµ¢</font></TD>"); win++; }
+                    if (b[5] - b[9] == b[6]) { html.push("<TD><font color=green>èµ°</font></TD>"); standoff++ }
+                    if (b[5] - b[9] < b[6]) html.push("<TD><font color=blue>è¾“</font></TD>");
+                    if (b[5] > b[6]) html.push("<TD><font color=red>èƒœ</font></TD>");
+                    if (b[5] == b[6]) html.push("<TD><font color=green>å¹³</font></TD>");
+                    if (b[5] < b[6]) html.push("<TD><font color=blue>è´Ÿ</font></TD>");
                     if (b[5] > b[6]) victoryNum++;
                 }
-                else //¿Í³¡
+                else //å®¢åœº
                 {
                     html.push("<td style='color:#000000'>" + A[n][7 + Config.language] + "</td>");
                     html.push("<td style='color:red'><B>" + b[5] + "-" + b[6] + "</td>");
                     html.push("<td style='color=#880000'>" + A[n][4 + Config.language] + "</td>");
                     html.push("<td><font color=red>" + b[7] + "-" + b[8] + "</td>");
                     html.push("<TD>" + Goal2GoalCn(b[9]) + "</TD>");
-                    if (b[5] - b[9] < b[6]) { html.push("<TD><font color=red>Ó®</font></TD>"); win++; }
-                    if (b[5] - b[9] == b[6]) { html.push("<TD><font color=green>×ß</font></TD>"); standoff++ }
-                    if (b[5] - b[9] > b[6]) html.push("<TD><font color=blue>Êä</font></TD>");
-                    if (b[5] < b[6]) html.push("<TD><font color=red>Ê¤</font></TD>");
-                    if (b[5] == b[6]) html.push("<TD><font color=green>Æ½</font></TD>");
-                    if (b[5] > b[6]) html.push("<TD><font color=blue>¸º</font></TD>");
+                    if (b[5] - b[9] < b[6]) { html.push("<TD><font color=red>èµ¢</font></TD>"); win++; }
+                    if (b[5] - b[9] == b[6]) { html.push("<TD><font color=green>èµ°</font></TD>"); standoff++ }
+                    if (b[5] - b[9] > b[6]) html.push("<TD><font color=blue>è¾“</font></TD>");
+                    if (b[5] < b[6]) html.push("<TD><font color=red>èƒœ</font></TD>");
+                    if (b[5] == b[6]) html.push("<TD><font color=green>å¹³</font></TD>");
+                    if (b[5] > b[6]) html.push("<TD><font color=blue>è´Ÿ</font></TD>");
                     if (b[5] < b[6]) victoryNum++;
                 }
 
                 if (b[5] + b[6] > 2.5) {
-                    html.push("<td><font color=red>´ó</td>");
+                    html.push("<td><font color=red>å¤§</td>");
                     bigNum++;
                 }
                 else
-                    html.push("<td><font color=blue>Ğ¡</td>");
+                    html.push("<td><font color=blue>å°</td>");
                 if ((b[5] + b[6]) % 2 == 1) {
-                    html.push("<td><font color=red>µ¥</td>");
+                    html.push("<td><font color=red>å•</td>");
                     singleNum++;
                 }
                 else
-                    html.push("<td><font color=blue>Ë«</td>");
+                    html.push("<td><font color=blue>åŒ</td>");
                 html.push("</tr>");
                 j++;
             }
@@ -1796,7 +1796,7 @@
                     win1 = Math.round(win / (j - standoff) * 1000) / 10;
                 else
                     win1 = "0";
-                html.push("<tr><td height=20 align=center colspan=11 bgcolor=white>×î½ü[ <font color=red>" + j + " </font>]³¡,  &nbsp;  Ê¤ÂÊ£º<font color=red>" + Math.round(victoryNum / j * 1000) / 10 + "%</font> Ó®ÅÌÂÊ£º<font color=red>" + win1 + "% </font> ´óÇò£º<font color=red>" + Math.round(bigNum / j * 1000) / 10 + "%</font> µ¥£º<font color=red>" + Math.round(singleNum / j * 1000) / 10 + "%</font></td></tr>");
+                html.push("<tr><td height=20 align=center colspan=11 bgcolor=white>æœ€è¿‘[ <font color=red>" + j + " </font>]åœº,  &nbsp;  èƒœç‡ï¼š<font color=red>" + Math.round(victoryNum / j * 1000) / 10 + "%</font> èµ¢ç›˜ç‡ï¼š<font color=red>" + win1 + "% </font> å¤§çƒï¼š<font color=red>" + Math.round(bigNum / j * 1000) / 10 + "%</font> å•ï¼š<font color=red>" + Math.round(singleNum / j * 1000) / 10 + "%</font></td></tr>");
             }
             html.push("</table></div>");
 
@@ -1805,7 +1805,7 @@
             if (j == 0) {
                 document.getElementById('winScore').style.left = (document.body.clientWidth / 2 - 20) + "px";
                 html = [];
-                html.push("<div style='border:solid 1px #666; background-color:#FFFFFF;width:120px;line-height:40px;text-align:center;font-size:14px'><b>ÎŞ¶ÔÕ½¼ÇÂ¼</b></div>");
+                html.push("<div style='border:solid 1px #666; background-color:#FFFFFF;width:120px;line-height:40px;text-align:center;font-size:14px'><b>æ— å¯¹æˆ˜è®°å½•</b></div>");
             }
 //            document.getElementById("winScore").innerHTML = html.join("");
 //            document.getElementById("winScore").style.display = "";
@@ -1827,7 +1827,7 @@
 
     function check() {
         if (oldUpdateTime == lastUpdateTime && oldUpdateTime != "" && isliving) {
-            if (confirm("ÓÉÓÚ³ÌĞòÃ¦£¬»òÆäËûÍøÂçÎÊÌâ£¬ÄãÒÑ¾­ºÍ·şÎñÆ÷¶Ï¿ªÁ¬½Ó³¬¹ı 5 ·ÖÖÓ£¬ÊÇ·ñÒªÖØĞÂÁ¬½Ó¹Û¿´±È·Ö£¿")) window.location.reload();
+            if (confirm("ç”±äºç¨‹åºå¿™ï¼Œæˆ–å…¶ä»–ç½‘ç»œé—®é¢˜ï¼Œä½ å·²ç»å’ŒæœåŠ¡å™¨æ–­å¼€è¿æ¥è¶…è¿‡ 5 åˆ†é’Ÿï¼Œæ˜¯å¦è¦é‡æ–°è¿æ¥è§‚çœ‹æ¯”åˆ†ï¼Ÿ")) window.location.reload();
         }
         oldUpdateTime = lastUpdateTime;
         window.setTimeout("check()", 300000);
@@ -1955,7 +1955,7 @@
     }
 
 
-    //Èü³ÌÈü¹û
+    //èµ›ç¨‹èµ›æœ
     function ChangeSchedule(id, t) {
         var script = document.getElementById("scriptScsg");
         var s = document.createElement("script");
@@ -1973,7 +1973,7 @@
         script.removeChild(script.firstChild);
         script.appendChild(s, "script");
     }
-    //»ı·Ö
+    //ç§¯åˆ†
     function ChangeScore(file) {
         var script = document.getElementById("scriptScore");
         var s = document.createElement("script");

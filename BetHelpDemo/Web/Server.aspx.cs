@@ -391,7 +391,7 @@ public partial class Server : System.Web.UI.Page
             //    }
             //    JsonStr = "{success:true}";
             //}
-            if (Request["scheduleid"] != null)
+            if (Request["scheduleid"] != null && !string.IsNullOrEmpty(Request.Form["scheduleid"]))
             {
                 nowGoalBLL.updateOdds1x2(Request.Form["scheduleid"]);
                 scheduleBLL.SetUpdated(Request.Form["scheduleid"], true);
@@ -404,15 +404,7 @@ public partial class Server : System.Web.UI.Page
         }
         catch (Exception e)
         {
-            if (e.Message == "远程服务器返回错误: (404) 未找到。")
-            {
-                scheduleBLL.Delete(int.Parse(Request.Form["scheduleid"]));
-                JsonStr = "{success:true}";
-            }
-            else
-            {
-                JsonStr = "{success:false,message:'" + e.Message + "'}";
-            }
+             JsonStr = "{success:false,message:'" + e.Message + "'}";
         }
     }
 
