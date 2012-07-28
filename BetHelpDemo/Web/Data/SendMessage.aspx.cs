@@ -97,6 +97,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             {
                 myCol.Add("oddsArr" + i, oddsInfo[i]);
             }
+            int recount=0;
             foreach (var q in new int[3] { 1, 2, 3 })
             {
                 foreach (var r in new int[3] { 3, 1, 0 })
@@ -108,6 +109,10 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         {
                             bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
                             string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
+                            if (isreproduce && Convert.ToInt32(dr["scount"]) >= 2)
+	                        {
+		                        recount++;
+	                        }
                             if (Convert.ToBoolean(dr["isprimary"]))
                             {
                                 s += "<font color=blue>" + dr["name"] + "</font>";
@@ -131,7 +136,8 @@ public partial class Data_SendMessage : System.Web.UI.Page
             int limit = 3;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) <= 1)
             {
-                ismail = Convert.ToInt32(dt.Compute("max(scount)", "time=2 and query>1")) >= limit;
+                ismail = recount > 0;
+                //ismail = Convert.ToInt32(dt.Compute("max(scount)", "time=2 and query>1")) >= limit;
             }
             else if (Convert.ToDouble(oddsInfo[6]) <= 1.5)
             {
