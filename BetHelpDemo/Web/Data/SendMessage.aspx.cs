@@ -131,13 +131,28 @@ public partial class Data_SendMessage : System.Web.UI.Page
             int limit = 5;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) <= 1)
             {
-                if (Convert.ToDouble(oddsInfo[2]) == 0)
+                foreach (var q in new int[2] { 2, 3 })
                 {
-                    ismail = Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=3 and (result=3 or result=1)")) >= limit || Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=3 and (result=1 or result=0)")) >= limit;
-                }
-                else
-                {
-                    ismail = Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=3 and result=3")) >= limit || Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=3 and result=1")) >= limit || Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=3 and result=0")) >= limit;
+                    ismail = Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=" + q + " and result=3")) >= limit || Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=" + q + " and result=1")) >= limit || Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=" + q + " and result=0")) >= limit;
+                    if (!ismail)
+                    {
+                        if (Convert.ToDouble(oddsInfo[2]) > 0)
+                        {
+                            ismail = Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=" + q + " and (result=1 or result=0)")) >= limit;
+                        }
+                        else if (Convert.ToDouble(oddsInfo[2]) < 0)
+                        {
+                            ismail = Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=" + q + " and (result=3 or result=1)")) >= limit;
+                        }
+                        else
+                        {
+                            ismail = Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=" + q + " and (result=3 or result=1)")) >= limit || Convert.ToInt32(dt.Compute("count(id)", "time=2 and query=" + q + " and (result=1 or result=0)")) >= limit;
+                        }
+                    }
+                    if (ismail)
+                    {
+                        break;
+                    }
                 }
             }
             else if (Convert.ToDouble(oddsInfo[6]) <= 1.5)

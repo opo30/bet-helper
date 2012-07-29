@@ -473,7 +473,7 @@ namespace SeoWebSite.DAL
         public DataSet queryOddsHistory2(string cclassid, string sclassid, string whereStr, string selectStr)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select e.id,e.fullname,e.name,e.isprimary,e.isexchange,result=case when d.win>90 then 3 when d.draw>90 then 1 when d.lost>90 then 0 end,d.scount," + selectStr + " from ");
+            strSql.Append("select e.id,e.fullname,e.name,e.isprimary,e.isexchange,result=case when d.win>80 then 3 when d.draw>80 then 1 when d.lost>80 then 0 end,d.scount," + selectStr + " from ");
             strSql.Append("(select companyid, count(*) scount,");
             strSql.Append("win=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
             strSql.Append("draw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
@@ -489,7 +489,7 @@ namespace SeoWebSite.DAL
             {
                 strSql.Append(" and a.sclassid=" + sclassid);
             }
-            strSql.Append(" group by companyid) d join company e on e.id=d.companyid and d.scount>0 and (d.win>90 or d.draw>90 or d.lost>90)");
+            strSql.Append(" group by companyid) d join company e on e.id=d.companyid and d.scount>0 and (d.win>80 or d.draw>80 or d.lost>80)");
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
