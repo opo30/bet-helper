@@ -111,7 +111,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         {
                             bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and id=" + dr["id"])) > 0;
                             string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
-                            if (isreproduce && toInt(dt.Compute("sum(scount)", "isprimary=1 and query=" + q + " and time=1 and result=" + r + " and id=" + dr["id"])) != toInt(dt.Compute("sum(scount)", "isprimary=1 and query=" + q + " and time=2 and result=" + r + " and id=" + dr["id"])))
+                            if (isreproduce && toInt(dt.Compute("sum(scount)", "query=" + q + " and time=1 and result=" + r + " and id=" + dr["id"])) != toInt(dt.Compute("sum(scount)", "query=" + q + " and time=2 and result=" + r + " and id=" + dr["id"])))
                             {
                                 count++;
                             }
@@ -135,7 +135,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            int limit = 1;
+            int limit = 3;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
             {
                 ismail = count >= limit;
