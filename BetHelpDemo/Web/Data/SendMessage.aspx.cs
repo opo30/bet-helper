@@ -98,6 +98,8 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 myCol.Add("oddsArr" + i, oddsInfo[i]);
             }
 
+            
+            int count = 0;
             foreach (var q in new int[3] { 1, 2, 3 })
             {
                 foreach (var r in new int[3] { 3, 1, 0 })
@@ -107,8 +109,12 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         string s = "";
                         foreach (DataRow dr in dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc"))
                         {
-                            bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "time=1 and id=" + dr["id"])) > 0;
+                            bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and id=" + dr["id"])) > 0;
                             string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
+                            if (isreproduce && toInt(dt.Compute("sum(scount)", "isprimary=1 and query=" + q + " and time=1 and result=" + r + " and id=" + dr["id"])) != toInt(dt.Compute("sum(scount)", "isprimary=1 and query=" + q + " and time=2 and result=" + r + " and id=" + dr["id"])))
+                            {
+                                count++;
+                            }
                             if (Convert.ToBoolean(dr["isprimary"]))
                             {
                                 s += "<font color=blue>" + dr["name"] + "</font>";
@@ -129,29 +135,18 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            int limit = 9;
+            int limit = 1;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
             {
-                if (Convert.ToDouble(oddsInfo[2]) > 0)
-                {
-                    ismail = Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result=3")) >= limit && Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result<>3")) == 0 || Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result=3")) == 0 && Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result<>3")) >= limit;
-                }
-                else if (Convert.ToDouble(oddsInfo[2]) < 0)
-                {
-                    ismail = Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result=0")) >= limit && Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result<>0")) == 0 || Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result=0")) == 0 && Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result<>0")) >= limit;
-                }
-                else
-                {
-                    ismail = Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result<>0")) >= limit && Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result=0")) == 0 || Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result<>3")) >= limit && Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result=3")) == 0;
-                }
+                ismail = count >= limit;
             }
             else if (Convert.ToDouble(oddsInfo[2]) >= 1)
             {
-                ismail = Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result=3")) == 0 && Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result<>3")) >= limit;
+                ismail = count >= limit;
             }
             else if (Convert.ToDouble(oddsInfo[2]) <= -1)
             {
-                ismail = Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result=0")) == 0 && Convert.ToInt32(dt.Compute("sum(scount)", "time=2 and query>1 and result<>0")) >= limit;
+                ismail = count >= limit;
             }
 
             if (ismail)
@@ -161,6 +156,18 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 string mailBody = TemplateHelper.BulidByFile(templetpath, myCol);
                 MailSender.Send("seo1214@gmail.com", title, mailBody);
             }
+        }
+    }
+
+    private int toInt(object o)
+    {
+        if (o == System.DBNull.Value)
+        {
+            return 0;
+        }
+        else
+        {
+            return Convert.ToInt32(o);
         }
     }
 }
