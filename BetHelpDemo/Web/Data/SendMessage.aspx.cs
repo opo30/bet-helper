@@ -112,7 +112,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                             bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and id=" + dr["id"] + " and result=" + r)) > 0;
                             string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
                             //if (isreproduce && toInt(dt.Compute("sum(scount)", "query=" + q + " and time=1 and result=" + r + " and id=" + dr["id"])) != toInt(dt.Compute("sum(scount)", "query=" + q + " and time=2 and result=" + r + " and id=" + dr["id"])))
-                            if (isreproduce && Convert.ToInt32(dr["scount"]) > 1 && toInt(dt.Compute("sum(scount)", "query=" + q + " and time=1 and id=" + dr["id"] + " and result=" + r)) > 1)
+                            if (isreproduce && q == 3)
                             {
                                 count++;
                             }
@@ -136,18 +136,20 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            int limit = 1;
+            int limit = 3;
             if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
             {
-                ismail = count >= limit;
+                ismail = toInt(dt.Compute("max(scount)", "query=3 and time=2")) >= limit;
             }
             else if (Convert.ToDouble(oddsInfo[2]) >= 1)
             {
-                ismail = count >= limit;
+                ismail = toInt(dt.Compute("max(scount)", "query=3 and time=2 and result<>3")) >= limit;
+                //ismail = count >= limit;
             }
             else if (Convert.ToDouble(oddsInfo[2]) <= -1)
             {
-                ismail = count >= limit;
+                ismail = toInt(dt.Compute("max(scount)", "query=3 and time=2 and result<>0")) >= limit;
+                //ismail = count >= limit;
             }
 
             if (ismail)
