@@ -77,6 +77,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             dt.Columns.Add("query", typeof(int));
             dt.Columns.Add("time", typeof(int));
             dt.Columns.Add("scount", typeof(int));
+            dt.Columns.Add("support", typeof(bool));
             dt.Merge(scheduleBLL.queryOddsHistory2(null, null, swhereStr, "query=1,time=1").Tables[0]);
             dt.Merge(scheduleBLL.queryOddsHistory2(null, null, ewhereStr, "query=1,time=2").Tables[0]);
             dt.Merge(scheduleBLL.queryOddsHistory2(sclassArr[9], null, swhereStr, "query=2,time=1").Tables[0]);
@@ -98,8 +99,8 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 myCol.Add("oddsArr" + i, oddsInfo[i]);
             }
 
-            
-            int count = 0;
+
+            List<string> companyids = new List<string>();
             foreach (var q in new int[3] { 1, 2, 3 })
             {
                 foreach (var r in new int[3] { 3, 1, 0 })
@@ -109,12 +110,12 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         string s = "";
                         foreach (DataRow dr in dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc"))
                         {
-                            bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and id=" + dr["id"] + " and result=" + r)) > 0;
+                            bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and id=" + dr["id"])) > 0;
                             string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
                             //if (isreproduce && toInt(dt.Compute("sum(scount)", "query=" + q + " and time=1 and result=" + r + " and id=" + dr["id"])) != toInt(dt.Compute("sum(scount)", "query=" + q + " and time=2 and result=" + r + " and id=" + dr["id"])))
-                            if (isreproduce && q == 3)
+                            if (isreproduce)
                             {
-                                count++;
+                                dr["support"] = 1;
                             }
                             if (Convert.ToBoolean(dr["isprimary"]))
                             {
@@ -136,21 +137,37 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            int limit = 3;
-            if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+            int limit = 4;
+            if (toInt(dt.Compute("count(id)", "support=1")) >= limit)
             {
-                ismail = toInt(dt.Compute("max(scount)", "query=3 and time=2")) >= limit;
+                if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+                {
+                    if (Convert.ToDouble(oddsInfo[2]) > 0)
+                    {
+                        ismail = toInt(dt.Compute("count(id)", "support=1 and result=3")) == 0 ||
+                            toInt(dt.Compute("count(id)", "support=1 and result=3")) == toInt(dt.Compute("count(id)", "support=1"));
+                    }
+                    else if (Convert.ToDouble(oddsInfo[2]) < 0)
+                    {
+                        ismail = toInt(dt.Compute("count(id)", "support=1 and result=0")) == 0 ||
+                            toInt(dt.Compute("count(id)", "support=1 and result=0")) == toInt(dt.Compute("count(id)", "support=1"));
+                    }
+                    else
+                    {
+                        ismail = toInt(dt.Compute("count(id)", "support=1 and result<>3")) == 0 ||
+                            toInt(dt.Compute("count(id)", "support=1 and result<>0")) == 0;
+                    }
+                }
+                else if (Convert.ToDouble(oddsInfo[2]) >= 1)
+                {
+                    ismail = toInt(dt.Compute("count(id)", "support=1 and result=3")) == 0;
+                }
+                else if (Convert.ToDouble(oddsInfo[2]) <= -1)
+                {
+                    ismail = toInt(dt.Compute("count(id)", "support=1 and result=0")) == 0;
+                }
             }
-            else if (Convert.ToDouble(oddsInfo[2]) >= 1)
-            {
-                ismail = toInt(dt.Compute("max(scount)", "query=3 and time=2 and result<>3")) >= limit;
-                //ismail = count >= limit;
-            }
-            else if (Convert.ToDouble(oddsInfo[2]) <= -1)
-            {
-                ismail = toInt(dt.Compute("max(scount)", "query=3 and time=2 and result<>0")) >= limit;
-                //ismail = count >= limit;
-            }
+            
 
             if (ismail)
             {
