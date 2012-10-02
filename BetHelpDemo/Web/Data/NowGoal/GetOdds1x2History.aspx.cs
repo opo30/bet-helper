@@ -342,70 +342,66 @@ namespace SeoWebSite.Web.Data.NowGoal
                 }
                 string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
                 string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
-
-                DataTable dt = new DataTable();
-                dt.Columns.Add("id", typeof(int));
-                dt.Columns.Add("fullname");
-                dt.Columns.Add("isprimary", typeof(bool));
-                dt.Columns.Add("isexchange", typeof(bool));
-                dt.Columns.Add("result", typeof(int));
-                dt.Columns.Add("query", typeof(int));
-                dt.Columns.Add("time", typeof(int));
-                dt.Columns.Add("scount", typeof(int));
-                dt.Merge(scheduleBLL.queryOddsHistory2(null, null, swhereStr, "query=1,time=1").Tables[0]);
-                dt.Merge(scheduleBLL.queryOddsHistory2(null, null, ewhereStr, "query=1,time=2").Tables[0]);
-                dt.Merge(scheduleBLL.queryOddsHistory2(sclassArr[9], null, swhereStr, "query=2,time=1").Tables[0]);
-                dt.Merge(scheduleBLL.queryOddsHistory2(sclassArr[9], null, ewhereStr, "query=2,time=2").Tables[0]);
-                dt.Merge(scheduleBLL.queryOddsHistory2(null, sclassArr[0], swhereStr, "query=3,time=1").Tables[0]);
-                dt.Merge(scheduleBLL.queryOddsHistory2(null, sclassArr[0], ewhereStr, "query=3,time=2").Tables[0]);
-
-                NameValueCollection myCol = new NameValueCollection();
-                for (int i = 0; i < scheduleArr.Length; i++)
+                
+                
+                switch (Request.Form["query"])
                 {
-                    myCol.Add("scheduleArr" + i, scheduleArr[i]);
+                    case "2":
+                        swhereStr += " and c.cclassid=" + sclassArr[9];
+                        ewhereStr += " and c.cclassid=" + sclassArr[9];
+                        break;
+                    case "3":
+                        swhereStr += " and a.sclassid=" + sclassArr[0];
+                        ewhereStr += " and a.sclassid=" + sclassArr[0];
+                        break;
+                    default:
+                        break;
                 }
-                for (int i = 0; i < sclassArr.Length; i++)
+                DataTable dt = scheduleBLL.queryCompanyHistory("s",swhereStr).Tables[0];
+                DataTable dt1 = scheduleBLL.queryCompanyHistory("e",ewhereStr).Tables[0];
+                dt.Columns.Add("ecount",typeof(int));
+                dt.Columns.Add("ewin", typeof(decimal));
+                dt.Columns.Add("edraw", typeof(decimal));
+                dt.Columns.Add("elost", typeof(decimal));
+                foreach (DataRow dr in dt1.Rows)
                 {
-                    myCol.Add("sclassArr" + i, sclassArr[i]);
-                }
-                for (int i = 0; i < oddsInfo.Length; i++)
-                {
-                    myCol.Add("oddsArr" + i, oddsInfo[i]);
-                }
-                foreach (var q in new int[3] { 1, 2, 3 })
-                {
-                    foreach (var r in new int[3] { 3, 1, 0 })
+                    if (dt.Select("companyid=" + dr["companyid"]).Count() > 0)
+	                {
+                        dt.Select("companyid=" + dr["companyid"])[0]["ecount"] = dr["ecount"];
+                        dt.Select("companyid=" + dr["companyid"])[0]["ewin"] = dr["ewin"];
+                        dt.Select("companyid=" + dr["companyid"])[0]["edraw"] = dr["edraw"];
+                        dt.Select("companyid=" + dr["companyid"])[0]["elost"] = dr["elost"];
+	                }
+                    else
                     {
-                        foreach (var t in new int[2] { 1, 2 })
+                        dt.ImportRow(dr);
+                    }
+                }
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    foreach (string oddsStr in oddsArr)
+                    {
+                        string[] odds = oddsStr.Split('|');
+                        if (dr["companyid"].ToString() == odds[0])
                         {
-                            string s = "";
-                            foreach (DataRow dr in dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc"))
+                            if (dr["scount"] != DBNull.Value && Convert.ToInt32(dr["scount"]) > 0)
                             {
-                                bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and id=" + dr["id"])) > 0;
-                                string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
-                                if (Convert.ToBoolean(dr["isprimary"]))
-                                {
-                                    s += "<font color=blue>" + dr["fullname"] + "</font>";
-                                }
-                                else if (Convert.ToBoolean(dr["isexchange"]))
-                                {
-                                    s += "<font color=green>" + dr["fullname"] + "</font>";
-                                }
-                                else
-                                {
-                                    s += dr["fullname"];
-                                }
-                                s += reproduce + "<br>";
+                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
+                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
+                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
                             }
-                            myCol.Add("q" + q + "t" + t + "r" + r + "_list", s);
+                            if (dr["ecount"] != DBNull.Value && Convert.ToInt32(dr["ecount"]) > 0)
+                            {
+                                dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
+                                dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
+                                dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
+                                
+                            }
                         }
                     }
                 }
-                
-                string templetpath = Server.MapPath("~/Template/mail.htm");
-                string mailBody = TemplateHelper.BulidByFile(templetpath, myCol);
-                Response.ContentType = "text/html";
-                Response.Write(mailBody); ;
+                Response.Write(JArray.FromObject(dt));
             }
 
         }

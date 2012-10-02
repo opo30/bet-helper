@@ -493,6 +493,20 @@ namespace SeoWebSite.DAL
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
+        public DataSet queryCompanyHistory(string key,string strWhere)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("select f.fullname,f.name,f.isprimary,f.isexchange,d.* from ");
+            strSql.Append("(select companyid, count(*) " + key + "count,");
+            strSql.Append(key + "win=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append(key + "draw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
+            strSql.Append(key + "lost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id) ");
+            strSql.Append("from Odds b join schedule a on b.scheduleid=a.id join scheduleclass c on a.sclassid=c.id");
+            strSql.Append(" where a.updated=1 and " + strWhere + " group by companyid) d");
+            strSql.Append(" join company f on f.id=d.companyid order by " + key + "count desc");
+            return DbHelperSQL.Query(strSql.ToString(), 999);
+        }
+
         public DataSet statOddsHistory(string whereStr)
         {
             StringBuilder strSql = new StringBuilder();

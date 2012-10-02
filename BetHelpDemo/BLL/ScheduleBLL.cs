@@ -220,6 +220,11 @@ namespace SeoWebSite.BLL
             return dal.queryOddsHistory2(cclassid, sclassid, whereStr, selectStr);
         }
 
+        public DataSet queryCompanyHistory(string key,string strWhere)
+        {
+            return dal.queryCompanyHistory(key,strWhere);
+        }
+
         public DataSet queryOddsHistory(string cclassid,string sclassid, string whereStr)
         {
             return dal.queryOddsHistory(cclassid,sclassid,whereStr);
