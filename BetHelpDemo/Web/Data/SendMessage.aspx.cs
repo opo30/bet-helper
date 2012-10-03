@@ -68,115 +68,151 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-            DataTable dt = new DataTable();
-            dt.Columns.Add("id", typeof(int));
-            dt.Columns.Add("fullname");
-            dt.Columns.Add("isprimary", typeof(bool));
-            dt.Columns.Add("isexchange", typeof(bool));
-            dt.Columns.Add("result", typeof(int));
-            dt.Columns.Add("query", typeof(int));
-            dt.Columns.Add("time", typeof(int));
-            dt.Columns.Add("scount", typeof(int));
-            dt.Columns.Add("support", typeof(bool));
-            dt.Merge(scheduleBLL.queryOddsHistory2(null, null, swhereStr, "query=1,time=1").Tables[0]);
-            dt.Merge(scheduleBLL.queryOddsHistory2(null, null, ewhereStr, "query=1,time=2").Tables[0]);
-            dt.Merge(scheduleBLL.queryOddsHistory2(sclassArr[9], null, swhereStr, "query=2,time=1").Tables[0]);
-            dt.Merge(scheduleBLL.queryOddsHistory2(sclassArr[9], null, ewhereStr, "query=2,time=2").Tables[0]);
-            dt.Merge(scheduleBLL.queryOddsHistory2(null, sclassArr[0], swhereStr, "query=3,time=1").Tables[0]);
-            dt.Merge(scheduleBLL.queryOddsHistory2(null, sclassArr[0], ewhereStr, "query=3,time=2").Tables[0]);
+            DataTable dt = scheduleBLL.queryCompanyHistory("s", swhereStr).Tables[0];
+            DataTable dt1 = scheduleBLL.queryCompanyHistory("e", ewhereStr).Tables[0];
+            dt.Columns.Add("ecount", typeof(int));
+            dt.Columns.Add("ewin", typeof(decimal));
+            dt.Columns.Add("edraw", typeof(decimal));
+            dt.Columns.Add("elost", typeof(decimal));
 
-            NameValueCollection myCol = new NameValueCollection();
-            for (int i = 0; i < scheduleArr.Length; i++)
+            foreach (DataRow dr in dt1.Rows)
             {
-                myCol.Add("scheduleArr" + i, scheduleArr[i]);
-            }
-            for (int i = 0; i < sclassArr.Length; i++)
-            {
-                myCol.Add("sclassArr" + i, sclassArr[i]);
-            }
-            for (int i = 0; i < oddsInfo.Length; i++)
-            {
-                myCol.Add("oddsArr" + i, oddsInfo[i]);
-            }
-
-
-            List<string> companyids = new List<string>();
-            foreach (var q in new int[3] { 1, 2, 3 })
-            {
-                foreach (var r in new int[3] { 3, 1, 0 })
+                if (dt.Select("companyid=" + dr["companyid"]).Count() > 0)
                 {
-                    foreach (var t in new int[2] { 1, 2 })
+                    dt.Select("companyid=" + dr["companyid"])[0]["ecount"] = dr["ecount"];
+                    dt.Select("companyid=" + dr["companyid"])[0]["ewin"] = dr["ewin"];
+                    dt.Select("companyid=" + dr["companyid"])[0]["edraw"] = dr["edraw"];
+                    dt.Select("companyid=" + dr["companyid"])[0]["elost"] = dr["elost"];
+                }
+                else
+                {
+                    dt.ImportRow(dr);
+                }
+            }
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                foreach (string oddsStr in oddsArr)
+                {
+                    string[] odds = oddsStr.Split('|');
+                    if (dr["companyid"].ToString() == odds[0])
                     {
-                        string s = "";
-                        foreach (DataRow dr in dt.Select("query=" + q + " and time=" + t + " and result=" + r, "isprimary desc"))
+                        if (dr["scount"] != DBNull.Value && Convert.ToInt32(dr["scount"]) > 0)
                         {
-                            bool isreproduce = t == 2 && Convert.ToInt32(dt.Compute("count(id)", "query=" + q + " and time=1 and id=" + dr["id"])) > 0;
-                            string reproduce = "&nbsp;<font color=gray>" + dr["scount"] + "</font>" + (isreproduce ? "<img alt='*' src='http://bet.yuuzle.com/Images/icons/star.png'/>" : "");
-                            //if (isreproduce && toInt(dt.Compute("sum(scount)", "query=" + q + " and time=1 and result=" + r + " and id=" + dr["id"])) != toInt(dt.Compute("sum(scount)", "query=" + q + " and time=2 and result=" + r + " and id=" + dr["id"])))
-                            if (isreproduce)
-                            {
-                                dr["support"] = 1;
-                            }
-                            if (Convert.ToBoolean(dr["isprimary"]))
-                            {
-                                s += "<font color=blue>" + dr["name"] + "</font>";
-                            }
-                            else if (Convert.ToBoolean(dr["isexchange"]))
-                            {
-                                s += "<font color=green>" + dr["name"] + "</font>";
-                            }
-                            else
-                            {
-                                s += dr["name"];
-                            }
-                            s += reproduce + "<br>";
+                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
+                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
+                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
                         }
-                        myCol.Add("q" + q + "t" + t + "r" + r + "_list", s);
+                        if (dr["ecount"] != DBNull.Value && Convert.ToInt32(dr["ecount"]) > 0)
+                        {
+                            dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
+                            dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
+                            dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
+
+                        }
                     }
                 }
             }
 
             bool ismail = false;
-            int limit = 4;
-            if (toInt(dt.Compute("count(id)", "support=1")) >= limit)
+            int limit = 100;
+            if (toInt(dt.Compute("count(companyid)", "ecount>=" + limit)) >= 3)
             {
                 if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
                 {
                     if (Convert.ToDouble(oddsInfo[2]) > 0)
                     {
-                        ismail = toInt(dt.Compute("count(id)", "support=1 and result=3")) == 0 ||
-                            toInt(dt.Compute("count(id)", "support=1 and result=3")) == toInt(dt.Compute("count(id)", "support=1"));
+                        ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == toInt(dt.Compute("count(companyid)", "ecount>=100"));
                     }
                     else if (Convert.ToDouble(oddsInfo[2]) < 0)
                     {
-                        ismail = toInt(dt.Compute("count(id)", "support=1 and result=0")) == 0 ||
-                            toInt(dt.Compute("count(id)", "support=1 and result=0")) == toInt(dt.Compute("count(id)", "support=1"));
+                        ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == toInt(dt.Compute("count(companyid)", "ecount>=100"));
                     }
                     else
                     {
-                        ismail = toInt(dt.Compute("count(id)", "support=1 and result<>3")) == 0 ||
-                            toInt(dt.Compute("count(id)", "support=1 and result<>0")) == 0;
+                        ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == 0;
                     }
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) >= 1)
                 {
-                    ismail = toInt(dt.Compute("count(id)", "support=1 and result=3")) == 0;
+                    ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == 0;
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) <= -1)
                 {
-                    ismail = toInt(dt.Compute("count(id)", "support=1 and result=0")) == 0;
+                    ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == 0;
                 }
             }
-            
 
             if (ismail)
             {
+                NameValueCollection myCol = new NameValueCollection();
+                for (int i = 0; i < scheduleArr.Length; i++)
+                {
+                    myCol.Add("scheduleArr" + i, scheduleArr[i]);
+                }
+                for (int i = 0; i < sclassArr.Length; i++)
+                {
+                    myCol.Add("sclassArr" + i, sclassArr[i]);
+                }
+                for (int i = 0; i < oddsInfo.Length; i++)
+                {
+                    myCol.Add("oddsArr" + i, oddsInfo[i]);
+                }
+
+                StringBuilder sb = new StringBuilder();
+                foreach (DataRow dr in dt.Select("ecount >= 50", "ecount desc"))
+                {
+                    sb.Append("<tr>");
+                    string color = "black";
+                    if (Convert.ToBoolean(dr["isprimary"]))
+                    {
+                        color = "blue";
+                    }
+                    else if (Convert.ToBoolean(dr["isexchange"]))
+                    {
+                        color = "green";
+                    }
+                    sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height: 21px;font-size: 10px;color:" + color + ";\">" + dr["fullname"] + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + dr["scount"] + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["swin"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["swin"]) + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["sdraw"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["sdraw"]) + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["slost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["slost"]) + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + dr["ecount"] + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["swin"], dr["ewin"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["ewin"]) + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["sdraw"], dr["edraw"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["edraw"]) + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["elost"], dr["elost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["elost"]) + "</td>");
+                    sb.Append("</tr>");
+                }
+                myCol.Add("companyHistory", sb.ToString());
+
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);
                 string templetpath = Server.MapPath("~/Template/mail.htm");
                 string mailBody = TemplateHelper.BulidByFile(templetpath, myCol);
                 MailSender.Send("seo1214@gmail.com", title, mailBody);
             }
         }
+    }
+
+    private string getBGColor(object o1, object o2)
+    {
+        string color = "White";
+        if (Convert.ToDecimal(o2) > Convert.ToDecimal(o1) && Convert.ToDecimal(o2) > 0)
+        {
+            return "#F7CFD6";
+        }
+        else if (Convert.ToDecimal(o2) < Convert.ToDecimal(o1) && Convert.ToDecimal(o2) < 0)
+        {
+            return "#DFF3B1";
+        }
+        return color;
+    }
+
+    private decimal dRound(object o)
+    {
+        return decimal.Round(Convert.ToDecimal(o), 2);
     }
 
     private int toInt(object o)
