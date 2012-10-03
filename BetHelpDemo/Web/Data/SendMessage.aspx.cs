@@ -123,12 +123,12 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     if (Convert.ToDouble(oddsInfo[2]) > 0)
                     {
                         ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == 0 ||
-                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == toInt(dt.Compute("count(companyid)", "ecount>=100"));
+                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and (edraw>sdraw and edraw>0 or elost>slost and elost>0)")) == 0;
                     }
                     else if (Convert.ToDouble(oddsInfo[2]) < 0)
                     {
                         ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == 0 ||
-                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == toInt(dt.Compute("count(companyid)", "ecount>=100"));
+                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and (edraw>sdraw and edraw>0 or ewin>swin and ewin>0)")) == 0;
                     }
                     else
                     {
@@ -183,7 +183,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + dr["ecount"] + "</td>");
                     sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["swin"], dr["ewin"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["ewin"]) + "</td>");
                     sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["sdraw"], dr["edraw"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["edraw"]) + "</td>");
-                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["elost"], dr["elost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["elost"]) + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["slost"], dr["elost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["elost"]) + "</td>");
                     sb.Append("</tr>");
                 }
                 myCol.Add("companyHistory", sb.ToString());
