@@ -7,7 +7,7 @@ var Odds1x2Mail = function (scheduleid) {
         return;
     }
     var scheduleArr, scheduleTypeArr;
-    var minite = 60 * 0.5;
+    var minite = 60 * 24;
     oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
     oddsHttp.send(null);
     if (oddsHttp.responseText == "") {
@@ -53,7 +53,7 @@ var Odds1x2Mail = function (scheduleid) {
 
 var Odds1x2Mail1 = function (scheduleid) {
     var scheduleArr, scheduleTypeArr;
-    var minite = 60 * 0.5;
+    var minite = 60 * 24;
     oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
     oddsHttp.send(null);
     if (oddsHttp.responseText == "") {
@@ -204,10 +204,10 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        align: "middle",
 		        width: 50,
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("swin")) {
+		            if (value > row.get("swin") && value > 0) {
 		                cell.cellAttr = 'bgcolor="#F7CFD6"';
 		            }
-		            else if (value < row.get("swin")) {
+		            else if (value < row.get("swin") && value < 0) {
 		                cell.cellAttr = 'bgcolor="#DFF3B1"';
 		            }
 		            return value;
@@ -219,10 +219,10 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        align: "middle",
 		        width: 50,
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("sdraw")) {
+		            if (value > row.get("sdraw") && value > 0) {
 		                cell.cellAttr = 'bgcolor="#F7CFD6"';
 		            }
-		            else if (value < row.get("sdraw")) {
+		            else if (value < row.get("sdraw") && value < 0) {
 		                cell.cellAttr = 'bgcolor="#DFF3B1"';
 		            }
 		            return value;
@@ -234,10 +234,10 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        align: "middle",
 		        width: 50,
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("slost")) {
+		            if (value > row.get("slost") && value > 0) {
 		                cell.cellAttr = 'bgcolor="#F7CFD6"';
 		            }
-		            else if (value < row.get("slost")) {
+		            else if (value < row.get("slost") && value < 0) {
 		                cell.cellAttr = 'bgcolor="#DFF3B1"';
 		            }
 		            return value;
