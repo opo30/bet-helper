@@ -115,7 +115,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            string limit = "ecount>=80 and ecount>=80 and isprimary=1";
+            string limit = "scount>=80 and ecount>=80 and isprimary=1";
             if (toInt(dt.Compute("count(companyid)", limit)) >= 3)
             {
                 if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
