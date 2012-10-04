@@ -115,25 +115,25 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            int limit = 100;
-            if (toInt(dt.Compute("count(companyid)", "ecount>=" + limit)) >= 3)
+            string limit = "ecount>=80 and ecount>=80 and isprimary=1";
+            if (toInt(dt.Compute("count(companyid)", limit)) >= 3)
             {
                 if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
                 {
                     if (Convert.ToDouble(oddsInfo[2]) > 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == 0 ||
-                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and (edraw>sdraw and edraw>0 or elost>slost and elost>0)")) == 0;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>swin and ewin>0")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", limit + " and (edraw>sdraw and edraw>0 or elost>slost and elost>0)")) == 0;
                     }
                     else if (Convert.ToDouble(oddsInfo[2]) < 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == 0 ||
-                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and (edraw>sdraw and edraw>0 or ewin>swin and ewin>0)")) == 0;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and elost>slost and elost>0")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", limit + " and (edraw>sdraw and edraw>0 or ewin>swin and ewin>0)")) == 0;
                     }
                     else
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == 0 ||
-                            toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == 0;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>swin and ewin>0")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", limit + " and elost>slost and elost>0")) == 0;
                     }
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) >= 1)
