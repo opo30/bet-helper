@@ -95,7 +95,7 @@ var Odds1x2Mail1 = function (scheduleid) {
           { header: '即时盘', colspan: 4, align: 'center' }
       ]]
         });
-        var fields = [{ name: 'companyid', type: 'string' }, { name: 'fullname', type: 'string' }, { name: 'isprimary', type: 'bool' }, { name: 'isexchange', type: 'bool' }, { name: 'scount', type: 'int' }, { name: 'swin', type: 'float' }, { name: 'sdraw', type: 'float' }, { name: 'slost', type: 'float' }, { name: 'ecount', type: 'int' }, { name: 'ewin', type: 'float' }, { name: 'edraw', type: 'float' }, { name: 'elost', type: 'float'}];
+        var fields = [{ name: 'companyid', type: 'string' }, { name: 'fullname', type: 'string' }, { name: 'isprimary', type: 'bool' }, { name: 'isexchange', type: 'bool' }, { name: 'scount', type: 'int' }, { name: 'swin', type: 'float' }, { name: 'sdraw', type: 'float' }, { name: 'slost', type: 'float' }, { name: 'ecount', type: 'int' }, { name: 'ewin', type: 'float' }, { name: 'edraw', type: 'float' }, { name: 'elost', type: 'float' }, { name: 'so', type: 'float'}];
 
         var store = new Ext.data.Store({
             proxy: new Ext.data.HttpProxy(
@@ -108,6 +108,7 @@ var Odds1x2Mail1 = function (scheduleid) {
                    fields: fields,
                    id: "companyid"
                }),
+               sortInfo: {field: 'so', direction: 'ASC'} ,
             baseParams: {
                 query: query,
                 stypeid: scheduleTypeArr.join('^'),

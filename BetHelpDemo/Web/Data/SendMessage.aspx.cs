@@ -68,27 +68,9 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-            DataTable dt = scheduleBLL.queryCompanyHistory("s", swhereStr).Tables[0];
-            DataTable dt1 = scheduleBLL.queryCompanyHistory("e", ewhereStr).Tables[0];
-            dt.Columns.Add("ecount", typeof(int));
-            dt.Columns.Add("ewin", typeof(decimal));
-            dt.Columns.Add("edraw", typeof(decimal));
-            dt.Columns.Add("elost", typeof(decimal));
+            DataTable dt = scheduleBLL.queryCompanyHistory(swhereStr, ewhereStr).Tables[0];
 
-            foreach (DataRow dr in dt1.Rows)
-            {
-                if (dt.Select("companyid=" + dr["companyid"]).Count() > 0)
-                {
-                    dt.Select("companyid=" + dr["companyid"])[0]["ecount"] = dr["ecount"];
-                    dt.Select("companyid=" + dr["companyid"])[0]["ewin"] = dr["ewin"];
-                    dt.Select("companyid=" + dr["companyid"])[0]["edraw"] = dr["edraw"];
-                    dt.Select("companyid=" + dr["companyid"])[0]["elost"] = dr["elost"];
-                }
-                else
-                {
-                    dt.ImportRow(dr);
-                }
-            }
+            dt.Columns.Add("so", typeof(float));
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -97,26 +79,26 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     string[] odds = oddsStr.Split('|');
                     if (dr["companyid"].ToString() == odds[0])
                     {
-                        if (dr["scount"] != DBNull.Value && Convert.ToInt32(dr["scount"]) > 0)
-                        {
-                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
-                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
-                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
-                        }
-                        if (dr["ecount"] != DBNull.Value && Convert.ToInt32(dr["ecount"]) > 0)
-                        {
-                            dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
-                            dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
-                            dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
+                        dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
+                        dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
+                        dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
+                        dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
+                        dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
+                        dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
 
-                        }
+                        List<decimal> decimalList = new List<decimal>();
+                        decimalList.Add(Math.Abs(Convert.ToDecimal(dr["swin"])));
+                        decimalList.Add(Math.Abs(Convert.ToDecimal(dr["sdraw"])));
+                        decimalList.Add(Math.Abs(Convert.ToDecimal(dr["slost"])));
+                        dr.SetField("so", decimalList.Max());
                     }
                 }
             }
 
             bool ismail = false;
-            string limit = "scount>=80 and ecount>=80 and isprimary=1";
-            if (toInt(dt.Compute("count(companyid)", limit)) >= 3)
+            string limit = "swin<1 and sdraw<1 and slost<1 and swin>-1 and sdraw>-1 and slost>-1 and ecount>=50";
+            int count = toInt(dt.Compute("count(companyid)", limit));
+            if (count >= 2)
             {
                 if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
                 {
@@ -138,11 +120,11 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) >= 1)
                 {
-                    ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and ewin>swin and ewin>0")) == 0;
+                    ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>swin and ewin>0")) == 0;
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) <= -1)
                 {
-                    ismail = toInt(dt.Compute("count(companyid)", "ecount>=" + limit + " and elost>slost and elost>0")) == 0;
+                    ismail = toInt(dt.Compute("count(companyid)", limit + " and elost>slost and elost>0")) == 0;
                 }
             }
 
@@ -163,7 +145,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
 
                 StringBuilder sb = new StringBuilder();
-                foreach (DataRow dr in dt.Select("ecount >= 50", "ecount desc"))
+                foreach (DataRow dr in dt.Select("swin<3 and sdraw<3 and slost<3", "so"))
                 {
                     sb.Append("<tr>");
                     string color = "black";

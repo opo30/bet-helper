@@ -357,26 +357,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                     default:
                         break;
                 }
-                DataTable dt = scheduleBLL.queryCompanyHistory("s",swhereStr).Tables[0];
-                DataTable dt1 = scheduleBLL.queryCompanyHistory("e",ewhereStr).Tables[0];
-                dt.Columns.Add("ecount",typeof(int));
-                dt.Columns.Add("ewin", typeof(decimal));
-                dt.Columns.Add("edraw", typeof(decimal));
-                dt.Columns.Add("elost", typeof(decimal));
-                foreach (DataRow dr in dt1.Rows)
-                {
-                    if (dt.Select("companyid=" + dr["companyid"]).Count() > 0)
-	                {
-                        dt.Select("companyid=" + dr["companyid"])[0]["ecount"] = dr["ecount"];
-                        dt.Select("companyid=" + dr["companyid"])[0]["ewin"] = dr["ewin"];
-                        dt.Select("companyid=" + dr["companyid"])[0]["edraw"] = dr["edraw"];
-                        dt.Select("companyid=" + dr["companyid"])[0]["elost"] = dr["elost"];
-	                }
-                    else
-                    {
-                        dt.ImportRow(dr);
-                    }
-                }
+                DataTable dt = scheduleBLL.queryCompanyHistory(swhereStr, ewhereStr).Tables[0];
+
+                dt.Columns.Add("so", typeof(float));
 
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -385,19 +368,18 @@ namespace SeoWebSite.Web.Data.NowGoal
                         string[] odds = oddsStr.Split('|');
                         if (dr["companyid"].ToString() == odds[0])
                         {
-                            if (dr["scount"] != DBNull.Value && Convert.ToInt32(dr["scount"]) > 0)
-                            {
-                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
-                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
-                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
-                            }
-                            if (dr["ecount"] != DBNull.Value && Convert.ToInt32(dr["ecount"]) > 0)
-                            {
-                                dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
-                                dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
-                                dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
-                                
-                            }
+                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
+                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
+                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
+                            dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
+                            dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
+                            dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
+
+                            List<decimal> decimalList = new List<decimal>();
+                            decimalList.Add(Math.Abs(Convert.ToDecimal(dr["swin"])));
+                            decimalList.Add(Math.Abs(Convert.ToDecimal(dr["sdraw"])));
+                            decimalList.Add(Math.Abs(Convert.ToDecimal(dr["slost"])));
+                            dr.SetField("so", decimalList.Max());
                         }
                     }
                 }
