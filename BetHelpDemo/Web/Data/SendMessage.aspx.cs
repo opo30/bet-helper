@@ -70,8 +70,6 @@ public partial class Data_SendMessage : System.Web.UI.Page
 
             DataTable dt = scheduleBLL.queryCompanyHistory(swhereStr, ewhereStr).Tables[0];
 
-            dt.Columns.Add("so", typeof(float));
-
             foreach (DataRow dr in dt.Rows)
             {
                 foreach (string oddsStr in oddsArr)
@@ -85,18 +83,12 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
                         dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
                         dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
-
-                        List<decimal> decimalList = new List<decimal>();
-                        decimalList.Add(Math.Abs(Convert.ToDecimal(dr["swin"])));
-                        decimalList.Add(Math.Abs(Convert.ToDecimal(dr["sdraw"])));
-                        decimalList.Add(Math.Abs(Convert.ToDecimal(dr["slost"])));
-                        dr.SetField("so", decimalList.Max());
                     }
                 }
             }
 
             bool ismail = false;
-            string limit = "swin<1 and sdraw<1 and slost<1 and swin>-1 and sdraw>-1 and slost>-1 and ecount>=50";
+            string limit = "isprimary=1 and scount>=100 and ecount>=100";
             int count = toInt(dt.Compute("count(companyid)", limit));
             if (count >= 2)
             {
@@ -104,27 +96,27 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 {
                     if (Convert.ToDouble(oddsInfo[2]) > 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>swin and ewin>0")) == 0 ||
-                            toInt(dt.Compute("count(companyid)", limit + " and (edraw>sdraw and edraw>0 or elost>slost and elost>0)")) == 0;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and (ewin>0 or swin>0)")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", limit + " and (edraw>0 or sdraw>0 or elost>0 or slost>0)")) == 0;
                     }
                     else if (Convert.ToDouble(oddsInfo[2]) < 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and elost>slost and elost>0")) == 0 ||
-                            toInt(dt.Compute("count(companyid)", limit + " and (edraw>sdraw and edraw>0 or ewin>swin and ewin>0)")) == 0;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and elost>0 or slost>0")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", limit + " and (edraw>0 or sdraw>0 or ewin>0 or swin>0)")) == 0;
                     }
                     else
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>swin and ewin>0")) == 0 ||
-                            toInt(dt.Compute("count(companyid)", limit + " and elost>slost and elost>0")) == 0;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>0 or swin>0")) == 0 ||
+                            toInt(dt.Compute("count(companyid)", limit + " and elost>0 or slost>0")) == 0;
                     }
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) >= 1)
                 {
-                    ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>swin and ewin>0")) == 0;
+                    ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>0 or swin>0")) == 0;
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) <= -1)
                 {
-                    ismail = toInt(dt.Compute("count(companyid)", limit + " and elost>slost and elost>0")) == 0;
+                    ismail = toInt(dt.Compute("count(companyid)", limit + " and elost>0 or slost>0")) == 0;
                 }
             }
 
@@ -145,7 +137,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
 
                 StringBuilder sb = new StringBuilder();
-                foreach (DataRow dr in dt.Select("swin<3 and sdraw<3 and slost<3", "so"))
+                foreach (DataRow dr in dt.Select("isprimary=1", "scount desc"))
                 {
                     sb.Append("<tr>");
                     string color = "black";

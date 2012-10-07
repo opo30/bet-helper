@@ -359,8 +359,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                 }
                 DataTable dt = scheduleBLL.queryCompanyHistory(swhereStr, ewhereStr).Tables[0];
 
-                dt.Columns.Add("so", typeof(float));
-
                 foreach (DataRow dr in dt.Rows)
                 {
                     foreach (string oddsStr in oddsArr)
@@ -374,12 +372,6 @@ namespace SeoWebSite.Web.Data.NowGoal
                             dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
                             dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
                             dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
-
-                            List<decimal> decimalList = new List<decimal>();
-                            decimalList.Add(Math.Abs(Convert.ToDecimal(dr["swin"])));
-                            decimalList.Add(Math.Abs(Convert.ToDecimal(dr["sdraw"])));
-                            decimalList.Add(Math.Abs(Convert.ToDecimal(dr["slost"])));
-                            dr.SetField("so", decimalList.Max());
                         }
                     }
                 }

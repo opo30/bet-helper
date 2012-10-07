@@ -108,7 +108,7 @@ var Odds1x2Mail1 = function (scheduleid) {
                    fields: fields,
                    id: "companyid"
                }),
-               sortInfo: {field: 'so', direction: 'ASC'} ,
+               //sortInfo: {field: 'so', direction: 'ASC'} ,
             baseParams: {
                 query: query,
                 stypeid: scheduleTypeArr.join('^'),
