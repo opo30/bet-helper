@@ -49,6 +49,7 @@
     <script src="Js/Algorithm.js" type="text/javascript"></script>
     <script src="Js/NowGoal/LoadSimilarExp.js" type="text/javascript"></script>
     <script src="Js/NowGoal/LoadSimilarTrends.js" type="text/javascript"></script>
+    <script src="Js/today.js" type="text/javascript"></script>
     <script src="Js/update/matchData.js" type="text/javascript"></script>
     <script src="Js/update/oddsData.js" type="text/javascript"></script>
     <script src="js/Main.js" type="text/javascript"></script>

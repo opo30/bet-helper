@@ -225,6 +225,16 @@ namespace SeoWebSite.BLL
             return dal.queryCompanyHistory(swhere, ewhere);
         }
 
+        public DataSet queryCompanyHistoryCP(string swhere,int min)
+        {
+            return dal.queryCompanyHistoryCP(swhere, min);
+        }
+
+        public DataSet queryCompanyHistoryZP(string ewhere, int min)
+        {
+            return dal.queryCompanyHistoryZP(ewhere, min);
+        }
+
         public DataSet queryOddsHistory(string cclassid,string sclassid, string whereStr)
         {
             return dal.queryOddsHistory(cclassid,sclassid,whereStr);

@@ -16,8 +16,12 @@ HistoryScore.matchdate = "";
 HistoryScore.oddsData = "";
 
 HistoryScore.ShowBf = function () {
-    Ext.getCmp("MatchTypeSelect").setText(Ext.getCmp("MatchTypeSelect").menu.items.itemAt(Config.matchType).text);
-    Ext.getCmp("LanguageSelect").setText(Ext.getCmp("LanguageSelect").menu.items.itemAt(Config.language).text);
+    if (Ext.getCmp("MatchTypeSelect") != null) {
+        Ext.getCmp("MatchTypeSelect").setText(Ext.getCmp("MatchTypeSelect").menu.items.itemAt(Config.matchType).text);
+    }
+    if (Ext.getCmp("LanguageSelect") != null) {
+        Ext.getCmp("LanguageSelect").setText(Ext.getCmp("LanguageSelect").menu.items.itemAt(Config.language).text);
+    }
 
     if (hiddenID == null) hiddenID = "";
     var state, bg = "";
@@ -275,7 +279,7 @@ HistoryScore.SelectOtherLeague=function() {
 }
 
 HistoryScore.LoadLiveFile = function () {
-    if (Ext.getCmp("datefield").getValue()) {
+    if (Ext.getCmp("datefield")!= null && Ext.getCmp("datefield").getValue()) {
         HistoryScore.matchdate = Ext.getCmp("datefield").getValue().format("Y-m-d");
     } else {
         HistoryScore.matchdate = new Date().format("Y-m-d");

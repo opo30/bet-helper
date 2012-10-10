@@ -47,6 +47,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                         case "update":
                             updateOddsHistory();
                             break;
+                        case "today":
+                            statTodayHistory();
+                            break;
                         default:
                             break;
                     }
@@ -380,6 +383,87 @@ namespace SeoWebSite.Web.Data.NowGoal
 
         }
 
+        private void statTodayHistory()
+        {
+            if (Request["stypeid"] != null && Request["oddsarr"] != null)
+            {
+                string[] sclassArr = Request.Form["stypeid"].Split('^');
+                string[] oddsArr = Request.Form["oddsarr"].Split('^');
+                string[] scheduleArr = Request.Form["schedulearr"].Split('^');
+                string[] oddsInfo = Request.Form["odds"].Split(',');
+                List<string> swhereList = new List<string>();
+                List<string> ewhereList = new List<string>();
+                foreach (string oddsStr in oddsArr)
+                {
+                    string[] odds = oddsStr.Split('|');
+                    swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
+                            " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
+                    if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
+                    {
+                        ewhereList.Add("(companyid=" + odds[0] + " and (e_win=" + odds[10] +
+                            ") and (e_draw=" + odds[11] + ") and (e_lost=" + odds[12] + "))");
+                    }
+                }
+                string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
+                string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
+
+                DataTable dt = scheduleBLL.queryCompanyHistoryCP(swhereStr, 100).Tables[0];
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    foreach (string oddsStr in oddsArr)
+                    {
+                        string[] odds = oddsStr.Split('|');
+                        if (dr["companyid"].ToString() == odds[0])
+                        {
+                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
+                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
+                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
+                            //dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
+                            //dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
+                            //dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
+                        }
+                    }
+                }
+
+                JObject result = new JObject();
+                if (!string.IsNullOrEmpty(oddsInfo[2]))
+                {
+                    if (!string.IsNullOrEmpty(oddsInfo[2]) && Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+                    {
+                        if (Convert.ToDouble(oddsInfo[2]) > 0)
+                        {
+                            result.Add("pan", toInt(dt.Compute("count(companyid)", "swin>0 and sdraw<0 and slost<0")) - toInt(dt.Compute("count(companyid)", "swin<0")));
+                            result.Add("ppan", toInt(dt.Compute("count(companyid)", "swin>0 and sdraw<0 and slost<0 and isprimary=1")) - toInt(dt.Compute("count(companyid)", "swin<0 and isprimary=1")));
+                        }
+                        else if (Convert.ToDouble(oddsInfo[2]) < 0)
+                        {
+                            result.Add("pan", toInt(dt.Compute("count(companyid)", "slost<0")) - toInt(dt.Compute("count(companyid)", "swin<0 and sdraw<0 and slost>0")));
+                            result.Add("ppan", toInt(dt.Compute("count(companyid)", "slost<0 and isprimary=1")) - toInt(dt.Compute("count(companyid)", "swin<0 and sdraw<0 and slost>0 and isprimary=1")));
+                        }
+                        else
+                        {
+                            result.Add("pan", toInt(dt.Compute("count(companyid)", "slost<0")) - toInt(dt.Compute("count(companyid)", "swin<0")));
+                            result.Add("ppan", toInt(dt.Compute("count(companyid)", "slost<0 and isprimary=1")) - toInt(dt.Compute("count(companyid)", "swin<0 and isprimary=1")));
+                        }
+                    }
+                    else if (Convert.ToDouble(oddsInfo[2]) >= 1)
+                    {
+                        result.Add("pan", 0 - toInt(dt.Compute("count(companyid)", "swin<0")));
+                        result.Add("ppan", 0 - toInt(dt.Compute("count(companyid)", "swin<0 and isprimary=1")));
+                    }
+                    else if (Convert.ToDouble(oddsInfo[2]) <= -1)
+                    {
+                        result.Add("pan", toInt(dt.Compute("count(companyid)", "slost<0")));
+                        result.Add("ppan", toInt(dt.Compute("count(companyid)", "slost<0 and isprimary=1")));
+                    }
+                }
+
+                Response.Write(result.ToString());
+            }
+
+        }
+
         private int getNum(object r)
         {
             return r.ToString() == "" ? 0 : Convert.ToInt32(r);
@@ -398,6 +482,18 @@ namespace SeoWebSite.Web.Data.NowGoal
                 throw;
             }
 
+        }
+
+        private int toInt(object o)
+        {
+            if (o == System.DBNull.Value)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(o);
+            }
         }
     }
 }

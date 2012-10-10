@@ -73,6 +73,10 @@ var west = new Ext.Panel({
                     text: '经验总结',
 
                     leaf: true
+                }, {
+                    text: '今日赛事',
+
+                    leaf: true
                 }]
                 }),
                 rootVisible: false,
@@ -84,6 +88,9 @@ var west = new Ext.Panel({
                                 break;
                             case "经验总结":
                                 LoadBetExperience(node);
+                                break;
+                            case "今日赛事":
+                                YzBet.today.show(node);
                                 break;
                             default:
                                 break;
