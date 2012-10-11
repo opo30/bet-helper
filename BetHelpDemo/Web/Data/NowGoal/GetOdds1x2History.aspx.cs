@@ -407,7 +407,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
                 string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-                DataTable dt = scheduleBLL.queryCompanyHistoryCP(swhereStr, 100).Tables[0];
+                DataTable dt = scheduleBLL.queryCompanyHistoryCP(swhereStr, 200).Tables[0];
 
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -459,6 +459,13 @@ namespace SeoWebSite.Web.Data.NowGoal
                     }
                 }
 
+                result.Add("maxw", toDouble(dt.Compute("max(swin)", "1=1")));
+                result.Add("maxd", toDouble(dt.Compute("max(sdraw)", "1=1")));
+                result.Add("maxl", toDouble(dt.Compute("max(slost)", "1=1")));
+                result.Add("maxwp", toDouble(dt.Compute("max(swin)", "isprimary=1")));
+                result.Add("maxdp", toDouble(dt.Compute("max(sdraw)", "isprimary=1")));
+                result.Add("maxlp", toDouble(dt.Compute("max(slost)", "isprimary=1")));
+
                 Response.Write(result.ToString());
             }
 
@@ -493,6 +500,18 @@ namespace SeoWebSite.Web.Data.NowGoal
             else
             {
                 return Convert.ToInt32(o);
+            }
+        }
+
+        private double toDouble(object o)
+        {
+            if (o == System.DBNull.Value)
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToDouble(o);
             }
         }
     }

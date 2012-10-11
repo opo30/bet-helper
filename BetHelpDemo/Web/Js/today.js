@@ -142,8 +142,8 @@ YzBet.today = {
         oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
         oddsHttp.send(null);
         if (oddsHttp.responseText == "") {
-            showNotify("提示", scheduleid + "目前没有欧赔数据", false);
-            return;
+            YzBet.today.index++;
+            YzBet.today.loadData(store);
         }
         eval(oddsHttp.responseText);
         oddsArr = [];
@@ -169,6 +169,12 @@ YzBet.today = {
                 var result = Ext.decode(res.responseText);
                 store.getAt(YzBet.today.index).set("pan", result.pan);
                 store.getAt(YzBet.today.index).set("ppan", result.ppan);
+                store.getAt(YzBet.today.index).set("maxw", result.maxw);
+                store.getAt(YzBet.today.index).set("maxd", result.maxd);
+                store.getAt(YzBet.today.index).set("maxl", result.maxl);
+                store.getAt(YzBet.today.index).set("maxwp", result.maxwp);
+                store.getAt(YzBet.today.index).set("maxdp", result.maxdp);
+                store.getAt(YzBet.today.index).set("maxlp", result.maxlp);
 
                 YzBet.today.index++;
                 YzBet.today.loadData(store);
@@ -192,7 +198,9 @@ YzBet.today.show = function (node) {
             { name: 'data', type: 'string' },
             { name: 'h_odds', type: 'string' },
             { name: 'pankou', type: 'string' },
-            { name: 'g_odds', type: 'string' }, { name: 'zoudi', type: 'string' }, { name: 'other', type: 'string' }, { name: 'index', type: 'string' }, { name: 'classx2', type: 'string' }, { name: 'pan', type: 'int' }, { name: 'ppan', type: 'int' }];
+            { name: 'g_odds', type: 'string' }, { name: 'zoudi', type: 'string' }, { name: 'other', type: 'string' }, { name: 'index', type: 'string' }, { name: 'classx2', type: 'string' },
+            { name: 'pan', type: 'int' }, { name: 'ppan', type: 'int' },
+            { name: 'maxw', type: 'float' }, { name: 'maxd', type: 'float' }, { name: 'maxl', type: 'float' }, { name: 'maxwp', type: 'float' }, { name: 'maxdp', type: 'float' }, { name: 'maxlp', type: 'float' }];
 
     var store = new Ext.data.GroupingStore({
         id: "scheduleid",
@@ -389,6 +397,60 @@ YzBet.today.show = function (node) {
 		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
 		        cell.cellAttr = 'id="other_' + row.id + '"';
 		        return value;
+		    }
+		}, {
+		    header: "最高",
+		    dataIndex: "max",
+		    align: "center",
+		    width: 5,
+		    sortable: true,
+		    css: 'vertical-align: inherit;color:gray;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        var max = Math.max(row.get("maxw"), row.get("maxd"), row.get("maxl"));
+		        switch (max) {
+		            case 0:
+		                value = 0;
+		                break;
+		            case row.get("maxw"):
+		                cell.style += "color:red";
+		                value = max - row.get("maxd") - row.get("maxl");
+		                break;
+		            case row.get("maxl"):
+		                cell.style += "color:green";
+		                value = max - row.get("maxw") - row.get("maxd");
+		                break;
+		            default:
+		                value = max - row.get("maxw") - row.get("maxl");
+		                break;
+		        }
+		        return value.toFixed(2);
+		    }
+		}, {
+		    header: "主最高",
+		    dataIndex: "maxp",
+		    align: "center",
+		    width: 5,
+		    sortable: true,
+		    css: 'vertical-align: inherit;color:gray;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        var max = Math.max(row.get("maxwp"), row.get("maxdp"), row.get("maxlp"));
+		        switch (max) {
+		            case 0:
+		                value = 0;
+		                break;
+		            case row.get("maxwp"):
+		                cell.style += "color:red";
+		                value = max - row.get("maxdp") - row.get("maxlp");
+		                break;
+		            case row.get("maxlp"):
+		                cell.style += "color:green";
+		                value = max - row.get("maxwp") - row.get("maxdp");
+		                break;
+		            default:
+		                value = max - row.get("maxwp") - row.get("maxlp");
+		                break;
+		        }
+		        return value.toFixed(2);
 		    }
 		}]);
 
