@@ -134,16 +134,16 @@ YzBet.today = {
             });
         } catch (e) { alert(e) }
     },
-    loadData: function (store) {
-        if (store.getAt(this.index) == null) {
+    loadData: function (rows) {
+        if (rows[this.index] == null) {
             return;
         }
-        var scheduleid = store.getAt(this.index).get("scheduleid");
+        var scheduleid = rows[this.index].get("scheduleid");
         oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
         oddsHttp.send(null);
         if (oddsHttp.responseText == "") {
             YzBet.today.index++;
-            YzBet.today.loadData(store);
+            YzBet.today.loadData(rows);
         }
         eval(oddsHttp.responseText);
         oddsArr = [];
@@ -167,17 +167,17 @@ YzBet.today = {
             },
             success: function (res) {
                 var result = Ext.decode(res.responseText);
-                store.getAt(YzBet.today.index).set("pan", result.pan);
-                store.getAt(YzBet.today.index).set("ppan", result.ppan);
-                store.getAt(YzBet.today.index).set("maxw", result.maxw);
-                store.getAt(YzBet.today.index).set("maxd", result.maxd);
-                store.getAt(YzBet.today.index).set("maxl", result.maxl);
-                store.getAt(YzBet.today.index).set("maxwp", result.maxwp);
-                store.getAt(YzBet.today.index).set("maxdp", result.maxdp);
-                store.getAt(YzBet.today.index).set("maxlp", result.maxlp);
+                rows[YzBet.today.index].set("pan", result.pan);
+                rows[YzBet.today.index].set("ppan", result.ppan);
+                rows[YzBet.today.index].set("maxw", result.maxw);
+                rows[YzBet.today.index].set("maxd", result.maxd);
+                rows[YzBet.today.index].set("maxl", result.maxl);
+                rows[YzBet.today.index].set("maxwp", result.maxwp);
+                rows[YzBet.today.index].set("maxdp", result.maxdp);
+                rows[YzBet.today.index].set("maxlp", result.maxlp);
 
                 YzBet.today.index++;
-                YzBet.today.loadData(store);
+                YzBet.today.loadData(rows);
             }
         });
     }
@@ -230,7 +230,6 @@ YzBet.today.show = function (node) {
                 YzBet.today.showodds(res1.responseText);
             }
         });
-        YzBet.today.loadData(this);
     });
 
     //--------------------------------------------------列选择模式
@@ -470,7 +469,20 @@ YzBet.today.show = function (node) {
         border: false,
         viewConfig: {
             forceFit: true
-        }
+        },
+        tbar: [{
+            xtype:'tbfill'
+        }, {
+            text: '分析',
+            iconCls:'database_icon',
+            handler: function () {
+                var rows = grid.getSelectionModel().getSelections();
+                if (rows.length > 0) {
+                    YzBet.today.index = 0;
+                    YzBet.today.loadData(rows);
+                }
+            }
+        }]
     });
 
     var tab = center.getItem("ShowTodayTab");
@@ -483,7 +495,6 @@ YzBet.today.show = function (node) {
             closable: true,
             layout: "fit",
             items: [grid]
-
         });
     }
     center.setActiveTab(tab);
