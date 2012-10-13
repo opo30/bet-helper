@@ -123,9 +123,8 @@ YzBet.today = {
             Ext.each(oddsArray, function (odds) {
                 D = odds.split(",");
 
-                tr = document.getElementById("ttr1_" + D[0]);
-                if (tr != null && D[1] == Config.companyID) {
-                    var index = tr.getAttribute("index");
+                var index = grid.getStore().indexOfId(parseInt(D[0]));
+                if (index != -1 && D[1] == Config.companyID) {
                     grid.getView().getCell(index, 9).innerHTML = "<p class=odds1>" + D[3] + "</p><p class=odds2>" + D[6] + "</p>";
                     grid.getView().getCell(index, 10).innerHTML = "<p class=odds1>" + Goal2GoalCn(D[2]) + "</p><p class=odds2>" + Goal2GoalCn(D[5]) + "</p>";
                     grid.getView().getCell(index, 11).innerHTML = "<p class=odds1>" + D[4] + "</p><p class=odds2>" + D[7] + "</p>";
@@ -203,10 +202,10 @@ YzBet.today.show = function (node) {
             { name: 'maxw', type: 'float' }, { name: 'maxd', type: 'float' }, { name: 'maxl', type: 'float' }, { name: 'maxwp', type: 'float' }, { name: 'maxdp', type: 'float' }, { name: 'maxlp', type: 'float' }];
 
     var store = new Ext.data.GroupingStore({
-        id: "scheduleid",
         reader: new Ext.data.JsonReader(
            {
-               fields: fields
+               fields: fields,
+               idProperty: "scheduleid"
            })
     });
 
@@ -214,13 +213,6 @@ YzBet.today.show = function (node) {
 
     store.on('load', function (s, records) {
         //grid.getView().getHeaderCell(1).innerText = matchdate;
-        s.each(function (r, index) {
-            //grid.getView().getCell(index, 1).style.backgroundColor = r.get("bgcolor"); //设置颜色
-            grid.getView().getRow(index).style.display = r.get("display"); //设置隐藏
-            grid.getView().getRow(index).setAttribute("id", "ttr1_" + r.get("scheduleid")); //设置id
-            grid.getView().getRow(index).setAttribute("index", r.get("index")); //设置序列
-            grid.getView().getRow(index).setAttribute("odds", ""); //设置赔率数据
-        });
         if (grid.loadMask) {
             grid.loadMask.hide();
         }
