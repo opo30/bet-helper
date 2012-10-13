@@ -73,30 +73,14 @@ YzBet.today = {
                 rowData.match_half = match_half;
                 rowData.classx2 = classx2;
 
-                rowData.pankou = Goal2GoalCn(A[i][25]);
-
-                var goalResult = "";
-                if (A[i][25] != null && match_score != "-") {
-                    var homeScore = parseInt(A[i][13]);
-                    var guestScore = parseInt(A[i][14]);
-                    var goal = parseFloat(A[i][25]);
-                    var numResult = homeScore - guestScore - goal;
-                    if (numResult > 0) {
-                        if (numResult == 0.25)
-                            goalResult = "<font color='red'>赢半</font>";
-                        else
-                            goalResult = "<font color='red'>赢</font>";
-                    }
-                    else if (numResult == 0)
-                        goalResult = "<font color='blue'>走</font>";
-                    else {
-                        if (numResult == -0.25)
-                            goalResult = "<font color='green'>输半</font>";
-                        else
-                            goalResult = "<font color='green'>输</font>";
-                    }
+                var tr = Ext.getDom("tr1_" + A[i][0]);
+                if (tr != null) {
+                    D = tr.getAttribute("odds").split(',');
+                    rowData.h_odds = "<p class=odds1>" + D[3] + "</p><p class=odds2>" + D[6] + "</p>";
+                    rowData.pankou = "<p class=odds1>" + Goal2GoalCn(D[2]) + "</p><p class=odds2>" + D[7] + "</p>";
+                    rowData.g_odds = "<p class=odds1>" + D[4] + "</p><p class=odds2>" + D[8] + "</p>";
                 }
-                rowData.g_odds = goalResult;
+
                 rowData.data = "<a href='javascript:' onclick=analysis(" + A[i][0] + ") title='数据分析'>析</a> <a href=javascript: onclick=\"AsianOdds(" + A[i][0] + ");return false\" title='11家指数'>亚</a> <a href='javascript:EuropeOdds(" + A[i][0] + ")' title='百家欧赔'>欧</a> <a href='javascript:Odds1x2Mail1(" + A[i][0] + ")' title='现'>现</a> <a href='javascript:Odds1x2Mail(" + A[i][0] + ")' title='邮'>邮</a>";
                 if (A[i][24] == "True")
                     rowData.zoudi = "<a href='Odds/runningDetail.aspx?scheduleID=" + A[i][0] + "' target='_blank'><img src='http://live.nowodds.com/images/t3.gif' height=10 width=10 title='走地'></a>";
@@ -111,27 +95,6 @@ YzBet.today = {
 
         var grid = Ext.getCmp("ShowTodayGrid");
         grid.getStore().loadData(scheduleData);
-    },
-    showodds: function (oddsDataStr) {
-        try {
-            var D = new Array();
-            var odds, old = new Array();
-            var grid = Ext.getCmp("ShowTodayGrid");
-            var oddsData = oddsDataStr.split("$");
-            //for (var i = 2; i < oddsData.length; i++) {
-            var oddsArray = oddsData[2].split(';');
-            Ext.each(oddsArray, function (odds) {
-                D = odds.split(",");
-
-                var index = grid.getStore().indexOfId(parseInt(D[0]));
-                if (index != -1 && D[1] == Config.companyID) {
-                    grid.getView().getCell(index, 9).innerHTML = "<p class=odds1>" + D[3] + "</p><p class=odds2>" + D[6] + "</p>";
-                    grid.getView().getCell(index, 10).innerHTML = "<p class=odds1>" + Goal2GoalCn(D[2]) + "</p><p class=odds2>" + Goal2GoalCn(D[5]) + "</p>";
-                    grid.getView().getCell(index, 11).innerHTML = "<p class=odds1>" + D[4] + "</p><p class=odds2>" + D[7] + "</p>";
-
-                }
-            });
-        } catch (e) { alert(e) }
     },
     loadData: function (rows) {
         if (rows[this.index] == null) {
@@ -216,12 +179,6 @@ YzBet.today.show = function (node) {
         if (grid.loadMask) {
             grid.loadMask.hide();
         }
-        Ext.Ajax.request({
-            url: 'Data/NowGoal/GetRemoteFile.aspx?f=rootjs&path=odds/oddsData.aspx',
-            success: function (res1) {
-                YzBet.today.showodds(res1.responseText);
-            }
-        });
     });
 
     //--------------------------------------------------列选择模式
