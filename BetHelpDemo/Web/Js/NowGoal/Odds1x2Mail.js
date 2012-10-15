@@ -18,9 +18,7 @@ var Odds1x2Mail = function (scheduleid) {
     oddsArr = [];
     for (var i = 0; i < game.length; i++) {
         var arr = game[i].split('|');
-        if (getDate(MatchTime) - getDate(arr[20]) < 60000 * minite) {
-            oddsArr.push(game[i]);
-        }
+        oddsArr.push(game[i]);
     }
     if (oddsArr.length == 0) {
         showNotify("提示", "临场" + minite + "分钟内没有开出赔率！", false);
@@ -53,7 +51,6 @@ var Odds1x2Mail = function (scheduleid) {
 
 var Odds1x2Mail1 = function (scheduleid) {
     var scheduleArr, scheduleTypeArr;
-    var minite = 60 * 24;
     oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
     oddsHttp.send(null);
     if (oddsHttp.responseText == "") {
@@ -64,12 +61,10 @@ var Odds1x2Mail1 = function (scheduleid) {
     oddsArr = [];
     for (var i = 0; i < game.length; i++) {
         var arr = game[i].split('|');
-        if (getDate(MatchTime) - getDate(arr[20]) < 60000 * minite) {
-            oddsArr.push(game[i]);
-        }
+        oddsArr.push(game[i]);
     }
     if (oddsArr.length == 0) {
-        showNotify("提示", "临场" + minite + "分钟内没有开出赔率！", false);
+        showNotify("提示", "没有开出赔率！", false);
         return;
     }
     for (var i = 0; i < A.length; i++) {
@@ -88,14 +83,7 @@ var Odds1x2Mail1 = function (scheduleid) {
     }
 
     var CompanyGrid = function (title, query) {
-        var group = new Ext.ux.grid.ColumnHeaderGroup({
-            rows: [[
-          { header: '', colspan: 1, align: 'center' },
-          { header: '初  盘', colspan: 4, align: 'center' },
-          { header: '即时盘', colspan: 4, align: 'center' }
-      ]]
-        });
-        var fields = [{ name: 'companyid', type: 'string' }, { name: 'fullname', type: 'string' }, { name: 'isprimary', type: 'bool' }, { name: 'isexchange', type: 'bool' }, { name: 'scount', type: 'int' }, { name: 'swin', type: 'float' }, { name: 'sdraw', type: 'float' }, { name: 'slost', type: 'float' }, { name: 'ecount', type: 'int' }, { name: 'ewin', type: 'float' }, { name: 'edraw', type: 'float' }, { name: 'elost', type: 'float' }, { name: 'so', type: 'float'}];
+        var fields = [{ name: 'companyid', type: 'string' }, { name: 'fullname', type: 'string' }, { name: 'isprimary', type: 'bool' }, { name: 'isexchange', type: 'bool' }, { name: 'scount', type: 'int' }, { name: 'swin', type: 'float' }, { name: 'sdraw', type: 'float' }, { name: 'slost', type: 'float' }, { name: 'type', type: 'int' }];
 
         var store = new Ext.data.Store({
             proxy: new Ext.data.HttpProxy(
@@ -108,7 +96,6 @@ var Odds1x2Mail1 = function (scheduleid) {
                    fields: fields,
                    id: "companyid"
                }),
-               //sortInfo: {field: 'so', direction: 'ASC'} ,
             baseParams: {
                 query: query,
                 stypeid: scheduleTypeArr.join('^'),
@@ -134,6 +121,21 @@ var Odds1x2Mail1 = function (scheduleid) {
 		                color = "green";
 		            }
 		            return "<font color=" + color + ">" + value + "</font>";
+		        }
+		    }, {
+		        header: "盘口",
+		        dataIndex: "type",
+		        sortable: true,
+		        align: "middle",
+		        width: 50,
+		        renderer: function (value, last, row) {
+		            if (value == 1) {
+		                return "初  盘";
+		            }
+		            else if (value == 2) {
+		                return "临场盘";
+		            }
+		            return value;
 		        }
 		    }, {
 		        header: "总数",
@@ -189,60 +191,6 @@ var Odds1x2Mail1 = function (scheduleid) {
 		            }
 		            return value;
 		        }
-		    }, {
-		        header: "总数",
-		        dataIndex: "ecount",
-		        sortable: true,
-		        align: "middle",
-		        width: 50,
-		        renderer: function (value, last, row) {
-		            return value;
-		        }
-		    }, {
-		        header: "胜",
-		        dataIndex: "ewin",
-		        sortable: true,
-		        align: "middle",
-		        width: 50,
-		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("swin") && value > 0) {
-		                cell.cellAttr = 'bgcolor="#F7CFD6"';
-		            }
-		            else if (value < row.get("swin") && value < 0) {
-		                cell.cellAttr = 'bgcolor="#DFF3B1"';
-		            }
-		            return value;
-		        }
-		    }, {
-		        header: "平",
-		        dataIndex: "edraw",
-		        sortable: true,
-		        align: "middle",
-		        width: 50,
-		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("sdraw") && value > 0) {
-		                cell.cellAttr = 'bgcolor="#F7CFD6"';
-		            }
-		            else if (value < row.get("sdraw") && value < 0) {
-		                cell.cellAttr = 'bgcolor="#DFF3B1"';
-		            }
-		            return value;
-		        }
-		    }, {
-		        header: "负",
-		        dataIndex: "elost",
-		        sortable: true,
-		        align: "middle",
-		        width: 50,
-		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("slost") && value > 0) {
-		                cell.cellAttr = 'bgcolor="#F7CFD6"';
-		            }
-		            else if (value < row.get("slost") && value < 0) {
-		                cell.cellAttr = 'bgcolor="#DFF3B1"';
-		            }
-		            return value;
-		        }
 		    }
     ]);
 
@@ -261,7 +209,6 @@ var Odds1x2Mail1 = function (scheduleid) {
             autoScroll: true,
             border: false,
             sortable: false,
-            plugins: [group],
             viewConfig: {
                 //自动填充
                 emptyText: '没有记录',

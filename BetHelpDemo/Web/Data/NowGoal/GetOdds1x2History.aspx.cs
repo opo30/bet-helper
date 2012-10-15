@@ -360,7 +360,12 @@ namespace SeoWebSite.Web.Data.NowGoal
                     default:
                         break;
                 }
-                DataTable dt = scheduleBLL.queryCompanyHistory(swhereStr, ewhereStr).Tables[0];
+                DataTable dt = scheduleBLL.queryCompanyHistory(1, swhereStr, 200).Tables[0];
+                if (ewhereList.Count > 0)
+                {
+                    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+                    dt.Merge(dt1);
+                }
 
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -369,12 +374,18 @@ namespace SeoWebSite.Web.Data.NowGoal
                         string[] odds = oddsStr.Split('|');
                         if (dr["companyid"].ToString() == odds[0])
                         {
-                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
-                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
-                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
-                            dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
-                            dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
-                            dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
+                            if (dr["type"].ToString() == "1")
+                            {
+                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
+                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
+                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
+                            }
+                            else
+                            {
+                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
+                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]));
+                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[15]));
+                            }
                         }
                     }
                 }
@@ -407,7 +418,12 @@ namespace SeoWebSite.Web.Data.NowGoal
                 string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
                 string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-                DataTable dt = scheduleBLL.queryCompanyHistoryCP(swhereStr, 200).Tables[0];
+                DataTable dt = scheduleBLL.queryCompanyHistory(1, swhereStr, 200).Tables[0];
+                if (ewhereList.Count > 0)
+                {
+                    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+                    dt.Merge(dt1);
+                }
 
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -416,12 +432,18 @@ namespace SeoWebSite.Web.Data.NowGoal
                         string[] odds = oddsStr.Split('|');
                         if (dr["companyid"].ToString() == odds[0])
                         {
-                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
-                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
-                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
-                            //dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
-                            //dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
-                            //dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
+                            if (dr["type"].ToString() == "1")
+                            {
+                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
+                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
+                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
+                            }
+                            else if (dr["type"].ToString() == "2")
+                            {
+                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
+                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]));
+                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[15]));
+                            }
                         }
                     }
                 }
@@ -433,38 +455,31 @@ namespace SeoWebSite.Web.Data.NowGoal
                     {
                         if (Convert.ToDouble(oddsInfo[2]) > 0)
                         {
-                            result.Add("pan", toInt(dt.Compute("count(companyid)", "swin>0 and sdraw<0 and slost<0")) - toInt(dt.Compute("count(companyid)", "swin<0")));
-                            result.Add("ppan", toInt(dt.Compute("count(companyid)", "swin>0 and sdraw<0 and slost<0 and isprimary=1")) - toInt(dt.Compute("count(companyid)", "swin<0 and isprimary=1")));
+                            result.Add("ypan", toInt(dt.Compute("count(companyid)", "swin>0 and sdraw<0 and slost<0")));
+                            result.Add("span", toInt(dt.Compute("count(companyid)", "swin<0")));
                         }
                         else if (Convert.ToDouble(oddsInfo[2]) < 0)
                         {
-                            result.Add("pan", toInt(dt.Compute("count(companyid)", "slost<0")) - toInt(dt.Compute("count(companyid)", "swin<0 and sdraw<0 and slost>0")));
-                            result.Add("ppan", toInt(dt.Compute("count(companyid)", "slost<0 and isprimary=1")) - toInt(dt.Compute("count(companyid)", "swin<0 and sdraw<0 and slost>0 and isprimary=1")));
+                            result.Add("ypan", toInt(dt.Compute("count(companyid)", "slost<0")));
+                            result.Add("span", toInt(dt.Compute("count(companyid)", "swin<0 and sdraw<0 and slost>0")));
                         }
                         else
                         {
-                            result.Add("pan", toInt(dt.Compute("count(companyid)", "slost<0")) - toInt(dt.Compute("count(companyid)", "swin<0")));
-                            result.Add("ppan", toInt(dt.Compute("count(companyid)", "slost<0 and isprimary=1")) - toInt(dt.Compute("count(companyid)", "swin<0 and isprimary=1")));
+                            result.Add("ypan", toInt(dt.Compute("count(companyid)", "slost<0")));
+                            result.Add("span", toInt(dt.Compute("count(companyid)", "swin<0")));
                         }
                     }
                     else if (Convert.ToDouble(oddsInfo[2]) >= 1)
                     {
-                        result.Add("pan", 0 - toInt(dt.Compute("count(companyid)", "swin<0")));
-                        result.Add("ppan", 0 - toInt(dt.Compute("count(companyid)", "swin<0 and isprimary=1")));
+                        result.Add("ypan", 0);
+                        result.Add("span", toInt(dt.Compute("count(companyid)", "swin<0")));
                     }
                     else if (Convert.ToDouble(oddsInfo[2]) <= -1)
                     {
-                        result.Add("pan", toInt(dt.Compute("count(companyid)", "slost<0")));
-                        result.Add("ppan", toInt(dt.Compute("count(companyid)", "slost<0 and isprimary=1")));
+                        result.Add("ypan", toInt(dt.Compute("count(companyid)", "slost<0")));
+                        result.Add("span", 0);
                     }
                 }
-
-                result.Add("maxw", toDouble(dt.Compute("max(swin)", "1=1")));
-                result.Add("maxd", toDouble(dt.Compute("max(sdraw)", "1=1")));
-                result.Add("maxl", toDouble(dt.Compute("max(slost)", "1=1")));
-                result.Add("maxwp", toDouble(dt.Compute("max(swin)", "isprimary=1")));
-                result.Add("maxdp", toDouble(dt.Compute("max(sdraw)", "isprimary=1")));
-                result.Add("maxlp", toDouble(dt.Compute("max(slost)", "isprimary=1")));
 
                 Response.Write(result.ToString());
             }

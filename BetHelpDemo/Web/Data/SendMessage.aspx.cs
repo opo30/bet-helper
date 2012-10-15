@@ -68,7 +68,12 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-            DataTable dt = scheduleBLL.queryCompanyHistory(swhereStr, ewhereStr).Tables[0];
+            DataTable dt = scheduleBLL.queryCompanyHistory(1,swhereStr, 200).Tables[0];
+            if (ewhereList.Count > 0)
+            {
+                DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+                dt.Merge(dt1);
+            }
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -77,50 +82,57 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     string[] odds = oddsStr.Split('|');
                     if (dr["companyid"].ToString() == odds[0])
                     {
-                        dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
-                        dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
-                        dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
-                        dr.SetField("ewin", Convert.ToDecimal(dr["ewin"]) - Convert.ToDecimal(odds[13]));
-                        dr.SetField("edraw", Convert.ToDecimal(dr["edraw"]) - Convert.ToDecimal(odds[14]));
-                        dr.SetField("elost", Convert.ToDecimal(dr["elost"]) - Convert.ToDecimal(odds[15]));
+                        if (dr["type"].ToString() == "1")
+                        {
+                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
+                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
+                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
+                        }
+                        else if (dr["type"].ToString() == "2")
+                        {
+                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
+                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]));
+                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[15]));
+                        }
                     }
                 }
             }
 
-            bool ismail = false;
-            string limit = "isprimary=1 and scount>=50 and ecount>=50";
-            int count = toInt(dt.Compute("count(companyid)", limit));
-            if (count >= 2)
+            int ypan = 0;
+            int span = 0;
+            if (!string.IsNullOrEmpty(oddsInfo[2]))
             {
-                if (Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+                if (!string.IsNullOrEmpty(oddsInfo[2]) && Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
                 {
                     if (Convert.ToDouble(oddsInfo[2]) > 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin>0 and swin>0 and edraw<0 and sdraw<0 and elost<0 and slost<0")) >= 2 ||
-                            toInt(dt.Compute("count(companyid)", limit + " and ewin<0 and swin<0")) >= 2;
+                        ypan = toInt(dt.Compute("count(companyid)", "swin>0 and sdraw<0 and slost<0"));
+                        span = toInt(dt.Compute("count(companyid)", "swin<0"));
                     }
                     else if (Convert.ToDouble(oddsInfo[2]) < 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and elost<0 and slost<0")) >= 2 ||
-                            toInt(dt.Compute("count(companyid)", limit + " and ewin<0 and swin<0 and edraw<0 and sdraw<0 and elost>0 and slost>0")) >= 2;
+                        ypan =  toInt(dt.Compute("count(companyid)", "slost<0"));
+                        span =  toInt(dt.Compute("count(companyid)", "swin<0 and sdraw<0 and slost>0"));
                     }
                     else
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin<0 and swin<0")) >= 2 ||
-                            toInt(dt.Compute("count(companyid)", limit + " and elost<0 and slost<0")) >= 2;
+                        ypan = toInt(dt.Compute("count(companyid)", "slost<0"));
+                        span = toInt(dt.Compute("count(companyid)", "swin<0"));
                     }
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) >= 1)
                 {
-                    ismail = toInt(dt.Compute("count(companyid)", limit + " and ewin<0 and swin<0")) >= 2;
+                    ypan = 0;
+                    span = toInt(dt.Compute("count(companyid)", "swin<0"));
                 }
                 else if (Convert.ToDouble(oddsInfo[2]) <= -1)
                 {
-                    ismail = toInt(dt.Compute("count(companyid)", limit + " and elost<0 and slost<0")) >= 2;
+                    ypan = toInt(dt.Compute("count(companyid)", "slost<0"));
+                    span = 0;
                 }
             }
 
-            if (ismail)
+            if (Math.Abs(ypan - span) >= 5 && Math.Min(ypan,span) == 0)
             {
                 NameValueCollection myCol = new NameValueCollection();
                 for (int i = 0; i < scheduleArr.Length; i++)
@@ -137,7 +149,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
 
                 StringBuilder sb = new StringBuilder();
-                foreach (DataRow dr in dt.Select("isprimary=1", "scount desc"))
+                foreach (DataRow dr in dt.Select("1=1", "type desc"))
                 {
                     sb.Append("<tr>");
                     string color = "black";
@@ -150,14 +162,11 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         color = "green";
                     }
                     sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height: 21px;font-size: 10px;color:" + color + ";\">" + dr["fullname"] + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + (dr["type"].ToString()=="1"?"初  盘":"临场盘") + "</td>");
                     sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + dr["scount"] + "</td>");
                     sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["swin"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["swin"]) + "</td>");
                     sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["sdraw"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["sdraw"]) + "</td>");
-                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["slost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["slost"]) + "</td>");
-                    sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + dr["ecount"] + "</td>");
-                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["swin"], dr["ewin"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["ewin"]) + "</td>");
-                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["sdraw"], dr["edraw"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["edraw"]) + "</td>");
-                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(dr["slost"], dr["elost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["elost"]) + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["slost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["slost"]) + "</td>");;
                     sb.Append("</tr>");
                 }
                 myCol.Add("companyHistory", sb.ToString());

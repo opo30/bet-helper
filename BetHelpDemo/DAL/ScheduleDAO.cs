@@ -493,30 +493,10 @@ namespace SeoWebSite.DAL
             return DbHelperSQL.Query(strSql.ToString(), 999);
         }
 
-        public DataSet queryCompanyHistory(string swhere,string ewhere)
+        public DataSet queryCompanyHistory(int type,string strwhere,int min)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select f.fullname,f.name,f.isprimary,f.isexchange,d.*,e.* from ");
-            strSql.Append("(select companyid, count(*) scount,");
-            strSql.Append("swin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("sdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("slost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id) ");
-            strSql.Append("from Odds b join schedule a on b.scheduleid=a.id join scheduleclass c on a.sclassid=c.id");
-            strSql.Append(" where a.updated=1 and " + swhere + " group by companyid) d join");
-            strSql.Append("(select companyid, count(*) ecount,");
-            strSql.Append("ewin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("edraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
-            strSql.Append("elost=100.0*sum(case when a.home<a.away then 1 else 0 end)/count(a.id) ");
-            strSql.Append("from Odds b join schedule a on b.scheduleid=a.id join scheduleclass c on a.sclassid=c.id");
-            strSql.Append(" where a.updated=1 and " + ewhere + " group by companyid) e on d.companyid=e.companyid");
-            strSql.Append(" join company f on f.id=d.companyid order by scount desc");
-            return DbHelperSQL.Query(strSql.ToString(), 999);
-        }
-
-        public DataSet queryCompanyHistoryCP(string strwhere,int min)
-        {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("select f.fullname,f.name,f.isprimary,f.isexchange,d.* from ");
+            strSql.Append("select f.fullname,f.name,f.isprimary,f.isexchange,d.*,type=" + type + " from ");
             strSql.Append("(select companyid, count(*) scount,");
             strSql.Append("swin=100.0*sum(case when a.home>a.away then 1 else 0 end)/count(a.id),");
             strSql.Append("sdraw=100.0*sum(case when a.home=a.away then 1 else 0 end)/count(a.id),");
