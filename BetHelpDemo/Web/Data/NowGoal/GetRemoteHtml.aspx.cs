@@ -24,6 +24,7 @@ public partial class Data_NowGoal_GetRemoteHtml : System.Web.UI.Page
     private string oddsDetail = "/odds/detail.aspx?scheduleID={0}&companyID={1}";
     private string historyMatch = "/data/score.aspx?date={0}";
     private string OddsHistory = "/1x2/OddsHistory.aspx?id={0}";
+    private string EuropeOddsJS = "http://1x2.nowscore.com/{0}.js";
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -49,6 +50,9 @@ public partial class Data_NowGoal_GetRemoteHtml : System.Web.UI.Page
                     break;
                 case "EuropeOdds":
                     html = bll.GetRemoteHtml(EuropeOdds, new string[] { matchid });
+                    break;
+                case "EuropeOddsJS":
+                    html = bll.UpdateOdds1x2Content(matchid);
                     break;
                 case "TeamPanlu_10":
                     html = bll.GetRemoteHtml(TeamPanlu_10, new string[] { matchid });

@@ -101,11 +101,12 @@ YzBet.today = {
             return;
         }
         var scheduleid = rows[this.index].get("scheduleid");
-        oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
+        oddsHttp.open("get", "Data/NowGoal/GetRemoteHtml.aspx?a=EuropeOddsJS&matchid=" + scheduleid, false);
         oddsHttp.send(null);
         if (oddsHttp.responseText == "") {
             YzBet.today.index++;
             YzBet.today.loadData(rows);
+            return;
         }
         eval(oddsHttp.responseText);
         oddsArr = [];

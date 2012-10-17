@@ -8,7 +8,7 @@ var Odds1x2Mail = function (scheduleid) {
     }
     var scheduleArr, scheduleTypeArr;
     var minite = 60 * 24;
-    oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
+    oddsHttp.open("get", "Data/NowGoal/GetRemoteHtml.aspx?a=EuropeOddsJS&matchid=" + scheduleid, false);
     oddsHttp.send(null);
     if (oddsHttp.responseText == "") {
         showNotify("提示", "目前没有欧赔数据", false);
@@ -51,7 +51,7 @@ var Odds1x2Mail = function (scheduleid) {
 
 var Odds1x2Mail1 = function (scheduleid) {
     var scheduleArr, scheduleTypeArr;
-    oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=oddsjs&path=" + scheduleid + ".js", false);
+    oddsHttp.open("get", "Data/NowGoal/GetRemoteHtml.aspx?a=EuropeOddsJS&matchid=" + scheduleid, false);
     oddsHttp.send(null);
     if (oddsHttp.responseText == "") {
         showNotify("提示", "目前没有欧赔数据", false);
