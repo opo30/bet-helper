@@ -85,7 +85,7 @@ var Odds1x2Mail1 = function (scheduleid) {
     var CompanyGrid = function (title, query) {
         var fields = [{ name: 'companyid', type: 'string' }, { name: 'fullname', type: 'string' }, { name: 'isprimary', type: 'bool' }, { name: 'isexchange', type: 'bool' }, { name: 'scount', type: 'int' }, { name: 'swin', type: 'float' }, { name: 'sdraw', type: 'float' }, { name: 'slost', type: 'float' }, { name: 'type', type: 'int' }];
 
-        var store = new Ext.data.Store({
+        var store = new Ext.data.GroupingStore({
             proxy: new Ext.data.HttpProxy(
                {
                    url: "Data/NowGoal/GetOdds1x2History.aspx?a=stat1",
@@ -93,8 +93,7 @@ var Odds1x2Mail1 = function (scheduleid) {
                }),
             reader: new Ext.data.JsonReader(
                {
-                   fields: fields,
-                   id: "companyid"
+                   fields: fields
                }),
             baseParams: {
                 query: query,
@@ -102,7 +101,8 @@ var Odds1x2Mail1 = function (scheduleid) {
                 oddsarr: oddsArr.join('^'),
                 schedulearr: scheduleArr.join('^'),
                 odds: Ext.getDom("tr1_" + scheduleid) ? Ext.getDom("tr1_" + scheduleid).getAttribute("odds") : ""
-            }
+            },
+            groupField: 'type'
         });
 
         //--------------------------------------------------列头
@@ -209,13 +209,17 @@ var Odds1x2Mail1 = function (scheduleid) {
             autoScroll: true,
             border: false,
             sortable: false,
-            viewConfig: {
+            view: new Ext.grid.GroupingView({
                 //自动填充
                 emptyText: '没有记录',
                 forceFit: true,
-                getRowClass: function (record, rowIndex, rowParams, store) {
-                }
-            }
+                sortAscText: '正序排列',
+                sortDescText: '倒序排列',
+                columnsText: '列显示/隐藏',
+                groupByText: '根据本列分组',
+                showGroupsText: '是否采用分组显示',
+                groupTextTpl: '{text} (<b><font color=red>{[values.rs.length]}</font> </b>{[values.rs.length > 0 ? "条" : "暂无历史记录"]})'
+            })
         });
         return grid;
     };

@@ -68,12 +68,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-            DataTable dt = scheduleBLL.queryCompanyHistory(1,swhereStr, 200).Tables[0];
-            if (ewhereList.Count > 0)
-            {
-                DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
-                dt.Merge(dt1);
-            }
+            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
 
             foreach (DataRow dr in dt.Rows)
             {
@@ -82,13 +77,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     string[] odds = oddsStr.Split('|');
                     if (dr["companyid"].ToString() == odds[0])
                     {
-                        if (dr["type"].ToString() == "1")
-                        {
-                            dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
-                            dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
-                            dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
-                        }
-                        else if (dr["type"].ToString() == "2")
+                        if (dr["type"].ToString() == "2")
                         {
                             dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
                             dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]));
@@ -100,39 +89,40 @@ public partial class Data_SendMessage : System.Web.UI.Page
 
             int ypan = 0;
             int span = 0;
-            if (!string.IsNullOrEmpty(oddsInfo[2]))
+            if (!string.IsNullOrEmpty(oddsInfo[2]) && toInt(dt.Compute("count(companyid)", "isprimary=1 and type=2")) > 0)
             {
-                if (!string.IsNullOrEmpty(oddsInfo[2]) && Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
+                double rq = toInt(scheduleArr[13]) - toInt(scheduleArr[14]) + Convert.ToDouble(oddsInfo[2]);
+                if (Math.Abs(rq) < 1)
                 {
-                    if (Convert.ToDouble(oddsInfo[2]) > 0)
+                    if (rq > 0)
                     {
-                        ypan = toInt(dt.Compute("count(companyid)", "swin>0 and sdraw<0 and slost<0"));
-                        span = toInt(dt.Compute("count(companyid)", "swin<0"));
+                        ypan = toInt(dt.Compute("count(companyid)", "type=2 and swin>0 and sdraw<0 and slost<0"));
+                        span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
                     }
-                    else if (Convert.ToDouble(oddsInfo[2]) < 0)
+                    else if (rq < 0)
                     {
-                        ypan =  toInt(dt.Compute("count(companyid)", "slost<0"));
-                        span =  toInt(dt.Compute("count(companyid)", "swin<0 and sdraw<0 and slost>0"));
+                        ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
+                        span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0 and sdraw<0 and slost>0"));
                     }
                     else
                     {
-                        ypan = toInt(dt.Compute("count(companyid)", "slost<0"));
-                        span = toInt(dt.Compute("count(companyid)", "swin<0"));
+                        ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
+                        span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
                     }
                 }
-                else if (Convert.ToDouble(oddsInfo[2]) >= 1)
+                else if (rq >= 1)
                 {
                     ypan = 0;
-                    span = toInt(dt.Compute("count(companyid)", "swin<0"));
+                    span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
                 }
-                else if (Convert.ToDouble(oddsInfo[2]) <= -1)
+                else if (rq <= -1)
                 {
-                    ypan = toInt(dt.Compute("count(companyid)", "slost<0"));
+                    ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
                     span = 0;
                 }
             }
 
-            if (Math.Abs(ypan - span) >= 5 && Math.Min(ypan,span) == 0)
+            if (Math.Abs(ypan - span) >= 3 && Math.Min(ypan,span) == 0)
             {
                 NameValueCollection myCol = new NameValueCollection();
                 for (int i = 0; i < scheduleArr.Length; i++)
@@ -200,7 +190,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
 
     private int toInt(object o)
     {
-        if (o == System.DBNull.Value)
+        if (o == System.DBNull.Value || o == string.Empty)
         {
             return 0;
         }

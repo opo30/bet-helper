@@ -1333,7 +1333,7 @@
                 }
 
                 if (scorechange) {
-                    //Odds1x2Mail(A[matchindex][0]);
+                    Odds1x2Mail(A[matchindex][0]);
                     ShowFlash(D[0], matchindex);
                     if (tr.style.display != "none") {
                         hometeam = A[matchindex][4 + Config.language].replace("<font color=#880000>(中)</font>", " 中").substring(0, 7);

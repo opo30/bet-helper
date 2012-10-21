@@ -345,8 +345,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 }
                 string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
                 string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
-                
-                
+
                 switch (Request.Form["query"])
                 {
                     case "2":
@@ -360,7 +359,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     default:
                         break;
                 }
-                DataTable dt = scheduleBLL.queryCompanyHistory(1, swhereStr, 200).Tables[0];
+                DataTable dt = scheduleBLL.queryCompanyHistory(1, swhereStr, 300).Tables[0];
                 if (ewhereList.Count > 0)
                 {
                     DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
@@ -418,12 +417,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
                 string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-                DataTable dt = scheduleBLL.queryCompanyHistory(1, swhereStr, 200).Tables[0];
-                if (ewhereList.Count > 0)
-                {
-                    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
-                    dt.Merge(dt1);
-                }
+                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
 
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -432,13 +426,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                         string[] odds = oddsStr.Split('|');
                         if (dr["companyid"].ToString() == odds[0])
                         {
-                            if (dr["type"].ToString() == "1")
-                            {
-                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
-                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[7]));
-                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[8]));
-                            }
-                            else if (dr["type"].ToString() == "2")
+                            if (dr["type"].ToString() == "2")
                             {
                                 dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
                                 dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]));
