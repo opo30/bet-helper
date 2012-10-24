@@ -89,40 +89,58 @@ public partial class Data_SendMessage : System.Web.UI.Page
 
             int ypan = 0;
             int span = 0;
-            if (!string.IsNullOrEmpty(oddsInfo[2]) && toInt(dt.Compute("count(companyid)", "isprimary=1 and type=2")) > 0)
+            bool zoudi = false;
+            if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
             {
-                double rq = toInt(scheduleArr[13]) - toInt(scheduleArr[14]) + Convert.ToDouble(oddsInfo[2]);
-                if (Math.Abs(rq) < 1)
+                if (!string.IsNullOrEmpty(oddsInfo[2]) && toInt(dt.Compute("count(companyid)", "isprimary=1 and type=2")) > 0)
                 {
-                    if (rq > 0)
+                    double rq = Convert.ToDouble(oddsInfo[2]);
+                    if (Math.Abs(rq) < 1)
                     {
-                        ypan = toInt(dt.Compute("count(companyid)", "type=2 and swin>0 and sdraw<0 and slost<0"));
+                        if (rq > 0)
+                        {
+                            ypan = toInt(dt.Compute("count(companyid)", "type=2 and swin>0 and sdraw<0 and slost<0"));
+                            span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
+                        }
+                        else if (rq < 0)
+                        {
+                            ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
+                            span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0 and sdraw<0 and slost>0"));
+                        }
+                        else
+                        {
+                            ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
+                            span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
+                        }
+                    }
+                    else if (rq >= 1)
+                    {
+                        ypan = 0;
                         span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
                     }
-                    else if (rq < 0)
+                    else if (rq <= -1)
                     {
                         ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
-                        span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0 and sdraw<0 and slost>0"));
+                        span = 0;
                     }
-                    else
-                    {
-                        ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
-                        span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
-                    }
-                }
-                else if (rq >= 1)
-                {
-                    ypan = 0;
-                    span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
-                }
-                else if (rq <= -1)
-                {
-                    ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
-                    span = 0;
                 }
             }
+            else
+            {
+                if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) > 0)
+                {
+                    zoudi = toInt(dt.Compute("count(companyid)", "type=2 and swin>=0")) == 0 && toInt(dt.Compute("count(companyid)", "type=2")) >= 4;
+                }
+                else if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) < 0)
+                {
+                    zoudi = toInt(dt.Compute("count(companyid)", "type=2 and slost>=0")) == 0 && toInt(dt.Compute("count(companyid)", "type=2")) >= 4;
+                }
+            }
+            
 
-            if (Math.Abs(ypan - span) >= 3 && Math.Min(ypan,span) == 0)
+            
+
+            if (Math.Abs(ypan - span) >= 3 && Math.Min(ypan,span) == 0 || zoudi)
             {
                 NameValueCollection myCol = new NameValueCollection();
                 for (int i = 0; i < scheduleArr.Length; i++)
