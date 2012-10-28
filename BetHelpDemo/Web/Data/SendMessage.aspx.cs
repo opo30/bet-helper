@@ -90,6 +90,19 @@ public partial class Data_SendMessage : System.Web.UI.Page
             int ypan = 0;
             int span = 0;
             bool zoudi = false;
+            bool max = false;
+            List<double> maxList = new List<double>();
+            if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", "isprimary=1")) > 0)
+            {
+                maxList.Add(Convert.ToDouble(dt.Compute("max(swin)", "isprimary=1")));
+                maxList.Add(Convert.ToDouble(dt.Compute("max(sdraw)", "isprimary=1")));
+                maxList.Add(Convert.ToDouble(dt.Compute("max(slost)", "isprimary=1")));
+            }else
+	        {
+                maxList.Add(0);
+                maxList.Add(0);
+                maxList.Add(0);
+	        }
             if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
             {
                 if (!string.IsNullOrEmpty(oddsInfo[2]) && toInt(dt.Compute("count(companyid)", "isprimary=1 and type=2")) > 0)
@@ -101,46 +114,52 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         {
                             ypan = toInt(dt.Compute("count(companyid)", "type=2 and swin>0 and sdraw<0 and slost<0"));
                             span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
+                            max = maxList.Max() > 5 || maxList[0] < -5;
                         }
                         else if (rq < 0)
                         {
                             ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
                             span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0 and sdraw<0 and slost>0"));
+                            max = maxList.Max() > 5 || maxList[2] < -5;
                         }
                         else
                         {
-                            ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
-                            span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
+                            ypan = toInt(dt.Compute("count(companyid)", "type=2 and swin>0"));
+                            span = toInt(dt.Compute("count(companyid)", "type=2 and slost>0"));
+                            max = maxList.Max() > 5 || maxList[2] < -5 || maxList[0] < -5;
                         }
                     }
                     else if (rq >= 1)
                     {
                         ypan = 0;
                         span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
+                        max = maxList[0] < -5 || maxList[1] > 5 || maxList[2] > 5;
                     }
                     else if (rq <= -1)
                     {
                         ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
                         span = 0;
+                        max = maxList[0] > 5 || maxList[1] > 5 || maxList[2] < -5;
                     }
                 }
+                
             }
             else
             {
                 if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) > 0)
                 {
                     zoudi = toInt(dt.Compute("count(companyid)", "type=2 and swin>=0")) == 0 && toInt(dt.Compute("count(companyid)", "type=2")) >= 4;
+                    max = maxList[0] < -5 || maxList[1] > 5 || maxList[2] > 5;
                 }
                 else if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) < 0)
                 {
                     zoudi = toInt(dt.Compute("count(companyid)", "type=2 and slost>=0")) == 0 && toInt(dt.Compute("count(companyid)", "type=2")) >= 4;
+                    max = maxList[0] > 5 || maxList[1] > 5 || maxList[2] < -5;
                 }
             }
-            
 
-            
 
-            if (Math.Abs(ypan - span) >= 3 && Math.Min(ypan,span) == 0 || zoudi)
+            if (Math.Abs(ypan - span) >= 3 && Math.Min(ypan, span) == 0 || zoudi || max)
             {
                 NameValueCollection myCol = new NameValueCollection();
                 for (int i = 0; i < scheduleArr.Length; i++)

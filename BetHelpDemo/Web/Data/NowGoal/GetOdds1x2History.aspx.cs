@@ -359,12 +359,13 @@ namespace SeoWebSite.Web.Data.NowGoal
                     default:
                         break;
                 }
-                DataTable dt = scheduleBLL.queryCompanyHistory(1, swhereStr, 300).Tables[0];
-                if (ewhereList.Count > 0)
-                {
-                    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
-                    dt.Merge(dt1);
-                }
+                //DataTable dt = scheduleBLL.queryCompanyHistory(1, swhereStr, 300).Tables[0];
+                //if (ewhereList.Count > 0)
+                //{
+                //    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+                //    dt.Merge(dt1);
+                //}
+                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
 
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -417,58 +418,38 @@ namespace SeoWebSite.Web.Data.NowGoal
                 string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
                 string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
-
-                foreach (DataRow dr in dt.Rows)
+                JObject result = new JObject();
+                try
                 {
-                    foreach (string oddsStr in oddsArr)
+                    DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+
+                    foreach (DataRow dr in dt.Rows)
                     {
-                        string[] odds = oddsStr.Split('|');
-                        if (dr["companyid"].ToString() == odds[0])
+                        foreach (string oddsStr in oddsArr)
                         {
-                            if (dr["type"].ToString() == "2")
+                            string[] odds = oddsStr.Split('|');
+                            if (dr["companyid"].ToString() == odds[0])
                             {
-                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
-                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]));
-                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[15]));
+                                if (dr["type"].ToString() == "2")
+                                {
+                                    dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
+                                    dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]));
+                                    dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[15]));
+                                }
                             }
                         }
                     }
-                }
 
-                JObject result = new JObject();
-                if (!string.IsNullOrEmpty(oddsInfo[2]))
+                    result.Add("wmax", Convert.ToDouble(dt.Compute("max(swin)", "isprimary=1")));
+                    result.Add("dmax", Convert.ToDouble(dt.Compute("max(sdraw)", "isprimary=1")));
+                    result.Add("lmax", Convert.ToDouble(dt.Compute("max(slost)", "isprimary=1")));
+                }
+                catch (Exception)
                 {
-                    if (!string.IsNullOrEmpty(oddsInfo[2]) && Math.Abs(Convert.ToDouble(oddsInfo[2])) < 1)
-                    {
-                        if (Convert.ToDouble(oddsInfo[2]) > 0)
-                        {
-                            result.Add("ypan", toInt(dt.Compute("count(companyid)", "swin>0 and sdraw<0 and slost<0")));
-                            result.Add("span", toInt(dt.Compute("count(companyid)", "swin<0")));
-                        }
-                        else if (Convert.ToDouble(oddsInfo[2]) < 0)
-                        {
-                            result.Add("ypan", toInt(dt.Compute("count(companyid)", "slost<0")));
-                            result.Add("span", toInt(dt.Compute("count(companyid)", "swin<0 and sdraw<0 and slost>0")));
-                        }
-                        else
-                        {
-                            result.Add("ypan", toInt(dt.Compute("count(companyid)", "slost<0")));
-                            result.Add("span", toInt(dt.Compute("count(companyid)", "swin<0")));
-                        }
-                    }
-                    else if (Convert.ToDouble(oddsInfo[2]) >= 1)
-                    {
-                        result.Add("ypan", 0);
-                        result.Add("span", toInt(dt.Compute("count(companyid)", "swin<0")));
-                    }
-                    else if (Convert.ToDouble(oddsInfo[2]) <= -1)
-                    {
-                        result.Add("ypan", toInt(dt.Compute("count(companyid)", "slost<0")));
-                        result.Add("span", 0);
-                    }
+                    result.Add("wmax", 0);
+                    result.Add("dmax", 0);
+                    result.Add("lmax", 0);
                 }
-
                 Response.Write(result.ToString());
             }
 

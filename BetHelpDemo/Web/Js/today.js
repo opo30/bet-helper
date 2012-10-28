@@ -130,8 +130,9 @@ YzBet.today = {
             },
             success: function (res) {
                 var result = Ext.decode(res.responseText);
-                rows[YzBet.today.index].set("ypan", result.ypan);
-                rows[YzBet.today.index].set("span", result.span);
+                rows[YzBet.today.index].set("wmax", result.wmax);
+                rows[YzBet.today.index].set("dmax", result.dmax);
+                rows[YzBet.today.index].set("lmax", result.lmax);
 
                 YzBet.today.index++;
                 YzBet.today.loadData(rows);
@@ -156,7 +157,7 @@ YzBet.today.show = function (node) {
             { name: 'h_odds', type: 'string' },
             { name: 'pankou', type: 'string' },
             { name: 'g_odds', type: 'string' }, { name: 'zoudi', type: 'string' }, { name: 'other', type: 'string' }, { name: 'index', type: 'string' }, { name: 'classx2', type: 'string' },
-            { name: 'ypan', type: 'int' }, { name: 'span', type: 'int' }];
+            { name: 'wmax', type: 'float' }, { name: 'dmax', type: 'float' }, { name: 'lmax', type: 'float' }];
 
     var store = new Ext.data.GroupingStore({
         reader: new Ext.data.JsonReader(
@@ -319,8 +320,8 @@ YzBet.today.show = function (node) {
 		    css: 'vertical-align: inherit;',
 		    width: 3
 		}, {
-		    header: "赢路",
-		    dataIndex: "ypan",
+		    header: "胜",
+		    dataIndex: "wmax",
 		    align: "center",
 		    width: 5,
 		    sortable: true,
@@ -330,8 +331,19 @@ YzBet.today.show = function (node) {
 		        return value;
 		    }
 		}, {
-		    header: "输盘",
-		    dataIndex: "span",
+		    header: "平",
+		    dataIndex: "dmax",
+		    align: "center",
+		    width: 5,
+		    sortable: true,
+		    css: 'vertical-align: inherit;color:green;',
+		    renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		        cell.cellAttr = 'id="other_' + row.id + '"';
+		        return value;
+		    }
+		}, {
+		    header: "负",
+		    dataIndex: "lmax",
 		    align: "center",
 		    width: 5,
 		    sortable: true,

@@ -219,7 +219,12 @@ var Odds1x2Mail1 = function (scheduleid) {
                 groupByText: '根据本列分组',
                 showGroupsText: '是否采用分组显示',
                 groupTextTpl: '{text} (<b><font color=red>{[values.rs.length]}</font> </b>{[values.rs.length > 0 ? "条" : "暂无历史记录"]})'
-            })
+            }),
+            listeners: {
+                show: function (p) {
+                    p.getStore().load();
+                }
+            }
         });
         return grid;
     };
@@ -235,16 +240,11 @@ var Odds1x2Mail1 = function (scheduleid) {
         items: [{
             xtype: 'tabpanel',
             activeItem: 0,
-            items: [CompanyGrid("全部", 1), CompanyGrid("国家", 2), CompanyGrid("赛事", 3)],
-            listeners: {
-                tabchange: function (tab, p) {
-                    p.getStore().load();
-                }
-            }
+            items: [CompanyGrid("全部", 1), CompanyGrid("国家", 2), CompanyGrid("赛事", 3)]
         }],
         listeners: {
             show: function () {
-                //this.findByType("tabpanel")[0].activeTab.getStore().load();
+                this.findByType("tabpanel")[0].activeTab.getStore().load();
             }
         }
     });
