@@ -69,7 +69,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
             DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
-
+            dt.Columns.Add("time", typeof(DateTime));
             foreach (DataRow dr in dt.Rows)
             {
                 foreach (string oddsStr in oddsArr)
@@ -77,6 +77,8 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     string[] odds = oddsStr.Split('|');
                     if (dr["companyid"].ToString() == odds[0])
                     {
+                        string[] timeArr = odds[20].Split(',');
+                        dr.SetField("time", new DateTime(int.Parse(timeArr[0]), int.Parse(timeArr[1].Remove(2)), int.Parse(timeArr[2]), int.Parse(timeArr[3]), int.Parse(timeArr[4]), int.Parse(timeArr[5])).AddHours(8));
                         if (dr["type"].ToString() == "2")
                         {
                             dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
@@ -87,9 +89,6 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
             }
 
-            int ypan = 0;
-            int span = 0;
-            bool zoudi = false;
             bool max = false;
             List<double> maxList = new List<double>();
             if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", "isprimary=1")) > 0)
@@ -112,33 +111,23 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     {
                         if (rq > 0)
                         {
-                            ypan = toInt(dt.Compute("count(companyid)", "type=2 and swin>0 and sdraw<0 and slost<0"));
-                            span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
                             max = maxList.Max() > 5 || maxList[0] < -5;
                         }
                         else if (rq < 0)
                         {
-                            ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
-                            span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0 and sdraw<0 and slost>0"));
                             max = maxList.Max() > 5 || maxList[2] < -5;
                         }
                         else
                         {
-                            ypan = toInt(dt.Compute("count(companyid)", "type=2 and swin>0"));
-                            span = toInt(dt.Compute("count(companyid)", "type=2 and slost>0"));
                             max = maxList.Max() > 5 || maxList[2] < -5 || maxList[0] < -5;
                         }
                     }
                     else if (rq >= 1)
                     {
-                        ypan = 0;
-                        span = toInt(dt.Compute("count(companyid)", "type=2 and swin<0"));
                         max = maxList[0] < -5 || maxList[1] > 5 || maxList[2] > 5;
                     }
                     else if (rq <= -1)
                     {
-                        ypan = toInt(dt.Compute("count(companyid)", "type=2 and slost<0"));
-                        span = 0;
                         max = maxList[0] > 5 || maxList[1] > 5 || maxList[2] < -5;
                     }
                 }
@@ -148,18 +137,16 @@ public partial class Data_SendMessage : System.Web.UI.Page
             {
                 if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) > 0)
                 {
-                    zoudi = toInt(dt.Compute("count(companyid)", "type=2 and swin>=0")) == 0 && toInt(dt.Compute("count(companyid)", "type=2")) >= 4;
                     max = maxList[0] < -5 || maxList[1] > 5 || maxList[2] > 5;
                 }
                 else if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) < 0)
                 {
-                    zoudi = toInt(dt.Compute("count(companyid)", "type=2 and slost>=0")) == 0 && toInt(dt.Compute("count(companyid)", "type=2")) >= 4;
                     max = maxList[0] > 5 || maxList[1] > 5 || maxList[2] < -5;
                 }
             }
 
 
-            if (Math.Abs(ypan - span) >= 3 && Math.Min(ypan, span) == 0 || zoudi || max)
+            if (max)
             {
                 NameValueCollection myCol = new NameValueCollection();
                 for (int i = 0; i < scheduleArr.Length; i++)
@@ -176,7 +163,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
 
                 StringBuilder sb = new StringBuilder();
-                foreach (DataRow dr in dt.Select("1=1", "type desc"))
+                foreach (DataRow dr in dt.Select("1=1", "time desc"))
                 {
                     sb.Append("<tr>");
                     string color = "black";
@@ -193,7 +180,8 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + dr["scount"] + "</td>");
                     sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["swin"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["swin"]) + "</td>");
                     sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["sdraw"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["sdraw"]) + "</td>");
-                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["slost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["slost"]) + "</td>");;
+                    sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dr["slost"]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dr["slost"]) + "</td>");
+                    sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + Convert.ToDateTime(dr["time"]).ToString("MM-dd HH:mm") + "</td>");
                     sb.Append("</tr>");
                 }
                 myCol.Add("companyHistory", sb.ToString());

@@ -83,7 +83,7 @@ var Odds1x2Mail1 = function (scheduleid) {
     }
 
     var CompanyGrid = function (title, query) {
-        var fields = [{ name: 'companyid', type: 'string' }, { name: 'fullname', type: 'string' }, { name: 'isprimary', type: 'bool' }, { name: 'isexchange', type: 'bool' }, { name: 'scount', type: 'int' }, { name: 'swin', type: 'float' }, { name: 'sdraw', type: 'float' }, { name: 'slost', type: 'float' }, { name: 'type', type: 'int' }];
+        var fields = [{ name: 'companyid', type: 'string' }, { name: 'fullname', type: 'string' }, { name: 'isprimary', type: 'bool' }, { name: 'isexchange', type: 'bool' }, { name: 'scount', type: 'int' }, { name: 'swin', type: 'float' }, { name: 'sdraw', type: 'float' }, { name: 'slost', type: 'float' }, { name: 'type', type: 'int' }, { name: 'time', type: 'date'}];
 
         var store = new Ext.data.GroupingStore({
             proxy: new Ext.data.HttpProxy(
@@ -102,7 +102,8 @@ var Odds1x2Mail1 = function (scheduleid) {
                 schedulearr: scheduleArr.join('^'),
                 odds: Ext.getDom("tr1_" + scheduleid) ? Ext.getDom("tr1_" + scheduleid).getAttribute("odds") : ""
             },
-            groupField: 'type'
+            groupField: 'type',
+            sortInfo: { field: "time", direction: "DESC" }
         });
 
         //--------------------------------------------------列头
@@ -190,6 +191,15 @@ var Odds1x2Mail1 = function (scheduleid) {
 		                cell.cellAttr = 'bgcolor="#DFF3B1"';
 		            }
 		            return value;
+		        }
+		    }, {
+		        header: "时间",
+		        dataIndex: "time",
+		        sortable: true,
+		        align: "middle",
+		        width: 50,
+		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+		            return value.format("Y-m-d H:i");
 		        }
 		    }
     ]);

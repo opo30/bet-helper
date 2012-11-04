@@ -366,7 +366,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 //    dt.Merge(dt1);
                 //}
                 DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
-
+                dt.Columns.Add("time", typeof(DateTime));
                 foreach (DataRow dr in dt.Rows)
                 {
                     foreach (string oddsStr in oddsArr)
@@ -374,6 +374,8 @@ namespace SeoWebSite.Web.Data.NowGoal
                         string[] odds = oddsStr.Split('|');
                         if (dr["companyid"].ToString() == odds[0])
                         {
+                            string[] timeArr = odds[20].Split(',');
+                            dr.SetField("time", new DateTime(int.Parse(timeArr[0]), int.Parse(timeArr[1].Remove(2)), int.Parse(timeArr[2]), int.Parse(timeArr[3]), int.Parse(timeArr[4]), int.Parse(timeArr[5])).AddHours(-8));
                             if (dr["type"].ToString() == "1")
                             {
                                 dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));
@@ -389,7 +391,10 @@ namespace SeoWebSite.Web.Data.NowGoal
                         }
                     }
                 }
-                Response.Write(JArray.FromObject(dt));
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Converters.Add(new JavaScriptDateTimeConverter());
+                serializer.NullValueHandling = NullValueHandling.Ignore;
+                Response.Write(JArray.FromObject(dt, serializer));
             }
 
         }
@@ -422,7 +427,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 try
                 {
                     DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
-
+                    
                     foreach (DataRow dr in dt.Rows)
                     {
                         foreach (string oddsStr in oddsArr)
@@ -440,9 +445,9 @@ namespace SeoWebSite.Web.Data.NowGoal
                         }
                     }
 
-                    result.Add("wmax", Convert.ToDouble(dt.Compute("max(swin)", "isprimary=1")));
-                    result.Add("dmax", Convert.ToDouble(dt.Compute("max(sdraw)", "isprimary=1")));
-                    result.Add("lmax", Convert.ToDouble(dt.Compute("max(slost)", "isprimary=1")));
+                    result.Add("wmax", Convert.ToDouble(dt.Compute("max(swin)", "1=1")));
+                    result.Add("dmax", Convert.ToDouble(dt.Compute("max(sdraw)", "1=1")));
+                    result.Add("lmax", Convert.ToDouble(dt.Compute("max(slost)", "1=1")));
                 }
                 catch (Exception)
                 {
