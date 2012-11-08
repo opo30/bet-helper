@@ -68,7 +68,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 100).Tables[0];
             dt.Columns.Add("time", typeof(DateTime));
             foreach (DataRow dr in dt.Rows)
             {
@@ -89,7 +89,9 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
             }
 
-            bool max = false;
+            int count = 2;
+            bool ismail = false;
+            string limit = "isprimary=1 and type=2";
             List<double> maxList = new List<double>();
             if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", "isprimary=1")) > 0)
             {
@@ -104,31 +106,34 @@ public partial class Data_SendMessage : System.Web.UI.Page
 	        }
             if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
             {
-                if (!string.IsNullOrEmpty(oddsInfo[2]) && toInt(dt.Compute("count(companyid)", "isprimary=1 and type=2")) > 0)
+                if (!string.IsNullOrEmpty(oddsInfo[2]) && toInt(dt.Compute("count(companyid)", limit)) > 0)
                 {
                     double rq = Convert.ToDouble(oddsInfo[2]);
                     if (Math.Abs(rq) < 1)
                     {
                         if (rq > 0)
                         {
-                            max = maxList.Max() > 5 || maxList[0] < -5;
+                            ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>5")) >= count || 
+                                toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or slost>5)")) >= count;
                         }
                         else if (rq < 0)
                         {
-                            max = maxList.Max() > 5 || maxList[2] < -5;
+                            ismail = toInt(dt.Compute("count(companyid)", limit + " and slost>5")) >= count ||
+                                toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or swin>5)")) >= count;
                         }
                         else
                         {
-                            max = maxList.Max() > 5 || maxList[2] < -5 || maxList[0] < -5;
+                            ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>5")) >= count ||
+                                toInt(dt.Compute("count(companyid)", limit + " and slost")) >= count;
                         }
                     }
                     else if (rq >= 1)
                     {
-                        max = maxList[0] < -5 || maxList[1] > 5 || maxList[2] > 5;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or slost>5)")) >= count;
                     }
                     else if (rq <= -1)
                     {
-                        max = maxList[0] > 5 || maxList[1] > 5 || maxList[2] < -5;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or swin>5)")) >= count;
                     }
                 }
                 
@@ -137,16 +142,16 @@ public partial class Data_SendMessage : System.Web.UI.Page
             {
                 if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) > 0)
                 {
-                    max = maxList[0] < -5 || maxList[1] > 5 || maxList[2] > 5;
+                    ismail = toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or slost>5)")) >= count;
                 }
                 else if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) < 0)
                 {
-                    max = maxList[0] > 5 || maxList[1] > 5 || maxList[2] < -5;
+                    ismail = toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or swin>5)")) >= count;
                 }
             }
 
 
-            if (max)
+            if (ismail)
             {
                 NameValueCollection myCol = new NameValueCollection();
                 for (int i = 0; i < scheduleArr.Length; i++)
