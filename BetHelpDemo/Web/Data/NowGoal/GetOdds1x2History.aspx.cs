@@ -365,7 +365,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 //    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
                 //    dt.Merge(dt1);
                 //}
-                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 100).Tables[0];
                 dt.Columns.Add("time", typeof(DateTime));
                 foreach (DataRow dr in dt.Rows)
                 {
