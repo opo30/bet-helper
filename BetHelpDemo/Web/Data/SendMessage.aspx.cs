@@ -59,7 +59,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 string[] odds = oddsStr.Split('|');
                 swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
                         " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
-                if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
+                if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]) && odds[22] == "1")
                 {
                     ewhereList.Add("(companyid=" + odds[0] + " and (e_win=" + odds[10] +
                         ") and (e_draw=" + odds[11] + ") and (e_lost=" + odds[12] + "))");
@@ -68,7 +68,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 100).Tables[0];
+            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 300).Tables[0];
             dt.Columns.Add("time", typeof(DateTime));
             foreach (DataRow dr in dt.Rows)
             {
@@ -89,7 +89,6 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 }
             }
 
-            int count = 2;
             bool ismail = false;
             string limit = "isprimary=1 and type=2";
             List<double> maxList = new List<double>();
@@ -104,51 +103,56 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 maxList.Add(0);
                 maxList.Add(0);
 	        }
-            if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
+            if (maxList.Max() > 5)
             {
-                if (!string.IsNullOrEmpty(oddsInfo[2]) && toInt(dt.Compute("count(companyid)", limit)) > 0)
+                if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
                 {
-                    double rq = Convert.ToDouble(oddsInfo[2]);
-                    if (Math.Abs(rq) < 1)
+                    int count = toInt(dt.Compute("count(companyid)", limit));
+                    if (!string.IsNullOrEmpty(oddsInfo[2]) && count > 0)
                     {
-                        if (rq > 0)
+                        double rq = Convert.ToDouble(oddsInfo[2]);
+                        if (Math.Abs(rq) < 1)
                         {
-                            ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>5")) >= count || 
-                                toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or slost>5)")) >= count;
+                            if (rq > 0)
+                            {
+                                ismail = Convert.ToDouble(dt.Compute("max(swin)", limit)) == maxList.Max() && toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == count ||
+                                    toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0;
+                            }
+                            else if (rq < 0)
+                            {
+                                ismail = Convert.ToDouble(dt.Compute("max(slost)", limit)) == maxList.Max() && toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == count ||
+                                    toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
+                            }
+                            else
+                            {
+                                ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0 ||
+                                    toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
+                            }
                         }
-                        else if (rq < 0)
+                        else if (rq >= 1)
                         {
-                            ismail = toInt(dt.Compute("count(companyid)", limit + " and slost>5")) >= count ||
-                                toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or swin>5)")) >= count;
+                            ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0;
                         }
-                        else
+                        else if (rq <= -1)
                         {
-                            ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>5")) >= count ||
-                                toInt(dt.Compute("count(companyid)", limit + " and slost")) >= count;
+                            ismail = toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
                         }
                     }
-                    else if (rq >= 1)
+
+                }
+                else
+                {
+                    if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) > 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or slost>5)")) >= count;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0;
                     }
-                    else if (rq <= -1)
+                    else if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) < 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or swin>5)")) >= count;
+                        ismail = toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
                     }
                 }
-                
             }
-            else
-            {
-                if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) > 0)
-                {
-                    ismail = toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or slost>5)")) >= count;
-                }
-                else if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) < 0)
-                {
-                    ismail = toInt(dt.Compute("count(companyid)", limit + " and (sdraw>5 or swin>5)")) >= count;
-                }
-            }
+            
 
 
             if (ismail)

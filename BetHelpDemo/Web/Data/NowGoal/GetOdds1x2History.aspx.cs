@@ -365,7 +365,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 //    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
                 //    dt.Merge(dt1);
                 //}
-                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 100).Tables[0];
+                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 300).Tables[0];
                 dt.Columns.Add("time", typeof(DateTime));
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -414,7 +414,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     string[] odds = oddsStr.Split('|');
                     swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
                             " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
-                    if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
+                    if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]) && odds[22] == "1")
                     {
                         ewhereList.Add("(companyid=" + odds[0] + " and (e_win=" + odds[10] +
                             ") and (e_draw=" + odds[11] + ") and (e_lost=" + odds[12] + "))");
@@ -426,7 +426,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 JObject result = new JObject();
                 try
                 {
-                    DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+                    DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 300).Tables[0];
                     
                     foreach (DataRow dr in dt.Rows)
                     {

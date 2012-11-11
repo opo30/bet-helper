@@ -101,6 +101,7 @@ YzBet.today = {
             return;
         }
         var scheduleid = rows[this.index].get("scheduleid");
+        var minite = 60 * 12;
         oddsHttp.open("get", "Data/NowGoal/GetRemoteHtml.aspx?a=EuropeOddsJS&matchid=" + scheduleid, false);
         oddsHttp.send(null);
         if (oddsHttp.responseText == "") {
@@ -112,7 +113,9 @@ YzBet.today = {
         oddsArr = [];
         for (var i = 0; i < game.length; i++) {
             var arr = game[i].split('|');
-            oddsArr.push(game[i]);
+            if (getDate(MatchTime) - getDate(arr[20]) < 60000 * minite) {
+                oddsArr.push(game[i]);
+            }
         }
         for (var i = 0; i < A.length; i++) {
             if (A[i][0] == scheduleid) {

@@ -7,7 +7,7 @@ var Odds1x2Mail = function (scheduleid) {
         return;
     }
     var scheduleArr, scheduleTypeArr;
-    var minite = 60 * 24;
+    var minite = 60 * 12;
     oddsHttp.open("get", "Data/NowGoal/GetRemoteHtml.aspx?a=EuropeOddsJS&matchid=" + scheduleid, false);
     oddsHttp.send(null);
     if (oddsHttp.responseText == "") {
@@ -18,7 +18,9 @@ var Odds1x2Mail = function (scheduleid) {
     oddsArr = [];
     for (var i = 0; i < game.length; i++) {
         var arr = game[i].split('|');
-        oddsArr.push(game[i]);
+        if (getDate(MatchTime) - getDate(arr[20]) < 60000 * minite) {
+            oddsArr.push(game[i]);
+        }
     }
     if (oddsArr.length == 0) {
         showNotify("提示", "临场" + minite + "分钟内没有开出赔率！", false);
@@ -51,6 +53,7 @@ var Odds1x2Mail = function (scheduleid) {
 
 var Odds1x2Mail1 = function (scheduleid) {
     var scheduleArr, scheduleTypeArr;
+    var minite = 60 * 12;
     oddsHttp.open("get", "Data/NowGoal/GetRemoteHtml.aspx?a=EuropeOddsJS&matchid=" + scheduleid, false);
     oddsHttp.send(null);
     if (oddsHttp.responseText == "") {
@@ -61,7 +64,9 @@ var Odds1x2Mail1 = function (scheduleid) {
     oddsArr = [];
     for (var i = 0; i < game.length; i++) {
         var arr = game[i].split('|');
-        oddsArr.push(game[i]);
+        if (getDate(MatchTime) - getDate(arr[20]) < 60000 * minite) {
+            oddsArr.push(game[i]);
+        }
     }
     if (oddsArr.length == 0) {
         showNotify("提示", "没有开出赔率！", false);
