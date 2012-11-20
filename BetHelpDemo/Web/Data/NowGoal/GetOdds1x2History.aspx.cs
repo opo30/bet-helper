@@ -365,7 +365,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 //    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
                 //    dt.Merge(dt1);
                 //}
-                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 300).Tables[0];
+                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
                 dt.Columns.Add("time", typeof(DateTime));
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -426,7 +426,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                 JObject result = new JObject();
                 try
                 {
-                    DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 300).Tables[0];
+                    DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
                     
                     foreach (DataRow dr in dt.Rows)
                     {

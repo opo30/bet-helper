@@ -68,7 +68,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 300).Tables[0];
+            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
             dt.Columns.Add("time", typeof(DateTime));
             foreach (DataRow dr in dt.Rows)
             {
@@ -90,7 +90,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            string limit = "isprimary=1 and type=2";
+            string limit = "isprimary=1 and type=2 and companyid in (281,499,115)";
             List<double> maxList = new List<double>();
             if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", "isprimary=1")) > 0)
             {
