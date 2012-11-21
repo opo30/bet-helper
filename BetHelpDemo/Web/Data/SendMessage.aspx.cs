@@ -92,11 +92,11 @@ public partial class Data_SendMessage : System.Web.UI.Page
             bool ismail = false;
             string limit = "isprimary=1 and type=2 and companyid in (281,499,115)";
             List<double> maxList = new List<double>();
-            if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", "isprimary=1")) > 0)
+            if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", limit)) > 0)
             {
-                maxList.Add(Convert.ToDouble(dt.Compute("max(swin)", "isprimary=1")));
-                maxList.Add(Convert.ToDouble(dt.Compute("max(sdraw)", "isprimary=1")));
-                maxList.Add(Convert.ToDouble(dt.Compute("max(slost)", "isprimary=1")));
+                maxList.Add(Convert.ToDouble(dt.Compute("max(swin)", limit)));
+                maxList.Add(Convert.ToDouble(dt.Compute("max(sdraw)", limit)));
+                maxList.Add(Convert.ToDouble(dt.Compute("max(slost)", limit)));
             }else
 	        {
                 maxList.Add(0);
@@ -115,12 +115,12 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         {
                             if (rq > 0)
                             {
-                                ismail = Convert.ToDouble(dt.Compute("max(swin)", limit)) == maxList.Max() && toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == count ||
+                                ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == count ||
                                     toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0;
                             }
                             else if (rq < 0)
                             {
-                                ismail = Convert.ToDouble(dt.Compute("max(slost)", limit)) == maxList.Max() && toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == count ||
+                                ismail = toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == count ||
                                     toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
                             }
                             else
