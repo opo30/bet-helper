@@ -90,13 +90,13 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            string limit = "isprimary=1 and type=2 and companyid in (281,499,115)";
+            string limit = "isprimary=1 and type=2";
             List<double> maxList = new List<double>();
-            if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", limit)) > 0)
+            if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", limit + " and companyid in (281,499,115)")) > 0)
             {
-                maxList.Add(Convert.ToDouble(dt.Compute("max(swin)", limit)));
-                maxList.Add(Convert.ToDouble(dt.Compute("max(sdraw)", limit)));
-                maxList.Add(Convert.ToDouble(dt.Compute("max(slost)", limit)));
+                maxList.Add(Convert.ToDouble(dt.Compute("max(swin)", limit + " and companyid in (281,499,115)")));
+                maxList.Add(Convert.ToDouble(dt.Compute("max(sdraw)", limit + " and companyid in (281,499,115)")));
+                maxList.Add(Convert.ToDouble(dt.Compute("max(slost)", limit + " and companyid in (281,499,115)")));
             }else
 	        {
                 maxList.Add(0);
