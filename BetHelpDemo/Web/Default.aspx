@@ -622,7 +622,7 @@
         html.push("<table id='table_live' width=100% bgcolor=#C6C6C6 align=center cellspacing=1 border=0 cellpadding=0><tr class=ki1 align=center>");
         html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>选</font></td><td  width=8%><font color=white>" + matchdate + "</font></td><td  width=5%><font color=white>时间</font></td><td  width=5%><font color=white>状态</font></td><td  width=16%><font color=white>主队</font></td><td  width=5%><font color=white>比分</font></td><td  width=16%><font color=white>客队</font></td><td  width=5%><font color=white>半场</font></td><td  width=15%><font color=white>数据</font></td><td width=19% colspan=3><font color=white>指数</font></td><td width=3%>走</td><td width=3%>总数</td><td width=6%>胜</td><td width=6%>平</td><td width=6%>负</td></tr>");
 
-        oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/goal" + Config.companyID + ".xml?" + Date.parse(new Date()), false);
+        oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/goal" + Config.companyID + ".xml&_t=" + Date.parse(new Date()), false);
         oddsHttp.send(null);
         if (document.all)
             idList = oddsHttp.responseXML.documentElement.childNodes[1].text;

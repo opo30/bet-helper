@@ -86,7 +86,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     Response.Buffer = true; //完成整个响应后再发送
                     Response.ContentEncoding = Encoding.UTF8;
                     XmlDocument xml = new XmlDocument();
-                    xml.Load(WebClientBLL.root + Request.QueryString["path"] + "?" + DateTime.Now.Millisecond);
+                    xml.Load(WebClientBLL.root + Request.QueryString["path"] + "?" + Request.QueryString["_t"]);
                     Response.Write(xml.InnerXml);
                 }
                 catch (Exception)
