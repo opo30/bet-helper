@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Web", "Web\", "{3053973A-D97E-43EC-9165-96BE352ED0A9}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv3.5"
 		ProjectReferences = "{38D7AA58-C95B-449B-86C6-A8073A56E11F}|SeoWebSite.BLL.dll;{E3D8759A-C5EB-402D-9F10-F5C6029A8D1A}|SeoWebSite.Common.dll;{9FE00521-3A8B-42B1-814E-585E99407B2E}|SeoWebSite.DAL.dll;{0988C62E-247F-471F-A183-DB509C7A3839}|SeoWebSite.DBUtility.dll;{53995DBB-9836-4647-AD22-865884FDEB9E}|SeoWebSite.Model.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Web"
 		Debug.AspNetCompiler.PhysicalPath = "Web\"

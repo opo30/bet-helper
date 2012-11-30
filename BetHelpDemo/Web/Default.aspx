@@ -1103,7 +1103,7 @@
 
     function getoddsxml() {
         if (isliving) {
-            oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/ch_goal" + Config.companyID + ".xml?" + Date.parse(new Date()), true);
+            oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/ch_goal" + Config.companyID + ".xml&_t=" + Date.parse(new Date()), true);
             oddsHttp.onreadystatechange = oddsrefresh;
             oddsHttp.send(null);
         }
@@ -1138,9 +1138,9 @@
             LoadTime = (LoadTime + 1) % 60;
             if (isliving) {
                 if (LoadTime == 0)
-                    oXmlHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/change2.xml?" + Date.parse(new Date()), true);
+                    oXmlHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/change2.xml&_t=" + Date.parse(new Date()), true);
                 else
-                    oXmlHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/change.xml?" + Date.parse(new Date()), true);
+                    oXmlHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/change.xml&_t=" + Date.parse(new Date()), true);
                 oXmlHttp.onreadystatechange = refresh;
                 oXmlHttp.send(null);
             }
@@ -2053,8 +2053,8 @@
     window.setTimeout("check()", 30000);
 
 </script>
-<span id="span_detail"><script language="javascript" src="http://live.nowodds.com/data/detail.js" type="text/javascript" charset="gb2312"></script></span>
-<span id="span_panlu"><script language="javascript" src="http://live.nowodds.com/data/panlu.js" type="text/javascript"></script></span>
+<span id="span_detail"><script language="javascript" src="http://live.nowodds.com/data/detail.js?886000" type="text/javascript" charset="gb2312"></script></span>
+<span id="span_panlu"><script language="javascript" src="http://live.nowodds.com/data/panlu.js?886000" type="text/javascript"></script></span>
     </div>
     
 </body>
