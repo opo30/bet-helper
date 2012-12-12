@@ -220,11 +220,6 @@ namespace SeoWebSite.BLL
             return dal.queryOddsHistory2(cclassid, sclassid, whereStr, selectStr);
         }
 
-        public DataSet queryCompanyHistory(int type,string strwhere,int limit)
-        {
-            return dal.queryCompanyHistory(type, strwhere, limit);
-        }
-
         public DataSet queryOddsHistory(string cclassid,string sclassid, string whereStr)
         {
             return dal.queryOddsHistory(cclassid,sclassid,whereStr);
@@ -240,6 +235,11 @@ namespace SeoWebSite.BLL
         public DataSet statOddsHistory(string whereStr)
         {
             return dal.statOddsHistory(whereStr);
+        }
+
+        public DataSet queryCompanyHistory(int p1, string ewhereStr, int p2)
+        {
+            return dal.queryCompanyHistory(p1, ewhereStr, p2);
         }
     }
 }

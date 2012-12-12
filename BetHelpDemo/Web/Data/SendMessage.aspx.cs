@@ -59,7 +59,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 string[] odds = oddsStr.Split('|');
                 swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
                         " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
-                if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]) && odds[22] == "1")
+                if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
                 {
                     ewhereList.Add("(companyid=" + odds[0] + " and (e_win=" + odds[10] +
                         ") and (e_draw=" + odds[11] + ") and (e_lost=" + odds[12] + "))");
@@ -68,7 +68,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             string swhereStr = "(" + String.Join(" or ", swhereList.ToArray()) + ")";
             string ewhereStr = "(" + String.Join(" or ", ewhereList.ToArray()) + ")";
 
-            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+            DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 100).Tables[0];
             dt.Columns.Add("time", typeof(DateTime));
             foreach (DataRow dr in dt.Rows)
             {
@@ -90,52 +90,51 @@ public partial class Data_SendMessage : System.Web.UI.Page
             }
 
             bool ismail = false;
-            string limit = "isprimary=1 and type=2";
+            string limit = "type=2";
             List<double> maxList = new List<double>();
-            if (dt.Rows.Count > 0 && toInt(dt.Compute("count(companyid)", limit + " and companyid in (281,499,115)")) > 0)
+            if (dt.Rows.Count > 1)
             {
-                maxList.Add(Convert.ToDouble(dt.Compute("max(swin)", limit + " and companyid in (281,499,115)")));
-                maxList.Add(Convert.ToDouble(dt.Compute("max(sdraw)", limit + " and companyid in (281,499,115)")));
-                maxList.Add(Convert.ToDouble(dt.Compute("max(slost)", limit + " and companyid in (281,499,115)")));
+                maxList.Add(Convert.ToDouble(dt.Compute("avg(swin)", limit)));
+                maxList.Add(Convert.ToDouble(dt.Compute("avg(sdraw)", limit)));
+                maxList.Add(Convert.ToDouble(dt.Compute("avg(slost)", limit)));
             }else
 	        {
                 maxList.Add(0);
                 maxList.Add(0);
                 maxList.Add(0);
 	        }
-            if (maxList.Max() > 5)
+            double w = Convert.ToDouble(dt.Compute("avg(swin)", limit));
+            double d = Convert.ToDouble(dt.Compute("avg(sdraw)", limit));
+            double l = Convert.ToDouble(dt.Compute("avg(slost)", limit));
+            if (maxList.Max() > 3)
             {
                 if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
                 {
-                    int count = toInt(dt.Compute("count(companyid)", limit));
-                    if (!string.IsNullOrEmpty(oddsInfo[2]) && count > 0)
+                    if (!string.IsNullOrEmpty(oddsInfo[2]))
                     {
                         double rq = Convert.ToDouble(oddsInfo[2]);
                         if (Math.Abs(rq) < 1)
                         {
                             if (rq > 0)
                             {
-                                ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == count ||
-                                    toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0;
+                                ismail = w > 0 && d < 0 && l < 0 || w < 0;
                             }
                             else if (rq < 0)
                             {
-                                ismail = toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == count ||
-                                    toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
+                                ismail = w < 0 && d < 0 && l > 0 || l < 0;
                             }
                             else
                             {
-                                ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0 ||
-                                    toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
+                                ismail = w < 0 || l < 0;
                             }
                         }
                         else if (rq >= 1)
                         {
-                            ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0;
+                            ismail = w < 0;
                         }
                         else if (rq <= -1)
                         {
-                            ismail = toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
+                            ismail = l < 0;
                         }
                     }
 
@@ -144,11 +143,11 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 {
                     if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) > 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and swin>0")) == 0;
+                        ismail = w < 0;
                     }
                     else if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) < 0)
                     {
-                        ismail = toInt(dt.Compute("count(companyid)", limit + " and slost>0")) == 0;
+                        ismail = l < 0;
                     }
                 }
             }
@@ -193,6 +192,15 @@ public partial class Data_SendMessage : System.Web.UI.Page
                     sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">" + Convert.ToDateTime(dr["time"]).ToString("MM-dd HH:mm") + "</td>");
                     sb.Append("</tr>");
                 }
+                sb.Append("<tr>");
+                sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height: 21px;font-size: 10px;\">合计</td>");
+                sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">临场盘</td>");
+                sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\"></td>");
+                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, w) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(w) + "</td>");
+                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, d) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(d) + "</td>");
+                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, l) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(l) + "</td>");
+                sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\"></td>");
+                sb.Append("</tr>");
                 myCol.Add("companyHistory", sb.ToString());
 
                 string title = String.Format(sclassArr[1] + " {4}-{7}", scheduleArr);

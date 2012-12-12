@@ -578,7 +578,6 @@ namespace SeoWebSite.DAL
         {
             throw new NotImplementedException();
         }
-
     }
 }
 

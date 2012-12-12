@@ -365,8 +365,11 @@ namespace SeoWebSite.Web.Data.NowGoal
                 //    DataTable dt1 = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
                 //    dt.Merge(dt1);
                 //}
-                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 200).Tables[0];
+                DataTable dt = scheduleBLL.queryCompanyHistory(2, ewhereStr, 100).Tables[0];
                 dt.Columns.Add("time", typeof(DateTime));
+                dt.Columns.Add("w", typeof(decimal));
+                dt.Columns.Add("d", typeof(decimal));
+                dt.Columns.Add("l", typeof(decimal));
                 foreach (DataRow dr in dt.Rows)
                 {
                     foreach (string oddsStr in oddsArr)
@@ -384,9 +387,14 @@ namespace SeoWebSite.Web.Data.NowGoal
                             }
                             else
                             {
-                                dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]));
-                                dr.SetField("sdraw", Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]));
-                                dr.SetField("slost", Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[15]));
+                                decimal[] decimalArr = new decimal[] { 
+                                    Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[13]),
+                                    Convert.ToDecimal(dr["sdraw"]) - Convert.ToDecimal(odds[14]),
+                                    Convert.ToDecimal(dr["slost"]) - Convert.ToDecimal(odds[15])
+                                };
+                                dr.SetField("swin", decimalArr[0]);
+                                dr.SetField("sdraw", decimalArr[1]);
+                                dr.SetField("slost", decimalArr[2]);
                             }
                         }
                     }
@@ -414,7 +422,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                     string[] odds = oddsStr.Split('|');
                     swhereList.Add("(companyid=" + odds[0] + " and s_win=" + odds[3] +
                             " and s_draw=" + odds[4] + " and s_lost=" + odds[5] + ")");
-                    if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]) && odds[22] == "1")
+                    if (!String.IsNullOrEmpty(odds[10]) && !String.IsNullOrEmpty(odds[11]) && !String.IsNullOrEmpty(odds[12]))
                     {
                         ewhereList.Add("(companyid=" + odds[0] + " and (e_win=" + odds[10] +
                             ") and (e_draw=" + odds[11] + ") and (e_lost=" + odds[12] + "))");

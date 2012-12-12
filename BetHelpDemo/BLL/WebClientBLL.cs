@@ -72,7 +72,8 @@ namespace SeoWebSite.BLL
             web.Encoding = Encoding.GetEncoding("utf-8");
             //string url = string.Format(Odds1x2, scheduleID);
             string url = string.Format(Odds1x2URL, scheduleID);
-            string s = web.DownloadString(url + "?" + DateTime.Now);
+            TimeSpan ts = new TimeSpan(DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks);
+            string s = web.DownloadString(url + "?" + ts.TotalMilliseconds);
             return s;
         }
 

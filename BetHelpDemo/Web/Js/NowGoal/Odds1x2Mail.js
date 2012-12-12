@@ -158,6 +158,7 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        sortable: true,
 		        align: "middle",
 		        width: 50,
+		        summaryType: 'average',
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
 		            if (value > 0) {
 		                cell.cellAttr = 'bgcolor="#F7CFD6"';
@@ -173,6 +174,7 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        sortable: true,
 		        align: "middle",
 		        width: 50,
+		        summaryType: 'average',
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
 		            if (value > 0) {
 		                cell.cellAttr = 'bgcolor="#F7CFD6"';
@@ -188,6 +190,7 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        sortable: true,
 		        align: "middle",
 		        width: 50,
+		        summaryType: 'average',
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
 		            if (value > 0) {
 		                cell.cellAttr = 'bgcolor="#F7CFD6"';
@@ -208,6 +211,7 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        }
 		    }
     ]);
+        var summary = new Ext.ux.grid.GroupSummary();
 
         //----------------------------------------------------定义grid
         var grid = new Ext.grid.GridPanel({
@@ -224,6 +228,7 @@ var Odds1x2Mail1 = function (scheduleid) {
             autoScroll: true,
             border: false,
             sortable: false,
+            plugins: [summary],
             view: new Ext.grid.GroupingView({
                 //自动填充
                 emptyText: '没有记录',
