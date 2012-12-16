@@ -378,7 +378,7 @@ namespace SeoWebSite.Web.Data.NowGoal
                         if (dr["companyid"].ToString() == odds[0])
                         {
                             string[] timeArr = odds[20].Split(',');
-                            dr.SetField("time", new DateTime(int.Parse(timeArr[0]), int.Parse(timeArr[1].Remove(2)), int.Parse(timeArr[2]), int.Parse(timeArr[3]), int.Parse(timeArr[4]), int.Parse(timeArr[5])).AddHours(-8));
+                            dr.SetField("time", new DateTime(int.Parse(timeArr[0]), int.Parse(timeArr[1].Remove(2)), int.Parse(timeArr[2]), int.Parse(timeArr[3]), int.Parse(timeArr[4]), int.Parse(timeArr[5])).AddHours(8));
                             if (dr["type"].ToString() == "1")
                             {
                                 dr.SetField("swin", Convert.ToDecimal(dr["swin"]) - Convert.ToDecimal(odds[6]));

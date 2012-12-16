@@ -91,11 +91,15 @@ public partial class Data_SendMessage : System.Web.UI.Page
 
             bool ismail = false;
             string limit = "type=2";
-            List<double> dl = new List<double>();
-            dl.Add(Convert.ToDouble(dt.Compute("avg(swin)", limit)));
-            dl.Add(Convert.ToDouble(dt.Compute("avg(sdraw)", limit)));
-            dl.Add(Convert.ToDouble(dt.Compute("avg(slost)", limit)));
-            if (dt.Rows.Count > 2 && dl.Max() > 2)
+            List<double> avg = new List<double>();
+            List<double> max = new List<double>();
+            avg.Add(Convert.ToDouble(dt.Compute("avg(swin)", limit)));
+            avg.Add(Convert.ToDouble(dt.Compute("avg(sdraw)", limit)));
+            avg.Add(Convert.ToDouble(dt.Compute("avg(slost)", limit)));
+            max.Add(Convert.ToDouble(dt.Compute("max(swin)", limit)));
+            max.Add(Convert.ToDouble(dt.Compute("max(sdraw)", limit)));
+            max.Add(Convert.ToDouble(dt.Compute("max(slost)", limit)));
+            if (dt.Rows.Count > 2)
             {
                 if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
                 {
@@ -106,24 +110,24 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         {
                             if (rq > 0)
                             {
-                                ismail = dl[0] > 0 && dl[1] < 0 && dl[2] < 0 || dl[0] < -1;
+                                ismail = avg[0] > 0 && avg[1] < 0 && avg[2] < 0 && max[1] < 1 && max[2] < 1 || avg[0] < 0 && max[0] < 1;
                             }
                             else if (rq < 0)
                             {
-                                ismail = dl[0] < 0 && dl[1] < 0 && dl[2] > 0 || dl[2] < -1;
+                                ismail = avg[0] < 0 && avg[1] < 0 && avg[2] > 0 && max[0] < 1 && max[1] < 1 || avg[2] < 0 && max[2] < 1;
                             }
                             else
                             {
-                                ismail = dl[0] < -1 || dl[2] < -1;
+                                ismail = avg[0] < 0 && max[0] < 1 || avg[2] < 0 && max[2] < 1;
                             }
                         }
                         else if (rq >= 1)
                         {
-                            ismail = dl[0] < -1;
+                            ismail = avg[0] < 0 && max[0] < 1;
                         }
                         else if (rq <= -1)
                         {
-                            ismail = dl[2] < -1;
+                            ismail = avg[2] < 0 && max[2] < 1;
                         }
                     }
 
@@ -132,11 +136,11 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 {
                     if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) > 0)
                     {
-                        ismail = dl[0] < -1;
+                        ismail = avg[0] < 0 && max[0] < 1;
                     }
                     else if (toInt(scheduleArr[13]) - toInt(scheduleArr[14]) < 0)
                     {
-                        ismail = dl[2] < -1;
+                        ismail = avg[2] < 0 && max[2] < 1;
                     }
                 }
             }
@@ -185,9 +189,9 @@ public partial class Data_SendMessage : System.Web.UI.Page
                 sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height: 21px;font-size: 10px;\">合计</td>");
                 sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\">临场盘</td>");
                 sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\"></td>");
-                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dl[0]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dl[0]) + "</td>");
-                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dl[1]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dl[1]) + "</td>");
-                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, dl[2]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(dl[2]) + "</td>");
+                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, avg[0]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(avg[0]) + "</td>");
+                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, avg[1]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(avg[1]) + "</td>");
+                sb.Append("<td align=\"center\" bgcolor=\"" + getBGColor(0, avg[2]) + "\" style=\"line-height: 21px; font-size: 10px;\">" + dRound(avg[2]) + "</td>");
                 sb.Append("<td align=\"center\" bgcolor=\"White\" style=\"line-height: 21px; font-size: 10px;\"></td>");
                 sb.Append("</tr>");
                 myCol.Add("companyHistory", sb.ToString());
