@@ -160,11 +160,13 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        width: 50,
 		        summaryType: 'average',
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("sdraw") && value > row.get("slost")) {
-		                cell.cellAttr = 'bgcolor="#F7CFD6"';
-		            }
-		            else if (value < row.get("sdraw") && value < row.get("slost")) {
-		                cell.cellAttr = 'bgcolor="#DFF3B1"';
+		            if (rowIndex != null) {
+		                if (value > row.get("sdraw") && value > row.get("slost")) {
+		                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+		                }
+		                else if (value < row.get("sdraw") && value < row.get("slost")) {
+		                    cell.cellAttr = 'bgcolor="#DFF3B1"';
+		                }
 		            }
 		            return value;
 		        }
@@ -176,11 +178,13 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        width: 50,
 		        summaryType: 'average',
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("swin") && value > row.get("slost")) {
-		                cell.cellAttr = 'bgcolor="#F7CFD6"';
-		            }
-		            else if (value < row.get("swin") && value < row.get("slost")) {
-		                cell.cellAttr = 'bgcolor="#DFF3B1"';
+		            if (rowIndex != null) {
+		                if (value > row.get("swin") && value > row.get("slost")) {
+		                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+		                }
+		                else if (value < row.get("swin") && value < row.get("slost")) {
+		                    cell.cellAttr = 'bgcolor="#DFF3B1"';
+		                }
 		            }
 		            return value;
 		        }
@@ -192,11 +196,13 @@ var Odds1x2Mail1 = function (scheduleid) {
 		        width: 50,
 		        summaryType: 'average',
 		        renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-		            if (value > row.get("swin") && value > row.get("sdraw")) {
-		                cell.cellAttr = 'bgcolor="#F7CFD6"';
-		            }
-		            else if (value < row.get("swin") && value < row.get("sdraw")) {
-		                cell.cellAttr = 'bgcolor="#DFF3B1"';
+		            if (rowIndex != null) {
+		                if (value > row.get("swin") && value > row.get("sdraw")) {
+		                    cell.cellAttr = 'bgcolor="#F7CFD6"';
+		                }
+		                else if (value < row.get("swin") && value < row.get("sdraw")) {
+		                    cell.cellAttr = 'bgcolor="#DFF3B1"';
+		                }
 		            }
 		            return value;
 		        }
