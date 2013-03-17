@@ -100,7 +100,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             max.Add(Convert.ToDouble(dt.Compute("max(sdraw)", limit)));
             max.Add(Convert.ToDouble(dt.Compute("max(slost)", limit)));
             double x = 4.5;
-            if (dt.Rows.Count > 1)
+            if (dt.Rows.Count > 2)
             {
                 if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
                 {
@@ -111,11 +111,11 @@ public partial class Data_SendMessage : System.Web.UI.Page
                         {
                             if (rq > 0)
                             {
-                                ismail = avg[0] > x && avg[1] < 0 && avg[2] < 0 || avg[0] < -x || avg[0] == avg.Min() && (avg[1] > x || avg[2] > x);
+                                ismail = avg[0] > x && max[1] < 0 && max[2] < 0 || avg[0] < -x || avg[0] == avg.Min() && (avg[1] > x || avg[2] > x);
                             }
                             else if (rq < 0)
                             {
-                                ismail = avg[0] < 0 && avg[1] < 0 && avg[2] > x || avg[2] < -x || avg[2] == avg.Min() && (avg[0] > x || avg[1] > x);
+                                ismail = avg[0] < 0 && max[1] < 0 && max[2] > x || avg[2] < -x || avg[2] == avg.Min() && (avg[0] > x || avg[1] > x);
                             }
                             else
                             {
