@@ -99,7 +99,7 @@ public partial class Data_SendMessage : System.Web.UI.Page
             max.Add(Convert.ToDouble(dt.Compute("max(swin)", limit)));
             max.Add(Convert.ToDouble(dt.Compute("max(sdraw)", limit)));
             max.Add(Convert.ToDouble(dt.Compute("max(slost)", limit)));
-            double x = 4.5;
+            double x = 3;
             if (dt.Rows.Count > 2)
             {
                 if (toInt(scheduleArr[13]) + toInt(scheduleArr[14]) == 0)
