@@ -21,7 +21,7 @@ public partial class Default4 : System.Web.UI.Page
         {
             //GridView1.DataSource = bll.GetScrollMatchList();
             //GridView1.DataBind();
-            WebClient web = new WebClient();
+            WebClient web = WebClientBLL.getWebClient();
             string s = web.DownloadString("http://data.nowscore.com/detail/403052.html");
             Lexer lexer = new Lexer(s);
             Parser parser = new Parser(lexer);

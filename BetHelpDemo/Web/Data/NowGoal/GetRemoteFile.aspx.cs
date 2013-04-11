@@ -14,7 +14,7 @@ namespace SeoWebSite.Web.Data.NowGoal
 {
     public partial class GetFile : System.Web.UI.Page
     {
-        WebClient web = new WebClient();
+        WebClient web = WebClientBLL.getWebClient();
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -85,9 +85,8 @@ namespace SeoWebSite.Web.Data.NowGoal
                     Response.ContentType = "text/xml";
                     Response.Buffer = true; //完成整个响应后再发送
                     Response.ContentEncoding = Encoding.UTF8;
-                    XmlDocument xml = new XmlDocument();
-                    xml.Load(WebClientBLL.root + Request.QueryString["path"] + "?" + Request.QueryString["_t"]);
-                    Response.Write(xml.InnerXml);
+                    WebClient web = WebClientBLL.getWebClient();
+                    Response.Write(web.DownloadString(WebClientBLL.root + Request.QueryString["path"] + "?" + Request.QueryString["_t"]));
                 }
                 catch (Exception)
                 {

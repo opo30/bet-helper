@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SeoWebSite.Common;
 using System.Configuration;
+using System.Net;
 
 namespace SeoWebSite.BLL
 {
@@ -30,10 +31,20 @@ namespace SeoWebSite.BLL
         static string MarketsInPlayTodayURL = "http://84.20.193.75/content/LoadMarketsInPlayTodayAction.do";
         static string MarketsURL = "http://84.20.193.75/Menu.do?timeZone=PRC&region=GBR&locale=zh&brand=betfair";
 
+        public static WebClient getWebClient()
+        {
+            WebClient web = new WebClient();
+            web.Encoding = Encoding.GetEncoding("utf-8");
+            if (ConfigurationManager.AppSettings["proxy"] != null && !string.IsNullOrEmpty(ConfigurationManager.AppSettings["proxy"]))
+            {
+                web.Proxy = new WebProxy(ConfigurationManager.AppSettings["proxy"]);
+            }
+            return web;
+        }
+
         public static void UpdateLiveDataContent()
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             TimeSpan ts = DateTime.Now - DateTime.Parse("1970-1-1 ");
             string s = web.DownloadString(LiveDataURL + "?" + (long)ts.TotalMilliseconds);
             DataCache.SetCache("LiveDataContent", s);
@@ -41,8 +52,7 @@ namespace SeoWebSite.BLL
 
         public static void UpdateHistoryLiveDataContent(string date)
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             string url = string.Format(HistoryDataURL, date);
             string s = web.DownloadString(url + "&" + DateTime.Now);
             DataCache.SetCache("LiveDataContent", s);
@@ -50,8 +60,7 @@ namespace SeoWebSite.BLL
 
         public static void UpdateOddsDetailContent(string companyID)
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             string url = string.Format(root + OddsDetailURL, companyID);
             string s = web.DownloadString(url + "&_t=" + DateTime.Now);
             DataCache.SetCache("OddsDetailContent", s);
@@ -59,8 +68,7 @@ namespace SeoWebSite.BLL
 
         public static void UpdateOddsDataContent(string date)
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             string url = string.Format(root + OddsDataURL, date);
             string s = web.DownloadString(url + "&_t=" + DateTime.Now);
             DataCache.SetCache("OddsDetailContent", s);
@@ -68,8 +76,7 @@ namespace SeoWebSite.BLL
 
         public string UpdateOdds1x2Content(string scheduleID)
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             //string url = string.Format(Odds1x2, scheduleID);
             string url = string.Format(Odds1x2URL, scheduleID);
             TimeSpan ts = new TimeSpan(DateTime.Now.Ticks - new DateTime(1970, 1, 1).Ticks);
@@ -79,8 +86,7 @@ namespace SeoWebSite.BLL
 
         public static void UpdateAnalysisContent(string scheduleID) 
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             //string url = string.Format(Odds1x2, scheduleID);
             string url = string.Format(AnalysisURL, scheduleID);
             string s = web.DownloadString(url + "?" + DateTime.Now);
@@ -88,9 +94,8 @@ namespace SeoWebSite.BLL
         }
 
         public string GetOddsHistoryContent(string id)
-        { 
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+        {
+            WebClient web = WebClientBLL.getWebClient();
             //string url = string.Format(Odds1x2, scheduleID);
             string url = string.Format(OddsHistoryURL, id);
             string s = web.DownloadString(url + "&" + DateTime.Now);
@@ -99,8 +104,7 @@ namespace SeoWebSite.BLL
 
         public static void UpdateMarketsClosingSoon()
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             web.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729)");
             web.Headers.Add("Accept", "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
             web.Headers.Add("Accept-Language", "zh-CN");
@@ -110,8 +114,7 @@ namespace SeoWebSite.BLL
 
         public static void UpdateMarketsInPlayToday()
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             web.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729)");
             web.Headers.Add("Accept", "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
             web.Headers.Add("Accept-Language", "zh-CN");
@@ -121,8 +124,7 @@ namespace SeoWebSite.BLL
 
         public static void UpdateMarkets()
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             web.Headers.Add("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1) ; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729)");
             web.Headers.Add("Accept", "image/jpeg, application/x-ms-application, image/gif, application/xaml+xml, image/pjpeg, application/x-ms-xbap, application/x-shockwave-flash, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
             web.Headers.Add("Accept-Language", "zh-CN");
@@ -137,8 +139,7 @@ namespace SeoWebSite.BLL
         /// <returns></returns>
         public string LoadLiveFile()
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             TimeSpan ts = DateTime.Now - DateTime.Parse("1970-1-1 ");
             string s = web.DownloadString(LiveDataURL + "?" + (long)ts.TotalMilliseconds);
             return s;
@@ -146,8 +147,7 @@ namespace SeoWebSite.BLL
 
         public string LoadHistoryFile(string date)
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             string url = string.Format(HistoryDataURL, date);
             string s = web.DownloadString(url + "&" + DateTime.Now);
             return s;
@@ -155,8 +155,7 @@ namespace SeoWebSite.BLL
 
         public string GetRemoteHtml(string path,string[] paramArray)
         {
-            System.Net.WebClient web = new System.Net.WebClient();
-            web.Encoding = Encoding.GetEncoding("utf-8");
+            WebClient web = WebClientBLL.getWebClient();
             string url = string.Format(root + path, paramArray);
             return web.DownloadString(url);
         }

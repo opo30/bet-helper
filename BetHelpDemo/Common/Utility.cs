@@ -11,59 +11,6 @@ namespace SeoWebSite.Common
     public class Utility
     {
         /// <summary>
-        /// 取得网页的内容
-        /// </summary>
-        /// <param name="sUrl">url地址</param>
-        /// <param name="sEncode">编码名称</param>
-        /// <param name="sDocument">返回的网页内容或者是异常</param>
-        /// <returns>有异常返回false</returns>
-        public static string GetPageContent(Uri Url, string sEncode)
-        {
-            try
-            {
-
-                Encoding encoding = System.Text.Encoding.GetEncoding(sEncode);
-                return GetPageContent(Url, encoding);
-            }
-            catch (WebException ex)
-            {
-                throw ex;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        /// <summary>
-        /// 取得网页的内容
-        /// </summary>
-        /// <param name="sUrl">url地址</param>
-        /// <param name="encoding">编码方式</param>
-        /// <param name="sDocument">返回的网页内容或者是异常</param>
-        /// <returns>有异常返回false</returns>
-        public static string GetPageContent(Uri Url, Encoding encoding)
-        {
-            WebClient webclient = new WebClient();
-            try
-            {
-
-                webclient.Encoding = encoding;
-                return webclient.DownloadString(Url);
-            }
-            catch (WebException ex)
-            {
-                throw ex;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                webclient.Dispose();
-            }
-        }
-        /// <summary>
         /// 处理URL地址，当BranchUrl为一个全名的URL时则返回本身，否则恰当的衔接到BaseUrl后面
         /// </summary>
         /// <param name="BaseUrl">完整的URL</param>
