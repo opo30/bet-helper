@@ -17,6 +17,7 @@
     </div>
 
     <script type="text/javascript">        document.getElementById('loading-msg').innerHTML = '正在加载 Core API...';</script>
+    <script src="Lib/jquery.js"></script>
     <script src="lib/ext/adapter/ext/ext-base.js" type="text/javascript"></script>
     <script type="text/javascript">        document.getElementById('loading-msg').innerHTML = '正在加载 UI Components...';</script>
     <script src="lib/ext/ext-all.js" type="text/javascript"></script>
@@ -54,7 +55,9 @@
     <script src="Js/update/oddsData.js" type="text/javascript"></script>
     <script src="js/Main.js" type="text/javascript"></script>
     <script type="text/javascript">
-        
+        $.ajaxSetup({
+            cache: true
+        });
         var company = new Array(40);
         <%= initCompanyJS %>
     </script>
@@ -1835,37 +1838,21 @@
     }
 
     function LoadLiveFile() {
-        var allDate = document.getElementById("allDate");
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        if (orderby == "league")
-            s.src = "http://bf.nowscore.com/data/bf1.js?" + Date.parse(new Date());
-        else
-            s.src = "http://bf.nowscore.com/data/bf.js?" + Date.parse(new Date());
-        allDate.removeChild(allDate.firstChild);
-        allDate.appendChild(s, "script");
-        window.clearTimeout(LoadLiveFileTimer);
-        LoadLiveFileTimer = window.setTimeout("LoadLiveFile()", 3600 * 1000);
+        var url = "http://bf.nowscore.com/data/bf" + (orderby == "league" ? "1" : "") + ".js?" + Date.parse(new Date());
+        $.getScript(url,function () {
+            window.clearTimeout(LoadLiveFileTimer);
+            LoadLiveFileTimer = window.setTimeout("LoadLiveFile()", 3600 * 1000);
+        });
     }
     function LoadDetailFile() {
-        var detail = document.getElementById("span_detail");
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        s.charset = "gb2312";
-        s.src = "http://bf.nowscore.com/data/detail.js?" + Date.parse(new Date());
-        detail.removeChild(detail.firstChild);
-        detail.appendChild(s, "script");
-        loadDetailFileTime = new Date();
+        $.getScript("http://bf.nowscore.com/data/detail.js?" + Date.parse(new Date()), function () {
+            loadDetailFileTime = new Date();
+        });
     }
     function LoadVideoFile() {
-        var videoData = document.getElementById("videoData");
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        s.src = "http://www.310tv.com/js/programs.js?" + Date.parse(new Date());
-        //s.src="programs.js?" +Date.parse(new Date());
-        videoData.removeChild(videoData.firstChild);
-        videoData.appendChild(s, "script");
-        loadVideolFileTime = new Date();
+        $.getScript("http://www.310tv.com/js/programs.js?" + Date.parse(new Date()), function () {
+            loadVideolFileTime = new Date();
+        });
     }
     function SetMatchType(m) {
         document.getElementById("MatchType" + Config.matchType).className = "";
@@ -1958,30 +1945,14 @@
 
     //赛程赛果
     function ChangeSchedule(id, t) {
-        var script = document.getElementById("scriptScsg");
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        //http://info.bet007.com/jsData/matchResult/2011-2012/s36.js?
-        s.src = "http://info.nowscore.com/AjaxLeague.aspx?SclassID=" + id + "&SclassType=" + (t == 1 ? "s" : "c") + "&v=" + Date.parse(new Date());
-        script.removeChild(script.firstChild);
-        script.appendChild(s, "script");
+        $.getScript("http://info.nowscore.com/AjaxLeague.aspx?SclassID=" + id + "&SclassType=" + (t == 1 ? "s" : "c") + "&v=" + Date.parse(new Date()));
     }
     function ChangeSchedule2(id, t, groupid) {
-        var script = document.getElementById("scriptScsg");
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        s.src = "http://info.nowscore.com/AjaxLeague.aspx?SclassID=" + id + "&SclassType=" + (t == 1 ? "s" : "c") + "&SubSclassID=" + groupid + "&v=" + Date.parse(new Date());
-        script.removeChild(script.firstChild);
-        script.appendChild(s, "script");
+        $.getScript("http://info.nowscore.com/AjaxLeague.aspx?SclassID=" + id + "&SclassType=" + (t == 1 ? "s" : "c") + "&SubSclassID=" + groupid + "&v=" + Date.parse(new Date()));
     }
     //积分
     function ChangeScore(file) {
-        var script = document.getElementById("scriptScore");
-        var s = document.createElement("script");
-        s.type = "text/javascript";
-        s.src = "http://info.nowscore.com/IndexPage/score/" + file + ".js?" + Date.parse(new Date());
-        script.removeChild(script.firstChild);
-        script.appendChild(s, "script");
+        $.getScript("http://info.nowscore.com/IndexPage/score/" + file + ".js?" + Date.parse(new Date()));
     }
     function ChangeJS(sclassID, kind) {
         sclassID2 = sclassID;
