@@ -4,7 +4,7 @@
 <head runat="server">
     <title>首页</title>
     <link href="css/Style.css" rel="stylesheet" type="text/css" />
-    <link href="http://bf.nowscore.com/live.css" rel="stylesheet" type="text/css" />
+    <link href="http://live1.nowscore.com/live.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="lib/ext/resources/css/ext-all.css" />
     <link href="Lib/ext/examples/ux/css/ux-all.css" rel="stylesheet" type="text/css" />
     <link href="Lib/ext/examples/ux/statusbar/css/statusbar.css" rel="stylesheet" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript">            document.getElementById('loading-msg').innerHTML = '正在初始化...';</script>
      <script src="Js/ux/Notification.js" type="text/javascript"></script>
     
-    <script type="text/javascript" src="http://bf.nowscore.com/func.js"></script>
-    <script type="text/javascript" src="http://bf.nowscore.com/matchScore.js"></script>
+    <script type="text/javascript" src="http://live1.nowscore.com/func.js"></script>
+    <script type="text/javascript" src="http://live1.nowscore.com/matchScore.js"></script>
 
     <%--<script src="Js/NowGoal/Common.js" type="text/javascript"></script>--%>
     
@@ -63,7 +63,7 @@
     </script>
 
     <div id="live">
-        <div id="main">
+        <div id="main" style="width:1442px">
 
   <div class="toptool">
 
@@ -119,13 +119,13 @@
 
 <div id="left">
 
-    <div style="height:33px; padding-top:3px"><a href="javascript:MM_showHideLayers('DivLeague','','show')"><img src="http://bf.nowscore.com/images/game_s.gif" /></a></div>
+    <div style="height:33px; padding-top:3px"><a href="javascript:MM_showHideLayers('DivLeague','','show')"><img src="http://live1.nowscore.com/images/game_s.gif" /></a></div>
 
-    <div style="height:36px;"><a href="javascript:" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')"><img src="http://bf.nowscore.com/images/country_s.gif" /></a></div>
+    <div style="height:36px;"><a href="javascript:" onmouseover="MM_showHideLayers('DivCountry','','show')" onmouseout="MM_showHideLayers('DivCountry','','hidden')"><img src="http://live1.nowscore.com/images/country_s.gif" /></a></div>
 
 </div>
 
-<div id="middle">
+<div id="middle" style="width:1190px">
 
   
 
@@ -623,7 +623,7 @@
         var oldHiddenID = true;
         var html = new Array();
         html.push("<table id='table_live' width=100% bgcolor=#C6C6C6 align=center cellspacing=1 border=0 cellpadding=0><tr class=ki1 align=center>");
-        html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>选</font></td><td  width=8%><font color=white>" + matchdate + "</font></td><td  width=5%><font color=white>时间</font></td><td  width=5%><font color=white>状态</font></td><td  width=16%><font color=white>主队</font></td><td  width=5%><font color=white>比分</font></td><td  width=16%><font color=white>客队</font></td><td  width=5%><font color=white>半场</font></td><td  width=15%><font color=white>数据</font></td><td width=19% colspan=3><font color=white>指数</font></td><td width=3%>走</td><td width=3%>总数</td><td width=6%>胜</td><td width=6%>平</td><td width=6%>负</td></tr>");
+        html.push("<td  width=3% bgcolor='#ff9933' height=20><font color=white>选</font></td><td  width=8%><font color=white>" + matchdate + "</font></td><td  width=5%><font color=white>时间</font></td><td  width=5%><font color=white>状态</font></td><td  width=16%><font color=white>主队</font></td><td  width=5%><font color=white>比分</font></td><td  width=16%><font color=white>客队</font></td><td  width=5%><font color=white>半场</font></td><td  width=15%><font color=white>数据</font></td><td width=19% colspan=3><font color=white>指数</font></td><td width=3%>走</td><td width=10%>关联</td></tr>");
 
         oddsHttp.open("get", "Data/NowGoal/GetRemoteFile.aspx?f=xml&path=data/goal" + Config.companyID + ".xml&_t=" + Date.parse(new Date()), false);
         oddsHttp.send(null);
@@ -751,11 +751,8 @@
                 html.push("<td class=oddstd>&nbsp;</td>");
 
                 html.push("<td>&nbsp;</td>");
-                html.push("<td>&nbsp;</td>");
-                html.push("<td>&nbsp;</td>");
-                html.push("<td>&nbsp;</td>");
 
-                html.push("<td>&nbsp;</td></tr>");
+                html.push("<td><div id='bet365_" + A[i][0] + "'></div></td></tr>");
 
                 if (A[i][27] + A[i][32] == "" || classx == "none") classx = "none"; else classx = "";
                 html.push("<tr id='tr2_" + A[i][0] + "' style='display:" + classx + "' bgcolor='#ffffff'><td colspan=13 align=center height=18 style='color:green;padding-right:122px;' id='other_" + A[i][0] + "'>" + showExplain(A[i][32], A[i][4 + Config.language], A[i][7 + Config.language]) + (A[i][32] != "" && A[i][27] != "" ? "<br>" + A[i][27] : A[i][27] != "" ? A[i][27] : "") + "</td></tr>");
@@ -772,6 +769,45 @@
         makeMyLeague();
         //国家列表
         makeMyCountry();
+
+        Ext.each(A, function (v) {
+            new Ext.form.ComboBox({
+                tpl: '<tpl for="."><div ext:qtip="时间：{clockup}<br/>比分：{scores}" class="x-combo-list-item">{teams}</div></tpl>',
+                store: new Ext.data.JsonStore({
+                    fields: ["key", "clockup", "scores", "teams"],
+                    proxy: new Ext.data.HttpProxy({
+                        url: "Data/bet365.aspx?a=list",
+                        method: "POST",
+                        timeout: 3600000
+                    })
+                }),
+                displayField: 'teams',
+                valueField: 'key',
+                typeAhead: true,
+                mode: 'remote',
+                triggerAction: 'all',
+                emptyText: '请选择赛事关联...',
+                selectOnFocus: true,
+                renderTo: 'bet365_' + v[0],
+                listeners: {
+                    select : function( combo, record, index ){
+                        Ext.Ajax.request({
+                            url: 'data/bet365.aspx?a=compare',
+                            success: function (rep,res) {
+                                var result = Ext.decode(rep.responseText);
+                                if (result.success) {
+                                    Ext.MessageBox.alert('提示', result.message);
+                                } else {
+                                    showNotify('错误', result.message, true);
+                                }
+                            },
+                            params: { id: v[0], key: record.get("key") }
+                        });
+                    }
+                }
+            });
+        })
+        
     }
     function MakeTableOrderByLeague() {
         var state, bg = "", line = -1, hh = 0;
@@ -1087,8 +1123,8 @@
                 tr.cells[11].innerHTML = tmp;
 
                 tmp = "";
-                if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://bf.nowscore.com/images/t3.gif' height=10 width=10 title='有走地赛事'></a>";
-                if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://bf.nowscore.com/images/t32.gif' height=10 width=10 title='正在走地'></a>";
+                if (D[13] == "1") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live1.nowscore.com/images/t3.gif' height=10 width=10 title='有走地赛事'></a>";
+                if (D[13] == "2") tmp = "<a href='Odds/runningDetail.aspx?scheduleID=" + D[0] + "' target='_blank'><img src='http://live1.nowscore.com/images/t32.gif' height=10 width=10 title='正在走地'></a>";
                 tr.cells[12].innerHTML = tmp;
 
                 tr.attributes["odds"].value = odds;
@@ -1838,14 +1874,14 @@
     }
 
     function LoadLiveFile() {
-        var url = "http://bf.nowscore.com/data/bf" + (orderby == "league" ? "1" : "") + ".js?" + Date.parse(new Date());
+        var url = "http://live1.nowscore.com/data/bf" + (orderby == "league" ? "1" : "") + ".js?" + Date.parse(new Date());
         $.getScript(url,function () {
             window.clearTimeout(LoadLiveFileTimer);
             LoadLiveFileTimer = window.setTimeout("LoadLiveFile()", 3600 * 1000);
         });
     }
     function LoadDetailFile() {
-        $.getScript("http://bf.nowscore.com/data/detail.js?" + Date.parse(new Date()), function () {
+        $.getScript("http://live1.nowscore.com/data/detail.js?" + Date.parse(new Date()), function () {
             loadDetailFileTime = new Date();
         });
     }
@@ -2024,8 +2060,8 @@
     window.setTimeout("check()", 30000);
 
 </script>
-<span id="span_detail"><script language="javascript" src="http://bf.nowscore.com/data/detail.js?886000" type="text/javascript" charset="gb2312"></script></span>
-<span id="span_panlu"><script language="javascript" src="http://bf.nowscore.com/data/panlu.js?886000" type="text/javascript"></script></span>
+<span id="span_detail"><script language="javascript" src="http://live1.nowscore.com/data/detail.js?886000" type="text/javascript" charset="gb2312"></script></span>
+<span id="span_panlu"><script language="javascript" src="http://live1.nowscore.com/data/panlu.js?886000" type="text/javascript"></script></span>
     </div>
     
 </body>
