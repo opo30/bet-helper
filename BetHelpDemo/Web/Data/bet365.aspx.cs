@@ -95,15 +95,16 @@ public partial class Data_bet365 : System.Web.UI.Page
                             pkList.Add(Convert.ToDouble(item.Replace("超過","")));
                         }
                         dr["o2"] = Convert.ToInt32(dr["t"]) == 1 ? (0 - pkList.Average()) : pkList.Average();
+                        dr["o1"] = Convert.ToDouble(oddsNodes[0].SelectSingleNode("div/span").InnerText) - 1;
+                        dr["o3"] = Convert.ToDouble(oddsNodes[oddsNodes.Count - 1].SelectSingleNode("div/span").InnerText) - 1;
                     }
                     else
                     {
                         dr["t"] = 2;
                         dr["o2"] = oddsNodes[1].SelectSingleNode("div/span").InnerText;
+                        dr["o1"] = Convert.ToDouble(oddsNodes[0].SelectSingleNode("div/span").InnerText);
+                        dr["o3"] = Convert.ToDouble(oddsNodes[oddsNodes.Count - 1].SelectSingleNode("div/span").InnerText);
                     }
-                    dr["o1"] = Convert.ToDouble(oddsNodes[0].SelectSingleNode("div/span").InnerText) - 1;
-                    dr["o3"] = Convert.ToDouble(oddsNodes[oddsNodes.Count - 1].SelectSingleNode("div/span").InnerText) - 1;
-                    
                     bdt.Rows.Add(dr);
                 }
                 catch (Exception)
