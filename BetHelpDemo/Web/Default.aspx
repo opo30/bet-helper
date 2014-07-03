@@ -42,6 +42,7 @@
     <script src="Js/NowGoal/OddsDetailManage.js" type="text/javascript"></script>
     <script src="Js/NowGoal/Odds1x2History.js" type="text/javascript"></script>
     <script src="Js/NowGoal/Odds1x2Mail.js" type="text/javascript"></script>
+    <script src="Js/OddsCompare.js"></script>
     <script src="Js/NowGoal/EuropeOdds.js" type="text/javascript"></script>
     <script src="Js/NowGoal/EuropeOdds_Schedule.js" type="text/javascript"></script>
     <script src="Js/NowGoal/ScheduleAnalysis.js" type="text/javascript"></script>
@@ -790,7 +791,8 @@
                 selectOnFocus: true,
                 renderTo: 'bet365_' + v[0],
                 listeners: {
-                    select : function( combo, record, index ){
+                    select: function (combo, record, index) {
+                        OddsCompareList();
                         Ext.Ajax.request({
                             url: 'data/bet365.aspx?a=compare',
                             success: function (rep,res) {
