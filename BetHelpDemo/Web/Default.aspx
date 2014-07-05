@@ -775,7 +775,7 @@
             new Ext.form.ComboBox({
                 tpl: '<tpl for="."><div ext:qtip="时间：{clockup}<br/>比分：{scores}" class="x-combo-list-item">{teams}</div></tpl>',
                 store: new Ext.data.JsonStore({
-                    fields: ["key", "clockup", "scores", "teams"],
+                    fields: ["key", "clockup", "scores", "teams", "reverse"],
                     proxy: new Ext.data.HttpProxy({
                         url: "Data/bet365.aspx?a=list",
                         method: "POST",
@@ -792,19 +792,31 @@
                 renderTo: 'bet365_' + v[0],
                 listeners: {
                     select: function (combo, record, index) {
-                        OddsCompareList();
-                        Ext.Ajax.request({
-                            url: 'data/bet365.aspx?a=compare',
-                            success: function (rep,res) {
-                                var result = Ext.decode(rep.responseText);
-                                if (result.success) {
-                                    Ext.MessageBox.alert('提示', result.message);
-                                } else {
-                                    showNotify('错误', result.message, true);
-                                }
-                            },
-                            params: { id: v[0], key: record.get("key") }
-                        });
+                        var updateMsg = function () {
+                            Ext.Ajax.request({
+                                url: 'data/bet365.aspx?a=compare1',
+                                success: function (rep, res) {
+                                    var result = Ext.decode(rep.responseText);
+                                    if (result.success) {
+                                        OddsCompareList.show();
+                                        if (result.message.s1 || result.message.s2) {
+                                            var now = new Date();
+                                            OddsCompareList.add(Ext.apply(result.message, {
+                                                id: v[0], fullname: v[4 + Config.language] + "-" + v[7 + Config.language], score: v[13] + "-" + v[14], time: now
+                                            }));
+                                        }
+                                        if (OddsCompareList.getCount(v[0]) <= 20) {
+                                            Ext.defer(updateMsg, 30000);
+                                        }
+                                        //Ext.MessageBox.alert('提示', result.message.o1);
+                                    } else {
+                                        showNotify('错误', result.message, true);
+                                    }
+                                },
+                                params: { id: v[0], key: record.get("key"), reverse: record.get("reverse") }
+                            });
+                        }
+                        updateMsg();
                     }
                 }
             });

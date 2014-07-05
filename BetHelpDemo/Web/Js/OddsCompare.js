@@ -1,7 +1,7 @@
 ﻿var OddsCompareList = {
     id:"OddsCompareListWin",
     init:function(){
-        var fields = [{ name: 'companyid', type: 'string' }, { name: 'fullname', type: 'string' }, { name: 'isprimary', type: 'bool' }, { name: 'isexchange', type: 'bool' }, { name: 'scount', type: 'int' }, { name: 'swin', type: 'float' }, { name: 'sdraw', type: 'float' }, { name: 'slost', type: 'float' }, { name: 'type', type: 'int' }, { name: 'time', type: 'date' }];
+        var fields = [{ name: 'id', type: 'int' }, { name: 'fullname', type: 'string' }, { name: 'score', type: 'string' }, { name: 'o1', type: 'float' }, { name: 'o2', type: 'float' }, { name: 'o3', type: 'float' }, { name: 's1', type: 'int' }, { name: 's2', type: 'int' }, { name: 'time', type: 'date' }];
 
         var store = new Ext.data.GroupingStore({
             reader: new Ext.data.JsonReader(
@@ -9,30 +9,23 @@
                     fields: fields
                 }),
             data: [],
-            groupField: 'type',
-            sortInfo: { field: "time", direction: "DESC" }
+            groupField: 'id',
+            sortInfo: { field: "time", direction: "ASC" }
         });
 
         //--------------------------------------------------列头
         var cm = new Ext.grid.ColumnModel([
             {
-                header: "公司",
-                dataIndex: "fullname",
-                sortable: true,
-                align: "middle",
-                width: 50,
-                renderer: function (value, last, row) {
-                    var color = "";
-                    if (row.get("isprimary")) {
-                        color = "blue";
-                    } else if (row.get("isexchange")) {
-                        color = "green";
-                    }
-                    return "<font color=" + color + ">" + value + "</font>";
-                }
+                header: "编号",
+                dataIndex: "id",
+                hidden: true,
             }, {
-                header: "盘口",
-                dataIndex: "type",
+                header: "比赛",
+                dataIndex: "fullname",
+                hidden: true
+            }, {
+                header: "比分",
+                dataIndex: "score",
                 sortable: true,
                 align: "middle",
                 width: 50,
@@ -46,17 +39,18 @@
                     return value;
                 }
             }, {
-                header: "总数",
-                dataIndex: "scount",
+                header: "主",
+                dataIndex: "o1",
                 sortable: true,
                 align: "middle",
                 width: 50,
+                summaryType: 'average',
                 renderer: function (value, last, row) {
                     return value;
                 }
             }, {
-                header: "胜",
-                dataIndex: "swin",
+                header: "盘口",
+                dataIndex: "o2",
                 sortable: true,
                 align: "middle",
                 width: 50,
@@ -73,8 +67,8 @@
                     return value;
                 }
             }, {
-                header: "平",
-                dataIndex: "sdraw",
+                header: "客",
+                dataIndex: "o3",
                 sortable: true,
                 align: "middle",
                 width: 50,
@@ -91,12 +85,30 @@
                     return value;
                 }
             }, {
-                header: "负",
-                dataIndex: "slost",
+                header: "赢盘",
+                dataIndex: "s1",
                 sortable: true,
                 align: "middle",
                 width: 50,
-                summaryType: 'average',
+                summaryType: 'sum',
+                renderer: function (value, cell, row, rowIndex, colIndex, ds) {
+                    if (rowIndex != null) {
+                        if (value > row.get("swin") && value > row.get("sdraw")) {
+                            cell.cellAttr = 'bgcolor="#F7CFD6"';
+                        }
+                        else if (value < row.get("swin") && value < row.get("sdraw")) {
+                            cell.cellAttr = 'bgcolor="#DFF3B1"';
+                        }
+                    }
+                    return value;
+                }
+            }, {
+                header: "输盘",
+                dataIndex: "s2",
+                sortable: true,
+                align: "middle",
+                width: 50,
+                summaryType: 'sum',
                 renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                     if (rowIndex != null) {
                         if (value > row.get("swin") && value > row.get("sdraw")) {
@@ -115,7 +127,7 @@
                 align: "middle",
                 width: 50,
                 renderer: function (value, cell, row, rowIndex, colIndex, ds) {
-                    return value.format("Y-m-d H:i");
+                    return value.format("Y-m-d H:i:s");
                 }
             }
         ]);
@@ -145,7 +157,7 @@
                 columnsText: '列显示/隐藏',
                 groupByText: '根据本列分组',
                 showGroupsText: '是否采用分组显示',
-                groupTextTpl: '{text} (<b><font color=red>{[values.rs.length]}</font> </b>{[values.rs.length > 0 ? "条" : "暂无历史记录"]})'
+                groupTextTpl: '{[values.rs[0].data["fullname"]]} (<b><font color=red>{[values.rs.length]}</font> </b>{[values.rs.length > 0 ? "条" : "暂无历史记录"]})'
             })
         });
 
@@ -164,19 +176,24 @@
     show:function(){
         Ext.getCmp(this.id).show();
     },
-    add:function(){
+    add:function(obj){
         var grid = Ext.getCmp(this.id).findByType('grid')[0];
         var Compare = grid.getStore().recordType;
-        var c = new Compare({
-            companyid: 1,
-            type: 1,
-            fullname: "1211221",
-            time: (new Date()).clearTime()
-        });
+        var c = new Compare(obj);
         grid.getStore().add(c);
+    },
+    getCount: function (id) {
+        var grid = Ext.getCmp(this.id).findByType('grid')[0];
+        var c = 0;
+        grid.getStore().each(function (row) {
+            if (id == row.get("id")) {
+                c++;
+            }
+        });
+        return c;
     }
 };
 
-//OddsCompareList.init();
+OddsCompareList.init();
 //OddsCompareList.add();
 //OddsCompareList.show();
