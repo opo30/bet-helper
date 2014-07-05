@@ -29,7 +29,7 @@
                 dataIndex: "score",
                 sortable: true,
                 align: "middle",
-                width: 50,
+                width: 20,
                 renderer: function (value, last, row) {
                     if (value == 1) {
                         return "初  盘";
@@ -44,7 +44,7 @@
                 dataIndex: "o1",
                 sortable: true,
                 align: "middle",
-                width: 50,
+                width: 20,
                 summaryType: 'average',
                 renderer: function (value, last, row) {
                     return value;
@@ -54,7 +54,7 @@
                 dataIndex: "o2",
                 sortable: true,
                 align: "middle",
-                width: 50,
+                width: 20,
                 summaryType: 'average',
                 renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                     if (rowIndex != null) {
@@ -72,7 +72,7 @@
                 dataIndex: "o3",
                 sortable: true,
                 align: "middle",
-                width: 50,
+                width: 20,
                 summaryType: 'average',
                 renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                     if (rowIndex != null) {
@@ -90,7 +90,7 @@
                 dataIndex: "s1",
                 sortable: true,
                 align: "middle",
-                width: 50,
+                width: 20,
                 summaryType: 'sum',
                 renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                     if (rowIndex != null) {
@@ -108,7 +108,7 @@
                 dataIndex: "s2",
                 sortable: true,
                 align: "middle",
-                width: 50,
+                width: 20,
                 summaryType: 'sum',
                 renderer: function (value, cell, row, rowIndex, colIndex, ds) {
                     if (rowIndex != null) {
@@ -182,7 +182,7 @@
             layout: 'fit',
             closeAction: 'hide',
             title: "赔率比较",
-            width: 960,
+            width: 640,
             height: 500,
             resizeable: true,
             autoScroll: true,
