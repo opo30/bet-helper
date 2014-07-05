@@ -10,6 +10,7 @@
                 }),
             data: [],
             groupField: 'id',
+            groupOnSort: true,
             sortInfo: { field: "time", direction: "ASC" }
         });
 
@@ -158,7 +159,22 @@
                 groupByText: '根据本列分组',
                 showGroupsText: '是否采用分组显示',
                 groupTextTpl: '{[values.rs[0].data["fullname"]]} (<b><font color=red>{[values.rs.length]}</font> </b>{[values.rs.length > 0 ? "条" : "暂无历史记录"]})'
-            })
+            }),
+            tbar: [{
+                text: '删除',
+                handler: function () {
+                    var rows = grid.getSelectionModel().getSelections();
+                    Ext.each(rows,function (row) {
+                        store.remove(row);
+                    })
+                    
+                }
+            },{
+                text: '清除',
+                handler: function () {
+                    store.removeAll();
+                }
+            }]
         });
 
         win = new Ext.Window({
@@ -181,6 +197,7 @@
         var Compare = grid.getStore().recordType;
         var c = new Compare(obj);
         grid.getStore().add(c);
+        grid.getStore().groupBy("id", true);
     },
     getCount: function (id) {
         var grid = Ext.getCmp(this.id).findByType('grid')[0];

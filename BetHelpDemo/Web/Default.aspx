@@ -805,12 +805,12 @@
                                                 id: v[0], fullname: v[4 + Config.language] + "-" + v[7 + Config.language], score: v[13] + "-" + v[14], time: now
                                             }));
                                         }
-                                        if (OddsCompareList.getCount(v[0]) <= 20) {
-                                            Ext.defer(updateMsg, 30000);
-                                        }
                                         //Ext.MessageBox.alert('提示', result.message.o1);
                                     } else {
                                         showNotify('错误', result.message, true);
+                                    }
+                                    if (OddsCompareList.getCount(v[0]) <= 20) {
+                                        Ext.defer(updateMsg, 30000);
                                     }
                                 },
                                 params: { id: v[0], key: record.get("key"), reverse: record.get("reverse") }
@@ -1335,7 +1335,7 @@
                             goTime = Math.floor((new Date() - t2 - difftime) / 60000);
                             if (goTime > 45) goTime = "45+"
                             if (goTime < 1) goTime = "1"
-                            if (goTime < 10) Odds1x2Mail(A[matchindex][0]);
+                            //if (goTime < 10) Odds1x2Mail(A[matchindex][0]);
                             tr.cells[3].innerHTML = goTime + "<img src='images/in.gif'>";
                             break;
                         case 2:
