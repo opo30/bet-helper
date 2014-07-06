@@ -810,7 +810,7 @@
                                         showNotify('错误', result.message, true);
                                     }
                                     if (OddsCompareList.getCount(v[0]) < 20) {
-                                        Ext.defer(updateMsg, 30000);
+                                        Ext.defer(updateMsg, 20000);
                                     }
                                 },
                                 params: { id: v[0], key: record.get("key"), reverse: record.get("reverse") }
@@ -1386,7 +1386,7 @@
                 }
 
                 if (scorechange) {
-                    Odds1x2Mail(A[matchindex][0]);
+                    //Odds1x2Mail(A[matchindex][0]);
                     ShowFlash(D[0], matchindex);
                     if (tr.style.display != "none") {
                         hometeam = A[matchindex][4 + Config.language].replace("<font color=#880000>(中)</font>", " 中").substring(0, 7);

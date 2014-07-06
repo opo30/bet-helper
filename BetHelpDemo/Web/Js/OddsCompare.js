@@ -139,7 +139,7 @@
             store: store,
             cm: cm,
             sm: new Ext.grid.CheckboxSelectionModel({
-                singleSelect: true
+                singleSelect: false
             }),
             loadMask: true,
             stripeRows: true,
