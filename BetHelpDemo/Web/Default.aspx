@@ -809,8 +809,8 @@
                                     } else {
                                         showNotify('错误', result.message, true);
                                     }
-                                    if (OddsCompareList.getCount(v[0]) < 10) {
-                                        Ext.defer(updateMsg, 20000);
+                                    if (OddsCompareList.getCount(v[0]) < 20) {
+                                        Ext.defer(updateMsg, 30000);
                                     }
                                 },
                                 params: { id: v[0], key: record.get("key"), reverse: record.get("reverse") }
