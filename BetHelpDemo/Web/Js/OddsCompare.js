@@ -208,6 +208,17 @@
             }
         });
         return c;
+    },
+    getSupport: function (id) {
+        var grid = Ext.getCmp(this.id).findByType('grid')[0];
+        var s1 = 0,s2 = 0;
+        grid.getStore().each(function (row) {
+            if (id == row.get("id")) {
+                s1 += row.get("s1");
+                s2 += row.get("s2");
+            }
+        });
+        return s1 - s2;
     }
 };
 

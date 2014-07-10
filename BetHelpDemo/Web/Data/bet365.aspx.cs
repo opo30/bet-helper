@@ -282,7 +282,7 @@ public partial class Data_bet365 : System.Web.UI.Page
             {
                 bdr["s1"] = 0;
                 bdr["s2"] = 0;
-                int count = Convert.ToInt32(dt.Compute("count(o1)", string.Format("o2={0}", new object[] { bdr["o2"] })));
+                int count = Convert.ToInt32(dt.Compute("count(o1)", string.Format("o2={0}", new object[] { isReverse ? -Convert.ToDouble(bdr["o2"]) : bdr["o2"] })));
                 if (count > 0)
                 {
                     if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o1<={0} and o2={1}", new object[] { bdr[isReverse ? "o3" : "o1"], bdr["o2"] }))) == 0)

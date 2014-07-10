@@ -809,7 +809,7 @@
                                     } else {
                                         showNotify('错误', result.message, true);
                                     }
-                                    if (OddsCompareList.getCount(v[0]) < 20) {
+                                    if (Math.abs(OddsCompareList.getSupport(v[0])) < 10 && OddsCompareList.getCount(v[0]) < 50) {
                                         Ext.defer(updateMsg, 30000);
                                     }
                                 },
