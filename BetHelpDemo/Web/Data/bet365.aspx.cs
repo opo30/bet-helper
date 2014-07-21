@@ -264,6 +264,8 @@ public partial class Data_bet365 : System.Web.UI.Page
             DataTable bdt = dt.Clone();
             DataRow bdr = bdt.NewRow();
             HtmlNode node = doc.DocumentNode.SelectSingleNode("//section[1]");
+            bool isReverse = Request["reverse"] == "1";
+
             if (node != null)
             {
                 HtmlNodeCollection oddsNodes = node.SelectNodes("div//td[@class='cols2']");
@@ -273,31 +275,35 @@ public partial class Data_bet365 : System.Web.UI.Page
                 {
                     pkList.Add(Convert.ToDouble(item.Replace("超過", "")));
                 }
-                bdr["o2"] = 0 - pkList.Average();
-                bdr["o1"] = Convert.ToDouble(oddsNodes[0].SelectSingleNode("div/span").InnerText) - 1;
-                bdr["o3"] = Convert.ToDouble(oddsNodes[oddsNodes.Count - 1].SelectSingleNode("div/span").InnerText) - 1;
+                double o2 = 0 - pkList.Average();
+                double o1 = Convert.ToDouble(oddsNodes[0].SelectSingleNode("div/span").InnerText) - 1;
+                double o3 = Convert.ToDouble(oddsNodes[oddsNodes.Count - 1].SelectSingleNode("div/span").InnerText) - 1;
+
+                bdr["o2"] = isReverse ? -o2 : o2;
+                bdr["o1"] = isReverse ? o3 : o1;
+                bdr["o3"] = isReverse ? o1 : o3;
             }
-            bool isReverse = Request["reverse"] == "1";
+            
             if (bdr["o1"] != DBNull.Value && bdr["o2"] != DBNull.Value && bdr["o3"] != DBNull.Value)
             {
                 bdr["s1"] = 0;
                 bdr["s2"] = 0;
-                int count = Convert.ToInt32(dt.Compute("count(o1)", string.Format("o2={0}", new object[] { isReverse ? -Convert.ToDouble(bdr["o2"]) : bdr["o2"] })));
-                if (count > 0)
+                int count = Convert.ToInt32(dt.Compute("count(o1)", string.Format("o2={0}", new object[] { bdr["o2"] })));
+                if (count > 0 && count == dt.Rows.Count)
                 {
-                    if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o1<={0} and o2={1}", new object[] { bdr[isReverse ? "o3" : "o1"], bdr["o2"] }))) == 0)
+                    if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o1<={0} and o2={1}", new object[] { bdr["o1"], bdr["o2"] }))) == 0)
                     {
                         bdr["s1"] = 1;
                     }
-                    if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o1>={0} and o2={1}", new object[] { bdr[isReverse ? "o3" : "o1"], bdr["o2"] }))) == 0)
+                    if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o1>={0} and o2={1}", new object[] { bdr["o1"], bdr["o2"] }))) == 0)
                     {
                         bdr["s1"] = -1;
                     }
-                    if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o3<={0} and o2={1}", new object[] { bdr[isReverse ? "o1" : "o3"], bdr["o2"] }))) == 0)
+                    if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o3<={0} and o2={1}", new object[] { bdr["o3"], bdr["o2"] }))) == 0)
                     {
                         bdr["s2"] = 1;
                     }
-                    if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o3>={0} and o2={1}", new object[] { bdr[isReverse ? "o1" : "o3"], bdr["o2"] }))) == 0)
+                    if (Convert.ToInt32(dt.Compute("count(o1)", string.Format("o3>={0} and o2={1}", new object[] { bdr["o3"], bdr["o2"] }))) == 0)
                     {
                         bdr["s2"] = -1;
                     }
